@@ -1,5 +1,5 @@
 baseurl = "https://Zehua716.github.io"
-title = "Zehua716 Blog"
+title = "Zehua's Blog"
 theme = "hugo-theme-cleanwhite"
 languageCode = "zh-CN"
 # Enable comments by entering your Disqus shortname
@@ -40,8 +40,9 @@ home = ["HTML", "RSS"]
   #sidebar_avatar = "img/avatar-zhaohuabing.jpg"      # use absolute URL, seeing it's used in both / and /about/
   sidebar_avatar = "IMG_zehua.PNG"      # use absolute URL, seeing it's used in both / and /about/
 
-  featured_tags = true 
-  featured_condition_size = 1 
+  featured_tags_enable = true
+  featured_tags_list = ["统计学", "机器学习", "信号处理", "控制工程"]
+  featured_condition_size = 1
 
   # Baidu Analytics
   ba_track_id = ""
