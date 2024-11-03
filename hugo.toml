@@ -41,7 +41,6 @@ home = ["HTML", "RSS"]
   sidebar_avatar = "IMG_zehua.PNG"      # use absolute URL, seeing it's used in both / and /about/
 
   featured_tags_enable = true
-  featured_tags_list = ["统计学", "机器学习", "信号处理", "控制工程"]
   featured_condition_size = 1
 
   # Baidu Analytics
