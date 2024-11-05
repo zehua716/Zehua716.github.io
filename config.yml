@@ -1,7 +1,7 @@
 # If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 baseURL: "https://Zehua716.github.io/"
-title: PaperMod
+title: Zehua
 copyright: "© [PaperMod Contributors](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
 paginate: 5
 theme: [papermod]
@@ -48,6 +48,8 @@ languages:
     languageName: ":fr:"
     weight: 2
     title: PaperModL2
+    contentDir: "content/fr"
+
     taxonomies:
       category: FRcategories
       tag: FRtags
@@ -86,24 +88,25 @@ languages:
           - name: Profile Mode
             url: https://github.com/adityatelange/hugo-PaperMod/wiki/Features#profile-mode
 
-  fa:
-    languagedirection: rtl
+  zh:
+    languagedirection: ltr
     weight: 3
-    title: PaperMod RTL
+    title: PaperMod 中文
+    contentDir: "content/zh"
     taxonomies:
-      category: FAcategories
-      tag: FAtags
-      series: FAseries
+      category: CNcategories
+      tag: CNtags
+      series: CNseries
     menu:
       main:
-        - name: FATags
-          url: fatags
+        - name: CNTags
+          url: cntags
           weight: 10
     # custom params for each language should be under [langcode].parms - hugo v0.120.0
     params:
       homeInfoParams:
-        Title: "Hi there \U0001F44B"
-        Content: Welcome to RTL layout
+        Title: "你好 \U0001F44B"
+        Content: 欢迎来到中文布局
 
 outputs:
   home:

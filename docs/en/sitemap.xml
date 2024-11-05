@@ -2,26 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Zehua716.github.io/</loc>
+    <loc>https://Zehua716.github.io/posts/</loc>
     <lastmod>2024-11-05T16:25:17+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://Zehua716.github.io/fr/"
+                href="https://Zehua716.github.io/fr/posts/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="fa"
-                href="https://Zehua716.github.io/fa/"
+                hreflang="zh"
+                href="https://Zehua716.github.io/zh/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Zehua716.github.io/"
+                href="https://Zehua716.github.io/posts/"
                 />
-  </url><url>
-    <loc>https://Zehua716.github.io/posts/</loc>
-    <lastmod>2024-11-05T16:25:17+01:00</lastmod>
   </url><url>
     <loc>https://Zehua716.github.io/tags/</loc>
     <lastmod>2024-11-05T16:25:17+01:00</lastmod>
@@ -31,6 +28,24 @@
   </url><url>
     <loc>https://Zehua716.github.io/posts/test/</loc>
     <lastmod>2024-11-05T16:25:17+01:00</lastmod>
+  </url><url>
+    <loc>https://Zehua716.github.io/</loc>
+    <lastmod>2024-11-05T16:25:17+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://Zehua716.github.io/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://Zehua716.github.io/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://Zehua716.github.io/"
+                />
   </url><url>
     <loc>https://Zehua716.github.io/posts/my-first-post/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>

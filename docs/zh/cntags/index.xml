@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Cntags on PaperMod 中文</title>
+    <link>https://Zehua716.github.io/zh/cntags/</link>
+    <description>Recent content in Cntags on PaperMod 中文</description>
+    <image>
+      <title>PaperMod 中文</title>
+      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>zh</language>
+    <copyright>PaperMod Contributors</copyright>
+    <atom:link href="https://Zehua716.github.io/zh/cntags/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

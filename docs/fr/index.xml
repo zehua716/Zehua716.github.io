@@ -12,6 +12,21 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>fr</language>
     <copyright>PaperMod Contributors</copyright>
+    <lastBuildDate>Sun, 05 Nov 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://Zehua716.github.io/fr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Article Exemple</title>
+      <link>https://Zehua716.github.io/fr/fr/posts/2023-11-05-article-exemple/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://Zehua716.github.io/fr/fr/posts/2023-11-05-article-exemple/</guid>
+      <description>&lt;p&gt;Ceci est le contenu de l&amp;rsquo;article en français.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Article Exemple</title>
+      <link>https://Zehua716.github.io/fr/posts/2023-11-05-article-exemple/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://Zehua716.github.io/fr/posts/2023-11-05-article-exemple/</guid>
+      <description>&lt;p&gt;Ceci est le contenu de l&amp;rsquo;article en français.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
