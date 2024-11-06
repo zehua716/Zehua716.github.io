@@ -4,6 +4,7 @@ multilingual: true
 ---
 
 ## About Me
+
 **_Huabing Zhao_** is a software architect, an Istio Member and an ONAP PTL. He has a solid experience in the information and telecommunication technology industry for more than 17 years. 
 
 Throughout his career, he has built a number of large-scale, cross-country software systems, most of them are still running in production. 
@@ -21,6 +22,7 @@ While he is free, he likes writing technical blog posts, watching movies, swimmi
 Feel free to connect Huabing at Github and Linkedin, leave your thoughts in his blog or share your ideas by [writing him an email](mailto:zhaohuabing@zhaohuabing.com). 
 
 ## Publications
+
 | Title       |Type        |Publisher   |Link        |
 | ----------- |----------- |----------- |----------- |
 |[Istio Service Mesh Advanced Practical](https://www.zhaohuabing.com/post/2021-08-26-istio-handbook/)|Book|电子工业出版社|[Buy now](https://item.jd.com/13200745.html)|
@@ -28,8 +30,8 @@ Feel free to connect Huabing at Github and Linkedin, leave your thoughts in his 
 |[Cloud Native Data Center Networking](https://zhaohuabing.com/post/2021-08-27-cloud-native-data-center)|Translation|中国电力出版社|[Buy now](https://item.jd.com/12929975.html)|
 |[Istio Operation Bible](http://localhost:1313/post/2021-10-08-istio-operation-bible/)|ebook||[Read online](https://istio-operation-bible.aeraki.net/)|
 
-
 ## Presentations (Selected)
+
 |Year         |City        |Conference  | Title      |Slides      |Video       |
 | ----------- |----------- |----------- |----------- |----------- |----------- |
 |2022|Virtual|[IstioCon](https://events.istio.io/istiocon-2022)|[Tencent Music’s service mesh practice with Istio and Aeraki](https://events.istio.io/istiocon-2022/sessions/tencent-music-aeraki/)|[slides](/slides/tencent-music-service-mesh-practice-with-istio-and-aeraki.pdf)|[Video](https://www.youtube.com/watch?v=6t_yPsq4Pi4)|
@@ -46,6 +48,7 @@ Feel free to connect Huabing at Github and Linkedin, leave your thoughts in his 
 |2017|Paris|[ONAP Developer Event](https://wiki.onap.org/display/DW/ONAP+Developer+Event+September+25-28%2C+2017%2C+Paris-Saclay%2C+France)|[Microservice Bus Tutorial](https://wiki.onap.org/display/DW/September+26-28+Topics#September2628Topics-M2)|[Slides](https://www.slideshare.net/HuabingZhao/microservice-bus-tutorial)|
 
 ## Open Source Projects
+
 |Project      |Role        |  Website   | GitHub     |
 | ----------- |----------- |----------- |----------- |
 | Aeraki Mesh | Creator    | https://aeraki.net  | http://github.com/aeraki-mesh |
