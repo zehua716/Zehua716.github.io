@@ -48,7 +48,7 @@ languages:
     languageName: ":fr:"
     weight: 2
     title: PaperModL2
-    # contentDir: "content/fr"
+    contentDir: "content/fr"
 
     taxonomies:
       category: FRcategories
@@ -92,7 +92,7 @@ languages:
     languagedirection: ltr
     weight: 3
     title: PaperMod 中文
-    # contentDir: "content/zh"
+    contentDir: "content/zh"
     taxonomies:
       category: CNcategories
       tag: CNtags
