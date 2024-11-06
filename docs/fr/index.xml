@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>PaperModL2</title>
-    <link>https://Zehua716.github.io/fr/</link>
+    <link>http://localhost:1313/fr/</link>
     <description>Recent content on PaperModL2</description>
     <image>
       <title>PaperModL2</title>
-      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+      <url>http://localhost:1313/images/papermod-cover.png</url>
+      <link>http://localhost:1313/images/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- 0.135.0</generator>
+    <generator>Hugo -- 0.136.5</generator>
     <language>fr</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Sun, 05 Nov 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Zehua716.github.io/fr/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/fr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Article Exemple</title>
-      <link>https://Zehua716.github.io/fr/fr/posts/2023-11-05-article-exemple/</link>
+      <link>http://localhost:1313/fr/fr/posts/2023-11-05-article-exemple/</link>
       <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://Zehua716.github.io/fr/fr/posts/2023-11-05-article-exemple/</guid>
+      <guid>http://localhost:1313/fr/fr/posts/2023-11-05-article-exemple/</guid>
       <description>&lt;p&gt;Ceci est le contenu de l&amp;rsquo;article en français.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Article Exemple</title>
-      <link>https://Zehua716.github.io/fr/posts/2023-11-05-article-exemple/</link>
+      <link>http://localhost:1313/fr/posts/2023-11-05-article-exemple/</link>
       <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://Zehua716.github.io/fr/posts/2023-11-05-article-exemple/</guid>
+      <guid>http://localhost:1313/fr/posts/2023-11-05-article-exemple/</guid>
       <description>&lt;p&gt;Ceci est le contenu de l&amp;rsquo;article en français.&lt;/p&gt;</description>
     </item>
   </channel>

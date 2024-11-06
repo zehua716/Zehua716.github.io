@@ -2,85 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Zehua716.github.io/zh/</loc>
+    <loc>http://localhost:1313/zh/</loc>
     <lastmod>2024-11-06T16:58:18+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Zehua716.github.io/"
+                href="http://localhost:1313/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://Zehua716.github.io/fr/"
+                href="http://localhost:1313/fr/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://Zehua716.github.io/zh/"
+                href="http://localhost:1313/zh/"
                 />
   </url><url>
-    <loc>https://Zehua716.github.io/zh/search/</loc>
+    <loc>http://localhost:1313/zh/search/</loc>
     <lastmod>2024-11-06T16:58:18+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Zehua716.github.io/search/"
+                href="http://localhost:1313/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://Zehua716.github.io/fr/search/"
+                href="http://localhost:1313/fr/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://Zehua716.github.io/zh/search/"
+                href="http://localhost:1313/zh/search/"
                 />
   </url><url>
-    <loc>https://Zehua716.github.io/zh/posts/</loc>
+    <loc>http://localhost:1313/zh/posts/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Zehua716.github.io/posts/"
+                href="http://localhost:1313/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://Zehua716.github.io/fr/posts/"
+                href="http://localhost:1313/fr/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://Zehua716.github.io/zh/posts/"
+                href="http://localhost:1313/zh/posts/"
                 />
   </url><url>
-    <loc>https://Zehua716.github.io/zh/zh/</loc>
+    <loc>http://localhost:1313/zh/zh/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://Zehua716.github.io/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</loc>
+    <loc>http://localhost:1313/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://Zehua716.github.io/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</loc>
+    <loc>http://localhost:1313/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://Zehua716.github.io/zh/about/</loc>
+    <loc>http://localhost:1313/zh/about/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://Zehua716.github.io/about/"
+                href="http://localhost:1313/about/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://Zehua716.github.io/zh/about/"
+                href="http://localhost:1313/zh/about/"
                 />
   </url><url>
-    <loc>https://Zehua716.github.io/zh/cncategories/</loc>
+    <loc>http://localhost:1313/zh/cncategories/</loc>
   </url><url>
-    <loc>https://Zehua716.github.io/zh/cnseries/</loc>
+    <loc>http://localhost:1313/zh/cnseries/</loc>
   </url><url>
-    <loc>https://Zehua716.github.io/zh/cntags/</loc>
+    <loc>http://localhost:1313/zh/cntags/</loc>
   </url>
 </urlset>

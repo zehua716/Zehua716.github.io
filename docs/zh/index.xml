@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>PaperMod 中文</title>
-    <link>https://Zehua716.github.io/zh/</link>
+    <link>http://localhost:1313/zh/</link>
     <description>Recent content on PaperMod 中文</description>
     <image>
       <title>PaperMod 中文</title>
-      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+      <url>http://localhost:1313/images/papermod-cover.png</url>
+      <link>http://localhost:1313/images/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- 0.135.0</generator>
+    <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Sun, 05 Nov 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Zehua716.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/zh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>示例文章</title>
-      <link>https://Zehua716.github.io/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
+      <link>http://localhost:1313/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
       <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://Zehua716.github.io/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
+      <guid>http://localhost:1313/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
       <description>&lt;p&gt;这是中文文章的内容，欢迎阅读！&lt;/p&gt;</description>
     </item>
     <item>
       <title>示例文章</title>
-      <link>https://Zehua716.github.io/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
+      <link>http://localhost:1313/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
       <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://Zehua716.github.io/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
+      <guid>http://localhost:1313/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
       <description>&lt;p&gt;这是中文文章的内容，欢迎阅读！&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>
-      <link>https://Zehua716.github.io/zh/about/</link>
+      <link>http://localhost:1313/zh/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://Zehua716.github.io/zh/about/</guid>
+      <guid>http://localhost:1313/zh/about/</guid>
       <description>&lt;h2 id=&#34;关于我&#34;&gt;关于我&lt;/h2&gt;
 &lt;p&gt;Hi，我是赵化冰，服务网格技术布道者及实践者，&lt;a href=&#34;https://cloud.tencent.com/product/tcm&#34;&gt;腾讯云&lt;/a&gt;工程师，曾担任&lt;a href=&#34;https://www.zte.com.cn/&#34;&gt;中兴通讯&lt;/a&gt;技术专家，Linux 基金会开源项目 &lt;a href=&#34;https://www.onap.org/&#34;&gt;ONAP&lt;/a&gt; 项目 leader，甲骨文中间件高级顾问等。我创建了服务网格开源项目 &lt;a href=&#34;https://aeraki.net&#34;&gt;Aeraki Mesh&lt;/a&gt;（CNCF Sandbox 项目），可以在 Istio 中管理 Dubbo、Thrift、Redis 以及任意私有协议的流量。&lt;/p&gt;
 &lt;p&gt;工作联系： &lt;a href=&#34;mailto:zhaohuabing@gmail.com&#34;&gt;zhaohuabing@gmail.com&lt;/a&gt;&lt;/p&gt;
@@ -40,36 +40,36 @@
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;标题&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;类型&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;出版社&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;链接&lt;/th&gt;
+          &lt;th&gt;标题&lt;/th&gt;
+          &lt;th&gt;类型&lt;/th&gt;
+          &lt;th&gt;出版社&lt;/th&gt;
+          &lt;th&gt;链接&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.zhaohuabing.com/post/2021-08-26-istio-handbook/&#34;&gt;深入理解 Istio — 云原生服务网格进阶实战&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;实体书籍&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;电子工业出版社&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://item.jd.com/13200745.html&#34;&gt;购买链接&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.zhaohuabing.com/post/2021-08-26-istio-handbook/&#34;&gt;深入理解 Istio — 云原生服务网格进阶实战&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;实体书籍&lt;/td&gt;
+          &lt;td&gt;电子工业出版社&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://item.jd.com/13200745.html&#34;&gt;购买链接&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.zhaohuabing.com/post/2021-09-08-distributed-tracing-with-jaeger-kubernetes-and-istio/&#34;&gt;Distributed Tracing with Jaeger, Kubernetes, and Istio&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;在线教程&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.manning.com/&#34;&gt;曼宁出版社（美）&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.manning.com/liveprojectseries/distributed-tracing-ser&#34;&gt;30% 折扣&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.zhaohuabing.com/post/2021-09-08-distributed-tracing-with-jaeger-kubernetes-and-istio/&#34;&gt;Distributed Tracing with Jaeger, Kubernetes, and Istio&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;在线教程&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.manning.com/&#34;&gt;曼宁出版社（美）&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.manning.com/liveprojectseries/distributed-tracing-ser&#34;&gt;30% 折扣&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://zhaohuabing.com/post/2021-08-27-cloud-native-data-center&#34;&gt;云原生数据中心网络&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;翻译书籍&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;中国电力出版社&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://item.jd.com/12929975.html&#34;&gt;购买链接&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://zhaohuabing.com/post/2021-08-27-cloud-native-data-center&#34;&gt;云原生数据中心网络&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;翻译书籍&lt;/td&gt;
+          &lt;td&gt;中国电力出版社&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://item.jd.com/12929975.html&#34;&gt;购买链接&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://istio-operation-bible.aeraki.net&#34;&gt;Istio 运维实战&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;电子书籍&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://istio-operation-bible.aeraki.net&#34;&gt;在线阅读&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://istio-operation-bible.aeraki.net&#34;&gt;Istio 运维实战&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;电子书籍&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://istio-operation-bible.aeraki.net&#34;&gt;在线阅读&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -77,110 +77,110 @@
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;年份&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;城市&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;会议&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;分享主题&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;讲稿&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;视频&lt;/th&gt;
+          &lt;th&gt;年份&lt;/th&gt;
+          &lt;th&gt;城市&lt;/th&gt;
+          &lt;th&gt;会议&lt;/th&gt;
+          &lt;th&gt;分享主题&lt;/th&gt;
+          &lt;th&gt;讲稿&lt;/th&gt;
+          &lt;th&gt;视频&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2022&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;线上&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2022&#34;&gt;IstioCon&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2022/sessions/tencent-music-aeraki/&#34;&gt;Istio + Aeraki 在腾讯音乐的服务网格落地&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/tencent-music-service-mesh-practice-with-istio-and-aeraki.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=6t_yPsq4Pi4&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;2022&lt;/td&gt;
+          &lt;td&gt;线上&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2022&#34;&gt;IstioCon&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2022/sessions/tencent-music-aeraki/&#34;&gt;Istio + Aeraki 在腾讯音乐的服务网格落地&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/tencent-music-service-mesh-practice-with-istio-and-aeraki.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=6t_yPsq4Pi4&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2022&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;线上&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://a2m.msup.com.cn/course?aid=2699&amp;cid=15382&#34;&gt;A2M&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://a2m.msup.com.cn/course?aid=2699&amp;cid=15382&#34;&gt;全栈服务网格 - Aeraki Mesh 助你在 Istio 服务网格中管理任何七层流量&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/full-stack-service-mesh-a2m-20220422.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2022&lt;/td&gt;
+          &lt;td&gt;线上&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://a2m.msup.com.cn/course?aid=2699&amp;cid=15382&#34;&gt;A2M&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://a2m.msup.com.cn/course?aid=2699&amp;cid=15382&#34;&gt;全栈服务网格 - Aeraki Mesh 助你在 Istio 服务网格中管理任何七层流量&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/full-stack-service-mesh-a2m-20220422.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2022&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;线上&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/salon/live-1403&#34;&gt;云原生正发声&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/zp9q99mGyH2VD9Dij2owWg&#34;&gt;Areaki Mesh 在 2022 冬奥会视频直播应用中的服务网格实践&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;http://localhost:1313/img/2022-03-30-aeraki-mesh-winter-olympics-practice/slides.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://youtu.be/uXxatQTKzW8&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;2022&lt;/td&gt;
+          &lt;td&gt;线上&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/salon/live-1403&#34;&gt;云原生正发声&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/zp9q99mGyH2VD9Dij2owWg&#34;&gt;Areaki Mesh 在 2022 冬奥会视频直播应用中的服务网格实践&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/img/2022-03-30-aeraki-mesh-winter-olympics-practice/slides.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://youtu.be/uXxatQTKzW8&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2021&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;线上&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2021/&#34;&gt;IstioCon&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2021/sessions/how-to-manage-any-layer-7-traffic-in-an-istio-service-mesh/&#34;&gt;How to manage any layer-7 traffic in an Istio service mesh?&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/how-to-manage-any-layer-7-traffic-in-istio.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=sBS4utF68d8&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;2021&lt;/td&gt;
+          &lt;td&gt;线上&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2021/&#34;&gt;IstioCon&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://events.istio.io/istiocon-2021/sessions/how-to-manage-any-layer-7-traffic-in-an-istio-service-mesh/&#34;&gt;How to manage any layer-7 traffic in an Istio service mesh?&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/how-to-manage-any-layer-7-traffic-in-istio.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=sBS4utF68d8&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2020&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;线上&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.cnbpa.org/&#34;&gt;CNBPS&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/article/1723804&#34;&gt;Istio 流量管理原理与协议扩展&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/cnbps2020-istio-aeraki.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=lB5d4qbZqzU&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;2020&lt;/td&gt;
+          &lt;td&gt;线上&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.cnbpa.org/&#34;&gt;CNBPS&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/article/1723804&#34;&gt;Istio 流量管理原理与协议扩展&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/cnbps2020-istio-aeraki.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=lB5d4qbZqzU&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2019&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;成都&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://cloudnative.to/blog/service-mesh-meetup-chengdu-20191028/&#34;&gt;Service Mesher Meetup&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://cloudnative.to/blog/service-mesh-meetup-chengdu-20191028/&#34;&gt;Service Mesh是下一代SDN吗？&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/what-can-service-mesh-learn-from-sdn-servicemesher-meetup-20191026.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://youtu.be/nGkxp-2OsKg&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;2019&lt;/td&gt;
+          &lt;td&gt;成都&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://cloudnative.to/blog/service-mesh-meetup-chengdu-20191028/&#34;&gt;Service Mesher Meetup&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://cloudnative.to/blog/service-mesh-meetup-chengdu-20191028/&#34;&gt;Service Mesh是下一代SDN吗？&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/what-can-service-mesh-learn-from-sdn-servicemesher-meetup-20191026.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://youtu.be/nGkxp-2OsKg&#34;&gt;观看&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2019&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;西安&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;ONAP Workshop&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;基于 5G 网络管理系统的服务网格实践&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://Zehua716.github.io/slides/service-mesh-practice-with-5g-management-system-lfn.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2019&lt;/td&gt;
+          &lt;td&gt;西安&lt;/td&gt;
+          &lt;td&gt;ONAP Workshop&lt;/td&gt;
+          &lt;td&gt;基于 5G 网络管理系统的服务网格实践&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://localhost:1313/slides/service-mesh-practice-with-5g-management-system-lfn.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2018&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;南京&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.bagevent.com/event/1624048?aId=&#34;&gt;GNTC&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.sdnlab.com/22596.html&#34;&gt;ONAP 服务网格实践&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2018&lt;/td&gt;
+          &lt;td&gt;南京&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.bagevent.com/event/1624048?aId=&#34;&gt;GNTC&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.sdnlab.com/22596.html&#34;&gt;ONAP 服务网格实践&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2017&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;圣克拉拉&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Beijing+Release+Developer+Forum%2C+Dec.+11-13%2C+2017%2C+Santa+Clara%2C+CA+US&#34;&gt;NAP Developer Forum&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://onapbeijing2017.sched.com/event/D5q2&#34;&gt;MSB to Support Carrier Grade ONAP Microservice Architecture with Service Mesh&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/MSB+Service+Mesh+Planning?preview=%2F20873876%2F20873874%2FMSB+to+Support+Carrier+Grade+ONAP+Microservice+Architecture+with+Service+Mesh.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2017&lt;/td&gt;
+          &lt;td&gt;圣克拉拉&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Beijing+Release+Developer+Forum%2C+Dec.+11-13%2C+2017%2C+Santa+Clara%2C+CA+US&#34;&gt;NAP Developer Forum&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://onapbeijing2017.sched.com/event/D5q2&#34;&gt;MSB to Support Carrier Grade ONAP Microservice Architecture with Service Mesh&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/MSB+Service+Mesh+Planning?preview=%2F20873876%2F20873874%2FMSB+to+Support+Carrier+Grade+ONAP+Microservice+Architecture+with+Service+Mesh.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2017&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;圣克拉拉&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP@ONS2017&#34;&gt;ONS&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Microservice Powered Orchestration&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP@ONS2017?preview=%2F3245268%2F3245309%2FMicroservice+Powered+Orchestration+Architecture.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2017&lt;/td&gt;
+          &lt;td&gt;圣克拉拉&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP@ONS2017&#34;&gt;ONS&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;Microservice Powered Orchestration&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP@ONS2017?preview=%2F3245268%2F3245309%2FMicroservice+Powered+Orchestration+Architecture.pdf&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2017&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;新泽西&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Project+Developer+Event%3A+May+2+-+5%2C+2017%2C+Middletown%2C+NJ%2C+USA&#34;&gt;ONAP Developer Event&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;MSB Technical Deep Dive and ONAP Use Cases&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.slideshare.net/HuabingZhao/msb-depp-dive/&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2017&lt;/td&gt;
+          &lt;td&gt;新泽西&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Project+Developer+Event%3A+May+2+-+5%2C+2017%2C+Middletown%2C+NJ%2C+USA&#34;&gt;ONAP Developer Event&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;MSB Technical Deep Dive and ONAP Use Cases&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.slideshare.net/HuabingZhao/msb-depp-dive/&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2017&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;巴黎&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Developer+Event+September+25-28%2C+2017%2C+Paris-Saclay%2C+France&#34;&gt;ONAP Developer Event&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/September+26-28+Topics#September2628Topics-M2&#34;&gt;Microservice Bus Tutorial&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.slideshare.net/HuabingZhao/microservice-bus-tutorial&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;2017&lt;/td&gt;
+          &lt;td&gt;巴黎&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/ONAP+Developer+Event+September+25-28%2C+2017%2C+Paris-Saclay%2C+France&#34;&gt;ONAP Developer Event&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://wiki.onap.org/display/DW/September+26-28+Topics#September2628Topics-M2&#34;&gt;Microservice Bus Tutorial&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.slideshare.net/HuabingZhao/microservice-bus-tutorial&#34;&gt;下载&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -188,42 +188,42 @@
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;项目&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;角色&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;网站&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;GitHub&lt;/th&gt;
+          &lt;th&gt;项目&lt;/th&gt;
+          &lt;th&gt;角色&lt;/th&gt;
+          &lt;th&gt;网站&lt;/th&gt;
+          &lt;th&gt;GitHub&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Aeraki Mesh&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;创建者&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://aeraki.net&#34;&gt;https://aeraki.net&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;http://github.com/aeraki-mesh&#34;&gt;http://github.com/aeraki-mesh&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;Aeraki Mesh&lt;/td&gt;
+          &lt;td&gt;创建者&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://aeraki.net&#34;&gt;https://aeraki.net&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;http://github.com/aeraki-mesh&#34;&gt;http://github.com/aeraki-mesh&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Istio&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Contributor&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://istio.io&#34;&gt;https://istio.io&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://github.com/istio/istio&#34;&gt;https://github.com/istio/istio&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;Istio&lt;/td&gt;
+          &lt;td&gt;Contributor&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://istio.io&#34;&gt;https://istio.io&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://github.com/istio/istio&#34;&gt;https://github.com/istio/istio&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Envoy&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;Contributor&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.envoyproxy.io&#34;&gt;https://www.envoyproxy.io&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://github.com/envoyproxy/envoy&#34;&gt;https://github.com/envoyproxy/envoy&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;Envoy&lt;/td&gt;
+          &lt;td&gt;Contributor&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.envoyproxy.io&#34;&gt;https://www.envoyproxy.io&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://github.com/envoyproxy/envoy&#34;&gt;https://github.com/envoyproxy/envoy&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;ONAP&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;项目 Leader&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://www.onap.org&#34;&gt;https://www.onap.org&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;ONAP&lt;/td&gt;
+          &lt;td&gt;项目 Leader&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://www.onap.org&#34;&gt;https://www.onap.org&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;hugo-theme-cleanwhite&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;创建者&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-cleanwhite&#34;&gt;https://themes.gohugo.io/themes/hugo-theme-cleanwhite&lt;/a&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;&lt;a href=&#34;https://github.com/zhaohuabing/hugo-theme-cleanwhite&#34;&gt;https://github.com/zhaohuabing/hugo-theme-cleanwhite&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;hugo-theme-cleanwhite&lt;/td&gt;
+          &lt;td&gt;创建者&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-cleanwhite&#34;&gt;https://themes.gohugo.io/themes/hugo-theme-cleanwhite&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;a href=&#34;https://github.com/zhaohuabing/hugo-theme-cleanwhite&#34;&gt;https://github.com/zhaohuabing/hugo-theme-cleanwhite&lt;/a&gt;&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;</description>
