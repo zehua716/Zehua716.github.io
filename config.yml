@@ -104,9 +104,17 @@ languages:
           weight: 10
     # custom params for each language should be under [langcode].parms - hugo v0.120.0
     params:
+      
+      mathEngine: katex
+      ShowMacDots: true # Mac色块
+      ShowCodeLang: true # 语言显示
+      ShowExpandButton: true # 代码块折叠
+      ShowCodeCopyButtons: true # 代码块复制按钮
+      codeMaxHeight: "300px" # 代码块最大折叠高度
       homeInfoParams:
         Title: "你好 \U0001F44B"
         Content: 欢迎来到中文布局
+
 
 outputs:
   home:
