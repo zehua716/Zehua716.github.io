@@ -2,73 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/fr/</loc>
+    <loc>https://Zehua716.github.io/fr/</loc>
     <lastmod>2024-11-06T17:01:26+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="https://Zehua716.github.io/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/"
+                href="https://Zehua716.github.io/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://localhost:1313/fr/"
+                href="https://Zehua716.github.io/fr/"
                 />
   </url><url>
-    <loc>http://localhost:1313/fr/search/</loc>
+    <loc>https://Zehua716.github.io/fr/search/</loc>
     <lastmod>2024-11-06T17:01:26+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/search/"
+                href="https://Zehua716.github.io/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/search/"
+                href="https://Zehua716.github.io/zh/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://localhost:1313/fr/search/"
+                href="https://Zehua716.github.io/fr/search/"
                 />
   </url><url>
-    <loc>http://localhost:1313/fr/fr/posts/2023-11-05-article-exemple/</loc>
+    <loc>https://Zehua716.github.io/fr/fr/posts/2023-11-05-article-exemple/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/fr/posts/2023-11-05-article-exemple/</loc>
+    <loc>https://Zehua716.github.io/fr/posts/2023-11-05-article-exemple/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/fr/fr/</loc>
+    <loc>https://Zehua716.github.io/fr/fr/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/fr/posts/</loc>
+    <loc>https://Zehua716.github.io/fr/posts/</loc>
     <lastmod>2023-11-05T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/posts/"
+                href="https://Zehua716.github.io/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/posts/"
+                href="https://Zehua716.github.io/zh/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://localhost:1313/fr/posts/"
+                href="https://Zehua716.github.io/fr/posts/"
                 />
   </url><url>
-    <loc>http://localhost:1313/fr/frcategories/</loc>
+    <loc>https://Zehua716.github.io/fr/frcategories/</loc>
   </url><url>
-    <loc>http://localhost:1313/fr/frseries/</loc>
+    <loc>https://Zehua716.github.io/fr/frseries/</loc>
   </url><url>
-    <loc>http://localhost:1313/fr/frtags/</loc>
+    <loc>https://Zehua716.github.io/fr/frtags/</loc>
   </url>
 </urlset>
