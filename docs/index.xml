@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Zehua</title>
-    <link>https://zehua716.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Zehua</description>
     <image>
       <title>Zehua</title>
-      <url>https://zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://zehua716.github.io/images/papermod-cover.png</link>
+      <url>http://localhost:1313/images/papermod-cover.png</url>
+      <link>http://localhost:1313/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="https://zehua716.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tst title</title>
-      <link>https://zehua716.github.io/posts/test/</link>
+      <link>http://localhost:1313/posts/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/posts/test/</guid>
+      <guid>http://localhost:1313/posts/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>My First Post</title>
-      <link>https://zehua716.github.io/posts/my-first-post/</link>
+      <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>https://zehua716.github.io/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;p&gt;测试222&lt;/p&gt;
 &lt;p&gt;333333444444&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -102,9 +102,9 @@ $$&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>
-      <link>https://zehua716.github.io/about/</link>
+      <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://zehua716.github.io/about/</guid>
+      <guid>http://localhost:1313/about/</guid>
       <description>&lt;h2 id=&#34;about-me&#34;&gt;About Me&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Huabing Zhao&lt;/em&gt;&lt;/strong&gt; is a software architect, an Istio Member and an ONAP PTL. He has a solid experience in the information and telecommunication technology industry for more than 17 years.&lt;/p&gt;
 &lt;p&gt;Throughout his career, he has built a number of large-scale, cross-country software systems, most of them are still running in production.&lt;/p&gt;
@@ -112,9 +112,9 @@ $$&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>
-      <link>https://zehua716.github.io/notes/</link>
+      <link>http://localhost:1313/notes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://zehua716.github.io/notes/</guid>
+      <guid>http://localhost:1313/notes/</guid>
       <description>&lt;h2 id=&#34;go-语言学习笔记httpszhaohuabingcomlearning-golang&#34;&gt;&lt;a href=&#34;https://zhaohuabing.com/learning-golang&#34;&gt;Go 语言学习笔记&lt;/a&gt;&lt;/h2&gt;
 &lt;h2 id=&#34;envoy-学习笔记httpszhaohuabingcomlearning-envoy&#34;&gt;&lt;a href=&#34;https://zhaohuabing.com/learning-envoy&#34;&gt;Envoy 学习笔记&lt;/a&gt;&lt;/h2&gt;</description>
     </item>
