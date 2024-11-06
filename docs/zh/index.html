@@ -11,7 +11,7 @@
 <meta name="description" content="Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod">
 <meta name="author" content="Theme PaperMod">
 <link rel="canonical" href="https://zehua716.github.io/zh/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.1b02b89634cb203c0adb2529fde6c2ef5d9909695eb3a05043bdefba6e2b892b.css" integrity="sha256-GwK4ljTLIDwK2yUp/ebC712ZCWles6BQQ73vum4riSs=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://zehua716.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
@@ -228,8 +228,7 @@
     <p>图像恢复 — TP1 图像反卷积：Wiener-Hunt 方法 主要针对图像去模糊问题，即从模糊(带噪)图像中恢复清晰图像。这属于逆问题的范畴，一半出现在处理真实测量系统时。由于每个测量系统（如温度计、CCD相机、光谱仪等）都受到基础物理学的限制，比如有限精度、有限动态范围、非零响应时间等。这意味着测得的量或多或少都有扭曲。因此这部分是对感兴趣物理量的某种扭曲程度的度量。
 大多数情况下，测量系统直接给出的测量数据通常具有足够的精度和鲁棒性。但是，也存在测量结果不准确的情况。为了解决精度问题，或者说至少部分地优化它，已经开发了特殊的信号和图像处理技术。在接下来的内容中，我们将通过一个简单的例子来展示此类方法。
 我们有一张未聚焦的图像。这种情况下，点的图像实际上会是一个斑点。捕获的图像将会因为模糊而受损，因为它是由真实图像中每个点生成的斑点的叠加结果。
-描述这种转换的最简单模型是线性不变滤波器，即卷积。示意图如下图所示。
-![image-20240909002355073](/Users/zehua/Library/Application Support/typora-user-images/image-20240909002355073.png)
+描述这种转换的最简单模型是线性不变滤波器，即卷积。
 在上面的示意图中，$x_{n,m}$ 代表真实或原始图像，$y_{n,m}$ 代表观测到的图像，或者更确切地说，是我们通过相机拍到的未聚焦图像。添加分量 $b_{n,m}$ 是为了考虑测量和建模误差。
 描述测量过程的方程(二维)如下： $$ y_{n,m} = \sum_{p=-P}^{P} \sum_{q=-Q}^{Q} h_{p,q} x_{n-p,m-q} &#43; b_{n,m} $$ $y_{n,m}$ 是对于每个观测到的像素 $(n, m)$。在这个公式中，$P$ 和 $Q$ 是给定的整数。
 注意，滤波器通常来说都是低通滤波器，这就意味着它们无法准确地在输出中再现输入信号或图像中的所有分量，因为高频分量要么被强烈衰减，要么完全被拒绝，这也就是为什么 ‘‘恢复真实信号’‘或者说’‘图像的逆问题’’ 是如此困难：必须恢复那些要么完全不存在、要么“错误”观测到的高频分量。

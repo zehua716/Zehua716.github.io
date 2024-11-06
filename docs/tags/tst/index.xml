@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tst on Zehua</title>
+    <link>https://zehua716.github.io/tags/tst/</link>
+    <description>Recent content in Tst on Zehua</description>
+    <image>
+      <title>Zehua</title>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>en</language>
+    <copyright>PaperMod Contributors</copyright>
+    <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <atom:link href="https://zehua716.github.io/tags/tst/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tst title</title>
+      <link>https://zehua716.github.io/posts/test/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/posts/test/</guid>
+      <description>deasdifgisdhbibf</description>
+    </item>
+  </channel>
+</rss>

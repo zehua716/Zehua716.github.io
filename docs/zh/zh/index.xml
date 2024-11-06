@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Zhs on PaperMod 中文</title>
+    <link>https://zehua716.github.io/zh/zh/</link>
+    <description>Recent content in Zhs on PaperMod 中文</description>
+    <image>
+      <title>PaperMod 中文</title>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>zh</language>
+    <copyright>PaperMod Contributors</copyright>
+    <lastBuildDate>Sun, 05 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://zehua716.github.io/zh/zh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>示例文章</title>
+      <link>https://zehua716.github.io/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://zehua716.github.io/zh/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
+      <description>&lt;h1 id=&#34;图像恢复---------tp1&#34;&gt;&lt;strong&gt;图像恢复   &amp;mdash;   TP1&lt;/strong&gt;&lt;/h1&gt;
+&lt;h3 id=&#34;图像反卷积wiener-hunt-方法&#34;&gt;&lt;strong&gt;图像反卷积：Wiener-Hunt 方法&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;主要针对图像去模糊问题，即从模糊(带噪)图像中恢复清晰图像。这属于逆问题的范畴，一半出现在处理真实测量系统时。由于每个测量系统（如温度计、CCD相机、光谱仪等）都受到基础物理学的限制，比如有限精度、有限动态范围、非零响应时间等。这意味着测得的量或多或少都有扭曲。因此这部分是对感兴趣物理量的某种扭曲程度的度量。&lt;/p&gt;
+&lt;p&gt;大多数情况下，测量系统直接给出的测量数据通常具有足够的精度和鲁棒性。但是，也存在测量结果不准确的情况。为了解决精度问题，或者说至少部分地优化它，已经开发了特殊的信号和图像处理技术。在接下来的内容中，我们将通过一个简单的例子来展示此类方法。&lt;/p&gt;
+&lt;p&gt;我们有一张未聚焦的图像。这种情况下，点的图像实际上会是一个斑点。捕获的图像将会因为模糊而受损，因为它是由真实图像中每个点生成的斑点的叠加结果。&lt;/p&gt;
+&lt;p&gt;描述这种转换的最简单模型是线性不变滤波器，即卷积。&lt;/p&gt;
+&lt;p&gt;在上面的示意图中，$x_{n,m}$ 代表真实或原始图像，$y_{n,m}$ 代表观测到的图像，或者更确切地说，是我们通过相机拍到的未聚焦图像。添加分量 $b_{n,m}$ 是为了考虑测量和建模误差。&lt;/p&gt;
+&lt;p&gt;描述测量过程的方程(二维)如下：
+$$
+y_{n,m} = \sum_{p=-P}^{P} \sum_{q=-Q}^{Q} h_{p,q} x_{n-p,m-q} + b_{n,m}
+$$
+$y_{n,m}$ 是对于每个观测到的像素 $(n, m)$。在这个公式中，$P$ 和 $Q$ 是给定的整数。&lt;/p&gt;
+&lt;p&gt;注意，滤波器通常来说都是低通滤波器，这就意味着它们无法准确地在输出中再现输入信号或图像中的所有分量，因为高频分量要么被强烈衰减，要么完全被拒绝，这也就是为什么 &amp;lsquo;&amp;lsquo;恢复真实信号&amp;rsquo;&amp;lsquo;或者说&amp;rsquo;&amp;lsquo;图像的逆问题&amp;rsquo;&amp;rsquo; 是如此困难：必须恢复那些要么完全不存在、要么“错误”观测到的高频分量。&lt;/p&gt;
+&lt;p&gt;在下面的例子中，我们用线性方法来解决图像反卷积问题。这些线性方法依赖于最小二乘准则，并结合了二次惩罚。我们先介绍其理论部分，包括这些准则及其最小化器。此外，展示背后的技术细节，并提出了一种基于循环近似的方法，以实现快速的数值计算。&lt;/p&gt;
+&lt;h3 id=&#34;1-一维反卷积&#34;&gt;1. 一维反卷积&lt;/h3&gt;
+&lt;p&gt;为了简化理论概念，我们先讨论在一维情况下的信号反卷积。这种简化情况允许对反卷积问题的分析更加深入，同时更容易掌握概念和思路。随后再引入二维情况，并将其视为一维情况的扩展。Matlab 实现部分仅涉及二维情况。&lt;/p&gt;
+&lt;h4 id=&#34;11-一维建模&#34;&gt;1.1 一维建模&lt;/h4&gt;
+&lt;p&gt;在一维情况下，(1) 中给出的观测模型变为：&lt;/p&gt;
+&lt;p&gt;$$
+y_n = \sum_{p=-P}^{P} h_p x_{n-p} + b_n
+$$&lt;/p&gt;
+&lt;p&gt;如果我们有 $N$ 个样本，可以将相应的 $N$ 个方程写成矩阵形式：
+$$
+\mathbf{y} = \mathbf{H} \mathbf{x} + \mathbf{b}
+$$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;向量 $\mathbf{y}$ 包含了所有的 $N$ 个观测值（在二维情况下，它将包含模糊的图像）。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
