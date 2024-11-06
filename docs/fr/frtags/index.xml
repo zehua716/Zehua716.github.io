@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Frtags on PaperModL2</title>
-    <link>https://Zehua716.github.io/fr/frtags/</link>
+    <link>https://zehua716.github.io/fr/frtags/</link>
     <description>Recent content in Frtags on PaperModL2</description>
     <image>
       <title>PaperModL2</title>
-      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>fr</language>
     <copyright>PaperMod Contributors</copyright>
-    <atom:link href="https://Zehua716.github.io/fr/frtags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/fr/frtags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
