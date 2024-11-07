@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>搜索 on PaperMod 中文</title>
-    <link>https://zehua716.github.io/zh/search/</link>
-    <description>Recent content in 搜索 on PaperMod 中文</description>
+    <title>Label on PaperModL2</title>
+    <link>https://zehua716.github.io/fr/label/</link>
+    <description>Recent content in Label on PaperModL2</description>
     <image>
-      <title>PaperMod 中文</title>
+      <title>PaperModL2</title>
       <url>https://zehua716.github.io/images/papermod-cover.png</url>
       <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.135.0</generator>
-    <language>zh</language>
+    <language>fr</language>
     <copyright>PaperMod Contributors</copyright>
-    <lastBuildDate></lastBuildDate>
-    <atom:link href="https://zehua716.github.io/zh/search/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/fr/label/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on PaperMod 中文</title>
-    <link>http://localhost:1313/zh/posts/</link>
+    <link>https://zehua716.github.io/zh/posts/</link>
     <description>Recent content in Posts on PaperMod 中文</description>
     <image>
       <title>PaperMod 中文</title>
-      <url>http://localhost:1313/images/papermod-cover.png</url>
-      <link>http://localhost:1313/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- 0.136.5</generator>
+    <generator>Hugo -- 0.135.0</generator>
     <language>zh</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Sun, 05 Nov 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/zh/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>示例文章</title>
-      <link>http://localhost:1313/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
+      <link>https://zehua716.github.io/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</link>
       <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
+      <guid>https://zehua716.github.io/zh/posts/2023-11-05-%E7%A4%BA%E4%BE%8B%E6%96%87%E7%AB%A0/</guid>
       <description>&lt;h1 id=&#34;图像恢复---------tp1&#34;&gt;&lt;strong&gt;图像恢复   &amp;mdash;   TP1&lt;/strong&gt;&lt;/h1&gt;
 &lt;h3 id=&#34;图像反卷积wiener-hunt-方法&#34;&gt;&lt;strong&gt;图像反卷积：Wiener-Hunt 方法&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;主要针对图像去模糊问题，即从模糊(带噪)图像中恢复清晰图像。这属于逆问题的范畴，一半出现在处理真实测量系统时。由于每个测量系统（如温度计、CCD相机、光谱仪等）都受到基础物理学的限制，比如有限精度、有限动态范围、非零响应时间等。这意味着测得的量或多或少都有扭曲。因此这部分是对感兴趣物理量的某种扭曲程度的度量。&lt;/p&gt;
