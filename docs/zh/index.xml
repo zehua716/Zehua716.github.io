@@ -9,24 +9,17 @@
       <url>https://zehua716.github.io/images/papermod-cover.png</url>
       <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- 0.135.0</generator>
+    <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Tue, 12 Nov 2024 17:52:13 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="https://zehua716.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>反问题 TP1</title>
-      <link>https://zehua716.github.io/zh/posts/signal_cn/test/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/zh/posts/signal_cn/test/</guid>
-      <description>测试</description>
-    </item>
     <item>
       <title>反问题 TP1</title>
       <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
       <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</guid>
-      <description>deasdifgisdhbibf</description>
+      <description>图像恢复中去卷积问题</description>
     </item>
     <item>
       <title>反问题 TP2</title>
