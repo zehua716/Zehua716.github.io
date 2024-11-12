@@ -5,6 +5,7 @@ date: "2024-11-05T16:25:17+01:00"
 lastmod: "2024-11-06T17:12:35+08:00"
 # draft: false
 summary: "summary"
+lang: "zh"
 description: "deasdifgisdhbibf"
 tags: ["tst"]
 # categories: "posts"
