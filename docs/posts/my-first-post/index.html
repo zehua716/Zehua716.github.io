@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -81,16 +81,16 @@ $$
 \bar{m} = (m_X, m_Y, 1)^T
 $$">
 <meta name="author" content="Zehua">
-<link rel="canonical" href="http://localhost:1313/posts/my-first-post/">
+<link rel="canonical" href="https://zehua716.github.io/posts/my-first-post/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.1b02b89634cb203c0adb2529fde6c2ef5d9909695eb3a05043bdefba6e2b892b.css" integrity="sha256-GwK4ljTLIDwK2yUp/ebC712ZCWles6BQQ73vum4riSs=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://zehua716.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://zehua716.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://zehua716.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/my-first-post/">
+<link rel="alternate" hreflang="en" href="https://zehua716.github.io/posts/my-first-post/">
 <noscript>
     <style>
         #theme-toggle,
@@ -228,14 +228,14 @@ $$
 \bar{m} = (m_X, m_Y, 1)^T
 $$" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/posts/my-first-post/" />
-<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="og:url" content="https://zehua716.github.io/posts/my-first-post/" />
+<meta property="og:image" content="https://zehua716.github.io/images/papermod-cover.png" />
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-01-14T07:07:07+01:00" />
 <meta property="article:modified_time" content="2024-01-14T07:07:07+01:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:image" content="https://zehua716.github.io/images/papermod-cover.png" />
 <meta name="twitter:title" content="My First Post"/>
 <meta name="twitter:description" content="测试222
 333333444444
@@ -321,13 +321,13 @@ $$"/>
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://zehua716.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "My First Post",
-      "item": "http://localhost:1313/posts/my-first-post/"
+      "item": "https://zehua716.github.io/posts/my-first-post/"
     }
   ]
 }
@@ -345,7 +345,7 @@ $$"/>
   "articleBody": "测试222\n333333444444\n1 2 def add(a, b): a + b Védio 3D—(Reconstruction 3D) Vision par ordinateur 第一次课 一、理论部分—图像投影模型与3D重建理论 I. SLAM的概念 SLAM（Simultaneous Localization and Mapping，即同步定位与地图构建） 通过估计每个相机的位置和场景的三维点，实现对场景的重建 II. 逆向二维图像 ​\t从二维图像中提取三维场景的信息，即进行3D重建\n逆向投影\n图像是三维场景经过投影后的二维表示，要恢复三维信息，需要逆转这个投影过程 建立一个数学模型，描述三维场景如何投影到二维图像中，然后尝试逆向求解 III. 针孔相机模型（Modèle Sténopé） 1. 模型概述\n定义：针孔相机模型假设所有的光线都通过一个公共点，即光心（光学中心） 优点：模型简单，易于逆向计算，在三维重建中广泛使用 2. 坐标系和符号规定\n摄像机坐标系： 原点OC：光学中心，坐标为 (0, 0, 0) 轴方向：建立右手坐标系，XC 向右，YC 向下，ZC 指向后方（场景深度方向） 优势：Z 轴指向后方，物体深度为正，符合直觉 3. 三维点的投影到归一化焦平面\n三维点表示：\n点 U：坐标为 (UX, UY, UZ)，表示空间中的一个三维点\n归一化焦平面：\n一个与光心OC距离为 1 的平面（ZC = 1），因此称为归一化聚焦平面 将远处的三维点投影到此平面上 用m表示 4. 齐次坐标与非齐次坐标\n齐次坐标（Homogeneous Coordinates）：\n定义：在原有坐标后增加一个维度（通常为 1），方便表示投影和变换 表示：对于二维点 m = (mX, mY$)^T$，其齐次坐标为 $$ \\bar{m} = (m_X, m_Y, 1)^T\n$$\n作用：在后续理论运算中，很多情况下矩阵维度不匹配(因为三维是三个坐标，二维是两个)，因此必须增加一个维度用于运算矩阵，最后运算完再将其标准化即可 非齐次坐标（Inhomogeneous Coordinates）：\n标准的笛卡尔坐标表示法，不包含额外的维度 IV. 摄像机的线性校准（Calibration） 1. 从归一化焦平面到图像平面\n目的：将归一化焦平面上的点$m=(m_x,m_y)^T$映射到图像平面上的点$p=(p_u,p_v)^T$\n线性变换：\n变换公式： $$ \\begin{cases} p_u = f \\cdot m_x + u_0 \\ p_v = f \\cdot m_y + v_0 \\end{cases} $$\n焦距 f\nmX, mY 是归一化焦平面上的点\n光学中心在图像平面中的坐标(U0, V0)：也就是要注意，在图像平面中的光学中心并不一定是$(0,0)$\n",
   "wordCount" : "123",
   "inLanguage": "en",
-  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2024-01-14T07:07:07+01:00",
+  "image": "https://zehua716.github.io/images/papermod-cover.png","datePublished": "2024-01-14T07:07:07+01:00",
   "dateModified": "2024-01-14T07:07:07+01:00",
   "author":{
     "@type": "Person",
@@ -353,14 +353,14 @@ $$"/>
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/my-first-post/"
+    "@id": "https://zehua716.github.io/posts/my-first-post/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Home",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://zehua716.github.io/favicon.ico"
     }
   }
 }
@@ -382,7 +382,7 @@ $$"/>
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Home (Alt + H)">Home</a>
+            <a href="https://zehua716.github.io/" accesskey="h" title="Home (Alt + H)">Home</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -406,7 +406,7 @@ $$"/>
                 </button>
                 <ul class="lang-switch"><li>|</li>
                     <li>
-                        <a href="http://localhost:1313/zh/" title="中文"
+                        <a href="https://zehua716.github.io/zh/" title="中文"
                             aria-label="中文">中文</a>
                     </li>
                 </ul>
@@ -414,27 +414,27 @@ $$"/>
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/posts/" title="List">
+                <a href="https://zehua716.github.io/posts/" title="List">
                     <span>List</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
+                <a href="https://zehua716.github.io/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives" title="Timeline">
+                <a href="https://zehua716.github.io/archives" title="Timeline">
                     <span>Timeline</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/about/" title="about">
+                <a href="https://zehua716.github.io/about/" title="about">
                     <span>about</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search/" title="search (Alt &#43; /)" accesskey=/>
+                <a href="https://zehua716.github.io/search/" title="search (Alt &#43; /)" accesskey=/>
                     <span>search</span>
                 </a>
             </li>
@@ -445,11 +445,11 @@ $$"/>
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <div class="breadcrumbs"><a href="https://zehua716.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       My First Post
     </h1>
-    <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 CET'>January 14, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Zehua&nbsp;|&nbsp;<a href="https://github.com/zehua716/Zehua716.github.io/tree/main/content/posts/my-first-post.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+    <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Zehua&nbsp;|&nbsp;<a href="https://github.com/zehua716/Zehua716.github.io/tree/main/content/posts/my-first-post.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -671,10 +671,10 @@ $$</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/tag1/">Tag1</a></li>
+      <li><a href="https://zehua716.github.io/tags/tag1/">Tag1</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/test/">
+  <a class="prev" href="https://zehua716.github.io/posts/test/">
     <span class="title">« Prev</span>
     <br>
     <span>tst title</span>

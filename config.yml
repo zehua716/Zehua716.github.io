@@ -150,8 +150,7 @@ params:
 
   homeInfoParams:
     Title: "PaperMod's Demo"
-    Content: >
-    
+    Content: 
 
 #  socialIcons:
 #    - name: github
