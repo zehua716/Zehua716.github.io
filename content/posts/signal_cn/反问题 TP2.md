@@ -1,0 +1,561 @@
+---
+title: "反问题 TP2"
+# author: "Zehua"
+date: "2024-11-05T16:25:17+01:00"
+lastmod: "2024-11-06T17:12:35+08:00"
+lang: "zh"
+draft: false
+summary: "实验内容"
+description: "deasdifgisdhbibf"
+tags: ["信号处理","图像处理"]
+# categories: "posts"
+# cover:
+#     image: "images/.jpg"
+# comments: true
+# hideMeta: false
+# searchHidden: false
+# ShowBreadCrumbs: true
+# ShowReadingTime: false
+
+---
+
+**Wiener-Hunt 方法：无监督方面**
+
+
+
+在上一个实践内容中，我们介绍了去卷积问题的困难，即在应用卷积或者低通滤波器后所导致的观测数据缺失高频相关信息的情况。我们使用了 $Wiener$-$Hunt$ 方法：将量化解的误差的二次项和数据相结合，并在损失函数中使用带有正则化系数的二次惩罚标准以量化解的粗糙度。我们得到了相对来说不错的结果。但是这个方法的缺点是它需要调节一个参数，即正则化参数 $\mu$。我们最开始由经验选择到观察选择，一直到最后循环找到 $\mu$ 的最优值，使得去卷积后的图像既不过于不规则也不过于平滑。下面的工作重点在于介绍一种自动调节超参数的方法。
+
+
+
+**1. 超参数与全后验分布**
+
+
+
+这个方法基于 $Wiener$-$Hunt$ 解的贝叶斯解释。该解释本身基于关于误差 $e$ 和关于图像 $x$ 的两个高斯概率模型。
+
+
+
+**1.1 误差分布**
+
+
+
+误差被建模为 $blanc$、零均值同质高斯向量。$blanc$ 指的是像白噪音一样，在其频谱特性中，所有频率分量有相同的功率密度，即信号在不同频率上的能量分布是均匀的。在数学层面，它具有零相关性，即不同时间点的误差值是统计独立的（不相关的）。
+
+
+
+对于高斯分布，选择了一个涉及所谓精度参数 $\gamma_e$（方差的倒数）的替代参数化。根据这种参数化，其表达式可写为：
+
+
+
+<div>$$f(e \mid \gamma_e) = (2\pi)^{-N/2} \gamma_e^{N/2} \exp\left( -\frac{\gamma_e \| e \|^2 }{2} \right)$$</div>
+
+
+
+
+
+根据 $y = Hx + e$，数据 $y$ 和感兴趣信号 $x$ 的似然函数表达式：
+
+
+
+<div>$$f(y \mid x, \gamma_e) = (2\pi)^{-N/2} \gamma_e^{N/2} \exp\left( -\frac{\gamma_e \| y - Hx \|^2 }{2} \right)$$</div>
+
+
+
+
+
+根据所给的似然表达式 $f(y \mid x, \gamma_e)$，量化重建物体 $x$ 相对于观测数据 $y$ 的充分性可以通过协对数（log-likelihood）的形式表示。这种表达经常用于概率模型中，特别是最大似然估计（MLE）或贝叶斯推断中，用于评估模型参数的适配程度。
+
+
+
+**再补充一下协对数相关内容，就是似然函数取对数，对于上述似然函数表达式，取其对数后为：**
+
+
+
+<div>$$\log f(y \mid x, \gamma_e) = \log\left( (2\pi)^{-N/2} \gamma_e^{N/2} \exp\left( -\frac{\gamma_e \| y - Hx \|^2 }{2} \right) \right)$$</div>
+
+
+
+
+
+利用对数的性质：$\ln(a \cdot b) = \ln a + \ln b$，将三部分拆分开：
+
+
+
+<div>$$\log f(y \mid x, \gamma_e) = \log\left( (2\pi)^{-N/2} \right) + \log\left( \gamma_e^{N/2} \right) + \log\left( \exp\left( -\frac{\gamma_e \| y - Hx \|^2 }{2} \right) \right)$$</div>
+
+
+
+
+
+逐项计算：
+
+
+
+<div>$$\log\left( (2\pi)^{-N/2} \right) = -\frac{N}{2} \log(2\pi)$$</div>
+
+
+
+
+
+<div>$$\log\left( \gamma_e^{N/2} \right) = \frac{N}{2} \log(\gamma_e)$$</div>
+
+
+
+
+
+<div>$$\log\left( \exp\left( -\frac{\gamma_e \| y - Hx \|^2 }{2} \right) \right) = -\frac{\gamma_e}{2} \| y - Hx \|^2$$</div>
+
+
+
+
+
+合并后：
+
+
+
+<div>$$\log f(y \mid x, \gamma_e) = -\frac{N}{2} \log(2\pi) + \frac{N}{2} \log(\gamma_e) - \frac{\gamma_e}{2} \| y - Hx \|^2$$</div>
+
+
+
+
+
+回到之前的内容，我们使用了协对数来表达数据能否充分重建原信号，我们给出这种拟合程度的量化指标：
+
+
+
+<div>$$\mathcal{J}_{LS}(x) = \| y - Hx \|^2 = -k_y \log f(y \mid x, \gamma_e) + C_y$$</div>
+
+
+
+
+
+​	•	$| y - Hx |^2$ 是重建信号（模型参数 $x$）与观测数据 $y$ 的误差平方和，称为残差平方和（Residual Sum of Squares, RSS）。
+
+​	•	$-k_y \log f(y \mid x, \gamma_e)$ 是协对数的负加权形式，其中 $k_y > 0$，是一个常数。
+
+​	•	$C_y$ 也是一个常数。
+
+
+
+我们现在给出两个常数 $k_y$ 和 $C_y$ 的对应表达式：
+
+
+
+前面得到：
+
+
+
+<div>$$\log f(y \mid x, \gamma_e) = -\frac{N}{2} \log(2\pi) + \frac{N}{2} \log(\gamma_e) - \frac{\gamma_e}{2} \| y - Hx \|^2$$</div>
+
+
+
+
+
+将上述结果带入 $J_{LS}(x) = -k_y \log f(y \mid x, \gamma_e) + C_y$ 得：
+
+
+
+<div>$$J_{LS}(x) = -k_y \left( -\frac{N}{2} \log(2\pi) + \frac{N}{2} \log(\gamma_e) - \frac{\gamma_e}{2} \| y - Hx \|^2 \right) + C_y$$</div>
+
+
+
+
+
+展开并整理：
+
+
+
+<div>$$J_{LS}(x) = k_y \left( \frac{N}{2} \log(2\pi) - \frac{N}{2} \log(\gamma_e) + \frac{\gamma_e}{2} \| y - Hx \|^2 \right) + C_y$$</div>
+
+
+
+
+
+将上述结果和原公式 $\mathcal{J}_{LS}(x) = | y - Hx |^2$ 对比，得到结果：
+
+
+
+<div>$$k_y = \frac{2}{\gamma_e} \quad\quad\quad C_y = -\frac{N}{\gamma_e} \left( \log(2\pi) - \log(\gamma_e) \right)$$</div>
+
+
+
+
+
+**1.2 感兴趣信号的分布**
+
+
+
+贝叶斯解释要求为感兴趣的信号 $x$ 提供一个概率分布。其模型也是高斯分布，只是这里它不是白色的，也就是说，它的各组成部分之间存在相关性。在接下来的内容中，相关性实际上是通过协方差矩阵 $R$ 来建模的。
+
+
+
+**贝叶斯解释**的核心思想是为感兴趣的信号 $x$ 提供一个概率分布，而不是一个确定值。这种概率分布反映了我们对 $x$ 的不确定性以及其任何可能的取值。因此我们假设在模型中，$x$ 服从一个高斯分布。
+
+
+
+但是它是一个非白色的高斯分布，也就是它的各组成部分之间存在相关性，协方差矩阵 $R$ 是一个非对角矩阵，其非零非对角元素表示信号的不同分量之间的相关性。后续我们就使用这个协方差矩阵 $R$ 在贝叶斯框架中建模信号的相关性。
+
+
+
+**补充一下关于协方差矩阵的相关内容**
+
+
+
+协方差矩阵 $R$ 提供了对信号相关性的精确描述。元素 $R_{ij}$ 表示信号第 $i$ 和第 $j$ 个分量之间的协方差：
+
+
+
+<div>$$R_{ij} = \mathbb{E}\left[ (x_i - \mu_i)(x_j - \mu_j) \right]$$</div>
+
+
+
+
+
+根据相关性，$R$ 可能是一个稀疏矩阵或者满矩阵。
+
+
+
+在贝叶斯建模中：
+
+​	1.	信号 $x$ 的**先验**分布 $p(x)$ 使用协方差矩阵 $R$ 的描述公式为：
+
+
+
+<div>$$p(x) = \frac{1}{(2\pi)^{N/2} |R|^{1/2}} \exp\left( -\frac{1}{2} x^T R^{-1} x \right)$$</div>
+
+
+
+
+
+其中，$R^{-1}$ 是协方差矩阵的逆，也称为精度矩阵，定义了 $x$ 的相关性强度。
+
+​	2.	**最大后验估计（MAP）**：
+
+
+
+利用先验分布 $p(x)$ 和观测数据 $y$ 的似然函数 $p(y \mid x)$，可以通过贝叶斯法则计算 $x$ 的后验概率分布 $p(x \mid y)$，并基于该分布选择最优解。
+
+
+
+回到之前，我们通过逆矩阵 $R^{-1} = \gamma_x \Pi$ 来表示建模信号的相关性，
+
+
+
+其中：
+
+​	•	**精度参数** $\gamma_x$ 控制相关性的强度
+
+​	•	**矩阵** $\Pi$ 决定了相关性的结构
+
+
+
+我们将 $R^{-1} = \gamma_x \Pi$ 带入之前的 $f(x \mid \gamma_x)$ 公式可得：
+
+
+
+<div>$$f(x \mid \gamma_x) = (2\pi)^{-N/2} \det(\Pi)^{1/2} \gamma_x^{N/2} \exp\left( -\frac{\gamma_x}{2} x^T \Pi x \right)$$</div>
+
+
+
+
+
+也就是说：
+
+
+
+<div>$$f(x \mid \gamma_x) \propto \exp\left( -\frac{\gamma_x}{2} x^T \Pi x \right)$$</div>
+
+
+
+
+
+量化物体相对于先验信息充分性的项表现为密度的协对数：
+
+
+
+<div>$$\mathcal{J}_0(x) = -k_x \log f(x \mid \gamma_x) + C_x = x^T \Pi x$$</div>
+
+
+
+
+
+其中：
+
+​	•	$\mathcal{J}_0(x)$ 是对信号 $x$ 的量化，用来描述 $x$ 相对于先验信息（即对 $x$ 的已知假设或统计特性）是否充分匹配。其形式以密度的协对数（具体是取对数的负数）表示，结合了贝叶斯模型中的先验分布。
+
+​	•	$f(x \mid \gamma_x)$ 是 $x$ 的先验概率密度函数，反映了 $x$ 如何符合假设的先验模型，我们之前在假设 $x$ 服从高斯分布的前提下，得到了其表达式（见上面）。
+
+​	•	**正则化项** $x^T \Pi x$ 描述了信号 $x$ 的“复杂度”或“平滑性”，由 $\Pi$ 决定其结构，精度参数 $\gamma_x$ 控制正则化的强度，当 $\gamma_x$ 较大时，正则化约束更强。
+
+
+
+同样，在上述公式中，我们添加了加法常数 $C_x$ 和乘法常数 $k_x$。为了与之前已经计算过的 Wiener-Hunt 方法联系起来，只需选择 $\Pi = D^T D$。
+
+
+
+现在我们要给出两个常数的对应表达式。
+
+
+
+已知原公式：
+
+
+
+<div>$$f(x \mid \gamma_x) = (2\pi)^{-N/2} \det(\Pi)^{1/2} \gamma_x^{N/2} \exp\left( -\frac{\gamma_x}{2} x^T \Pi x \right)$$</div>
+
+
+
+
+
+两边取对数：
+
+
+
+<div>$$\log f(x \mid \gamma_x) = -\frac{N}{2} \log(2\pi) + \frac{1}{2} \log\det(\Pi) + \frac{N}{2} \log(\gamma_x) - \frac{\gamma_x}{2} x^T \Pi x$$</div>
+
+
+
+
+
+根据公式：
+
+
+
+<div>$$\mathcal{J}_0(x) = -k_x \log f(x \mid \gamma_x) + C_x$$</div>
+
+
+
+
+
+将上述结果带入其中得到：
+
+
+
+<div>$$\mathcal{J}_0(x) = -k_x \left( -\frac{N}{2} \log(2\pi) + \frac{1}{2} \log\det(\Pi) + \frac{N}{2} \log(\gamma_x) - \frac{\gamma_x}{2} x^T \Pi x \right) + C_x$$</div>
+
+
+
+
+
+展开并整理：
+
+
+
+<div>$$\mathcal{J}_0(x) = k_x \left( \frac{N}{2} \log(2\pi) - \frac{1}{2} \log\det(\Pi) - \frac{N}{2} \log(\gamma_x) + \frac{\gamma_x}{2} x^T \Pi x \right) + C_x$$</div>
+
+
+
+
+
+对比：
+
+
+
+<div>$$\mathcal{J}_0(x) = x^T \Pi x$$</div>
+
+
+
+
+
+得到：
+
+
+
+<div>$$k_x = \frac{2}{\gamma_x} \quad\quad\quad C_x = \frac{N}{\gamma_x} \log(2\pi) - \frac{1}{\gamma_x} \log\det(\Pi) - \frac{N}{\gamma_x} \log(\gamma_x)$$</div>
+
+
+
+
+
+但是严格来说，上述解释并不完全正确，因为 $D^T D$ 中常量图像只不过是对应于特征值为零的特征向量（这对应于零频率）。严格的发展要求引入一个用于零频率下能量的惩罚项（通过一个可以设定为任意小值的参数）。这一点在此不做深入讨论。
+
+
+
+上面提到的这个 $f(x \mid \gamma_x) = (2\pi)^{-N/2} \det(\Pi)^{1/2} \gamma_x^{N/2} \exp\left( -\frac{\gamma_x}{2} x^T \Pi x \right)$ 是**先验分布**（a priori），因为它使人们能够处理先验信息，从而更倾向于具有更高规则性的图像。对于给定图像的概率越高，则图像越规则。
+
+
+
+其中的 $\gamma_x$ 精度参数我们非常关注，因为它控制着图像的平滑度，进而影响着概率分布的整体趋势。
+
+​	•	当 $\gamma_x$ 较大时，指数项中的 $x^T \Pi x$ 会被放大。
+
+​	•	当 $\gamma_x$ 较小时，指数项中的 $x^T \Pi x$ 对总的概率密度的影响较小。
+
+
+
+**1.3 后验分布**
+
+
+
+借助前面定义的两个成分，并使用概率的乘法规则，现在可以构造重构信号 $x$ 和数据 $y$ 的联合密度：
+
+
+
+<div>$$f(x, y \mid \gamma_e, \gamma_x) = f(y \mid x, \gamma_e) \, f(x \mid \gamma_x)$$</div>
+
+
+
+
+
+将之前得到的结果代入：
+
+
+
+<div>$$f(x, y \mid \gamma_e, \gamma_x) = (2\pi)^{-N} \det(\Pi)^{1/2} \gamma_e^{N/2} \gamma_x^{N/2} \exp\left( -\frac{1}{2} \left[ \gamma_e \| y - Hx \|^2 + \gamma_x x^T \Pi x \right] \right)$$</div>
+
+
+
+
+
+这个表达式由两个精度参数 $\gamma_e$ 和 $\gamma_x$ 参数化。可以注意到在指数项内部，我们得到了加权最小二乘准则的表达式：
+
+
+
+<div>$$\mathcal{J}_{PLS}(x) = \mathcal{J}_{LS}(x) + \mu \mathcal{J}_0(x)$$</div>
+
+
+
+
+
+<div>$$\mathcal{J}_{PLS}(x) = \| y - Hx \|^2 + \mu x^T \Pi x$$</div>
+
+
+
+
+
+其中，正则化参数 $\mu$ 表示为信噪比的倒数 $\mu = \gamma_x / \gamma_e$。
+
+
+
+通过贝叶斯定理可以确定感兴趣信号的后验分布（后验概率分布）：
+
+
+
+<div>$$f(x \mid y, \gamma_e, \gamma_x) = \frac{f(x, y \mid \gamma_e, \gamma_x)}{f(y \mid \gamma_e, \gamma_x)} \propto \exp\left( -\frac{\gamma_e}{2} \mathcal{J}_{PLS}(x) \right)$$</div>
+
+
+
+
+
+这就是给定数据（已观测到的）和参数下的感兴趣信号的分布。
+
+
+
+我们希望为感兴趣信号构造的任何估计器都基于上述分布。最常见的估计器是后验分布的均值、中位数或众数（即后验的最大化者）。在当前情况下，当后验分布是高斯分布时，这三者是相等的。众数或后验最大化者（MAP），记为 $\hat{x}*{MAP}$，是最小化准则 $\mathcal{J}*{PLS}(x)$ 的解：
+
+
+
+<div>$$\hat{x}_{MAP} = \arg\max_{x} f(x \mid y, \gamma_e, \gamma_x) = \arg\min_{x} \mathcal{J}_{PLS}(x) = \hat{x}_{PLS}$$</div>
+
+
+
+
+
+结论是，最小二乘准则的解 $\hat{x}*{PLS}$，就是之前的工作中推导出来的后验分布的众数 $\hat{x}*{MAP}$。
+
+
+
+**1.4 扩展的后验分布**
+
+
+
+到目前为止，贝叶斯方法只允许我们对已经存在的超参数值的估计给出概率解释。将之前的框架扩展到包含超参数的估计，需要为两个精度参数 $\gamma_e$ 和 $\gamma_x$ 引入一个先验分布。在多种可选方案中，接下来我们将重点关注伽马分布：
+
+
+
+<div>$$f(\gamma) = \frac{\beta^\alpha}{\Gamma(\alpha)} \gamma^{\alpha - 1} \exp\left( -\beta \gamma \right) \cdot 1_{\mathbb{R}^+}(\gamma)$$</div>
+
+
+
+
+
+它由两个正实数参数 $(\alpha, \beta)$ 驱动，具有均值 $\alpha / \beta$ 和方差 $\alpha / \beta^2$。这种选择的理由如下：
+
+​	•	选择伽马分布作为先验分布确保了条件后验分布也是伽马分布（即共轭先验）。在算法上，这意味着只需要更新分布参数的值（具体见下面）。
+
+​	•	这种选择允许在参数值的信息较少（也称为“非信息先验”）或精确（如名义值或某种不确定性）的情况下进行处理。该工作中特别感兴趣的是“非信息先验”的极限情况，即 $(\alpha, \beta) = (0, 0)$。
+
+
+
+此外，关于变量 $\gamma_e$ 和 $\gamma_x$ 的组合，它们被建模为独立的。
+
+
+
+从伽马分布：
+
+
+
+<div>$$f(\gamma) = \frac{\beta^\alpha}{\Gamma(\alpha)} \gamma^{\alpha - 1} \exp\left( -\beta \gamma \right) \cdot 1_{\mathbb{R}^+}(\gamma)$$</div>
+
+
+
+
+
+和部分联合分布：
+
+
+
+<div>$$f(x, y \mid \gamma_e, \gamma_x) = f(y \mid x, \gamma_e) \, f(x \mid \gamma_x) = (2\pi)^{-N} \det(\Pi)^{1/2} \gamma_e^{N/2} \gamma_x^{N/2} \exp\left( -\frac{1}{2} \left[ \gamma_e \| y - Hx \|^2 + \gamma_x x^T \Pi x \right] \right)$$</div>
+
+
+
+
+
+的表达式出发，我们推导出对于 $y, x, \gamma_e$ 和 $\gamma_x$ 的完整联合分布的表达式为：
+
+
+
+<div>$$f(y, x, \gamma_e, \gamma_x) = f(x, y \mid \gamma_e, \gamma_x) \, f(\gamma_e) \, f(\gamma_x)$$</div>
+
+
+
+
+
+<div>$$f(x, y, \gamma_e, \gamma_x) = (2\pi)^{-N} \det(\Pi)^{1/2} \frac{\beta_e^{\alpha_e} \beta_x^{\alpha_x}}{\Gamma(\alpha_e) \Gamma(\alpha_x)} \gamma_e^{\alpha_e + N/2 - 1} \gamma_x^{\alpha_x + N/2 - 1} \exp\left( -\gamma_e \left( \beta_e + \frac{\| y - Hx \|^2 }{2} \right) - \gamma_x \left( \beta_x + \frac{x^T \Pi x}{2} \right) \right)$$</div>
+
+
+
+
+
+注意：这个密度非常重要，因为它允许推导出所有相关的联合、边缘和条件密度。
+
+
+
+现在我们可以通过贝叶斯规则推导出完整的后验分布，即给定观测数据时，感兴趣信号和超参数的分布：
+
+
+
+<div>$$f(x, \gamma_e, \gamma_x \mid y) = \frac{f(x, y, \gamma_e, \gamma_x)}{f(y)}$$</div>
+
+
+
+
+
+省略分母 $f(y)$，我们有：
+
+
+
+<div>$$f(x, \gamma_e, \gamma_x \mid y) \propto \gamma_e^{\alpha_e + N/2 - 1} \gamma_x^{\alpha_x + N/2 - 1} \exp\left( -\gamma_e \left( \beta_e + \frac{\| y - Hx \|^2 }{2} \right) - \gamma_x \left( \beta_x + \frac{x^T \Pi x}{2} \right) \right)$$</div>
+
+
+
+
+
+这汇总了所有关于感兴趣信号和超参数在数据视角下的可用信息：对于三重项 $x, \gamma_e, \gamma_x$，它量化了后验密度，即在给定观测数据下三重项的概率。感兴趣信号和超参数的估计器是从这个分布中构造出来的。我们可以查看后验分布的均值、中位数或众数。每种方法都有其优缺点。在接下来的内容中，我们将重点讨论均值。
+
+
+
+**1.5 后验均值**
+
+
+
+考虑到后验分布（上面这个）的复杂性，获得均值的解析公式是不可行的。为了计算后验均值，有几种方法可用，在这里我们将重点关注随机采样技术。最终，它归结为对后验分布进行随机采样，然后取样本的经验均值，从而近似后验均值。
+
+
+
+后验分布的采样可以通过**马尔可夫链蒙特卡洛（MCMC）方法**来实现。它要求构建一个迭代过程，以生成随机样本，经过一定的时间（称为 burn-in），这些样本将根据目标分布进行分布。构建这样一个过程并不容易，但在当前情况下，存在一个标准算法可以轻松使用：Gibbs 采样算法。它将对三重项 $x, \gamma_e, \gamma_x$ 的后验分布进行采样的问题，转换为它们三个各自的更简单分布的采样问题。每个分布实际上是条件分布，给定其余参数的条件下对其中一个参数进行采样。该算法的工作原理在下表中给出，接下来的部分我们将详细说明这些步骤。
+
+
+
+<div>$$\begin{aligned}&\bullet \, \text{Initialize } x^{[0]} = y \\&\bullet \, \text{For } k = 1, 2, \dots \, \text{repeat} \\&\quad \text{(a) sample } \gamma_e^{[k]} \text{ under } f(\gamma_e \mid \gamma_x^{[k-1]}, x^{[k-1]}, y) \\&\quad \text{(b) sample } \gamma_x^{[k]} \text{ under } f(\gamma_x \mid \gamma_e^{[k]}, x^{[k-1]}, y) \\&\quad \text{(c) sample } x^{[k]} \text{ under } f(x \mid \gamma_e^{[k]}, \gamma_x^{[k]}, y)\end{aligned}$$</div>
+
