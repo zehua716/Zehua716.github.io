@@ -9,8 +9,8 @@ summary: "实验内容"
 description: "图像恢复中去卷积问题"
 tags: ["信号处理","图像处理"]
 # categories: "posts"
-# cover:
-#     image: "images/.jpg"
+#cover:
+#    image: "img/signal.png"
 # comments: true
 # hideMeta: false
 searchHidden: true
