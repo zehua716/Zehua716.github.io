@@ -105,7 +105,7 @@ languages:
           - name: 🎲  概率统计
             url: posts/probability_cn  
           - name: 🤖  机器学习
-            url: posts/MachineLearning_cn
+            url: posts/MachineLearning_cn/
 
 outputs:
   home:
