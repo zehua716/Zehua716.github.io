@@ -41,6 +41,22 @@
                 href="https://zehua716.github.io/zh/posts/"
                 />
   </url><url>
+    <loc>https://zehua716.github.io/zh/tags/tst/</loc>
+    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zehua716.github.io/tags/tst/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zehua716.github.io/zh/tags/tst/"
+                />
+  </url><url>
+    <loc>https://zehua716.github.io/zh/posts/machinelearning_cn/vae/</loc>
+    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
+  </url><url>
     <loc>https://zehua716.github.io/zh/tags/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
@@ -61,6 +77,9 @@
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
     <loc>https://zehua716.github.io/zh/tags/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/</loc>
+    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
+  </url><url>
+    <loc>https://zehua716.github.io/zh/posts/machinelearning_cn/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
     <loc>https://zehua716.github.io/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
@@ -109,8 +128,6 @@
                 />
   </url><url>
     <loc>https://zehua716.github.io/zh/posts/probability_cn/</loc>
-  </url><url>
-    <loc>https://zehua716.github.io/zh/posts/machinelearning_cn/</loc>
   </url><url>
     <loc>https://zehua716.github.io/zh/archives/</loc>
     <xhtml:link

@@ -65,11 +65,18 @@
   </url><url>
     <loc>https://zehua716.github.io/tags/tst/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://zehua716.github.io/zh/tags/tst/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://zehua716.github.io/tags/tst/"
+                />
   </url><url>
     <loc>https://zehua716.github.io/posts/machinelearning/test/</loc>
-    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
-  </url><url>
-    <loc>https://zehua716.github.io/posts/machinelearning_cn/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
     <loc>https://zehua716.github.io/posts/probability/test/</loc>
@@ -80,15 +87,6 @@
   </url><url>
     <loc>https://zehua716.github.io/posts/signal/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
-  </url><url>
-    <loc>https://zehua716.github.io/posts/test/</loc>
-    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
-  </url><url>
-    <loc>https://zehua716.github.io/posts/my-first-post/</loc>
-    <lastmod>2024-01-14T07:07:07+01:00</lastmod>
-  </url><url>
-    <loc>https://zehua716.github.io/tags/tag1/</loc>
-    <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
     <loc>https://zehua716.github.io/about/</loc>
     <xhtml:link

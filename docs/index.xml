@@ -23,13 +23,6 @@
     </item>
     <item>
       <title>tst title</title>
-      <link>https://zehua716.github.io/posts/machinelearning_cn/test/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/posts/machinelearning_cn/test/</guid>
-      <description>deasdifgisdhbibf</description>
-    </item>
-    <item>
-      <title>tst title</title>
       <link>https://zehua716.github.io/posts/probability/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
       <guid>https://zehua716.github.io/posts/probability/test/</guid>
@@ -48,92 +41,6 @@
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
       <guid>https://zehua716.github.io/posts/signal/test/</guid>
       <description>deasdifgisdhbibf</description>
-    </item>
-    <item>
-      <title>tst title</title>
-      <link>https://zehua716.github.io/posts/test/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/posts/test/</guid>
-      <description>deasdifgisdhbibf</description>
-    </item>
-    <item>
-      <title>My First Post</title>
-      <link>https://zehua716.github.io/posts/my-first-post/</link>
-      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>https://zehua716.github.io/posts/my-first-post/</guid>
-      <description>&lt;p&gt;测试222&lt;/p&gt;
-&lt;p&gt;333333444444&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h1 id=&#34;védio-3d---reconstruction-3d&#34;&gt;Védio 3D&amp;mdash;(Reconstruction 3D)&lt;/h1&gt;
-&lt;h1 id=&#34;vision-par-ordinateur&#34;&gt;Vision par ordinateur&lt;/h1&gt;
-&lt;h2 id=&#34;第一次课&#34;&gt;第一次课&lt;/h2&gt;
-&lt;h3 id=&#34;一理论部分---图像投影模型与3d重建理论&#34;&gt;一、&lt;strong&gt;理论部分&amp;mdash;图像投影模型与3D重建理论&lt;/strong&gt;&lt;/h3&gt;
-&lt;h3 id=&#34;i-slam的概念&#34;&gt;&lt;strong&gt;I. SLAM的概念&lt;/strong&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;SLAM（Simultaneous Localization and Mapping，即同步定位与地图构建）&lt;/li&gt;
-&lt;li&gt;通过估计每个相机的位置和场景的三维点，实现对场景的重建&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h3 id=&#34;ii-逆向二维图像&#34;&gt;&lt;strong&gt;II. 逆向二维图像&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;​		从二维图像中提取三维场景的信息，即进行3D重建&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;逆向投影&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;图像是三维场景经过投影后的二维表示，要恢复三维信息，需要逆转这个投影过程&lt;/li&gt;
-&lt;li&gt;建立一个数学模型，描述三维场景如何投影到二维图像中，然后尝试逆向求解&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h3 id=&#34;iii-针孔相机模型modèle-sténopé&#34;&gt;&lt;strong&gt;III. 针孔相机模型（Modèle Sténopé）&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;1. 模型概述&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：针孔相机模型假设所有的光线都通过一个公共点，即光心（光学中心）&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：模型简单，易于逆向计算，在三维重建中广泛使用&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;2. 坐标系和符号规定&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;摄像机坐标系&lt;/strong&gt;：
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;原点O&lt;sub&gt;C&lt;/sub&gt;&lt;/strong&gt;：光学中心，坐标为 (0, 0, 0)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;轴方向&lt;/strong&gt;：建立右手坐标系，X&lt;sub&gt;C&lt;/sub&gt; 向右，Y&lt;sub&gt;C&lt;/sub&gt; 向下，Z&lt;sub&gt;C&lt;/sub&gt; 指向后方（场景深度方向）&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;优势&lt;/strong&gt;：Z 轴指向后方，物体深度为正，符合直觉&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;3. 三维点的投影到归一化焦平面&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;三维点表示&lt;/strong&gt;：&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;点 U&lt;/strong&gt;：坐标为 (U&lt;sub&gt;X&lt;/sub&gt;, U&lt;sub&gt;Y&lt;/sub&gt;, U&lt;sub&gt;Z&lt;/sub&gt;)，表示空间中的一个三维点&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;归一化焦平面&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;一个与光心O&lt;sub&gt;C&lt;/sub&gt;距离为 1 的平面（Z&lt;sub&gt;C&lt;/sub&gt; = 1），因此称为归一化聚焦平面&lt;/li&gt;
-&lt;li&gt;将远处的三维点投影到此平面上 用m表示&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;4. 齐次坐标与非齐次坐标&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;齐次坐标（Homogeneous Coordinates）&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：在原有坐标后增加一个维度（通常为 1），方便表示投影和变换&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;表示&lt;/strong&gt;：对于二维点 m = (m&lt;sub&gt;X&lt;/sub&gt;, m&lt;sub&gt;Y&lt;/sub&gt;$)^T$，其齐次坐标为&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;$$
-\bar{m} = (m_X, m_Y, 1)^T&lt;br&gt;
-$$&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>

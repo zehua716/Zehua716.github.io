@@ -15,6 +15,13 @@
     <lastBuildDate>Tue, 12 Nov 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="https://zehua716.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>VAE</title>
+      <link>https://zehua716.github.io/zh/posts/machinelearning_cn/vae/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/zh/posts/machinelearning_cn/vae/</guid>
+      <description>VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。</description>
+    </item>
+    <item>
       <title>反问题 TP1</title>
       <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
