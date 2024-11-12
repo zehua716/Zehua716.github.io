@@ -2,58 +2,58 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tst on Home</title>
-    <link>http://localhost:1313/tags/tst/</link>
+    <link>https://zehua716.github.io/tags/tst/</link>
     <description>Recent content in Tst on Home</description>
     <image>
       <title>Home</title>
-      <url>http://localhost:1313/images/papermod-cover.png</url>
-      <link>http://localhost:1313/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/tst/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/tags/tst/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/machinelearning/test/</link>
+      <link>https://zehua716.github.io/posts/machinelearning/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/machinelearning/test/</guid>
+      <guid>https://zehua716.github.io/posts/machinelearning/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/machinelearning_cn/test/</link>
+      <link>https://zehua716.github.io/posts/machinelearning_cn/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/machinelearning_cn/test/</guid>
+      <guid>https://zehua716.github.io/posts/machinelearning_cn/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/probability/test/</link>
+      <link>https://zehua716.github.io/posts/probability/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/probability/test/</guid>
+      <guid>https://zehua716.github.io/posts/probability/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/probability_cn/test/</link>
+      <link>https://zehua716.github.io/posts/probability_cn/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/probability_cn/test/</guid>
+      <guid>https://zehua716.github.io/posts/probability_cn/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/signal/test/</link>
+      <link>https://zehua716.github.io/posts/signal/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/signal/test/</guid>
+      <guid>https://zehua716.github.io/posts/signal/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
     <item>
       <title>tst title</title>
-      <link>http://localhost:1313/posts/test/</link>
+      <link>https://zehua716.github.io/posts/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/posts/test/</guid>
+      <guid>https://zehua716.github.io/posts/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
   </channel>
