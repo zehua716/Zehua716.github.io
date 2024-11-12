@@ -1,5 +1,5 @@
 ---
-title: "Posts Archive"
+title: "tags"
 layout: "tags"
-description: Archive of historical posts.
+description: Archive of historical posts. 
 ---

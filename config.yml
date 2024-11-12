@@ -2,7 +2,7 @@
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 baseURL: "https://zehua716.github.io"
 title: Zehua
-copyright: "© [PaperMod Contributors](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
+copyright: "  [PaperMod](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
 pagination.pagerSize: 5
 theme: [papermod]
 
@@ -24,92 +24,88 @@ languages:
   en:
     languageName: "English"
     weight: 1
-    taxonomies:
-      category: categories
-      tag: tags
-      series: series
+    title: Home
     menu:
       main:
-        - name: Archive
+        - name: Timeline
           url: archives
-          weight: 5
-        - name: Search
-          url: search/
-          weight: 10
+          weight: 20
         - name: Tags
           url: tags/
-          weight: 10
-        - name: WiKi
-          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
-        - name: About
-          url: about
-
-  fr:
-    languageName: "Français"
-    weight: 2
-    title: PaperModL2
-    contentDir: "content/fr"
-
-    taxonomies:
-      category: List
-      tag: Label
-      series: Serie
-    menu:
-      main:
-        - name: Chronologie
-          url: archives/
-          weight: 5
-        - name: Label
-          url: frtags
-          weight: 10
-        - name: Liste
+          weight: 15
+        - name: List
           url: posts/
           weight: 10
-        - name: Moi
+        - name: about
           url: about/
-          weight: 10
-        - name: NullLink
-          url: "#"
-
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
+          weight: 25
+        - name: search
+          url: search/
+          weight: 30
     params:
-      languageAltTitle: French
+      taxonomies:
+        category: categories
+        tag: tags
+        series: series
       profileMode:
         enabled: true
-        title: PaperMod
-        imageUrl: "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
+        title: Zehua
+        imageUrl: "/img/IMG_zehua.PNG" # Replace with your local image path
         imageTitle: ProfileMode image
         # imageWidth: 120
         # imageHeight: 120
-        subtitle: "☄️ Fast | ☁️ Fluent | 🌙 Smooth | 📱 Responsive"
+        subtitle: "☄️ Signal processing | ☁️ Statistics | 🌙 Machine learning | 📱 Control system"
         buttons:
-          - name: Notes des cours
-            url: posts
-          - name: Projet
-            url: /fr/project/ 
+          - name: Signal processing
+            url: posts/signal
+          - name: Statistics
+            url: posts/probability  
+          - name: Machine learning
+            url: posts/MachineLearning
 
   zh:
+    languageName: "中文"
     languagedirection: ltr
-    weight: 3
-    title: PaperMod 中文
-    contentDir: "content/zh"
-    taxonomies:
-      category: CNcategories
-      tag: CNtags
-      series: CNseries
+    weight: 2
+    title: 主页
+    contentDir: "content"
     menu:
       main:
-        - name: CNTags
-          url: cntags
+        - name: 时间轴
+          url: archives/
+          weight: 20
+        - name: 标签
+          url: tags/
+          weight: 15
+        - name: 列表
+          url: posts/
           weight: 10
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
+        - name: 版权说明
+          url: about/
+          weight: 20
+        - name: 搜索
+          url: search/
+          weight: 30
     params:
-      
-      mathEngine: katex
-      homeInfoParams:
-        Title: "你好 \U0001F44B"
-        Content: 欢迎来到中文布局
-
+      taxonomies:
+        category: CNcategories
+        tag: CNtags
+        series: CNseries
+      profileMode:
+        enabled: true
+        title: 泽华
+        imageUrl: "/img/IMG_zehua.PNG" # Replace with your local image path
+        imageTitle: ProfileMode image
+        # imageWidth: 120
+        # imageHeight: 120
+        subtitle: "📈 信号处理 | 🎲 概率统计 | 🤖 机器学习 | 🚀 控制系统"
+        buttons:
+          - name: 📈  信号处理
+            url: posts/signal_cn
+          - name: 🎲  概率统计
+            url: posts/probability_cn  
+          - name: 🤖  机器学习
+            url: posts/MachineLearning_cn
 
 outputs:
   home:
@@ -119,8 +115,8 @@ outputs:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  description: "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
-  author: Theme PaperMod
+  description: "Zehua - https://zehua716.github.io"
+  author: Zehua
   # author: ["Me", "You"] # multiple authors
 
   defaultTheme: auto
@@ -155,27 +151,18 @@ params:
   homeInfoParams:
     Title: "PaperMod's Demo"
     Content: >
-      👋 Welcome to demo page of Hugo's theme PaperMod!
+    
 
-      - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX.
-
-      - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media .
-
-      - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3).
-
-  socialIcons:
-    - name: github
-      title: View Source on Github
-      url: "https://github.com/adityatelange/hugo-PaperMod"
-    - name: Discord
-      title: Join discord community
-      url: "https://discord.gg/ahpmTvhVmp"
-    - name: X
-      title: Share PaperMod on X/Twitter
-      url: "https://x.com/intent/tweet/?text=Checkout%20Hugo%20PaperMod%20%E2%9C%A8%0AA%20fast,%20clean,%20responsive%20Hugo%20theme.&url=https://github.com/adityatelange/hugo-PaperMod&hashtags=Hugo,PaperMod"
-    - name: KoFi
-      title: Buy me a Ko-Fi :)
-      url: "https://ko-fi.com/adityatelange"
+#  socialIcons:
+#    - name: github
+#      title: View Source on Github
+#      url: "https://github.com/zehua716/Zehua716.github.io"
+#    - name: phone
+#      title: Call me
+#      url: "tel:+330744770930"
+#    - name: email
+#      title: Send email
+#      url: "mailto:www18353566288@163.com"
 
   editPost:
     URL: "https://github.com/zehua716/Zehua716.github.io/tree/main/content"

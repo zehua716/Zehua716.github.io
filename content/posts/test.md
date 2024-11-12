@@ -22,3 +22,5 @@ tst ashjkashlkjash jk hj
 $$
 U_i = U_1 + U_0
 $$
+![TP1_1](/img/Problem_inverse/TP1/TP1_1.png)
+
