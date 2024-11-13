@@ -12,7 +12,51 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://zehua716.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://zehua716.github.io/posts/signal_cn/%E6%89%93%E5%8D%B0%E5%90%8E%E5%88%A0%E9%99%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://zehua716.github.io/posts/signal_cn/%E6%89%93%E5%8D%B0%E5%90%8E%E5%88%A0%E9%99%A4/</guid>
+      <description>&lt;p&gt;L&amp;rsquo;objectif de VAE est de maximiser $ P(x)$&lt;/p&gt;
+&lt;p&gt;Pour simplifier les calculs, prenez le logarithme $\log P(X)$&lt;br&gt;
+$$
+\log P(X) = \log \int P(X, Z) , dZ
+$$
+En raison de la difficulté  à résoudre, on introduite une distribution auxiliaire Q(Z|X)
+$$
+\log P(X) = \log \int P(X, Z) \frac{Q(Z)}{Q(Z)} , dZ
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\log P(X) = \log \mathbb{E}_{Q(Z)} \left[ \frac{P(X, Z)}{Q(Z)} \right]
+$$&lt;/p&gt;
+&lt;p&gt;Faire passer $\log $ à travers l&amp;rsquo;intégrale, à travers l&amp;rsquo;espérance:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://zehua716.github.io/posts/signal_cn/%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%BC%94%E8%AE%B2%E5%86%85%E5%AE%B9/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://zehua716.github.io/posts/signal_cn/%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%BC%94%E8%AE%B2%E5%86%85%E5%AE%B9/</guid>
+      <description>&lt;p&gt;第三次演讲内容&lt;/p&gt;
+&lt;p&gt;VAE 的目标是通过最大化  $\log P(X)$  来优化模型。其中的log 是通常对概率取对数，是为了方便计算。因此， $\log P(X)$表示观测数据的对数边际似然。&lt;/p&gt;
+&lt;p&gt;直接计算  $\log P(X)$ 通常非常复杂，因为积分 $\int P(X, Z) dZ$ 可能没有解析解。
+$$
+\log P(X) = \log \int P(X, Z) , dZ
+$$
+$ P(X, Z)$ ：联合分布，表示数据 X 和隐变量 Z 的联合概率。&lt;/p&gt;
+&lt;p&gt;因此，VAE 采用变分推断的方法，引入一个可近似的分布 Q(Z|X) 来辅助计算。
+$$
+\log P(X) = \log \int P(X, Z) \frac{Q(Z)}{Q(Z)} , dZ
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\log P(X) = \log \mathbb{E}_{Q(Z)} \left[ \frac{P(X, Z)}{Q(Z)} \right]
+$$&lt;/p&gt;
+&lt;p&gt;其中
+$$
+\mathbb{E}_{Q(Z)} \left[ \frac{P(X, Z)}{Q(Z)} \right] = \int \frac{P(X, Z)}{Q(Z)} Q(Z) , dZ
+$$
+其中$Q(Z)$是分布	 $ \mathbb{E}{Q(Z)}[\cdot]$  表示对 Q(Z) 的期望。&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
