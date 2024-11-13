@@ -5,9 +5,9 @@ date: "2024-11-05T16:25:17+01:00"
 lastmod: "2024-11-06T17:12:35+08:00"
 lang: "zh"
 draft: false
-summary: "第二次实验内容"
-description: ""
-tags: ["信号处理","概率统计"]
+summary: "继续扩展反问题中的Wiener-Hunt方法，主要关注于超参数的自动调节。通过贝叶斯解释，介绍了误差分布与信号分布的建模，详细阐述了马尔可夫链蒙特卡洛（MCMC）方法中的Gibbs采样算法"
+description: "第二次实验内容"
+tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 # categories: "posts"
 # cover:
 #     image: "images/.jpg"
