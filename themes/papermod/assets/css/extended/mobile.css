@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+    .toc {
+        display: none; /* 隐藏目录以节省空间 */
+    }
+    .main {
+        margin-left: 0; /* 移除左边距 */
+        max-width: 100%; /* 内容填满屏幕宽度 */
+        padding: 20px; /* 添加适当的内边距 */
+    }
+    body {
+        font-size: 14px; /* 调整字体大小以适应小屏幕 */
+        line-height: 1.6; /* 增加行高，提升阅读体验 */
+    }
+}
