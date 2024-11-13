@@ -4,6 +4,7 @@ title: "3D Reconstruction Theory"
 date: "2024-10-21T16:25:17+01:00"
 lastmod: "2024-11-12T17:12:35+08:00"
 # draft: false
+lang: "en"
 summary: "In the field of computer vision within artificial intelligence, the subject focuses on theoretical topics including camera model calibration, homography estimation, epipolar geometry, bundle adjustment, etc., to achieve applications such as image calibration, stitching, and bundle calibration."
 description: "Course notes, for personal study and review only."
 tags: ["Image Processing", "Computer Vision"]
@@ -1394,9 +1395,7 @@ We can simply simplify the above cost function to:
 ​	3.	**Linear Least Squares:**
 
 $$
-
 L_k(d_k) = \sum_{i=1}^{N} \left| f_i(x_k) + \mathbf{J}_i(x_k) \cdot d_k \right|_2^2
-
 $$
 
 
