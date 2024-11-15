@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>tags on Home</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://zehua716.github.io/tags/</link>
     <description>Recent content in tags on Home</description>
     <image>
       <title>Home</title>
-      <url>http://localhost:1313/images/papermod-cover.png</url>
-      <link>http://localhost:1313/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate>Tue, 12 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tst</title>
-      <link>http://localhost:1313/tags/tst/</link>
+      <link>https://zehua716.github.io/tags/tst/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/tags/tst/</guid>
+      <guid>https://zehua716.github.io/tags/tst/</guid>
       <description></description>
     </item>
     <item>
       <title>Computer Vision</title>
-      <link>http://localhost:1313/tags/computer-vision/</link>
+      <link>https://zehua716.github.io/tags/computer-vision/</link>
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/tags/computer-vision/</guid>
+      <guid>https://zehua716.github.io/tags/computer-vision/</guid>
       <description></description>
     </item>
     <item>
       <title>Image Processing</title>
-      <link>http://localhost:1313/tags/image-processing/</link>
+      <link>https://zehua716.github.io/tags/image-processing/</link>
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/tags/image-processing/</guid>
+      <guid>https://zehua716.github.io/tags/image-processing/</guid>
       <description></description>
     </item>
   </channel>

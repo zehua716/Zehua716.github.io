@@ -2,136 +2,134 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://zehua716.github.io/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/"
+                href="https://zehua716.github.io/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="https://zehua716.github.io/"
                 />
   </url><url>
-    <loc>http://localhost:1313/search/</loc>
+    <loc>https://zehua716.github.io/search/</loc>
     <lastmod>2024-11-06T16:57:24+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/search/"
+                href="https://zehua716.github.io/zh/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/search/"
+                href="https://zehua716.github.io/search/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/machinelearning/</loc>
+    <loc>https://zehua716.github.io/posts/machinelearning/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://zehua716.github.io/posts/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/posts/"
+                href="https://zehua716.github.io/zh/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/posts/"
+                href="https://zehua716.github.io/posts/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/signal/</loc>
+    <loc>https://zehua716.github.io/posts/signal/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/probability/</loc>
+    <loc>https://zehua716.github.io/posts/probability/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://zehua716.github.io/tags/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/"
+                href="https://zehua716.github.io/zh/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/"
+                href="https://zehua716.github.io/tags/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/tst/</loc>
+    <loc>https://zehua716.github.io/tags/tst/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/tst/"
+                href="https://zehua716.github.io/zh/tags/tst/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/tst/"
+                href="https://zehua716.github.io/tags/tst/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/machinelearning/test/</loc>
+    <loc>https://zehua716.github.io/posts/machinelearning/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/probability/test/</loc>
+    <loc>https://zehua716.github.io/posts/probability/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/signal/test/</loc>
+    <loc>https://zehua716.github.io/posts/signal/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/signal/video-3d/</loc>
+    <loc>https://zehua716.github.io/posts/signal/video-3d/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/computer-vision/</loc>
+    <loc>https://zehua716.github.io/tags/computer-vision/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/image-processing/</loc>
+    <loc>https://zehua716.github.io/tags/image-processing/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://zehua716.github.io/about/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/about/"
+                href="https://zehua716.github.io/zh/about/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/about/"
+                href="https://zehua716.github.io/about/"
                 />
   </url><url>
-    <loc>http://localhost:1313/notes/</loc>
+    <loc>https://zehua716.github.io/notes/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/</loc>
-  </url><url>
-    <loc>http://localhost:1313/archives/</loc>
+    <loc>https://zehua716.github.io/archives/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/archives/"
+                href="https://zehua716.github.io/zh/archives/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/archives/"
+                href="https://zehua716.github.io/archives/"
                 />
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://zehua716.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/categories/"
+                href="https://zehua716.github.io/zh/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/categories/"
+                href="https://zehua716.github.io/categories/"
                 />
   </url>
 </urlset>

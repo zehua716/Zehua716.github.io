@@ -2,42 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>图像处理&#34; on 主页</title>
-    <link>http://localhost:1313/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+    <link>https://zehua716.github.io/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
     <description>Recent content in 图像处理&#34; on 主页</description>
     <image>
       <title>主页</title>
-      <url>http://localhost:1313/images/papermod-cover.png</url>
-      <link>http://localhost:1313/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>图像处理</title>
-      <link>http://localhost:1313/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</guid>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</guid>
       <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 完成</description>
-    </item>
-  </channel>
-</rss>
-率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。</description>
-    </item>
-    <item>
-      <title>反问题 TP1</title>
-      <link>http://localhost:1313/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</guid>
-      <description>图像恢复中去卷积问题</description>
-    </item>
-    <item>
-      <title>3D重建理论</title>
-      <link>http://localhost:1313/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</link>
-      <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
-      <guid>http://localhost:1313/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</guid>
-      <description>课程笔记，仅个人学习复习使用</description>
     </item>
   </channel>
 </rss>
