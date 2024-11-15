@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>图像处理&#34; on 主页</title>
+    <title>图像处理 on 主页</title>
     <link>https://zehua716.github.io/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
-    <description>Recent content in 图像处理&#34; on 主页</description>
+    <description>Recent content in 图像处理 on 主页</description>
     <image>
       <title>主页</title>
       <url>https://zehua716.github.io/images/papermod-cover.png</url>
@@ -12,14 +12,28 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 13 Nov 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="https://zehua716.github.io/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>图像处理</title>
-      <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
+      <title>傅里叶综合</title>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</link>
+      <pubDate>Mon, 11 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</guid>
+      <description>傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。</description>
+    </item>
+    <item>
+      <title>反问题 TP1</title>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</guid>
-      <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 完成</description>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</guid>
+      <description>图像恢复中去卷积问题</description>
+    </item>
+    <item>
+      <title>3D重建理论</title>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</link>
+      <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</guid>
+      <description>课程笔记，仅个人学习复习使用</description>
     </item>
   </channel>
 </rss>

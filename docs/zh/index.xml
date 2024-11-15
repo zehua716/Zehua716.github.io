@@ -57,6 +57,13 @@
       <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 完成</description>
     </item>
     <item>
+      <title>无约束优化</title>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</guid>
+      <description>本内容为Optimisation实验内容，所有代码和结果是和Darwin Wang Cheou 共同完成的</description>
+    </item>
+    <item>
       <title>3D重建理论</title>
       <link>https://zehua716.github.io/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</link>
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
