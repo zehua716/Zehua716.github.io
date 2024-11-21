@@ -10,5 +10,10 @@
     body {
         font-size: 14px; /* 调整字体大小以适应小屏幕 */
         line-height: 1.6; /* 增加行高，提升阅读体验 */
+        overflow-x: hidden; /* 禁止横向滚动 */
+    }
+    html {
+        overflow-x: hidden; /* 禁止横向滚动 */
+        width: 100%; /* 确保页面宽度适配视口 */
     }
 }

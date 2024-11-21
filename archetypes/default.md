@@ -1,6 +1,6 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
-author: "SunnyCloudYang"
+author: "Zehua"
 date: "{{ .Date }}"
 lastmod: "{{ .Date }}"
 draft: true
