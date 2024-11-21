@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>粒子最优滤波 | 主页</title>
+<meta name="keywords" content="信号处理, 滤波器">
+<meta name="description" content="课程">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b96e8bc8c70bcf7b95173c1860878f1709aaa2721b93bb3723a50ec6e016cc.css" integrity="sha256-s7lui8jHC897lRc8GGCHjxcJqqJyG5O7NyOlDsbgFsw=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://zehua716.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://zehua716.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://zehua716.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet"><meta property="og:title" content="粒子最优滤波" />
+<meta property="og:description" content="课程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/" />
+<meta property="og:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-19T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-19T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta name="twitter:title" content="粒子最优滤波"/>
+<meta name="twitter:description" content="课程"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://zehua716.github.io/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "信号处理",
+      "item": "https://zehua716.github.io/zh/posts/signal_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "粒子最优滤波",
+      "item": "https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "粒子最优滤波",
+  "name": "粒子最优滤波",
+  "description": "课程",
+  "keywords": [
+    "信号处理", "滤波器"
+  ],
+  "articleBody": "信号和系统的特性和建模 这部分内容在 随机信号处理(理论)中有更基础的推导\n信号和系统的特性描述 对于信号而言，其特性有 平稳性、周期性、功率谱密度等，它们用于建立信号的数学模型或描述其统计行为，并且我们通过自相关函数、傅里叶变换等方法提取信号的关键特性。对于系统建模而言，我们通过系统的时域或频域响应、系统的传递函数、极点与零点的分布等来提取系统等关键特性。\n下面我们从估计离散信号自相关函数开始着手刻画信号的 统计特性，自相关函数反映了信号在不同时间延迟下的相似性，描述信号随时间变化的内在规律，是随机过程建模的基础\n对于一个离散信号$ x(n) $，其自相关函数定义为： $$ R_{xx}(\\tau) = \\mathbb{E}[x(n) x^*(n-\\tau)] $$ 这个公式非常好，很漂亮，但是也有一个实际问题，我们采样得到的 $ x(n) $ 是有限样本序列，我们不可能对全体信号进行期望运算，因此需要通过有限样本（长度为 N ）来近似估计真实的自相关函数。\n期望操作 $\\mathbb{E}[\\cdot]$ 的近似可以用 样本均值 替代。注意，用样本均值替代期望的合理性基于大数定律：在样本量 $N \\to \\infty$ 时，样本均值会趋近于真实期望。因此我们最终给出:\n离散信号自相关函数的估计公式 $$ \\hat{R}{xx}(\\tau) = \\frac{1}{N - \\tau} \\sum{n=\\tau}^{N-1} x(n) \\cdot x^*(n-\\tau) $$\n$N$ 表示信号的长度（样本总数）。\n$\\frac{1}{N - \\tau}$ 是归一化因子，可以调节不同延迟下的影响。比如对于较大延迟 $\\tau$ ，我们可以减少数据样本数量，以此来平衡可能的误差。\n$ x(n)x^*(n-\\tau) $ 代表信号和它延迟版本的乘积，表示信号在某个延迟下的相似性\n$$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = \\frac{1}{N - \\tau} E\\left[ \\sum{n=\\tau}^{N-1} x(n) \\cdot x^*(n-\\tau) \\right] = R_{xx}(\\tau) $$\n估计的自相关函数 $\\hat{R}{xx}(\\tau)$ 的期望值等于真实的自相关函数 $R{xx}(\\tau) $。这说明，估计的平均值不会系统性地偏离真实值，也就是说明这个估计量是无偏的。再通俗来讲，$\\hat{R}{xx}(\\tau)$ 并不是每时每刻都等于真实的 $ R{xx}(\\tau) $ ，但是$\\hat{R}{xx}(\\tau)$ 所有时刻平均起来等于$ R{xx}(\\tau) $ ，即这个估计方法是没有偏差的，可以用的。严谨一点叫做，取期望消除了样本随机性对结果的影响，体现了估计量的长期统计行为。\n证明: $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = E\\left[ \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} x(n) x^*(n-\\tau) \\right] $$\n$$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} E\\left[ x(n) x^*(n-\\tau) \\right] $$\n在假设信号是平稳过程下，可以将真实自相关函数拿出来 $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} R_{xx}(\\tau) $$ 自相关函数 $R_{xx}(\\tau)$ 与时间 n 无关 $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = R{xx}(\\tau) \\cdot \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} 1 $$\n$$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = R{xx}(\\tau) $$\n证明了 $\\hat{R}_{xx}(\\tau)$ 是一个无偏估计量。\n根据上面我们已经证明的离散信号自相关函数的估计公式，我们有以下结论:\n假设 $x(n)$ 是一个平稳过程，那么对于任何固定的 $\\tau$，这个估计值的期望值就是 $R_{xx}(\\tau)$，即： $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = R{xx}(\\tau) $$\n自相关函数的边界情况 我们有原式: $$ \\hat{R}{xx}(\\tau) = \\frac{1}{N - \\tau} \\sum{n=\\tau}^{N-1} x(n) \\cdot x^(n-\\tau) $$ 我们考虑自相关估计的一个特殊情况：当 $\\tau = N-1$ 时，只有一个样本 $x(N-1) \\cdot x^(0)$，即 $$ \\hat{R}_{xx}(N-1) = x(N-1) \\cdot x^*(0) $$\n即，当 $\\tau = N-1$ 时，延迟值达到了信号长度的极限，仅剩下第一个样本 $x(0)$ 和最后一个样本 $x(N-1)$ ，自相关估计只能用这一个样本对来计算，没有太多统计意义。\n因此我们可以说，当滞后值接近于信号长度的时候，其得到的自相关值是不可靠的，因为样本数量不足。\n为此我们引入带偏估计\n在带偏估计中，归一化系数是固定的 $\\frac{1}{N}$ 而不是延迟 $\\tau$ 调整的 $\\frac{1}{N - \\tau}$，因此期望值会引入一个 $\\frac{N - \\tau}{N}$ 的系数，使得估计量不再是无偏的。\n带偏估计的自相关公式为： $$ \\hat{R}{xx}(\\tau) = \\frac{1}{N} \\sum{n=0}^{N-\\tau-1} x(n) x(n-\\tau) $$ 带偏估计的期望值为： $$ E[\\hat{R}{xx}(\\tau)] = \\frac{1}{N} \\sum{n=0}^{N-\\tau-1} E[x(n) x (n-\\tau)] $$ 假设 $x(n)$ 是平稳过程，则： $$ E[\\hat{R}{xx}(\\tau)] = \\frac{N-\\tau}{N} R{xx}(\\tau) $$ 因此我们可见，其带偏估计的偏差来源就是这个因子 $ \\frac{N-\\tau}{N} $ ，这一因子随着 $\\tau$ 增大而减小，表明滞后值较大时，带偏估计会系统性地低估自相关值，适用于大样本估计。并且在边界这种极端情况下，也能工作。\nHankel 矩阵定义\nHankel 矩阵是一种特殊的矩阵，其特点是 沿反对角线上的元素相同。在信号处理中，Hankel 矩阵是根据时间序列数据构造的，常用于表示信号的结构信息。\n给定时间序列 $x(0), x(1), x(2), \\ldots, x(N+L-1)$ ，Hankel 矩阵的定义为： $$ H = \\begin{bmatrix}\nx(0) \u0026 x(1) \u0026 x(2) \u0026 \\cdots \u0026 x(N-1) \\\nx(1) \u0026 x(2) \u0026 x(3) \u0026 \\cdots \u0026 x(N) \\\nx(2) \u0026 x(3) \u0026 x(4) \u0026 \\cdots \u0026 x(N+1) \\\n\\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\nx(L) \u0026 x(L+1) \u0026 x(L+2) \u0026 \\cdots \u0026 x(N+L-1)\n\\end{bmatrix} $$ 行的数量为 $L+1$ ，列的数量为 N 。\nHankel 矩阵通过序列 $x(k)$ 的排列捕获信号的时序相关特性，尤其适合分析平稳信号的统计特性，在自回归模型和功率谱估计中用于估计信号的自相关矩阵\n建模与傅里叶级数展开 离散时间信号 $x(n) $ 傅里叶级数展开公式 $$ x(n) = \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n} $$\n一个离散时间信号 $x(n)$ 可以通过复指数形式的傅里叶级数展开成不同频率成分的叠加。其中， $A_k$ 是第 $k$ 个频率分量的复幅度，包含信号在对应离散频率 $f_k$ 上的幅度和相位信息。\n假设信号 $x(n)$ 是一个平稳白噪声，即每个时刻的信号值彼此独立且服从相同的概率分布（通常为均值为零的高斯分布），即:\n零均值 $$ E[x(n)] = 0 $$\n自相关函数 $$ R_{xx}(\\tau) = \\sigma^2 \\delta(\\tau) $$\n表明信号的平均值为0，且信号在 $\\tau \\neq 0 $ 时无相关性，各时间点的值是独立的。\n频域特性 – 功率谱密度\n白噪声的功率谱密度 $S_{xx}(f)$ 是自相关函数 $R_{xx}(\\tau)$ 的傅里叶变换： $$ S_{xx}(f) = TF \\left( R_{xx}(\\tau) \\right) = \\sum_{\\tau} R_{xx}(\\tau) e^{-j 2 \\pi f \\tau} $$\n代入 $R_{xx}(\\tau) = \\sigma^2 \\delta(\\tau) $： $$ S_{xx}(f) = \\sum_{\\tau} \\sigma^2 \\delta(\\tau) e^{-j 2 \\pi f \\tau} $$ 因为 $\\delta(\\tau) 仅在 \\tau = 0$ 时非零： $$ S_{xx}(f) = \\sigma^2 $$ 白噪声的功率谱密度 $S_{xx}(f)$ 在所有频率 $ f$ 上都是均匀分布的常数 $\\sigma^2 $，即所有频率上的功率密度相同。换句话说，在白噪声的建模中，傅里叶级数揭示了白噪声信号在频域的均匀性，即没有特定的频率成分占主导。在时域上，自相关函数为 $\\sigma^2 \\delta(\\tau) $，说明信号无记忆、各时刻独立。在频域上，功率谱密度为常数 $ \\sigma^2 $，说明信号在所有频率上具有相同的能量。\n移动平均 (MA) 过程 移动平均（MA）过程是一种线性时间序列模型，其输出 x(n) 是当前和过去有限个输入信号 u(n) 的加权和： $$ x(n) = \\sum_{j=0}^{q} b_j \\cdot u(n - j) $$ ​\t•\t$u(n)$ 是输入信号，通常假设为白噪声，零均值 $ E[u(n)] = 0$ 和有限方差 $ E[u^2(n)] = \\sigma^2 $。\n​\t•\t$b_j$ 是 MA 过程的系数，表示每个输入信号对输出的权重。\n​\t•\t$q$ 是 MA 模型的阶数（滤波器的记忆长度），输出信号 $x(n)$ 依赖于 $u(n)$ 的过去 $q+1$ 个样本。\n输出信号 $x(n)$ 仅由有限长度的输入序列 $u(n), u(n-1), \\ldots, u(n-q)$ 决定，因此称为短期记忆过程（processus à mémoire courte）\n将输入信号 u(n) 和输出信号 x(n) 进行 z -变换，得： $$ X(z) = \\sum_{j=0}^q b_j \\cdot U(z) \\cdot z^{-j} $$ 因此得到了 MA 过程的传递函数： $$ H(z) = \\frac{X(z)}{U(z)} = \\sum_{j=0}^{q} b_j \\cdot z^{-j} $$ $$ H(z) = b_0 + b_1 z^{-1} + b_2 z^{-2} + \\cdots + b_q z^{-q} $$\n从传递函数中，我们可以看出，其 H(z) 仅包含有限项，滤波器只依赖于 q+1 个输入值，是一种 有限脉冲响应滤波器 (FIR Filter)。同时H(z) 是 z^{-1} 的多项式，假设具有 q 个零点 $z_1, z_2, \\ldots, z_q$，则H(z) 可以表示为： $$ H(z) = b_0 \\prod_{j=1}^{q} (1 - z_j z^{-1}) $$ 其中，$b_0$ 是增益常数，$z_j$ 是系统的零点。\nMA 模型的性质\n短期记忆性: ** MA 过程仅依赖于有限长度的输入信号，因此是短期记忆过程** **平稳性: ** 输入信号 u(n) 是平稳白噪声，且 MA 过程只进行加权和操作，因此 MA 模型生成的输出信号 x(n) 也是平稳过程 自相关函数: MA 过程的自相关函数 $R_{xx}(\\tau)$ 仅在 $|\\tau| \\leq q$ 时非零(只关联到过去 $q+1$ 个输入) **功率谱密度: ** MA 过程的功率谱密度是有限脉冲响应滤波器作用于白噪声谱密度的结果，由滤波器传递函数的模平方决定 $$ S_{xx}(f) = \\sigma^2 \\cdot |H(e^{j 2 \\pi f})|^2 $$\n零点的复数表示 零点 $z_j$ 是复平面上的点，通过复数的极坐标形式，可以将 $z_j$ 表示为： $$ z_j = |z| \\cdot e^{j \\varphi_j} $$\n$|z|$ 是零点的模，表示零点距离原点的距离。\n零点的位置决定了滤波器的频率特性：如果 $z_j$ 位于单位圆内，滤波器在这些频率附近的效果较弱，但系统稳定。 对于 FIR 滤波器，比如这里的MA 过程，零点可以位于复平面的任意位置，不影响系统稳定性。 对于反馈系统（如 AR 模型或 IIR 滤波器），零点和极点的位置必须位于单位圆内以保证稳定性。 $e^{j \\varphi_j}$ 是零点的相位部分，以复指数形式表示，它决定了零点在复平面上的角度。\n$\\varphi_j$ 是零点与复平面实轴正方向的夹角，称为零点的相位角。\n相位角 $\\varphi_j$ 的计算 $$ \\varphi_j = \\frac{2 \\pi f_j}{f_{\\text{ech}}} $$\n$f_j$ 是零点对应的频率\n$\\varphi_j$ 是一个归一化的角频率，表示零点在复平面上的位置角度（以弧度计）。\n因为物理频率 $f_j $ 的范围是 $[0, f_{\\text{ech}}/2]$ （奈奎斯特采样定理的限制），归一化角频率 $\\varphi_j$ 的范围为 $[0, \\pi]$ （对应复平面上的上半圆）。\n举个例子：\n假设采样频率 $f_{\\text{ech}} = 1000 , \\text{Hz}$ ，零点对应频率 $f_j = 250 , \\text{Hz} $，则： $$ \\varphi_j = \\frac{2 \\pi f_j}{f_{\\text{ech}}} = \\frac{2 \\pi \\cdot 250}{1000} = \\frac{\\pi}{2} $$ 零点的相位角 $\\varphi_j = \\pi/2$，表示零点位于单位圆上的正虚轴位置，滤波器在频率 $f_j = 250 , \\text{Hz}$ 附近会显著衰减信号。若零点在远离单位圆的位置，则对频率响应的影响较小。\n自回归 (AR) 过程 AR 模型定义 $$ x(n) = -\\sum_{i=1}^{p} a_i , x(n - i) + u(n) $$\n​\t•\t$p$ 是 AR 模型的阶数，即使用的过去值的数量。\n​\t•\t$a_i$ 是 AR 系数，代表过去信号对当前信号的影响。\n​\t•\t$u(n)$ 是输入噪声项，通常假设为白噪声。\n当前的输出 $x(n)$ 是基于过去 $p$ 个输出值的加权和，再加上一个随机噪声 $u(n)$。AR 模型用于描述时间序列数据的内在依赖性，广泛应用于信号处理和时间序列分析。\n传递函数 $$ H(z) = \\frac{1}{1 + \\sum_{i=1}^{p} a_i \\cdot z^{-i}} $$\n进行因式分解\n$$ H(z) = \\frac{1}{\\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n通过该传递函数，我们可以分析系统的频率响应和极点。\nAR 模型的极点分布在复平面上会影响频率响应。如果极点接近单位圆，系统在相应频率会出现较强的响应；如果极点远离单位圆，系统的响应则较弱。\nARMA (Auto-Regressive Moving Average) 模型 ARMA 模型定义 $$ x(n) = -\\sum_{i=1}^{p} a_i , x(n - i) + \\sum_{j=0}^{q} b_j , u(n - j) $$\n在 ARMA 模型中：\n​\t•\tAR 部分：自回归部分是由前 $p$ 个输出值 $x(n - i)$ 的加权和构成，其系数为 $a_i$。\n​\t•\tMA 部分：移动平均部分是由当前和前 $q$ 个输入噪声 $u(n - j)$ 的加权和构成，其系数为 $b_j$。\n​\t•\t该模型结合了自回归和移动平均的特性，使其能够更灵活地描述时间序列数据中的依赖关系。\nARMA 模型的传递函数可以通过 Z 变换表示为：\n$$ H(z) = \\frac{\\sum_{j=0}^{q} b_j \\cdot z^{-j}}{1 + \\sum_{i=1}^{p} a_i \\cdot z^{-i}} $$\n​\t•\t分子：分子部分是 MA 部分的 Z 变换形式，由 $b_j$ 系数和 $z^{-j}$ 项构成。\n​\t•\t分母：分母部分是 AR 部分的 Z 变换形式，由 $a_i$ 系数和 $z^{-i}$ 项构成。\n进一步将传递函数因式分解，得到：\n$$ H(z) = \\frac{\\prod_{j=0}^{q} (1 - z_j z^{-1})}{\\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n​\t•\t$z_j$ 表示 MA 部分的零点。\n​\t•\t$p_i$ 表示 AR 部分的极点。\n当零点接近单位圆时，滤波器会在相应频率范围内有显著衰减；当极点接近单位圆时，滤波器会在对应频率范围内有增强效果。\nARMA 滤波器的频率响应特性 即频谱图示为: 待补充\n二阶移动平均 (MA) 模型的自相关函数计算 简单的二阶移动平均信号模型 $x(n) = b_0 u(n) + b_1 u(n-1)$\n​\t•\t$u(n)$ 是输入信号，通常假设为白噪声。\n​\t•\t$b_0$ 和 $b_1$ 是滤波器的系数。\n这个模型表示当前的输出 $x(n)$ 是当前输入 $u(n)$ 和前一个输入 $u(n-1)$ 的加权和。\n均值计算 $E[x(n)] = b_0 E[u(n)] + b_1 E[u(n-1)] = 0$\n自相关函数：\n$$ R_{xx}(n_1, n_2) = E[x(n_1) \\cdot x^*(n_2)] $$\n$$ \\begin{align*}\nR_{xx}(n_1, n_2) \u0026= E\\left[ (b_0 u(n_1) + b_1 u(n_1 - 1))(b_0 u^(n_2) + b_1 u^(n_2 - 1)) \\right] \\\n\u0026= b_0^2 E[u(n_1) u^(n_2)] + b_0 b_1 E[u(n_1) u^(n_2 - 1)] \\\n\u0026\\quad + b_1 b_0 E[u(n_1 - 1) u^(n_2)] + b_1^2 E[u(n_1 - 1) u^(n_2 - 1)]\n\\end{align*} $$\n为了简化表达式，引入滞后变量 $\\tau = n_1 - n_2$\n$$ \\begin{align*}\nR_{xx}(\\tau) \u0026= b_0^2 R_{uu}(\\tau) + b_0 b_1 R_{uu}(\\tau + 1) + b_1 b_0 R_{uu}(\\tau - 1) + b_1^2 R_{uu}(\\tau) \\\n\u0026= (b_0^2 + b_1^2) R_{uu}(\\tau) + b_0 b_1 \\left( R_{uu}(\\tau + 1) + R_{uu}(\\tau - 1) \\right)\n\\end{align*} $$\n其中 $R_{uu}(\\tau)$ 来表示输入白噪声 $u(n)$ 的自相关函数\n​\t•\t第一部分 $(b_0^2 + b_1^2) R_{uu}(\\tau)$，表示信号 $x(n)$ 的自相关主项。\n​\t•\t第二部分 $b_0 b_1 \\left( R_{uu}(\\tau + 1) + R_{uu}(\\tau - 1) \\right)$，表示由于滞后一单位时间所带来的影响。\n假设 $u(n)$ 是白噪声过程，其自相关函数 $R_{uu}(\\tau) = \\sigma^2 \\delta(\\tau)$\n$$ R_{xx}(\\tau) = (b_0^2 + b_1^2) \\sigma^2 \\delta(\\tau) + b_0 b_1 \\sigma^2 \\left( \\delta(\\tau + 1) + \\delta(\\tau - 1) \\right) $$\n​\t•\t当 $\\tau = 0$ 时，$R_{xx}(0) = (b_0^2 + b_1^2) \\sigma^2$。\n​\t•\t当 $\\tau = \\pm 1$ 时，$R_{xx}(\\pm 1) = b_0 b_1 \\sigma^2$。\n假设 $x$ 是一个包含 $N$ 个样本的随机向量：\n$$ x = \\begin{bmatrix} x_0 \\ x_1 \\ \\vdots \\ x_{N-1} \\end{bmatrix} $$\n每个元素 $x_i$ 是信号在不同时间的值。\n$x$ 的自相关矩阵 $E(x \\cdot x^T)$，即：\n$$ E(x \\cdot x^T) = E \\left( \\begin{bmatrix} x_0 \\ x_1 \\ \\vdots \\ x_{N-1} \\end{bmatrix} \\begin{bmatrix} x_0 \u0026 x_1 \u0026 \\cdots \u0026 x_{N-1} \\end{bmatrix} \\right) $$\n$$ E(x \\cdot x^T) = \\sigma^2 \\begin{bmatrix}\nb_0^2 + b_1^2 \u0026 b_0 b_1 \u0026 0 \u0026 \\cdots \u0026 0 \\\nb_0 b_1 \u0026 b_0^2 + b_1^2 \u0026 b_0 b_1 \u0026 \\cdots \u0026 0 \\\n0 \u0026 b_0 b_1 \u0026 b_0^2 + b_1^2 \u0026 \\cdots \u0026 0 \\\n\\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\n0 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 b_0^2 + b_1^2\n\\end{bmatrix} $$\n​\t•\t主对角线上，每个元素都是 $(b_0^2 + b_1^2) \\sigma^2$，对应于 $R_{xx}(0)$。\n​\t•\t在上下相邻的次对角线上，每个元素是 $b_0 b_1 \\sigma^2$，对应于 $R_{xx}(\\pm 1)$。\n二阶移动平均模型 (MA(2)) 的自相关特性：\n​\t•\t主对角线表示信号本身的方差。\n​\t•\t次对角线反映了相邻时刻之间的相关性，由 $b_0$ 和 $b_1$ 决定。\n这种矩阵结构称为带状矩阵，仅在主对角线及其附近具有非零元素，适合表示具有有限“记忆”的信号模型。\nTUMA（时变移动平均模型） 是移动平均模型的时变版本，其中滤波器系数随时间变化。模型定义如下：\n$$ x(n) = \\sum_{j=0}^{p} b_j(n) \\cdot u(n-j) $$\n​\t•\t$b_j(n)$ 是时变的系数\n​\t•\t$p$ 是模型的阶数。\n这里的时变性体现在 $b_j(n)$ 随时间 $n$ 而变化，这使得 TUMA 模型能够捕捉信号的时变特性。TUMA 模型特别适用于描述具有非平稳性的信号，因为系数的时间依赖性使其能够更好地适应信号的变化。\n另一种形式：\n$$ x(n) = \\sum_{j=0}^{p} B_j(u(n)) \\quad \\text{这里不懂，可能抄错} $$\nTVAR（时变自回归模型） （Time-Variant Auto-Regressive）是自回归模型的时变版本\n$$ x(n) = -\\sum_{i=1}^{p} a_i(n) \\cdot x(n-i) + u(n) $$\n​\t•\t$a_i(n)$ 是时变的 AR 系数，它随时间 $n$ 变化。\n​\t•\t$p$ 是模型的阶数。\n定义了系数 $a_i(n)$ 的更新规则：\n​\t1.\t第一种形式\n$$ a_i(n) = a_i(n-1) + N(n) $$\n其中 $N(n)$ 是一个BBGC 独立于 $u(n)$\n​\t2.\t系数 $a_i(n)$ 还可以写成如下形式：\n$$ a_i(n) = \\sum_{j} \\beta_{ij} b_j(n) $$\n这意味着 $a_i(n)$ 可以通过一组基函数 $b_j(n)$ 的线性组合来表示，其中 $\\beta_{ij}$ 是权重。这种表示允许我们用基函数表示时变系数，从而降低模型的复杂度。\n最终多维状态向量形式\n$$ \\underline{x}(n) = -\\sum_{i=1}^{p} A_i , x(n-i) + u(n) $$\n​\t•\t$A_i$ 不再是单一标量，而是一个矩阵系数\n长记忆过程（Processus à mémoire longue） 的模型 使用分数阶积分来模拟长记忆的白噪声\n滤波器的传递函数 $H(z)$ 定义为：\n$$ H(z) = \\frac{X(z)}{U(z)} = (1 - z^{-1})^{-d} $$\n功率谱密度计算\n$$ \\text{DSP}_x(f) = |H(z)|^2 \\cdot \\sigma_u^2 $$\n​\t•\t$\\sigma_u^2$ 是输入白噪声 $u(n)$ 的方差。\n​\t•\t将 $z$ 替换为 $e^{j 2 \\pi f / f_{\\text{ech}}}$，得到频率域的响应 $H(e^{j 2 \\pi f / f_{\\text{ech}}})$。\n代入 $H(z) = (1 - e^{-j 2 \\pi f / f_{\\text{ech}}})^{-d}$：\n$$ \\text{DSP}x(f) = \\left| \\frac{1}{(1 - e^{-j 2 \\pi f / f{\\text{ech}}})^d} \\right|^2 \\cdot \\sigma_u^2 $$\n$$ \\text{DSP}x(f) = \\frac{\\sigma_u^2}{\\left| e^{-j \\pi f / f{\\text{ech}}} \\cdot 2j \\sin\\left( \\frac{\\pi f}{f_{\\text{ech}}} \\right) \\right|^{2d}} $$\n化简得到：\n$$ \\text{DSP}x(f) = \\frac{\\sigma_u^2}{2^{2d} \\sin^{2d}\\left( \\frac{\\pi f}{f{\\text{ech}}} \\right)} $$\n这个公式表明，输出信号 $x(n)$ 的功率谱密度 $\\text{DSP}_x(f)$ 在频率 $f \\to 0$ 附近会趋于无穷大，这说明该系统具有长记忆性，低频成分较强。\nARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型 ARFIMA 模型的传递函数可以写为：\n$$ H(z) = \\frac{\\prod_{j=1}^{q} (1 - z_j z^{-1})}{(1 - z^{-1})^d \\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n​\t•\t分子部分：$\\prod_{j=1}^{q} (1 - z_j z^{-1})$ 表示 MA（移动平均）部分，它包含了零点 $z_j$。\n​\t•\t分母部分：\n​\t•\t$(1 - z^{-1})^d$ 表示分数阶积分项，通常 $d$ 为分数，用于引入长记忆效应。\n​\t•\t$\\prod_{i=1}^{p} (1 - p_i z^{-1})$ 表示 AR（自回归）部分，包含了极点 $p_i$。\nARFIMA 模型是一种结合了自回归、分数阶积分和移动平均的模型，适用于描述具有长记忆性质的时间序列。通过分数阶积分项 $(1 - z^{-1})^d$，模型能够捕捉时间序列的长记忆特性。\n非线性模型（Non-linear Model）\n一个与汽车模型相关的复杂动态过程\n这个模型可以用以下表达式表示：\n$$ x(n) = \\sum_{j=0}^{q} b_j u(n - j) + h(0, 0) u^2(n) + h(0, 1) u(n) u(n - 1) + h(0, 2) u(n) u(n - 2) + \\dots $$\n​\t•\t线性部分：$\\sum_{j=0}^{q} b_j u(n - j)$，这是传统的移动平均 (MA) 部分，表示系统对输入信号 $u(n)$ 的线性响应。\n​\t•\t非线性部分：包含 $u(n)$ 的高阶项，例如 $u^2(n)$、$u(n) u(n - 1)$ 等。\n​\t•\t$h(0, 0) u^2(n)$ 是输入 $u(n)$ 的平方项，代表了二次非线性。\n​\t•\t$h(0, 1) u(n) u(n - 1)$ 是输入和其滞后项的乘积，代表了跨时间的非线性耦合。\n​\t•\t高阶项继续扩展为更高次方和不同滞后项的组合。\n非线性项表示系统的响应不仅依赖于当前和过去的输入值，还依赖于这些输入值的非线性组合。\n更高阶的非线性项例如：\n$$ h(1, 0, 0) u^3(n) + h(0, 0, 1) u^2(n) u(n - 1) + \\dots $$\n对于一个信号 $x(n) = u^2(n)$\n$$ x(n) = \\cos^2\\left(2 \\pi n \\frac{f_0}{f_{\\text{ech}}}\\right) $$\n这个表达式是一个余弦平方信号，频率为 $f_0$（归一化到采样频率 $f_{\\text{ech}}$）。我们可以利用三角恒等式（使用欧拉公式）将其展开。\n已知 $\\cos^2(\\theta) = \\frac{1 + \\cos(2\\theta)}{2}$，同时将 $\\cos^2$ 转换为指数形式\n可以将 $x(n)$ 表达为：\n$$ x(n) = \\frac{e^{j 4 \\pi n \\frac{f_0}{f_{\\text{ech}}}} + 2 + e^{-j 4 \\pi n \\frac{f_0}{f_{\\text{ech}}}}}{4} $$\n矩阵形式的表示：\n$$ x(n) = \\begin{bmatrix}\nu(n) \u0026 u(n-1) \u0026 u(n-2) \u0026 \\dots \u0026 u(n-q) \u0026 u^2(n) \u0026 u(n) u(n-1) \u0026 u(n) u(n-2) \u0026 \\dots\n\\end{bmatrix}\n\\begin{bmatrix}\nb_0 \\\nb_1 \\\nb_2 \\\n\\vdots \\\nb_q \\\nh(0,0) \\\nh(0,1) \\\nh(0,2) \\\n\\vdots\n\\end{bmatrix} $$\n以下是估计部分\n两个不同类型：\n​\t1.\tPar bloc（分块估计） 将数据分成固定长度的块，然后在每个块上独立地计算所需的估计值\n​\t2.\tÉchantillon par échantillon（逐样本估计） 对每个采样点独立地进行估计，不进行分块\n估计模型 的输出信号 $y(n)$ 的形式：\n$$ y(n) = \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n} + b(n) $$\n​\t•\t$\\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n}$ 表示一系列复指数信号的叠加，每个信号的频率为 $f_k$，采样频率为 $f_{\\text{ech}}$。\n​\t•\t这里 $A_k$ 被视为一个随机变量 并且 $E[A_k] = 0$\n​\t•\t$b(n)$ 是一个噪声项，假设为白噪声。\n$$ E[y(n)] = 0 $$\n自相关函数 $R_{yy}(n_1, n_2) = E[y(n_1) y^*(n_2)]$\n$$ \\begin{align*}\nR_{yy}(n_1, n_2) \u0026= E \\left[ \\left( \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n_1} + b(n_1) \\right) \\left( \\sum_{l} A_l^* e^{-j 2 \\pi \\frac{f_l}{f_{\\text{ech}}} n_2} + b^*(n_2) \\right) \\right] \\\n\u0026= E \\left[ \\sum_{k} \\sum_{l} A_k A_l^* e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n_1} e^{-j 2 \\pi \\frac{f_l}{f_{\\text{ech}}} n_2} \\right] + E[b(n_1) b^(n_2)] \\end{align} $$\n噪声 $b(n)$ 是白噪声，且 $A_k$ 的均值为零并且彼此独立，这可以进一步简化为：\n$$ R_{yy}(n_1, n_2) = \\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} (n_1 - n_2)} + \\sigma_b^2 \\delta(n_1 - n_2) $$\n​\t•\t第一项 $\\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} \\tau}$ 表示信号部分的自相关，包含各个频率分量的贡献，其中 $\\tau = n_1 - n_2$。\n​\t•\t第二项 $\\sigma_b^2 \\delta(\\tau)$ 表示噪声部分的自相关，仅在 $\\tau = 0$ 时为非零。\n因此，最终的自相关函数表示为：\n$$ R_{yy}(\\tau) = \\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} \\tau} + \\sigma_b^2 \\delta(\\tau) $$\n定义向量 $\\underline{Y}$ 为：\n$$ \\underline{Y} = \\begin{bmatrix} y(n) \\ y(n+1) \\ \\vdots \\ y(n+N-1) \\end{bmatrix} $$\n自相关矩阵 $R_y$ 定义为：\n$$ R_y = E[\\underline{Y} \\cdot \\underline{Y}^H] $$\n​\t•\t$\\underline{Y}^H$ 是 $\\underline{Y}$ 的共轭转置（Hermitian 转置），在计算复数信号的自相关时特别重要。\n​\t•\t$R_y$ 是一个 $N \\times N$ 的矩阵。\n$$ R_y = \\begin{bmatrix}\nr_{yy}(0) \u0026 r_{yy}(-1) \u0026 \\dots \u0026 r_{yy}(-N+1) \\\nr_{yy}(1) \u0026 r_{yy}(0) \u0026 \\dots \u0026 r_{yy}(-N+2) \\\n\\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\nr_{yy}(N-1) \u0026 r_{yy}(N-2) \u0026 \\dots \u0026 r_{yy}(0)\n\\end{bmatrix} $$\n​\t•\t主对角线上的元素为 $r_{yy}(0)$，表示零滞后的自相关。\n​\t•\t次对角线上的元素为 $r_{yy}(\\pm 1)$，表示滞后为 $\\pm 1$ 的自相关。\n​\t•\t该矩阵具有 Toeplitz 结构，即每一条对角线上的元素相同。\n$$ \\underline{S} \\underline{S}^H = \\begin{bmatrix}\n1 \u0026 e^{-j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \u0026 \\cdots \u0026 e^{-j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}} \\\ne^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \u0026 1 \u0026 \\cdots \u0026 e^{-j 2 \\pi (N-2) \\frac{f_0}{f_{\\text{ech}}}} \\\n\\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\ne^{j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}} \u0026 e^{j 2 \\pi (N-2) \\frac{f_0}{f_{\\text{ech}}}} \u0026 \\cdots \u0026 1\n\\end{bmatrix} $$\n​\t•\t主对角线：所有元素都为 1，对应 $e^{j 2 \\pi \\cdot 0} = 1$。\n​\t•\t次对角线：依次为 $e^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}}$、$e^{j 2 \\pi \\cdot 2 \\frac{f_0}{f_{\\text{ech}}}}$，表示随着滞后增加的指数因子。\n​\t•\t共轭对称性：由于 $\\underline{S} \\underline{S}^H$ 是由 $\\underline{S}$ 和其共轭转置 $\\underline{S}^H$ 相乘得到，因此矩阵是共轭对称的，即 $(\\underline{S} \\underline{S}^H){i,j} = \\overline{(\\underline{S} \\underline{S}^H){j,i}}$。\n加上噪声项后，自相关矩阵可以表示为：\n$$ R_y = E[|A|^2] \\cdot \\underline{S} \\underline{S}^H + \\sigma_b^2 I_N $$\n​\t•\t信号部分 $E[|A|^2] \\cdot \\underline{S} \\underline{S}^H$：表示信号的自相关结构。\n​\t•\t噪声部分 $\\sigma_b^2 I_N$：均匀分布在对角线上，反映了白噪声的自相关性。\n矩阵 $\\underline{S}$ 表示为一个包含指数因子的向量：\n$$ \\underline{S} = \\begin{bmatrix}\n1 \\\ne^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \\\n\\vdots \\\ne^{j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}}\n\\end{bmatrix} $$\n$$ R_y = E[|A_1|^2] \\cdot \\underline{S} \\underline{S}^H + \\sigma_b^2 I_N $$\n$$ R_y \\underline{S} = E[|A|^2] \\cdot \\underline{S} (\\underline{S}^H \\underline{S}) + \\sigma_b^2 \\underline{S} $$\n设 $\\underline{S}^H \\underline{S}$ 值为 $N$（是一个标量）（范数平方）\n$$ = (N E[|A|^2] + \\sigma_b^2) \\underline{S} $$\n说明 $R_y$ 的一个特征值为 $N E[|A|^2] + \\sigma_b^2$\n假设 $\\underline{\\psi}_i \\perp \\underline{S}$\n也就是说，$\\underline{\\psi}_i$ 与 $\\underline{S}$ 正交。\n$$ \\underline{S}^T \\underline{\\psi}_i^* = 0 \\quad \\text{和} \\quad \\underline{S}^H \\underline{\\psi}_i = 0 $$\n$\\underline{\\psi}_i$ 属于 $R_y$ 的特征空间中，并且与 $\\underline{S}$ 的方向正交\n原式\n$$ R_y \\underline{\\psi}_i = E[|A|^2] \\cdot \\underline{S} \\underline{S}^H \\underline{\\psi}_i + \\sigma_b^2 \\underline{\\psi}_i = \\sigma_b^2 \\underline{\\psi}_i $$\n自相关矩阵在 $\\underline{\\psi}_i$ 方向上仅由噪声贡献，因为与信号成分 $\\underline{S}$ 正交，因此信号成分的部分会为零，留下的仅为噪声方差的贡献：\n$$ R_y \\underline{\\psi}_i = \\sigma_b^2 \\underline{\\psi}_i $$\n表明，可以通过正交特征向量来分离信号和噪声成分\n$3 \\times 3$ 特征向量的线性组合：\n$$ \\psi_3(0) \\cdot 1 + \\psi_3(1) \\cdot e^{j \\frac{2\\pi}{f_{\\text{ech}}}} + \\psi_3(2) \\cdot e^{-j \\frac{2\\pi}{f_{\\text{ech}}}} = 0 $$\n​\t•\t$\\psi_3(0)$、$\\psi_3(1)$、$\\psi_3(2)$ 是特征向量的各个分量。\n​\t•\t$e^{j \\frac{2\\pi}{f_{\\text{ech}}}}$ 和 $e^{-j \\frac{2\\pi}{f_{\\text{ech}}}}$ 表示复数指数因子，用于描述矩阵的频率特性。\n$$ z = e^{j \\frac{2\\pi}{f_{\\text{ech}}}} $$\n将 $z$ 代入后，表达式变为：\n$$ \\psi_3(0) + \\psi_3(1) \\cdot z^{-1} + \\psi_3(2) \\cdot z^{-2} = 0 $$\n",
+  "wordCount" : "2330",
+  "inLanguage": "zh",
+  "image": "https://zehua716.github.io/images/papermod-cover.png","datePublished": "2024-11-19T16:25:17+01:00",
+  "dateModified": "2024-11-19T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://zehua716.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://zehua716.github.io/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://zehua716.github.io/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://zehua716.github.io/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://zehua716.github.io/zh/">主页</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/signal_cn/">信号处理</a></div>
+    <h1 class="post-title entry-hint-parent">
+      粒子最优滤波
+    </h1>
+    <div class="post-meta"><span title='2024-11-19 16:25:17 +0100 CET'>十一月 19, 2024</span>&nbsp;·&nbsp;Zehua
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%bf%a1%e5%8f%b7%e5%92%8c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%89%b9%e6%80%a7%e5%92%8c%e5%bb%ba%e6%a8%a1" aria-label="信号和系统的特性和建模"><strong>信号和系统的特性和建模</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e4%bf%a1%e5%8f%b7%e5%92%8c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%89%b9%e6%80%a7%e6%8f%8f%e8%bf%b0" aria-label="信号和系统的特性描述"><strong>信号和系统的特性描述</strong></a></li>
+                    <li>
+                        <a href="#%e8%87%aa%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0%e7%9a%84%e8%be%b9%e7%95%8c%e6%83%85%e5%86%b5" aria-label="自相关函数的边界情况"><strong>自相关函数的边界情况</strong></a></li>
+                    <li>
+                        <a href="#%e5%bb%ba%e6%a8%a1%e4%b8%8e%e5%82%85%e9%87%8c%e5%8f%b6%e7%ba%a7%e6%95%b0%e5%b1%95%e5%bc%80" aria-label="建模与傅里叶级数展开"><strong>建模与傅里叶级数展开</strong></a></li>
+                    <li>
+                        <a href="#%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87-ma-%e8%bf%87%e7%a8%8b" aria-label="移动平均 (MA) 过程"><strong>移动平均 (MA) 过程</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e9%9b%b6%e7%82%b9%e7%9a%84%e5%a4%8d%e6%95%b0%e8%a1%a8%e7%a4%ba" aria-label="零点的复数表示"><strong>零点的复数表示</strong></a></li>
+                    <li>
+                        <a href="#%e7%9b%b8%e4%bd%8d%e8%a7%92-varphi_j-%e7%9a%84%e8%ae%a1%e7%ae%97" aria-label="相位角 $\varphi_j$ 的计算"><strong>相位角</strong> $\varphi_j$ <strong>的计算</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e8%87%aa%e5%9b%9e%e5%bd%92-ar-%e8%bf%87%e7%a8%8b" aria-label="自回归 (AR) 过程"><strong>自回归 (AR) 过程</strong></a><ul>
+                            
+                    <li>
+                        <a href="#ar-%e6%a8%a1%e5%9e%8b%e5%ae%9a%e4%b9%89" aria-label="AR 模型定义"><strong>AR 模型定义</strong></a></li>
+                    <li>
+                        <a href="#%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0" aria-label="传递函数"><strong>传递函数</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#arma-auto-regressive-moving-average-%e6%a8%a1%e5%9e%8b" aria-label="ARMA (Auto-Regressive Moving Average) 模型"><strong>ARMA (Auto-Regressive Moving Average) 模型</strong></a><ul>
+                            
+                    <li>
+                        <a href="#arma-%e6%a8%a1%e5%9e%8b%e5%ae%9a%e4%b9%89" aria-label="ARMA 模型定义"><strong>ARMA 模型定义</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8c%e9%98%b6%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87-ma-%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%87%aa%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0%e8%ae%a1%e7%ae%97" aria-label="二阶移动平均 (MA) 模型的自相关函数计算"><strong>二阶移动平均 (MA) 模型的自相关函数计算</strong></a></li>
+                    <li>
+                        <a href="#tuma%e6%97%b6%e5%8f%98%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87%e6%a8%a1%e5%9e%8b" aria-label="TUMA（时变移动平均模型）"><strong>TUMA（时变移动平均模型）</strong></a></li>
+                    <li>
+                        <a href="#tvar%e6%97%b6%e5%8f%98%e8%87%aa%e5%9b%9e%e5%bd%92%e6%a8%a1%e5%9e%8b" aria-label="TVAR（时变自回归模型）"><strong>TVAR（时变自回归模型）</strong></a></li>
+                    <li>
+                        <a href="#%e9%95%bf%e8%ae%b0%e5%bf%86%e8%bf%87%e7%a8%8bprocessus-%c3%a0-m%c3%a9moire-longue-%e7%9a%84%e6%a8%a1%e5%9e%8b" aria-label="长记忆过程（Processus à mémoire longue） 的模型"><strong>长记忆过程（Processus à mémoire longue）</strong> 的模型</a></li>
+                    <li>
+                        <a href="#arfima-autoregressive-fractionally-integrated-moving-average-%e6%a8%a1%e5%9e%8b" aria-label="ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型"><strong>ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型</strong></a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="信号和系统的特性和建模"><strong>信号和系统的特性和建模</strong><a hidden class="anchor" aria-hidden="true" href="#信号和系统的特性和建模">#</a></h2>
+<p>这部分内容在 随机信号处理(理论)中有更基础的推导</p>
+<h3 id="信号和系统的特性描述"><strong>信号和系统的特性描述</strong><a hidden class="anchor" aria-hidden="true" href="#信号和系统的特性描述">#</a></h3>
+<p>对于信号而言，其特性有 平稳性、周期性、功率谱密度等，它们用于建立信号的数学模型或描述其统计行为，并且我们通过自相关函数、傅里叶变换等方法提取信号的关键特性。对于系统建模而言，我们通过系统的时域或频域响应、系统的传递函数、极点与零点的分布等来提取系统等关键特性。</p>
+<p>下面我们从估计离散信号自相关函数开始着手刻画信号的 <strong>统计特性</strong>，自相关函数反映了信号在不同时间延迟下的相似性，描述信号随时间变化的内在规律，是随机过程建模的基础</p>
+<p>对于一个离散信号$ x(n) $，其自相关函数定义为：
+$$
+R_{xx}(\tau) = \mathbb{E}[x(n) x^*(n-\tau)]
+$$
+这个公式非常好，很漂亮，但是也有一个实际问题，我们采样得到的 $ x(n) $ 是有限样本序列，我们不可能对全体信号进行期望运算，因此需要通过有限样本（长度为 N ）来近似估计真实的自相关函数。</p>
+<p>期望操作 $\mathbb{E}[\cdot]$ 的近似可以用 <strong>样本均值</strong> 替代。注意，用样本均值替代期望的合理性基于大数定律：在样本量 $N \to \infty$ 时，样本均值会趋近于真实期望。因此我们最终给出:</p>
+<p><strong>离散信号自相关函数的估计公式</strong>
+$$
+\hat{R}<em>{xx}(\tau) = \frac{1}{N - \tau} \sum</em>{n=\tau}^{N-1} x(n) \cdot x^*(n-\tau)
+$$</p>
+<ul>
+<li>
+<p>$N$ 表示信号的长度（样本总数）。</p>
+</li>
+<li>
+<p>$\frac{1}{N - \tau}$ 是归一化因子，可以调节不同延迟下的影响。比如对于较大延迟 $\tau$ ，我们可以减少数据样本数量，以此来平衡可能的误差。</p>
+</li>
+<li>
+<p>$ x(n)x^*(n-\tau) $ 代表信号和它延迟版本的乘积，表示信号在某个延迟下的相似性</p>
+</li>
+</ul>
+<p>$$
+E\left[ \hat{R}<em>{xx}(\tau) \right] = \frac{1}{N - \tau} E\left[ \sum</em>{n=\tau}^{N-1} x(n) \cdot x^*(n-\tau) \right] = R_{xx}(\tau)
+$$</p>
+<p><strong>估计的自相关函数</strong> $\hat{R}{xx}(\tau)$  的期望值等于真实的自相关函数  $R{xx}(\tau) $。这说明，估计的平均值不会系统性地偏离真实值，也就是说明这个估计量是无偏的。再通俗来讲，$\hat{R}<em>{xx}(\tau)$ 并不是每时每刻都等于真实的 $ R</em>{xx}(\tau) $ ，但是$\hat{R}<em>{xx}(\tau)$ 所有时刻平均起来等于$ R</em>{xx}(\tau) $ ，即这个估计方法是没有偏差的，可以用的。严谨一点叫做，取期望消除了样本随机性对结果的影响，体现了估计量的<strong>长期统计行为</strong>。</p>
+<p>证明:
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = E\left[ \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} x(n) x^*(n-\tau) \right]
+$$</p>
+<p>$$
+E\left[ \hat{R}{xx}(\tau) \right] = \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} E\left[ x(n) x^*(n-\tau) \right]
+$$</p>
+<p>在假设信号是平稳过程下，可以将真实自相关函数拿出来
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} R_{xx}(\tau)
+$$
+自相关函数 $R_{xx}(\tau)$ 与时间 n 无关
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = R{xx}(\tau) \cdot \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} 1
+$$</p>
+<p>$$
+E\left[ \hat{R}{xx}(\tau) \right] = R{xx}(\tau)
+$$</p>
+<p>证明了 $\hat{R}_{xx}(\tau)$ 是一个无偏估计量。</p>
+<p>根据上面我们已经证明的离散信号自相关函数的估计公式，我们有以下结论:</p>
+<p>假设 $x(n)$ 是一个平稳过程，那么对于任何固定的 $\tau$，这个估计值的期望值就是 $R_{xx}(\tau)$，即：
+$$
+E\left[ \hat{R}<em>{xx}(\tau) \right] = R</em>{xx}(\tau)
+$$</p>
+<h3 id="自相关函数的边界情况"><strong>自相关函数的边界情况</strong><a hidden class="anchor" aria-hidden="true" href="#自相关函数的边界情况">#</a></h3>
+<p>我们有原式:
+$$
+\hat{R}<em>{xx}(\tau) = \frac{1}{N - \tau} \sum</em>{n=\tau}^{N-1} x(n) \cdot x^<em>(n-\tau)
+$$
+我们考虑自相关估计的一个特殊情况：当 $\tau = N-1$ 时，只有一个样本 $x(N-1) \cdot x^</em>(0)$，即
+$$
+\hat{R}_{xx}(N-1) = x(N-1) \cdot x^*(0)
+$$</p>
+<p>即，当 $\tau = N-1$ 时，延迟值达到了信号长度的极限，仅剩下第一个样本 $x(0)$ 和最后一个样本 $x(N-1)$ ，自相关估计只能用这一个样本对来计算，没有太多统计意义。</p>
+<p>因此我们可以说，当滞后值接近于信号长度的时候，其得到的自相关值是不可靠的，因为样本数量不足。</p>
+<p>为此我们引入<strong>带偏估计</strong></p>
+<p>在带偏估计中，归一化系数是固定的 $\frac{1}{N}$ 而不是延迟 $\tau$ 调整的 $\frac{1}{N - \tau}$，因此期望值会引入一个 $\frac{N - \tau}{N}$ 的系数，使得估计量不再是无偏的。</p>
+<p>带偏估计的自相关公式为：
+$$
+\hat{R}<em>{xx}(\tau) = \frac{1}{N} \sum</em>{n=0}^{N-\tau-1} x(n) x(n-\tau)
+$$
+带偏估计的期望值为：
+$$
+E[\hat{R}<em>{xx}(\tau)] = \frac{1}{N} \sum</em>{n=0}^{N-\tau-1} E[x(n) x (n-\tau)]
+$$
+假设 $x(n)$ 是平稳过程，则：
+$$
+E[\hat{R}<em>{xx}(\tau)] = \frac{N-\tau}{N} R</em>{xx}(\tau)
+$$
+因此我们可见，其带偏估计的偏差来源就是这个因子 $ \frac{N-\tau}{N} $ ，这一因子随着 $\tau$ 增大而减小，表明滞后值较大时，带偏估计会系统性地低估自相关值，适用于大样本估计。并且在边界这种极端情况下，也能工作。</p>
+<p>Hankel 矩阵定义</p>
+<p>Hankel 矩阵是一种特殊的矩阵，其特点是 <strong>沿反对角线上的元素相同</strong>。在信号处理中，Hankel 矩阵是根据时间序列数据构造的，常用于表示信号的结构信息。</p>
+<p>给定时间序列 $x(0), x(1), x(2), \ldots, x(N+L-1)$ ，Hankel 矩阵的定义为：
+$$
+H = \begin{bmatrix}</p>
+<p>x(0) &amp; x(1) &amp; x(2) &amp; \cdots &amp; x(N-1) \</p>
+<p>x(1) &amp; x(2) &amp; x(3) &amp; \cdots &amp; x(N) \</p>
+<p>x(2) &amp; x(3) &amp; x(4) &amp; \cdots &amp; x(N+1) \</p>
+<p>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \</p>
+<p>x(L) &amp; x(L+1) &amp; x(L+2) &amp; \cdots &amp; x(N+L-1)</p>
+<p>\end{bmatrix}
+$$
+行的数量为 $L+1$ ，列的数量为 N 。</p>
+<p>Hankel 矩阵通过序列 $x(k)$ 的排列捕获信号的时序相关特性，尤其适合分析平稳信号的统计特性，在自回归模型和功率谱估计中用于估计信号的自相关矩阵</p>
+<h3 id="建模与傅里叶级数展开"><strong>建模与傅里叶级数展开</strong><a hidden class="anchor" aria-hidden="true" href="#建模与傅里叶级数展开">#</a></h3>
+<p><strong>离散时间信号 $x(n) $ 傅里叶级数展开公式</strong>
+$$
+x(n) = \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n}
+$$</p>
+<p>一个离散时间信号 $x(n)$ 可以通过复指数形式的傅里叶级数展开成不同频率成分的叠加。其中， $A_k$ 是第 $k$ 个频率分量的复幅度，包含信号在对应离散频率 $f_k$ 上的幅度和相位信息。</p>
+<p>假设信号 $x(n)$ 是一个<strong>平稳白噪声</strong>，即每个时刻的信号值彼此独立且服从相同的概率分布（通常为均值为零的高斯分布），即:</p>
+<p><strong>零均值</strong>
+$$
+E[x(n)] = 0
+$$</p>
+<p><strong>自相关函数</strong>
+$$
+R_{xx}(\tau) = \sigma^2 \delta(\tau)
+$$</p>
+<p>表明信号的平均值为0，且信号在 $\tau \neq 0 $ 时无相关性，各时间点的值是独立的。</p>
+<p><strong>频域特性 &ndash; 功率谱密度</strong></p>
+<p>白噪声的功率谱密度 $S_{xx}(f)$ 是自相关函数 $R_{xx}(\tau)$ 的傅里叶变换：
+$$
+S_{xx}(f) = TF \left( R_{xx}(\tau) \right) = \sum_{\tau} R_{xx}(\tau) e^{-j 2 \pi f \tau}
+$$</p>
+<p>代入 $R_{xx}(\tau) = \sigma^2 \delta(\tau) $：
+$$
+S_{xx}(f) = \sum_{\tau} \sigma^2 \delta(\tau) e^{-j 2 \pi f \tau}
+$$
+因为 $\delta(\tau) 仅在 \tau = 0$ 时非零：
+$$
+S_{xx}(f) = \sigma^2
+$$
+白噪声的功率谱密度 $S_{xx}(f)$ 在所有频率 $ f$ 上都是均匀分布的常数 $\sigma^2 $，即所有频率上的功率密度相同。换句话说，在白噪声的建模中，傅里叶级数揭示了白噪声信号在频域的均匀性，即没有特定的频率成分占主导。在时域上，自相关函数为 $\sigma^2 \delta(\tau) $，说明信号无记忆、各时刻独立。在频域上，功率谱密度为常数 $ \sigma^2 $，说明信号在所有频率上具有相同的能量。</p>
+<h3 id="移动平均-ma-过程"><strong>移动平均 (MA) 过程</strong><a hidden class="anchor" aria-hidden="true" href="#移动平均-ma-过程">#</a></h3>
+<p>移动平均（MA）过程是一种线性时间序列模型，其输出 x(n) 是当前和过去有限个输入信号 u(n) 的加权和：
+$$
+x(n) = \sum_{j=0}^{q} b_j \cdot u(n - j)
+$$
+​	•	$u(n)$ 是输入信号，通常假设为白噪声，零均值 $ E[u(n)] = 0$ 和有限方差 $ E[u^2(n)] = \sigma^2 $。</p>
+<p>​	•	$b_j$ 是 MA 过程的系数，表示每个输入信号对输出的权重。</p>
+<p>​	•	$q$ 是 MA 模型的阶数（滤波器的记忆长度），输出信号 $x(n)$ 依赖于 $u(n)$ 的过去 $q+1$ 个样本。</p>
+<p>输出信号 $x(n)$ 仅由有限长度的输入序列 $u(n), u(n-1), \ldots, u(n-q)$ 决定，因此称为<strong>短期记忆过程</strong>（processus à mémoire courte）</p>
+<p>将输入信号 u(n) 和输出信号 x(n) 进行 z -变换，得：
+$$
+X(z) = \sum_{j=0}^q b_j \cdot U(z) \cdot z^{-j}
+$$
+因此得到了 MA 过程的传递函数：
+$$
+H(z) = \frac{X(z)}{U(z)} = \sum_{j=0}^{q} b_j \cdot z^{-j}
+$$
+$$
+H(z) = b_0 + b_1 z^{-1} + b_2 z^{-2} + \cdots + b_q z^{-q}
+$$</p>
+<p>从传递函数中，我们可以看出，其 H(z) 仅包含有限项，滤波器只依赖于 q+1 个输入值，是一种 有限脉冲响应滤波器 (FIR Filter)。同时H(z) 是 z^{-1} 的多项式，假设具有 q 个零点 $z_1, z_2, \ldots, z_q$，则H(z) 可以表示为：
+$$
+H(z) = b_0 \prod_{j=1}^{q} (1 - z_j z^{-1})
+$$
+其中，$b_0$ 是增益常数，$z_j$ 是系统的零点。</p>
+<p><strong>MA 模型的性质</strong></p>
+<ul>
+<li><strong>短期记忆性: ** MA 过程仅依赖于有限长度的输入信号，因此是</strong>短期记忆过程**</li>
+<li>**平稳性: ** 输入信号 u(n) 是平稳白噪声，且 MA 过程只进行加权和操作，因此 MA 模型生成的输出信号 x(n) 也是平稳过程</li>
+<li><strong>自相关函数:</strong> MA 过程的自相关函数 $R_{xx}(\tau)$ 仅在 $|\tau| \leq q$ 时非零(只关联到过去 $q+1$ 个输入)</li>
+<li>**功率谱密度: ** MA 过程的功率谱密度是有限脉冲响应滤波器作用于白噪声谱密度的结果，由滤波器传递函数的模平方决定</li>
+</ul>
+<p>$$
+S_{xx}(f) = \sigma^2 \cdot |H(e^{j 2 \pi f})|^2
+$$</p>
+<h4 id="零点的复数表示"><strong>零点的复数表示</strong><a hidden class="anchor" aria-hidden="true" href="#零点的复数表示">#</a></h4>
+<p>零点 $z_j$ 是复平面上的点，通过复数的极坐标形式，可以将 $z_j$ 表示为：
+$$
+z_j = |z| \cdot e^{j \varphi_j}
+$$</p>
+<ul>
+<li>
+<p>$|z|$ 是零点的模，表示零点距离原点的距离。</p>
+<ul>
+<li><strong>零点的位置决定了滤波器的频率特性</strong>：如果 $z_j$ 位于单位圆内，滤波器在这些频率附近的效果较弱，但系统稳定。</li>
+<li>对于 FIR 滤波器，比如这里的MA 过程，零点可以位于复平面的任意位置，不影响系统稳定性。</li>
+<li>对于反馈系统（如 AR 模型或 IIR 滤波器），零点和极点的位置必须位于单位圆内以保证稳定性。</li>
+</ul>
+</li>
+<li>
+<p>$e^{j \varphi_j}$ 是零点的相位部分，以复指数形式表示，它决定了零点在复平面上的角度。</p>
+</li>
+<li>
+<p>$\varphi_j$ 是零点与复平面实轴正方向的夹角，称为零点的<strong>相位角</strong>。</p>
+</li>
+</ul>
+<h4 id="相位角-varphi_j-的计算"><strong>相位角</strong> $\varphi_j$ <strong>的计算</strong><a hidden class="anchor" aria-hidden="true" href="#相位角-varphi_j-的计算">#</a></h4>
+<p>$$
+\varphi_j = \frac{2 \pi f_j}{f_{\text{ech}}}
+$$</p>
+<ul>
+<li>
+<p>$f_j$ 是零点对应的频率</p>
+</li>
+<li>
+<p>$\varphi_j$ 是一个归一化的角频率，表示零点在复平面上的位置角度（以弧度计）。</p>
+</li>
+</ul>
+<p>因为物理频率 $f_j $ 的范围是 $[0, f_{\text{ech}}/2]$ （奈奎斯特采样定理的限制），归一化角频率 $\varphi_j$ 的范围为 $[0, \pi]$ （对应复平面上的上半圆）。</p>
+<p>举个例子：</p>
+<p>假设采样频率 $f_{\text{ech}} = 1000 , \text{Hz}$ ，零点对应频率 $f_j = 250 , \text{Hz} $，则：
+$$
+\varphi_j = \frac{2 \pi f_j}{f_{\text{ech}}} = \frac{2 \pi \cdot 250}{1000} = \frac{\pi}{2}
+$$
+零点的相位角 $\varphi_j = \pi/2$，表示零点位于单位圆上的正虚轴位置，滤波器在频率 $f_j = 250 , \text{Hz}$ 附近会显著衰减信号。若零点在远离单位圆的位置，则对频率响应的影响较小。</p>
+<h3 id="自回归-ar-过程"><strong>自回归 (AR) 过程</strong><a hidden class="anchor" aria-hidden="true" href="#自回归-ar-过程">#</a></h3>
+<h4 id="ar-模型定义"><strong>AR 模型定义</strong><a hidden class="anchor" aria-hidden="true" href="#ar-模型定义">#</a></h4>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i , x(n - i) + u(n)
+$$</p>
+<p>​	•	$p$ 是 AR 模型的阶数，即使用的过去值的数量。</p>
+<p>​	•	$a_i$ 是 AR 系数，代表过去信号对当前信号的影响。</p>
+<p>​	•	$u(n)$ 是输入噪声项，通常假设为白噪声。</p>
+<p>当前的输出 $x(n)$ 是基于过去 $p$ 个输出值的加权和，再加上一个随机噪声 $u(n)$。AR 模型用于描述时间序列数据的内在依赖性，广泛应用于信号处理和时间序列分析。</p>
+<h4 id="传递函数"><strong>传递函数</strong><a hidden class="anchor" aria-hidden="true" href="#传递函数">#</a></h4>
+<p>$$
+H(z) = \frac{1}{1 + \sum_{i=1}^{p} a_i \cdot z^{-i}}
+$$</p>
+<p><strong>进行因式分解</strong></p>
+<p>$$
+H(z) = \frac{1}{\prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>通过该传递函数，我们可以分析系统的频率响应和极点。</p>
+<p>AR 模型的极点分布在复平面上会影响频率响应。如果极点接近单位圆，系统在相应频率会出现较强的响应；如果极点远离单位圆，系统的响应则较弱。</p>
+<h3 id="arma-auto-regressive-moving-average-模型"><strong>ARMA (Auto-Regressive Moving Average) 模型</strong><a hidden class="anchor" aria-hidden="true" href="#arma-auto-regressive-moving-average-模型">#</a></h3>
+<h4 id="arma-模型定义"><strong>ARMA 模型定义</strong><a hidden class="anchor" aria-hidden="true" href="#arma-模型定义">#</a></h4>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i , x(n - i) + \sum_{j=0}^{q} b_j , u(n - j)
+$$</p>
+<p>在 ARMA 模型中：</p>
+<p>​	•	<strong>AR 部分</strong>：自回归部分是由前 $p$ 个输出值 $x(n - i)$ 的加权和构成，其系数为 $a_i$。</p>
+<p>​	•	<strong>MA 部分</strong>：移动平均部分是由当前和前 $q$ 个输入噪声 $u(n - j)$ 的加权和构成，其系数为 $b_j$。</p>
+<p>​	•	该模型结合了自回归和移动平均的特性，使其能够更灵活地描述时间序列数据中的依赖关系。</p>
+<p>ARMA 模型的传递函数可以通过 Z 变换表示为：</p>
+<p>$$
+H(z) = \frac{\sum_{j=0}^{q} b_j \cdot z^{-j}}{1 + \sum_{i=1}^{p} a_i \cdot z^{-i}}
+$$</p>
+<p>​	•	<strong>分子</strong>：分子部分是 MA 部分的 Z 变换形式，由 $b_j$ 系数和 $z^{-j}$ 项构成。</p>
+<p>​	•	<strong>分母</strong>：分母部分是 AR 部分的 Z 变换形式，由 $a_i$ 系数和 $z^{-i}$ 项构成。</p>
+<p>进一步将传递函数因式分解，得到：</p>
+<p>$$
+H(z) = \frac{\prod_{j=0}^{q} (1 - z_j z^{-1})}{\prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>​	•	$z_j$ 表示 MA 部分的零点。</p>
+<p>​	•	$p_i$ 表示 AR 部分的极点。</p>
+<p>当零点接近单位圆时，滤波器会在相应频率范围内有显著衰减；当极点接近单位圆时，滤波器会在对应频率范围内有增强效果。</p>
+<p><strong>ARMA 滤波器的频率响应特性</strong> 即频谱图示为: 待补充</p>
+<h3 id="二阶移动平均-ma-模型的自相关函数计算"><strong>二阶移动平均 (MA) 模型的自相关函数计算</strong><a hidden class="anchor" aria-hidden="true" href="#二阶移动平均-ma-模型的自相关函数计算">#</a></h3>
+<p><strong>简单的二阶移动平均信号模型</strong> $x(n) = b_0 u(n) + b_1 u(n-1)$</p>
+<p>​	•	$u(n)$ 是输入信号，通常假设为白噪声。</p>
+<p>​	•	$b_0$ 和 $b_1$ 是滤波器的系数。</p>
+<p>这个模型表示当前的输出 $x(n)$ 是当前输入 $u(n)$ 和前一个输入 $u(n-1)$ 的加权和。</p>
+<p><strong>均值计算</strong> $E[x(n)] = b_0 E[u(n)] + b_1 E[u(n-1)] = 0$</p>
+<p>自相关函数：</p>
+<p>$$
+R_{xx}(n_1, n_2) = E[x(n_1) \cdot x^*(n_2)]
+$$</p>
+<p>$$
+\begin{align*}</p>
+<p>R_{xx}(n_1, n_2) &amp;= E\left[ (b_0 u(n_1) + b_1 u(n_1 - 1))(b_0 u^<em>(n_2) + b_1 u^</em>(n_2 - 1)) \right] \</p>
+<p>&amp;= b_0^2 E[u(n_1) u^<em>(n_2)] + b_0 b_1 E[u(n_1) u^</em>(n_2 - 1)] \</p>
+<p>&amp;\quad + b_1 b_0 E[u(n_1 - 1) u^<em>(n_2)] + b_1^2 E[u(n_1 - 1) u^</em>(n_2 - 1)]</p>
+<p>\end{align*}
+$$</p>
+<p>为了简化表达式，引入滞后变量 $\tau = n_1 - n_2$</p>
+<p>$$
+\begin{align*}</p>
+<p>R_{xx}(\tau) &amp;= b_0^2 R_{uu}(\tau) + b_0 b_1 R_{uu}(\tau + 1)  + b_1 b_0 R_{uu}(\tau - 1) + b_1^2 R_{uu}(\tau) \</p>
+<p>&amp;= (b_0^2 + b_1^2) R_{uu}(\tau) + b_0 b_1 \left( R_{uu}(\tau + 1) + R_{uu}(\tau - 1) \right)</p>
+<p>\end{align*}
+$$</p>
+<p>其中 $R_{uu}(\tau)$ 来表示输入白噪声 $u(n)$ 的自相关函数</p>
+<p>​	•	第一部分 $(b_0^2 + b_1^2) R_{uu}(\tau)$，表示信号 $x(n)$ 的自相关主项。</p>
+<p>​	•	第二部分 $b_0 b_1 \left( R_{uu}(\tau + 1) + R_{uu}(\tau - 1) \right)$，表示由于滞后一单位时间所带来的影响。</p>
+<p>假设 $u(n)$ 是白噪声过程，其自相关函数 $R_{uu}(\tau) = \sigma^2 \delta(\tau)$</p>
+<p>$$
+R_{xx}(\tau) = (b_0^2 + b_1^2) \sigma^2 \delta(\tau) + b_0 b_1 \sigma^2 \left( \delta(\tau + 1) + \delta(\tau - 1) \right)
+$$</p>
+<p>​	•	当 $\tau = 0$ 时，$R_{xx}(0) = (b_0^2 + b_1^2) \sigma^2$。</p>
+<p>​	•	当 $\tau = \pm 1$ 时，$R_{xx}(\pm 1) = b_0 b_1 \sigma^2$。</p>
+<p>假设 $x$ 是一个包含 $N$ 个样本的随机向量：</p>
+<p>$$
+x = \begin{bmatrix} x_0 \ x_1 \ \vdots \ x_{N-1} \end{bmatrix}
+$$</p>
+<p>每个元素 $x_i$ 是信号在不同时间的值。</p>
+<p>$x$ 的自相关矩阵 $E(x \cdot x^T)$，即：</p>
+<p>$$
+E(x \cdot x^T) = E \left( \begin{bmatrix} x_0 \ x_1 \ \vdots \ x_{N-1} \end{bmatrix} \begin{bmatrix} x_0 &amp; x_1 &amp; \cdots &amp; x_{N-1} \end{bmatrix} \right)
+$$</p>
+<p>$$
+E(x \cdot x^T) = \sigma^2 \begin{bmatrix}</p>
+<p>b_0^2 + b_1^2 &amp; b_0 b_1 &amp; 0 &amp; \cdots &amp; 0 \</p>
+<p>b_0 b_1 &amp; b_0^2 + b_1^2 &amp; b_0 b_1 &amp; \cdots &amp; 0 \</p>
+<p>0 &amp; b_0 b_1 &amp; b_0^2 + b_1^2 &amp; \cdots &amp; 0 \</p>
+<p>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \</p>
+<p>0 &amp; 0 &amp; 0 &amp; \cdots &amp; b_0^2 + b_1^2</p>
+<p>\end{bmatrix}
+$$</p>
+<p>​	•	主对角线上，每个元素都是 $(b_0^2 + b_1^2) \sigma^2$，对应于 $R_{xx}(0)$。</p>
+<p>​	•	在上下相邻的次对角线上，每个元素是 $b_0 b_1 \sigma^2$，对应于 $R_{xx}(\pm 1)$。</p>
+<p>二阶移动平均模型 (MA(2)) 的自相关特性：</p>
+<p>​	•	<strong>主对角线</strong>表示信号本身的方差。</p>
+<p>​	•	<strong>次对角线</strong>反映了相邻时刻之间的相关性，由 $b_0$ 和 $b_1$ 决定。</p>
+<p>这种矩阵结构称为<strong>带状矩阵</strong>，仅在主对角线及其附近具有非零元素，适合表示具有有限“记忆”的信号模型。</p>
+<h3 id="tuma时变移动平均模型"><strong>TUMA（时变移动平均模型）</strong><a hidden class="anchor" aria-hidden="true" href="#tuma时变移动平均模型">#</a></h3>
+<p>是移动平均模型的时变版本，其中滤波器系数随时间变化。模型定义如下：</p>
+<p>$$
+x(n) = \sum_{j=0}^{p} b_j(n) \cdot u(n-j)
+$$</p>
+<p>​	•	$b_j(n)$ 是时变的系数</p>
+<p>​	•	$p$ 是模型的阶数。</p>
+<p>这里的时变性体现在 $b_j(n)$ 随时间 $n$ 而变化，这使得 TUMA 模型能够捕捉信号的时变特性。TUMA 模型特别适用于描述具有非平稳性的信号，因为系数的时间依赖性使其能够更好地适应信号的变化。</p>
+<p>另一种形式：</p>
+<p>$$
+x(n) = \sum_{j=0}^{p} B_j(u(n)) \quad \text{这里不懂，可能抄错}
+$$</p>
+<h3 id="tvar时变自回归模型"><strong>TVAR（时变自回归模型）</strong><a hidden class="anchor" aria-hidden="true" href="#tvar时变自回归模型">#</a></h3>
+<p>（Time-Variant Auto-Regressive）是自回归模型的时变版本</p>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i(n) \cdot x(n-i) + u(n)
+$$</p>
+<p>​	•	$a_i(n)$ 是时变的 AR 系数，它随时间 $n$ 变化。</p>
+<p>​	•	$p$ 是模型的阶数。</p>
+<p>定义了系数 $a_i(n)$ 的更新规则：</p>
+<p>​	1.	<strong>第一种形式</strong></p>
+<p>$$
+a_i(n) = a_i(n-1) + N(n)
+$$</p>
+<p>其中 $N(n)$ 是一个BBGC 独立于 $u(n)$</p>
+<p>​	2.	系数 $a_i(n)$ 还可以写成如下形式：</p>
+<p>$$
+a_i(n) = \sum_{j} \beta_{ij} b_j(n)
+$$</p>
+<p>这意味着 $a_i(n)$ 可以通过一组基函数 $b_j(n)$ 的线性组合来表示，其中 $\beta_{ij}$ 是权重。这种表示允许我们用基函数表示时变系数，从而降低模型的复杂度。</p>
+<p>最终多维状态向量形式</p>
+<p>$$
+\underline{x}(n) = -\sum_{i=1}^{p} A_i , x(n-i) + u(n)
+$$</p>
+<p>​	•	$A_i$ 不再是单一标量，而是一个矩阵系数</p>
+<h3 id="长记忆过程processus-à-mémoire-longue-的模型"><strong>长记忆过程（Processus à mémoire longue）</strong> 的模型<a hidden class="anchor" aria-hidden="true" href="#长记忆过程processus-à-mémoire-longue-的模型">#</a></h3>
+<p>使用分数阶积分来模拟<strong>长记忆的白噪声</strong></p>
+<p>滤波器的传递函数 $H(z)$ 定义为：</p>
+<p>$$
+H(z) = \frac{X(z)}{U(z)} = (1 - z^{-1})^{-d}
+$$</p>
+<p><strong>功率谱密度计算</strong></p>
+<p>$$
+\text{DSP}_x(f) = |H(z)|^2 \cdot \sigma_u^2
+$$</p>
+<p>​	•	$\sigma_u^2$ 是输入白噪声 $u(n)$ 的方差。</p>
+<p>​	•	将 $z$ 替换为 $e^{j 2 \pi f / f_{\text{ech}}}$，得到频率域的响应 $H(e^{j 2 \pi f / f_{\text{ech}}})$。</p>
+<p>代入 $H(z) = (1 - e^{-j 2 \pi f / f_{\text{ech}}})^{-d}$：</p>
+<p>$$
+\text{DSP}<em>x(f) = \left| \frac{1}{(1 - e^{-j 2 \pi f / f</em>{\text{ech}}})^d} \right|^2 \cdot \sigma_u^2
+$$</p>
+<p>$$
+\text{DSP}<em>x(f) = \frac{\sigma_u^2}{\left| e^{-j \pi f / f</em>{\text{ech}}} \cdot 2j \sin\left( \frac{\pi f}{f_{\text{ech}}} \right) \right|^{2d}}
+$$</p>
+<p>化简得到：</p>
+<p>$$
+\text{DSP}<em>x(f) = \frac{\sigma_u^2}{2^{2d} \sin^{2d}\left( \frac{\pi f}{f</em>{\text{ech}}} \right)}
+$$</p>
+<p>这个公式表明，输出信号 $x(n)$ 的功率谱密度 $\text{DSP}_x(f)$ 在频率 $f \to 0$ 附近会趋于无穷大，这说明该系统具有长记忆性，低频成分较强。</p>
+<h3 id="arfima-autoregressive-fractionally-integrated-moving-average-模型"><strong>ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型</strong><a hidden class="anchor" aria-hidden="true" href="#arfima-autoregressive-fractionally-integrated-moving-average-模型">#</a></h3>
+<p>ARFIMA 模型的传递函数可以写为：</p>
+<p>$$
+H(z) = \frac{\prod_{j=1}^{q} (1 - z_j z^{-1})}{(1 - z^{-1})^d \prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>​	•	<strong>分子部分</strong>：$\prod_{j=1}^{q} (1 - z_j z^{-1})$ 表示 MA（移动平均）部分，它包含了零点 $z_j$。</p>
+<p>​	•	<strong>分母部分</strong>：</p>
+<p>​	•	$(1 - z^{-1})^d$ 表示分数阶积分项，通常 $d$ 为分数，用于引入长记忆效应。</p>
+<p>​	•	$\prod_{i=1}^{p} (1 - p_i z^{-1})$ 表示 AR（自回归）部分，包含了极点 $p_i$。</p>
+<p>ARFIMA 模型是一种结合了自回归、分数阶积分和移动平均的模型，适用于描述具有长记忆性质的时间序列。通过分数阶积分项 $(1 - z^{-1})^d$，模型能够捕捉时间序列的长记忆特性。</p>
+<p><strong>非线性模型（Non-linear Model）</strong></p>
+<p>一个与汽车模型相关的复杂动态过程</p>
+<p>这个模型可以用以下表达式表示：</p>
+<p>$$
+x(n) = \sum_{j=0}^{q} b_j u(n - j) + h(0, 0) u^2(n) + h(0, 1) u(n) u(n - 1) + h(0, 2) u(n) u(n - 2) + \dots
+$$</p>
+<p>​	•	<strong>线性部分</strong>：$\sum_{j=0}^{q} b_j u(n - j)$，这是传统的移动平均 (MA) 部分，表示系统对输入信号 $u(n)$ 的线性响应。</p>
+<p>​	•	<strong>非线性部分</strong>：包含 $u(n)$ 的高阶项，例如 $u^2(n)$、$u(n) u(n - 1)$ 等。</p>
+<p>​	•	$h(0, 0) u^2(n)$ 是输入 $u(n)$ 的平方项，代表了二次非线性。</p>
+<p>​	•	$h(0, 1) u(n) u(n - 1)$ 是输入和其滞后项的乘积，代表了跨时间的非线性耦合。</p>
+<p>​	•	高阶项继续扩展为更高次方和不同滞后项的组合。</p>
+<p>非线性项表示系统的响应不仅依赖于当前和过去的输入值，还依赖于这些输入值的非线性组合。</p>
+<p>更高阶的非线性项例如：</p>
+<p>$$
+h(1, 0, 0) u^3(n) + h(0, 0, 1) u^2(n) u(n - 1) + \dots
+$$</p>
+<p>对于一个信号 $x(n) = u^2(n)$</p>
+<p>$$
+x(n) = \cos^2\left(2 \pi n \frac{f_0}{f_{\text{ech}}}\right)
+$$</p>
+<p>这个表达式是一个余弦平方信号，频率为 $f_0$（归一化到采样频率 $f_{\text{ech}}$）。我们可以利用三角恒等式（<strong>使用欧拉公式</strong>）将其展开。</p>
+<p>已知 $\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}$，同时将 $\cos^2$ 转换为指数形式</p>
+<p>可以将 $x(n)$ 表达为：</p>
+<p>$$
+x(n) = \frac{e^{j 4 \pi n \frac{f_0}{f_{\text{ech}}}} + 2 + e^{-j 4 \pi n \frac{f_0}{f_{\text{ech}}}}}{4}
+$$</p>
+<p>矩阵形式的表示：</p>
+<p>$$
+x(n) = \begin{bmatrix}</p>
+<p>u(n) &amp; u(n-1) &amp; u(n-2) &amp; \dots &amp; u(n-q) &amp; u^2(n) &amp; u(n) u(n-1) &amp; u(n) u(n-2) &amp; \dots</p>
+<p>\end{bmatrix}</p>
+<p>\begin{bmatrix}</p>
+<p>b_0 \</p>
+<p>b_1 \</p>
+<p>b_2 \</p>
+<p>\vdots \</p>
+<p>b_q \</p>
+<p>h(0,0) \</p>
+<p>h(0,1) \</p>
+<p>h(0,2) \</p>
+<p>\vdots</p>
+<p>\end{bmatrix}
+$$</p>
+<p>以下是估计部分</p>
+<p>两个不同类型：</p>
+<p>​	1.	<strong>Par bloc（分块估计）</strong> 将数据分成固定长度的块，然后在每个块上独立地计算所需的估计值</p>
+<p>​	2.	<strong>Échantillon par échantillon（逐样本估计）</strong> 对每个采样点独立地进行估计，不进行分块</p>
+<p><strong>估计模型 的输出信号 $y(n)$ 的形式：</strong></p>
+<p>$$
+y(n) = \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n} + b(n)
+$$</p>
+<p>​	•	$\sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n}$ 表示一系列复指数信号的叠加，每个信号的频率为 $f_k$，采样频率为 $f_{\text{ech}}$。</p>
+<p>​	•	这里 $A_k$ 被视为一个随机变量 并且 $E[A_k] = 0$</p>
+<p>​	•	$b(n)$ 是一个噪声项，假设为白噪声。</p>
+<p>$$
+E[y(n)] = 0
+$$</p>
+<p>自相关函数 $R_{yy}(n_1, n_2) = E[y(n_1) y^*(n_2)]$</p>
+<p>$$
+\begin{align*}</p>
+<p>R_{yy}(n_1, n_2) &amp;= E \left[ \left( \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n_1} + b(n_1) \right) \left( \sum_{l} A_l^* e^{-j 2 \pi \frac{f_l}{f_{\text{ech}}} n_2} + b^*(n_2) \right) \right] \</p>
+<p>&amp;= E \left[ \sum_{k} \sum_{l} A_k A_l^* e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n_1} e^{-j 2 \pi \frac{f_l}{f_{\text{ech}}} n_2} \right] + E[b(n_1) b^<em>(n_2)] \end{align</em>}
+$$</p>
+<p>噪声 $b(n)$ 是白噪声，且 $A_k$ 的均值为零并且彼此独立，这可以进一步简化为：</p>
+<p>$$
+R_{yy}(n_1, n_2) = \sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} (n_1 - n_2)} + \sigma_b^2 \delta(n_1 - n_2)
+$$</p>
+<p>​	•	第一项 $\sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} \tau}$ 表示信号部分的自相关，包含各个频率分量的贡献，其中 $\tau = n_1 - n_2$。</p>
+<p>​	•	第二项 $\sigma_b^2 \delta(\tau)$ 表示噪声部分的自相关，仅在 $\tau = 0$ 时为非零。</p>
+<p>因此，最终的自相关函数表示为：</p>
+<p>$$
+R_{yy}(\tau) = \sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} \tau} + \sigma_b^2 \delta(\tau)
+$$</p>
+<p>定义向量 $\underline{Y}$ 为：</p>
+<p>$$
+\underline{Y} = \begin{bmatrix} y(n) \ y(n+1) \ \vdots \ y(n+N-1) \end{bmatrix}
+$$</p>
+<p>自相关矩阵 $R_y$ 定义为：</p>
+<p>$$
+R_y = E[\underline{Y} \cdot \underline{Y}^H]
+$$</p>
+<p>​	•	$\underline{Y}^H$ 是 $\underline{Y}$ 的共轭转置（Hermitian 转置），在计算复数信号的自相关时特别重要。</p>
+<p>​	•	$R_y$ 是一个 $N \times N$ 的矩阵。</p>
+<p>$$
+R_y = \begin{bmatrix}</p>
+<p>r_{yy}(0) &amp; r_{yy}(-1) &amp; \dots &amp; r_{yy}(-N+1) \</p>
+<p>r_{yy}(1) &amp; r_{yy}(0) &amp; \dots &amp; r_{yy}(-N+2) \</p>
+<p>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \</p>
+<p>r_{yy}(N-1) &amp; r_{yy}(N-2) &amp; \dots &amp; r_{yy}(0)</p>
+<p>\end{bmatrix}
+$$</p>
+<p>​	•	<strong>主对角线</strong>上的元素为 $r_{yy}(0)$，表示零滞后的自相关。</p>
+<p>​	•	<strong>次对角线</strong>上的元素为 $r_{yy}(\pm 1)$，表示滞后为 $\pm 1$ 的自相关。</p>
+<p>​	•	该矩阵具有 <strong>Toeplitz 结构</strong>，即每一条对角线上的元素相同。</p>
+<p>$$
+\underline{S} \underline{S}^H = \begin{bmatrix}</p>
+<p>1 &amp; e^{-j 2 \pi \frac{f_0}{f_{\text{ech}}}} &amp; \cdots &amp; e^{-j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}} \</p>
+<p>e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}} &amp; 1 &amp; \cdots &amp; e^{-j 2 \pi (N-2) \frac{f_0}{f_{\text{ech}}}} \</p>
+<p>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \</p>
+<p>e^{j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}} &amp; e^{j 2 \pi (N-2) \frac{f_0}{f_{\text{ech}}}} &amp; \cdots &amp; 1</p>
+<p>\end{bmatrix}
+$$</p>
+<p>​	•	<strong>主对角线</strong>：所有元素都为 1，对应 $e^{j 2 \pi \cdot 0} = 1$。</p>
+<p>​	•	<strong>次对角线</strong>：依次为 $e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}}$、$e^{j 2 \pi \cdot 2 \frac{f_0}{f_{\text{ech}}}}$，表示随着滞后增加的指数因子。</p>
+<p>​	•	<strong>共轭对称性</strong>：由于 $\underline{S} \underline{S}^H$ 是由 $\underline{S}$ 和其共轭转置 $\underline{S}^H$ 相乘得到，因此矩阵是共轭对称的，即 $(\underline{S} \underline{S}^H)<em>{i,j} = \overline{(\underline{S} \underline{S}^H)</em>{j,i}}$。</p>
+<p>加上噪声项后，自相关矩阵可以表示为：</p>
+<p>$$
+R_y = E[|A|^2] \cdot \underline{S} \underline{S}^H + \sigma_b^2 I_N
+$$</p>
+<p>​	•	<strong>信号部分</strong> $E[|A|^2] \cdot \underline{S} \underline{S}^H$：表示信号的自相关结构。</p>
+<p>​	•	<strong>噪声部分</strong> $\sigma_b^2 I_N$：均匀分布在对角线上，反映了白噪声的自相关性。</p>
+<p>矩阵 $\underline{S}$ 表示为一个包含指数因子的向量：</p>
+<p>$$
+\underline{S} = \begin{bmatrix}</p>
+<p>1 \</p>
+<p>e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}} \</p>
+<p>\vdots \</p>
+<p>e^{j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}}</p>
+<p>\end{bmatrix}
+$$</p>
+<p>$$
+R_y = E[|A_1|^2] \cdot \underline{S} \underline{S}^H + \sigma_b^2 I_N
+$$</p>
+<p>$$
+R_y \underline{S} = E[|A|^2] \cdot \underline{S} (\underline{S}^H \underline{S}) + \sigma_b^2 \underline{S}
+$$</p>
+<p>设 $\underline{S}^H \underline{S}$ 值为 $N$（是一个标量）（范数平方）</p>
+<p>$$
+= (N E[|A|^2] + \sigma_b^2) \underline{S}
+$$</p>
+<p>说明 $R_y$ 的一个特征值为 $N E[|A|^2] + \sigma_b^2$</p>
+<p>假设 $\underline{\psi}_i \perp \underline{S}$</p>
+<p>也就是说，$\underline{\psi}_i$ 与 $\underline{S}$ 正交。</p>
+<p>$$
+\underline{S}^T \underline{\psi}_i^* = 0 \quad \text{和} \quad \underline{S}^H \underline{\psi}_i = 0
+$$</p>
+<p>$\underline{\psi}_i$ 属于 $R_y$ 的特征空间中，并且与 $\underline{S}$ 的方向正交</p>
+<p>原式</p>
+<p>$$
+R_y \underline{\psi}_i = E[|A|^2] \cdot \underline{S} \underline{S}^H \underline{\psi}_i + \sigma_b^2 \underline{\psi}_i = \sigma_b^2 \underline{\psi}_i
+$$</p>
+<p>自相关矩阵在 $\underline{\psi}_i$ 方向上仅由噪声贡献，因为与信号成分 $\underline{S}$ 正交，因此信号成分的部分会为零，留下的仅为噪声方差的贡献：</p>
+<p>$$
+R_y \underline{\psi}_i = \sigma_b^2 \underline{\psi}_i
+$$</p>
+<p>表明，可以通过正交特征向量来分离信号和噪声成分</p>
+<p>$3 \times 3$ 特征向量的线性组合：</p>
+<p>$$
+\psi_3(0) \cdot 1 + \psi_3(1) \cdot e^{j \frac{2\pi}{f_{\text{ech}}}} + \psi_3(2) \cdot e^{-j \frac{2\pi}{f_{\text{ech}}}} = 0
+$$</p>
+<p>​	•	$\psi_3(0)$、$\psi_3(1)$、$\psi_3(2)$ 是特征向量的各个分量。</p>
+<p>​	•	$e^{j \frac{2\pi}{f_{\text{ech}}}}$ 和 $e^{-j \frac{2\pi}{f_{\text{ech}}}}$ 表示复数指数因子，用于描述矩阵的频率特性。</p>
+<p>$$
+z = e^{j \frac{2\pi}{f_{\text{ech}}}}
+$$</p>
+<p>将 $z$ 代入后，表达式变为：</p>
+<p>$$
+\psi_3(0) + \psi_3(1) \cdot z^{-1} + \psi_3(2) \cdot z^{-2} = 0
+$$</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>傅里叶综合</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

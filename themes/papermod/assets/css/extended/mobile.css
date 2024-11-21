@@ -1,18 +1,19 @@
 @media (max-width: 768px) {
-    .math-container {
-        overflow-x: auto; /* 启用水平滚动 */
-        white-space: nowrap; /* 防止内容换行 */
-        -webkit-overflow-scrolling: touch; /* 平滑滚动，适配移动端 */
-        max-width: 100%; /* 限制容器宽度与视口一致 */
+    .toc {
+        display: none; /* 隐藏目录以节省空间 */
     }
-
-    .math-container > .katex-display {
-        display: inline-block; /* 确保公式不会换行 */
-        max-width: none; /* 防止公式被限制宽度 */
+    .main {
+        margin-left: 0; /* 移除左边距 */
+        max-width: 100%; /* 内容填满屏幕宽度 */
+        padding: 20px; /* 添加适当的内边距 */
     }
-
-    body, html {
-        overflow-x: hidden; /* 禁止整个页面的左右滚动 */
+    body {
+        font-size: 14px; /* 调整字体大小以适应小屏幕 */
+        line-height: 1.6; /* 增加行高，提升阅读体验 */
+        overflow-x: hidden; /* 禁止横向滚动 */
+    }
+    html {
+        overflow-x: hidden; /* 禁止横向滚动 */
         width: 100%; /* 确保页面宽度适配视口 */
     }
 }

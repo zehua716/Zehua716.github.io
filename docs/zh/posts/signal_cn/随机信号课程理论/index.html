@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>随机信号与噪音（理论部分） | 主页</title>
+<meta name="keywords" content="信号处理, 随机过程, 统计分析, 滤波器设计">
+<meta name="description" content="主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b96e8bc8c70bcf7b95173c1860878f1709aaa2721b93bb3723a50ec6e016cc.css" integrity="sha256-s7lui8jHC897lRc8GGCHjxcJqqJyG5O7NyOlDsbgFsw=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://zehua716.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://zehua716.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://zehua716.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet"><meta property="og:title" content="随机信号与噪音（理论部分）" />
+<meta property="og:description" content="主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/" />
+<meta property="og:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-20T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-13T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta name="twitter:title" content="随机信号与噪音（理论部分）"/>
+<meta name="twitter:description" content="主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://zehua716.github.io/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "信号处理",
+      "item": "https://zehua716.github.io/zh/posts/signal_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "随机信号与噪音（理论部分）",
+      "item": "https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "随机信号与噪音（理论部分）",
+  "name": "随机信号与噪音（理论部分）",
+  "description": "主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用",
+  "keywords": [
+    "信号处理", "随机过程", "统计分析", "滤波器设计"
+  ],
+  "articleBody": "随机变量 概率密度 $f_x$ 的性质为\n$$ \\begin{aligned} \u0026 \\quad \\int_{\\mathbb{R}} f_x(x) , dx = 1 \\ \u0026 \\quad f_x(x) \\geq 0 \\quad \\forall , x \\in \\mathbb{R} \\end{aligned} $$\n概率的计算：\n$$P\\left\\{ x \\in [m, M] \\right\\} = \\int_{m}^{M} f_x(x) \\, dx$$ 数学期望的计算：\n$$ \\begin{aligned} \u0026 \\quad E(x) = \\int_{\\mathbb{R}} x \\cdot f_x(x) , dx \\ \u0026 \\quad E(\\varphi(x)) = \\int_{\\mathbb{R}} \\varphi(x) \\cdot f_x(x) , dx \\end{aligned} $$\n所谓期望，就是积分面积的一半（并非正中心）\n方差 $\\sigma_x = \\text{Var}[X] = E\\left( (X - E[X])^2 \\right) = \\text{标准差} $ $v_x^2$\n均方根误差：\n$$ \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2} $$\n即所有测量值与实际值的平方差再除总数\nCouple de variable $f_{x,y}(x,y)$ 性质\n$$ \\begin{aligned} \u0026 \\quad \\iint_{\\mathbb{R} \\times \\mathbb{R}} f_{x,y}(x,y) , dx , dy = 1 \\ \u0026 \\quad \\quad \\quad \\quad f_{x,y}(x,y) \\geq 0 \\end{aligned} $$\n高斯分布：\n$$ f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{1}{2} \\left( \\frac{x-\\mu}{\\sigma} \\right)^2} $$\n$$ f_{xy}(x, y) = \\frac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1 - \\rho_{xy}^2}} e^{-\\frac{1}{2(1 - \\rho_{xy}^2)} \\left[ \\left( \\frac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\frac{y - \\mu_y}{\\sigma_y} \\right)^2 - 2\\rho_{xy} \\left( \\frac{x - \\mu_x}{\\sigma_x} \\right) \\left( \\frac{y - \\mu_y}{\\sigma_y} \\right) \\right]} $$\n联合概率密度函数：\n$$ \\iint_{-\\infty}^{\\infty} f_{X,Y}(x, y) , dx , dy = 1 $$\n边缘概率密度函数：\n$$ f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x, y) , dy $$\n条件概率密度函数：\n$$ f_{X|Y}(x|y) = \\frac{f_{X,Y}(x, y)}{f_Y(y)} $$\n协方差：\n$$ \\text{Cov}(X, Y) = E\\left[(X - E[X])(Y - E[Y])\\right] $$\n相关系数：\n$$ \\rho_{X,Y} = \\frac{\\text{Cov}(X, Y)}{\\sqrt{\\text{Var}(X)} \\cdot \\sqrt{\\text{Var}(Y)}} $$\n随机变量对的特性：\n线性特性 $$ \\quad E \\left[ \\alpha \\varphi(x) + \\beta \\psi(x) \\right] = \\alpha E[\\varphi(x)] + \\beta E[\\psi(x)] $$\n常数特性 $$ \\quad E[\\alpha] = \\alpha $$\n期望与方差 $$ \\quad E[Y] = E[ax + b] = aE[x] + b $$\n$$ \\text{Var}[Y] = E\\left[(Y - E[Y])^2\\right] = E\\left[a^2 (x - E[x])^2\\right] = a^2 E\\left[(x - m)^2\\right] $$\n$$ P\\left[ x_m \\leq x \\leq x_M, \\ y_m \\leq y \\leq y_M \\right] = \\int_{x_m}^{x_M} \\int_{y_m}^{y_M} f_{x,y}(x, y) , dx , dy $$\n前面提到了条件概率密度：\n$$ f_{x|y=y_0}(x | y_0) = \\frac{f_{xy}(x, y_0)}{f_y(y_0)} $$\n对其进行左右积分：\n$$ \\int_{\\mathbb{R}} f_{x|y=y_0}(x | y_0) , dx = \\frac{\\int_{x} f_{xy}(x, y_0) , dx}{\\int_{x} f_{y}(y_0) , dx} = \\frac{\\int_{x} f_{xy}(x, y_0) , dx}{f_y(y_0)} = \\frac{F_y(y)}{f_y(y_0)} $$\n可见条件概率密度的积分等于边缘概率密度除以概率密度\n$x$ 和 $y$ 独立条件：\n$$ \\begin{cases} f_{y|x}(y|x) = f_y(y) \\ f_{x|y}(x|y) = f_x(x) \\end{cases} $$\n即条件概率等于单独发生的概率\n协方差性质：\n$$ \\text{Cov}[x, x] = \\text{Var}[x] \\\\ \\text{Cov}[y, y] = \\text{Var}[y] $$\n$$ \\text{Cov}[\\alpha x, y] = E \\left[ (\\alpha x - E[\\alpha x])(y - E[y]) \\right] = \\alpha \\text{Cov}[x, y] $$\n$$ \\text{Cov}[\\alpha x, \\beta y] = E \\left[ (\\alpha x - E[\\alpha x])(\\beta y - E[\\beta y]) \\right] = \\alpha \\beta \\text{Cov}[x, y] $$\n$$ \\text{Cov}[x, y]= E\\left[(x - E[x])(y - E[y])\\right]=E[xy] - E[x]E[y] $$\n可见，在独立情况下（$E[xy] = E[x]E[y]$），协方差 $=0$\n相关性\n$$\\rho_{xy} = \\text{cor}[x, y]= \\dfrac{\\text{Cov}[x, y]}{\\sqrt{\\text{Var}[x] \\cdot \\text{Var}[y]}} = \\dfrac{E\\left[(x - E[x])(y - E[y])\\right]}{\\sqrt{E\\left[(x - E[x])^2\\right] E\\left[(y - E[y])^2\\right]}}$$\n相关性特性: $$ \\text{cor}(x, y) = \\begin{cases} 1 \u0026 \\text{if } y = x \\\\ -1 \u0026 \\text{if } y = -x \\end{cases} $$\n$$ \\text{cor}[\\alpha x, y] = \\text{cor}[x, y] \\quad \\text{当} \\ \\alpha \u003e 0 $$\n因为：\n$$ \\dfrac{\\text{Cov}[\\alpha x, y]}{\\sqrt{\\text{Var}[\\alpha x] \\text{Var}[y]}} = \\dfrac{\\alpha \\text{Cov}[x, y]}{\\sqrt{\\alpha^2 \\text{Var}[x]} \\sqrt{\\text{Var}[y]}} $$\n$$ \\text{cor}[x, y] = 0 \\to \\text{cov}[x, y] = 0 \\to E[xy] = E[x]E[y] $$\n​\t不相关 $\\to$ 独立 ，这个说法不对，必须在联合概率密度满足高斯分布的情况下，才可以成立\n那么独立 可以推出 不相关吗？\n独立就代表了：\n$$ f_{xy}(x, y) = f_x(x) \\cdot f_y(y) \\implies E(xy) = E(x) \\cdot E(y) $$\n$$ E(xy) = \\int_x \\int_y x y f_{xy}(x, y) , dx , dy = \\int_x x f_x(x) , dx \\int_y y f_y(y) , dy = E(x) \\cdot E(y) $$\n可见成立。即只有服从高斯分布的联合概率密度才可以由不相关 $\\to$ 独立\n证明：\n若 $\\text{Cov}(x, y) = 0 \\implies \\rho_{xy} = 0$\n$$ f_{xy}(x, y) = \\dfrac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1 - \\rho_{xy}^2}} e^{-\\dfrac{1}{2(1 - \\rho_{xy}^2)} \\left[ \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right)^2 - 2\\rho_{xy} \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right) \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right) \\right]} $$\n当 $\\rho_{xy} = 0$，则：\n$$ f_{xy}(x, y) = \\dfrac{1}{2\\pi \\sigma_x \\sigma_y} e^{-\\dfrac{1}{2} \\left( \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right)^2 \\right)} = f_x(x) \\cdot f_y(y) = \\text{独立} $$\n随机向量 我们有：\n$$ |\\vec{u}|^2 = \\vec{u} \\cdot \\vec{u} \\ \\vec{u} \\cdot \\vec{v} = |\\vec{u}| |\\vec{v}| \\cdot \\cos(\\theta) $$\n向量 $\\mathbf{x}$ 表示为：\n$$ \\mathbf{x} = \\begin{bmatrix} x_1 \\ x_2 \\ \\vdots \\ x_n \\end{bmatrix} $$\n满足以下性质：\n$f_x \\geq 0$，对所有 $x_1, x_2, \\dots, x_n \\in \\mathbb{R}$。\n$\\int_{x_1} \\int_{x_2} \\dots \\int_{x_n} f_x(x_1, \\dots, x_n) , dx_1 , dx_2 \\dots dx_n = 1$\n概率计算为：\n$$P \\left\\{ \\begin{aligned} x_1 \u0026\\in [m_1, M_1] \\\\ x_2 \u0026\\in [m_2, M_2] \\\\ \u0026\\vdots \\\\ x_n \u0026\\in [m_n, M_n] \\end{aligned} \\right\\} = \\int_{m_1}^{M_1} \\int_{m_2}^{M_2} \\dots \\int_{m_n}^{M_n} f_x(x_1, \\dots, x_n) \\, dx_1 \\, dx_2 \\dots dx_n$$ 一阶矩（moment d’ordre 1）：\n$$ m_x = E[x] = \\begin{bmatrix} E[x_1] \\\\ E[x_2] \\\\ \\vdots \\\\ E[x_n] \\end{bmatrix} \\quad $$\n其中：\n$$ E[x_n] = \\int x_n \\cdot f_{x_n}(x_n) , dx_n $$\n二阶矩（moment d’ordre 2），协方差矩阵（Cov）\n$$ C_x = E\\left[ (x - m_x)(x - m_x)^T \\right] $$\n其中：\n$$ x - m_x = \\begin{bmatrix} x_1 \\\\ x _2 \\\\ \\vdots \\\\ x_n \\end{bmatrix}\\quad - \\begin{bmatrix} E[x_1] \\\\ E[x_2] \\\\ \\vdots \\\\ E[x_n] \\end{bmatrix} = \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n] \\end{bmatrix} $$\n$$f(y \\mid x, \\gamma_e) = (2\\pi)^{-N/2} \\gamma_e^{N/2} \\exp\\left( -\\frac{\\gamma_e \\|y - Hx\\|^2}{2} \\right)$$ 且：\n$$ (x - m_x)^T = \\begin{bmatrix} x_1 - E[x_1] \u0026 x_2 - E[x_2] \u0026 \\dots \u0026 x_n - E[x_n] \\end{bmatrix} $$\n因此：\n$$ C_x = E \\left[ \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n] \\\\ \\end{bmatrix} \\quad \\begin{bmatrix} x_1 - E[x_1] \u0026 x_2 - E[x_2] \u0026 \\dots \u0026 x_n - E[x_n] \\quad \\end{bmatrix} \\right] $$\n所以：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 \\text{Cov}(x_1, x_2) \u0026 \\dots \u0026 \\text{Cov}(x_1, x_n) \\\\ \\text{Cov}(x_2, x_1) \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 \\text{Cov}(x_2, x_n) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ \\text{Cov}(x_n, x_1) \u0026 \\text{Cov}(x_n, x_2) \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix}\\quad $$\n特殊情况：独立 $\\to$ 无相关性\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n协方差矩阵 $C_x$ 的性质：\n$C_x$ 是对称的，$C_x = C_x^T$\n$C_x$ 是一个正定矩阵，即行列式 $\\text{Det}(C_x) \\geq 0$\n所有特征值是正的\n迹（trace）：$\\text{Tr}(C_x) \\geq 0$\n证明 $ C_x = C_x^T $：\n$$ C_x^T = E\\left[(x - m_x)(x - m_x)^T\\right]^T = E\\left[(x - m_x)(x - m_x)^T\\right] = C_x \\quad \\text{（对称性证明）} $$\n证明$C_x$ 是一个正定矩阵\n$$ u^T C_x u = u^T E\\left[ (x - m_x)(x - m_x)^T \\right] u \\ = E\\left[ u^T (x - m_x)(x - m_x)^T u \\right] \\ = E\\left[ \\left( u^T (x - m_x) \\right)^2 \\right] \\geq 0 $$\n若 $Y = A x + B$，则：\n$$ C_y = E\\left[ (y - E[y])(y - E[y])^T \\right] = E\\left[ A(x - m_x)(x - m_x)^T A^T \\right] \\\\ = A E\\left[ (x - m_x)(x - m_x)^T \\right] A^T = A C_x A^T $$\n接下来我们证明当 $x_n$（随机向量）互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。\n高斯向量公式：\n$$ f_x(x) = \\left(2\\pi\\right)^{-\\frac{N}{2}} \\cdot \\left[\\det(C_x)\\right]^{-\\frac{1}{2}} \\exp\\left( -\\frac{1}{2} \\left(x - m_x\\right)^T \\cdot C_x^{-1} \\cdot \\left(x - m_x\\right) \\right) $$\n如果 $X_n$ 是不相关的：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n因此：\n$$ \\det(C_x) = \\prod_{n=1}^{N} \\gamma_n = \\gamma_1 \\cdot \\gamma_2 \\cdot \\gamma_3 \\cdot \\dots \\cdot \\gamma_n $$\n因此：\n$$ C_x^{-1} = \\begin{pmatrix} \\frac{1}{\\gamma_1} \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 \\frac{1}{\\gamma_2} \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\frac{1}{\\gamma_n} \\end{pmatrix} $$\n由上述结果计算：\n$$\\exp\\left( - \\frac{1}{2} \\left( \\mathbf{x} - \\mathbf{m}_x \\right)^{T} C_x^{-1} \\left( \\mathbf{x} - \\mathbf{m}_x \\right) \\right) = \\exp\\left( - \\frac{1}{2} \\left( \\frac{(x_1 - m_{x_1})^2}{\\gamma_1} + \\frac{(x_2 - m_{x_2})^2}{\\gamma_2} + \\cdots + \\frac{(x_n - m_{x_n})^2}{\\gamma_n} \\right) \\right)$$ 因此：\n$$ f_x(x) = (2\\pi)^{-\\frac{N}{2}} \\cdot \\left( \\prod_{n=1}^{N} \\gamma_n \\right)^{-\\frac{1}{2}} \\cdot \\exp\\left( -\\frac{1}{2} \\sum_{n=1}^{N} \\frac{(x_n - m_{x_n})^2}{\\gamma_n} \\right) $$\n举例：\n$$ 假设 \\begin{cases} f_{x_1}(x_1) = (2\\pi)^{-\\frac{1}{2}} \\gamma_1^{-\\frac{1}{2}} \\cdot \\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_1 - m_{x_1})^2}{\\gamma_1} \\right) \\\\ f_{x_2}(x_2) = (2\\pi)^{-\\frac{1}{2}} \\gamma_2^{-\\frac{1}{2}} \\cdot\\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_2 - m_{x_2})^2}{\\gamma_2} \\right) \u0026 \\end{cases} $$\n$$ f_{x_1, x_2}(x_1, x_2) = f_{x_1}(x_1) \\cdot f_{x_2}(x_2) $$\n结论：当向量 $x_n$ 互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。\n随机信号 一阶稳态：均值与时间 $n$ 无关\n$$ m_x(n) = \\mathbb{E}[X_n] $$\n二阶稳态：$r_x(n, p)$ 不依赖于 $n$\n$$ r_x(n, p) = \\text{Cov}(X_n, X_{n+p}) = \\mathbb{E} \\left[ \\left( X_n - \\mathbb{E}(X_n) \\right) \\left( X_{n+p} - \\mathbb{E}(X_{n+p}) \\right) \\right] $$\n举例：$x_n = \\alpha \\cdot e^{j \\left[ 2\\pi v \\cdot n + \\phi \\right]}$，其中只有 $\\phi$ 是均匀随机数。\n计算均值： $$ m_x(n) = \\mathbb{E}[x_n] = \\mathbb{E} \\left[ \\alpha \\cdot e^{j \\left( 2\\pi v \\cdot n + \\phi \\right)} \\right] = \\alpha \\cdot e^{j 2\\pi v n} \\cdot \\mathbb{E} \\left[ e^{j \\phi} \\right] $$\n由于 $\\phi$ 在 $[-\\pi, \\pi]$ 上均匀分布，且 $\\mathbb{E} \\left[ e^{j \\phi} \\right] = 0$，所以：\n$$ m_x(n) = 0 $$\n因此与 $n$ 无关，满足一阶稳态。\n计算协方差函数： $$ r_x(n, p) = \\mathbb{E}[x_n x_{n+p}^*] = \\alpha^2 \\cdot e^{j 2\\pi v p} $$\n因此与 $n$ 无关，满足二阶稳态。\n协方差函数的特性（在一二阶稳态的情况下）：\n$r_x(-p) = r_x(p)$ 证明： $$ r_x(-p) = \\mathbb{E}[x_n, x_{n-p}] = \\mathbb{E}\\left[ (x_n - m_x)(x_{n-p} - m_x) \\right] = \\mathbb{E}\\left[ (x_{n-p} - m_x)(x_n - m_x) \\right] = r_x(p) $$\n$\\text{Cov}[X_n, X_m] = \\gamma(n - m) = \\gamma(m - n)$\n$r_x(0) = \\mathbb{E}\\left( (x_n - m_x)^2 \\right) = \\text{Var}(x_n)$\n$\\gamma_x(p) \\leq \\gamma_x(0)$，即在 $0$ 处取得最大值\n功率谱密度及其性质：\n定义：\n$$ S_x(v) = \\text{TF} \\left[ r_x(p) \\right] = \\sum_{k \\in \\mathbb{Z}} r_x(k) e^{-j2\\pi vk}, \\quad v \\in \\mathbb{R} $$\n反变换：\n$$ r_x(p) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) e^{j 2 \\pi \\nu p} d\\nu = \\text{TFI} \\left[ S_x(\\nu) \\right] $$\n其中 $k$ 为离散时间，$v$ 为连续频率，$p$ 为离散时间差。\n注意积分周期可以从 $0$ 到 $1$，只要周期为 $1$ 即可。\n性质：\n$S_x(\\nu+1) = S_x(\\nu)$，即周期为 $1$ 因为： $$ e^{-j2\\pi(\\nu+1)k} = e^{-j2\\pi\\nu k} \\cdot e^{-j2\\pi k} = e^{-j2\\pi\\nu k} \\cdot 1 $$\n$S_x(\\nu) \\in \\mathbb{R}$ 且 $S_x(\\nu) \\geq 0$\n功率和： $$ \\text{Var}(X_n) = r_x(0) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) d\\nu $$\n即全部功率之和等于在频率为 $0$ 的协方差函数。同时，更改积分范围即可得到某区间内的概率。 例子（延续前面的例子）：\n$$ x_n = \\alpha \\cdot e^{j \\left[ 2\\pi \\nu_0 n + \\phi \\right]} $$\n因此： $$ \\begin{cases} m_x = 0 \u0026 \\\\ \\gamma_x(p) = \\alpha^2 \\cdot e^{j \\left( 2\\pi \\nu_0 p \\right)} \u0026 \\\\ S_x(\\nu) = \\alpha^2 \\cdot \\delta (\\nu - \\nu_0) \u0026 \\\\ \\end{cases} $$\n证明：\n$$ r_x(p) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) e^{j 2 \\pi \\nu p} d\\nu = \\alpha^2 \\cdot e^{j 2\\pi \\nu_0 p} $$\n在上述证明中，应用到了性质：\n$$ \\int f_x(x) \\cdot \\delta(x - x_0) dx = f_x(x_0) $$\n$$ 白噪声 \\begin{cases} \u0026 E[B _n] = 0 \\\\ \u0026 S_x(\\nu) = \\text{constante} = \\gamma_0 \\\\ \u0026 \\gamma_x(p) = \\gamma_0 \\cdot \\delta_p \\end{cases} $$\n白噪声在两个不同时间点上无相关性，即 $\\text{Cov} = 0$。\n随机信号滤波 线性时不变系统（SLI）等价于卷积系统：\n$$ y_n = x_n * h_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) $$\n计算输出均值： $$ m_y(n) = \\mathbb{E}[y_n] = \\sum_{k \\in \\mathbb{Z}} h(k) \\cdot \\mathbb{E}[x(n-k)] = \\sum_{k \\in \\mathbb{Z}} h(k) \\cdot m_x = h(0) \\cdot m_x $$\n因此：\n如果 $m_x = 0$，那么 $m_y = 0$\n如果频率增益 $h(0) = 0$，那么输出信号也是中心化的\n如果频率增益 $h(0) = 1$，那么 $m_y = m_x$\n计算协方差： $$ r_y(n, p) = \\text{Cov}(y_n, y_{n+p}) = \\mathbb{E} \\left[ \\left( y_n - \\mathbb{E}(y_n) \\right) \\left( y_{n+p} - \\mathbb{E}(y_{n+p}) \\right) \\right] $$\n预计算：\n$$ y_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) \\ y_{n+p} = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot x(n+p-e) $$\n因此：\n$$ (y_n - m_y) = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\left[ x(n-k) - m_x \\right] \\ (y_{n+p} - m_y) = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot \\left[ x(n+p-e) - m_x \\right] $$\n计算协方差：\n$$ \\begin{align} \\mathbb{E}\\left[(y_n - m_y)(y_{n+p} - m_y)\\right] \u0026= \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot \\mathbb{E}\\left[ (x_{n-k} - m_x)(x_{n+p-e} - m_x) \\right] \\ \u0026= \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\tilde{r}_x(p+k) \\end{align} $$\n其中：\n$$\\mathbb{E} \\left[ (X_{n-k} - m_x)(X_{n+p-e} - m_x) \\right] = r_x(p+k-e) \\\\ \\tilde{r}_x(p+k) = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot r_x(p+k-e)$$ 继续化简：\n$$ \\mathbb{E}\\left[(y_n - m_y)(y_{n+p} - m_y)\\right] = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\tilde{r}_x(p+k) $$\n令：\n$$ \\bar{h}(k) = h(-k) $$\n则：\n$$\\sum_{k=-\\infty}^{+\\infty} \\bar{h}(-k) \\cdot \\tilde{r}_x(p+k) = \\sum_{q=-\\infty}^{+\\infty} \\bar{h}(q) \\cdot \\tilde{r}_x(p-q) = \\tilde{\\tilde{r}}_x(p)$$ 综上所述：\n$$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) \\\\ S_y(\\nu) = H(\\nu)^* \\cdot H(\\nu) \\cdot S_x(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) \\\\ \\end{cases} $$\n维纳滤波器（Filtrage de Wiener），用于在有噪音的环境中恢复信号。\n基于最小化输出误差的均方误差（MSE）。\n现在模型变为带噪音：\n$$ y_n = x_n * h_n + b_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) + b_n $$\n因此：\n$$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) + r_b, \\\\ S_y(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) + S_b(\\nu) \\end{cases} $$\n估计误差：\n$$ e_n = \\mathbb{E}\\left[ (\\hat{x}_n - x_n)^2 \\right] $$\n其中 $\\hat{x}_n = y_n * g_n$，即对输出进行滤波再次卷积得到新的输出向量。\n$g_n$ 是脉冲响应，$G(\\nu)$ 是频率响应。\n我们现在致力于求解维纳滤波器的频率响应方程：\n$$\\frac{d}{d g_{k_0}} e_n = \\frac{d}{d g_{k_0}} \\mathbb{E}[(\\hat{x}_n - x_n)^2] = 2 \\mathbb{E} \\left[ y_{n-k_0} \\left( \\hat{x}_n - x_n \\right) \\right]$$ 其中：\n$$\\frac{d\\hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$ 计算：\n$$ \\mathbb{E} \\left[ y_{n-k_0} \\cdot x_n \\right] = \\bar{h} * r_x(k_0) $$\n$$ \\mathbb{E}[y_{n-k_0} \\cdot \\hat{x}_n] = g * r_y(k_0) $$\n因此：\n$$ \\frac{d}{d g_{k_0}} e_n = 2 \\left( g * r_y(k_0) - \\bar{h} * r_x(k_0) \\right) $$\n令偏导数为零，得到最优滤波器公式：\n$$ g * r_y(k_0) = \\bar{h} * r_x(k_0) $$\n在频域：\n$$ G(\\nu) S_y(\\nu) = H(\\nu)^* S_x(\\nu) $$\n解得：\n$$ G(\\nu) = \\frac{H(\\nu)^* S_x(\\nu)}{|H(\\nu)|^2 S_x(\\nu) + S_b(\\nu)} $$\n两种情况：\n无噪音（当 $\\gamma_B = 0$，$S_B = 0$） $$ G(\\nu) = \\frac{1}{H(\\nu)} $$\n即 $H$ 的逆。\n无滤波器（直通，但有噪声，即 $H(\\nu) = 1$） $$ G(\\nu) = \\frac{S_x(\\nu)}{S_x(\\nu) + S_b(\\nu)} = \\frac{1}{1 + \\frac{S_b(\\nu)}{S_x(\\nu)}} $$\n经验估计器 假设 $\\hat{\\theta}$ 为估计值，评判标准为最小均方误差（MSE）：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\hat{\\theta})^2] $$\n展开：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}) + \\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}))^2] + \\mathbb{E}[(\\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] $$\n假设偏差 $B = \\theta - E[\\hat{\\theta}]$，即真实值减去估计的期望值。\n因此：\n$$ \\varepsilon = B^2 + \\text{Var}(\\hat{\\theta}) $$\n",
+  "wordCount" : "2162",
+  "inLanguage": "zh",
+  "image": "https://zehua716.github.io/images/papermod-cover.png","datePublished": "2023-12-20T16:25:17+01:00",
+  "dateModified": "2024-11-13T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://zehua716.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://zehua716.github.io/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://zehua716.github.io/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://zehua716.github.io/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zehua716.github.io/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://zehua716.github.io/zh/">主页</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/signal_cn/">信号处理</a></div>
+    <h1 class="post-title entry-hint-parent">
+      随机信号与噪音（理论部分）
+    </h1>
+    <div class="post-meta"><span title='2023-12-20 16:25:17 +0100 CET'>十二月 20, 2023</span>&nbsp;·&nbsp;Zehua
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e5%8f%98%e9%87%8f" aria-label="随机变量">随机变量</a></li>
+                    <li>
+                        <a href="#couple-de-variable" aria-label="Couple de variable">Couple de variable</a></li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e5%90%91%e9%87%8f" aria-label="随机向量">随机向量</a></li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7" aria-label="随机信号">随机信号</a></li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7%e6%bb%a4%e6%b3%a2" aria-label="随机信号滤波">随机信号滤波</a></li>
+                    <li>
+                        <a href="#%e7%bb%8f%e9%aa%8c%e4%bc%b0%e8%ae%a1%e5%99%a8" aria-label="经验估计器">经验估计器</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="随机变量">随机变量<a hidden class="anchor" aria-hidden="true" href="#随机变量">#</a></h2>
+<p>概率密度 $f_x$ 的性质为</p>
+<p>$$
+\begin{aligned}
+&amp; \quad \int_{\mathbb{R}} f_x(x) , dx = 1 \
+&amp; \quad f_x(x) \geq 0 \quad \forall , x \in \mathbb{R}
+\end{aligned}
+$$</p>
+<p>概率的计算：</p>
+<div>$$P\left\{ x \in [m, M] \right\} = \int_{m}^{M} f_x(x) \, dx$$</div>
+<p>数学期望的计算：</p>
+<p>$$
+\begin{aligned}
+&amp; \quad E(x) = \int_{\mathbb{R}} x \cdot f_x(x) , dx \
+&amp; \quad E(\varphi(x)) = \int_{\mathbb{R}} \varphi(x) \cdot f_x(x) , dx
+\end{aligned}
+$$</p>
+<p>所谓期望，就是积分面积的一半（并非正中心）</p>
+<p>方差 $\sigma_x = \text{Var}[X] = E\left( (X - E[X])^2 \right) = \text{标准差} $ $v_x^2$</p>
+<p>均方根误差：</p>
+<p>$$
+\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+$$</p>
+<p>即所有测量值与实际值的平方差再除总数</p>
+<h2 id="couple-de-variable">Couple de variable<a hidden class="anchor" aria-hidden="true" href="#couple-de-variable">#</a></h2>
+<p>$f_{x,y}(x,y)$ 性质</p>
+<p>$$
+\begin{aligned}
+&amp; \quad \iint_{\mathbb{R} \times \mathbb{R}} f_{x,y}(x,y) , dx , dy = 1 \
+&amp; \quad \quad \quad \quad f_{x,y}(x,y) \geq 0
+\end{aligned}
+$$</p>
+<p>高斯分布：</p>
+<p>$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{1}{2} \left( \frac{x-\mu}{\sigma} \right)^2}
+$$</p>
+<p>$$
+f_{xy}(x, y) = \frac{1}{2\pi \sigma_x \sigma_y \sqrt{1 - \rho_{xy}^2}}
+e^{-\frac{1}{2(1 - \rho_{xy}^2)} \left[ \left( \frac{x - \mu_x}{\sigma_x} \right)^2 + \left( \frac{y - \mu_y}{\sigma_y} \right)^2 - 2\rho_{xy} \left( \frac{x - \mu_x}{\sigma_x} \right) \left( \frac{y - \mu_y}{\sigma_y} \right) \right]}
+$$</p>
+<p>联合概率密度函数：</p>
+<p>$$
+\iint_{-\infty}^{\infty} f_{X,Y}(x, y) , dx , dy = 1
+$$</p>
+<p>边缘概率密度函数：</p>
+<p>$$
+f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) , dy
+$$</p>
+<p>条件概率密度函数：</p>
+<p>$$
+f_{X|Y}(x|y) = \frac{f_{X,Y}(x, y)}{f_Y(y)}
+$$</p>
+<p>协方差：</p>
+<p>$$
+\text{Cov}(X, Y) = E\left[(X - E[X])(Y - E[Y])\right]
+$$</p>
+<p>相关系数：</p>
+<p>$$
+\rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sqrt{\text{Var}(X)} \cdot \sqrt{\text{Var}(Y)}}
+$$</p>
+<p>随机变量对的特性：</p>
+<ul>
+<li>线性特性</li>
+</ul>
+<p>$$
+\quad E \left[ \alpha \varphi(x) + \beta \psi(x) \right] = \alpha E[\varphi(x)] + \beta E[\psi(x)]
+$$</p>
+<ul>
+<li>常数特性</li>
+</ul>
+<p>$$
+\quad E[\alpha] = \alpha
+$$</p>
+<ul>
+<li>期望与方差</li>
+</ul>
+<p>$$
+\quad E[Y] = E[ax + b] = aE[x] + b
+$$</p>
+<p>$$
+\text{Var}[Y] = E\left[(Y - E[Y])^2\right] = E\left[a^2 (x - E[x])^2\right] = a^2 E\left[(x - m)^2\right]
+$$</p>
+<p>$$
+P\left[ x_m \leq x \leq x_M, \ y_m \leq y \leq y_M \right] = \int_{x_m}^{x_M} \int_{y_m}^{y_M} f_{x,y}(x, y) , dx , dy
+$$</p>
+<p>前面提到了条件概率密度：</p>
+<p>$$
+f_{x|y=y_0}(x | y_0) = \frac{f_{xy}(x, y_0)}{f_y(y_0)}
+$$</p>
+<p>对其进行左右积分：</p>
+<p>$$
+\int_{\mathbb{R}} f_{x|y=y_0}(x | y_0) , dx = \frac{\int_{x} f_{xy}(x, y_0) , dx}{\int_{x} f_{y}(y_0) , dx}
+= \frac{\int_{x} f_{xy}(x, y_0) , dx}{f_y(y_0)}
+= \frac{F_y(y)}{f_y(y_0)}
+$$</p>
+<p>可见条件概率密度的积分等于边缘概率密度除以概率密度</p>
+<p>$x$ 和 $y$ 独立条件：</p>
+<p>$$
+\begin{cases}
+f_{y|x}(y|x) = f_y(y) \
+f_{x|y}(x|y) = f_x(x)
+\end{cases}
+$$</p>
+<p>即条件概率等于单独发生的概率</p>
+<p>协方差性质：</p>
+<p>$$
+\text{Cov}[x, x] = \text{Var}[x] \\
+\text{Cov}[y, y] = \text{Var}[y]
+$$</p>
+<p>$$
+\text{Cov}[\alpha x, y] = E \left[ (\alpha x - E[\alpha x])(y - E[y]) \right] = \alpha \text{Cov}[x, y]
+$$</p>
+<p>$$
+\text{Cov}[\alpha x, \beta y] = E \left[ (\alpha x - E[\alpha x])(\beta y - E[\beta y]) \right] = \alpha \beta \text{Cov}[x, y]
+$$</p>
+<p>$$
+\text{Cov}[x, y]=  E\left[(x - E[x])(y - E[y])\right]=E[xy] - E[x]E[y]
+$$</p>
+<p>可见，在独立情况下（$E[xy] = E[x]E[y]$），协方差 $=0$</p>
+<p>相关性</p>
+<p>$$\rho_{xy} = \text{cor}[x, y]= \dfrac{\text{Cov}[x, y]}{\sqrt{\text{Var}[x] \cdot \text{Var}[y]}} = \dfrac{E\left[(x - E[x])(y - E[y])\right]}{\sqrt{E\left[(x - E[x])^2\right] E\left[(y - E[y])^2\right]}}$$</p>
+<p>相关性特性:
+$$
+\text{cor}(x, y) =
+\begin{cases}
+1 &amp; \text{if } y = x \\
+-1 &amp; \text{if } y = -x
+\end{cases}
+$$</p>
+<p>$$
+\text{cor}[\alpha x, y] = \text{cor}[x, y] \quad \text{当} \ \alpha &gt; 0
+$$</p>
+<p>因为：</p>
+<p>$$
+\dfrac{\text{Cov}[\alpha x, y]}{\sqrt{\text{Var}[\alpha x] \text{Var}[y]}} = \dfrac{\alpha \text{Cov}[x, y]}{\sqrt{\alpha^2 \text{Var}[x]} \sqrt{\text{Var}[y]}}
+$$</p>
+<p>$$
+\text{cor}[x, y] = 0 \to \text{cov}[x, y] = 0 \to E[xy] = E[x]E[y]
+$$</p>
+<p>​	不相关 $\to$ 独立 ，这个说法不对，必须在联合概率密度满足高斯分布的情况下，才可以成立</p>
+<p>那么独立 可以推出 不相关吗？</p>
+<p>独立就代表了：</p>
+<p>$$
+f_{xy}(x, y) = f_x(x) \cdot f_y(y) \implies E(xy) = E(x) \cdot E(y)
+$$</p>
+<p>$$
+E(xy) = \int_x \int_y x y f_{xy}(x, y) , dx , dy = \int_x x f_x(x) , dx \int_y y f_y(y) , dy = E(x) \cdot E(y)
+$$</p>
+<p>可见成立。即只有服从高斯分布的联合概率密度才可以由不相关 $\to$ 独立</p>
+<p>证明：</p>
+<p>若 $\text{Cov}(x, y) = 0 \implies \rho_{xy} = 0$</p>
+<p>$$
+f_{xy}(x, y) = \dfrac{1}{2\pi \sigma_x \sigma_y \sqrt{1 - \rho_{xy}^2}}
+e^{-\dfrac{1}{2(1 - \rho_{xy}^2)} \left[ \left( \dfrac{x - \mu_x}{\sigma_x} \right)^2 + \left( \dfrac{y - \mu_y}{\sigma_y} \right)^2 - 2\rho_{xy} \left( \dfrac{x - \mu_x}{\sigma_x} \right) \left( \dfrac{y - \mu_y}{\sigma_y} \right) \right]}
+$$</p>
+<p>当 $\rho_{xy} = 0$，则：</p>
+<p>$$
+f_{xy}(x, y) = \dfrac{1}{2\pi \sigma_x \sigma_y} e^{-\dfrac{1}{2} \left( \left( \dfrac{x - \mu_x}{\sigma_x} \right)^2 + \left( \dfrac{y - \mu_y}{\sigma_y} \right)^2 \right)} = f_x(x) \cdot f_y(y) = \text{独立}
+$$</p>
+<h2 id="随机向量">随机向量<a hidden class="anchor" aria-hidden="true" href="#随机向量">#</a></h2>
+<p>我们有：</p>
+<p>$$
+|\vec{u}|^2 = \vec{u} \cdot \vec{u} \
+\vec{u} \cdot \vec{v} = |\vec{u}| |\vec{v}| \cdot \cos(\theta)
+$$</p>
+<p>向量 $\mathbf{x}$ 表示为：</p>
+<p>$$
+\mathbf{x} = \begin{bmatrix}
+x_1 \
+x_2 \
+\vdots \
+x_n
+\end{bmatrix}
+$$</p>
+<p>满足以下性质：</p>
+<ol>
+<li>
+<p>$f_x \geq 0$，对所有 $x_1, x_2, \dots, x_n \in \mathbb{R}$。</p>
+</li>
+<li>
+<p>$\int_{x_1} \int_{x_2} \dots \int_{x_n} f_x(x_1, \dots, x_n) , dx_1 , dx_2 \dots dx_n = 1$</p>
+</li>
+</ol>
+<p>概率计算为：</p>
+<div>$$P \left\{ 
+\begin{aligned}
+x_1 &\in [m_1, M_1] \\
+x_2 &\in [m_2, M_2] \\
+&\vdots \\
+x_n &\in [m_n, M_n]
+\end{aligned}
+\right\} = \int_{m_1}^{M_1} \int_{m_2}^{M_2} \dots \int_{m_n}^{M_n} f_x(x_1, \dots, x_n) \, dx_1 \, dx_2 \dots dx_n$$</div>
+<p>一阶矩（moment d&rsquo;ordre 1）：</p>
+<p>$$
+m_x = E[x] =
+\begin{bmatrix}
+E[x_1] \\
+E[x_2] \\
+\vdots \\
+E[x_n]
+\end{bmatrix} \quad
+$$</p>
+<p>其中：</p>
+<p>$$
+E[x_n] = \int x_n \cdot f_{x_n}(x_n) , dx_n
+$$</p>
+<p>二阶矩（moment d&rsquo;ordre 2），协方差矩阵（Cov）</p>
+<p>$$
+C_x = E\left[ (x - m_x)(x - m_x)^T \right]
+$$</p>
+<p>其中：</p>
+<p>$$
+x - m_x = \begin{bmatrix} x_1 \\ x _2 \\ \vdots \\ x_n \end{bmatrix}\quad  - \begin{bmatrix} E[x_1] \\ E[x_2] \\ \vdots \\ E[x_n] \end{bmatrix} = \begin{bmatrix} x_1 - E[x_1] \\ x_2 - E[x_2] \\ \vdots \\ x_n - E[x_n] \end{bmatrix}
+$$</p>
+<div>$$f(y \mid x, \gamma_e) = (2\pi)^{-N/2} \gamma_e^{N/2} \exp\left( -\frac{\gamma_e \|y - Hx\|^2}{2} \right)$$</div>
+<p>且：</p>
+<p>$$
+(x - m_x)^T =
+\begin{bmatrix}
+x_1 - E[x_1] &amp; x_2 - E[x_2] &amp; \dots &amp; x_n - E[x_n]
+\end{bmatrix}
+$$</p>
+<p>因此：</p>
+<p>$$
+C_x = E \left[
+\begin{bmatrix}
+x_1 - E[x_1] \\
+x_2 - E[x_2]  \\
+\vdots  \\
+x_n - E[x_n] \\
+\end{bmatrix} \quad
+\begin{bmatrix}
+x_1 - E[x_1] &amp; x_2 - E[x_2] &amp; \dots &amp; x_n - E[x_n] \quad
+\end{bmatrix}
+\right]
+$$</p>
+<p>所以：</p>
+<p>$$
+C_x =
+\begin{bmatrix}
+\text{Var}(x_1) &amp; \text{Cov}(x_1, x_2) &amp; \dots &amp; \text{Cov}(x_1, x_n) \\
+\text{Cov}(x_2, x_1) &amp; \text{Var}(x_2) &amp; \dots &amp; \text{Cov}(x_2, x_n) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\text{Cov}(x_n, x_1) &amp; \text{Cov}(x_n, x_2) &amp; \dots &amp; \text{Var}(x_n)
+\end{bmatrix}\quad
+$$</p>
+<p>特殊情况：独立 $\to$ 无相关性</p>
+<p>$$
+C_x =
+\begin{bmatrix}
+\text{Var}(x_1) &amp; 0 &amp; \dots &amp; 0 \\
+0 &amp; \text{Var}(x_2) &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; \text{Var}(x_n)
+\end{bmatrix}
+$$</p>
+<p>协方差矩阵 $C_x$ 的性质：</p>
+<ol>
+<li>
+<p>$C_x$ 是对称的，$C_x = C_x^T$</p>
+</li>
+<li>
+<p>$C_x$ 是一个正定矩阵，即行列式 $\text{Det}(C_x) \geq 0$</p>
+</li>
+<li>
+<p>所有特征值是正的</p>
+</li>
+<li>
+<p>迹（trace）：$\text{Tr}(C_x) \geq 0$</p>
+</li>
+</ol>
+<p>证明 $ C_x = C_x^T $：</p>
+<p>$$
+C_x^T = E\left[(x - m_x)(x - m_x)^T\right]^T
+= E\left[(x - m_x)(x - m_x)^T\right]
+= C_x \quad \text{（对称性证明）}
+$$</p>
+<p>证明$C_x$ 是一个正定矩阵</p>
+<p>$$
+u^T C_x u = u^T E\left[ (x - m_x)(x - m_x)^T \right] u \
+= E\left[ u^T (x - m_x)(x - m_x)^T u \right] \
+= E\left[ \left( u^T (x - m_x) \right)^2 \right] \geq 0
+$$</p>
+<p>若 $Y = A x + B$，则：</p>
+<p>$$
+C_y = E\left[ (y - E[y])(y - E[y])^T \right]
+= E\left[ A(x - m_x)(x - m_x)^T A^T \right] \\
+= A E\left[ (x - m_x)(x - m_x)^T \right] A^T
+= A C_x A^T
+$$</p>
+<p>接下来我们证明当 $x_n$（随机向量）互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。</p>
+<p>高斯向量公式：</p>
+<p>$$
+f_x(x) = \left(2\pi\right)^{-\frac{N}{2}} \cdot \left[\det(C_x)\right]^{-\frac{1}{2}} \exp\left( -\frac{1}{2} \left(x - m_x\right)^T \cdot C_x^{-1} \cdot \left(x - m_x\right) \right)
+$$</p>
+<p>如果 $X_n$ 是不相关的：</p>
+<p>$$
+C_x =
+\begin{bmatrix}
+\text{Var}(x_1) &amp; 0 &amp; \dots &amp; 0 \\\
+0 &amp; \text{Var}(x_2) &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; \text{Var}(x_n)
+\end{bmatrix}
+$$</p>
+<p>因此：</p>
+<p>$$
+\det(C_x) = \prod_{n=1}^{N} \gamma_n = \gamma_1 \cdot \gamma_2 \cdot \gamma_3 \cdot \dots \cdot \gamma_n
+$$</p>
+<p>因此：</p>
+<p>$$
+C_x^{-1} = \begin{pmatrix}
+\frac{1}{\gamma_1} &amp; 0 &amp; \dots &amp; 0 \\
+0 &amp; \frac{1}{\gamma_2} &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; \frac{1}{\gamma_n}
+\end{pmatrix}
+$$</p>
+<p>由上述结果计算：</p>
+<div>$$\exp\left( - \frac{1}{2} \left( \mathbf{x} - \mathbf{m}_x \right)^{T} C_x^{-1} \left( \mathbf{x} - \mathbf{m}_x \right) \right) = \exp\left( - \frac{1}{2} \left( \frac{(x_1 - m_{x_1})^2}{\gamma_1} + \frac{(x_2 - m_{x_2})^2}{\gamma_2} + \cdots + \frac{(x_n - m_{x_n})^2}{\gamma_n} \right) \right)$$</div>
+<p>因此：</p>
+<p>$$
+f_x(x) = (2\pi)^{-\frac{N}{2}} \cdot \left( \prod_{n=1}^{N} \gamma_n \right)^{-\frac{1}{2}} \cdot \exp\left( -\frac{1}{2} \sum_{n=1}^{N} \frac{(x_n - m_{x_n})^2}{\gamma_n} \right)
+$$</p>
+<p>举例：</p>
+<p>$$
+假设
+\begin{cases}
+f_{x_1}(x_1) = (2\pi)^{-\frac{1}{2}} \gamma_1^{-\frac{1}{2}} \cdot \exp\left( -\frac{1}{2} \cdot \frac{(x_1 - m_{x_1})^2}{\gamma_1} \right)   \\
+f_{x_2}(x_2) = (2\pi)^{-\frac{1}{2}} \gamma_2^{-\frac{1}{2}} \cdot\exp\left( -\frac{1}{2} \cdot \frac{(x_2 - m_{x_2})^2}{\gamma_2} \right) &amp;
+\end{cases}
+$$</p>
+<p>$$
+f_{x_1, x_2}(x_1, x_2) = f_{x_1}(x_1) \cdot f_{x_2}(x_2)
+$$</p>
+<p>结论：当向量 $x_n$ 互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。</p>
+<h2 id="随机信号">随机信号<a hidden class="anchor" aria-hidden="true" href="#随机信号">#</a></h2>
+<p>一阶稳态：均值与时间 $n$ 无关</p>
+<p>$$
+m_x(n) = \mathbb{E}[X_n]
+$$</p>
+<p>二阶稳态：$r_x(n, p)$ 不依赖于 $n$</p>
+<p>$$
+r_x(n, p) = \text{Cov}(X_n, X_{n+p}) = \mathbb{E} \left[ \left( X_n - \mathbb{E}(X_n) \right) \left( X_{n+p} - \mathbb{E}(X_{n+p}) \right) \right]
+$$</p>
+<p>举例：$x_n = \alpha \cdot e^{j \left[ 2\pi v \cdot n + \phi \right]}$，其中只有 $\phi$ 是均匀随机数。</p>
+<ol>
+<li>计算均值：</li>
+</ol>
+<p>$$
+m_x(n) = \mathbb{E}[x_n] = \mathbb{E} \left[ \alpha \cdot e^{j \left( 2\pi v \cdot n + \phi \right)} \right] = \alpha \cdot e^{j 2\pi v n} \cdot \mathbb{E} \left[ e^{j \phi} \right]
+$$</p>
+<p>由于 $\phi$ 在 $[-\pi, \pi]$ 上均匀分布，且 $\mathbb{E} \left[ e^{j \phi} \right] = 0$，所以：</p>
+<p>$$
+m_x(n) = 0
+$$</p>
+<p>因此与 $n$ 无关，满足一阶稳态。</p>
+<ol start="2">
+<li>计算协方差函数：</li>
+</ol>
+<p>$$
+r_x(n, p) = \mathbb{E}[x_n x_{n+p}^*] = \alpha^2 \cdot e^{j 2\pi v p}
+$$</p>
+<p>因此与 $n$ 无关，满足二阶稳态。</p>
+<p>协方差函数的特性（在一二阶稳态的情况下）：</p>
+<ul>
+<li>$r_x(-p) = r_x(p)$
+<ul>
+<li>证明：</li>
+</ul>
+</li>
+</ul>
+<p>$$
+r_x(-p) = \mathbb{E}[x_n, x_{n-p}] = \mathbb{E}\left[ (x_n - m_x)(x_{n-p} - m_x) \right] = \mathbb{E}\left[ (x_{n-p} - m_x)(x_n - m_x) \right] = r_x(p)
+$$</p>
+<ul>
+<li>
+<p>$\text{Cov}[X_n, X_m] = \gamma(n - m) = \gamma(m - n)$</p>
+</li>
+<li>
+<p>$r_x(0) = \mathbb{E}\left( (x_n - m_x)^2 \right) = \text{Var}(x_n)$</p>
+</li>
+<li>
+<p>$\gamma_x(p) \leq \gamma_x(0)$，即在 $0$ 处取得最大值</p>
+</li>
+</ul>
+<p>功率谱密度及其性质：</p>
+<p>定义：</p>
+<p>$$
+S_x(v) = \text{TF} \left[ r_x(p) \right] = \sum_{k \in \mathbb{Z}} r_x(k) e^{-j2\pi vk}, \quad v \in \mathbb{R}
+$$</p>
+<p>反变换：</p>
+<p>$$
+r_x(p) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) e^{j 2 \pi \nu p} d\nu = \text{TFI} \left[ S_x(\nu) \right]
+$$</p>
+<p>其中 $k$ 为离散时间，$v$ 为连续频率，$p$ 为离散时间差。</p>
+<p>注意积分周期可以从 $0$ 到 $1$，只要周期为 $1$ 即可。</p>
+<p>性质：</p>
+<ul>
+<li>$S_x(\nu+1) = S_x(\nu)$，即周期为 $1$
+<ul>
+<li>因为：</li>
+</ul>
+</li>
+</ul>
+<p>$$
+e^{-j2\pi(\nu+1)k} = e^{-j2\pi\nu k} \cdot e^{-j2\pi k} = e^{-j2\pi\nu k} \cdot 1
+$$</p>
+<ul>
+<li>
+<p>$S_x(\nu) \in \mathbb{R}$ 且 $S_x(\nu) \geq 0$</p>
+</li>
+<li>
+<p>功率和：
+$$
+\text{Var}(X_n) = r_x(0) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) d\nu
+$$</p>
+<ul>
+<li>即全部功率之和等于在频率为 $0$ 的协方差函数。同时，更改积分范围即可得到某区间内的概率。</li>
+</ul>
+</li>
+</ul>
+<p>例子（延续前面的例子）：</p>
+<p>$$
+x_n = \alpha \cdot e^{j \left[ 2\pi \nu_0 n + \phi \right]}
+$$</p>
+<p>因此：
+$$
+\begin{cases}
+m_x = 0 &amp; \\
+\gamma_x(p) = \alpha^2 \cdot e^{j \left( 2\pi \nu_0 p \right)} &amp;  \\
+S_x(\nu) = \alpha^2 \cdot \delta (\nu - \nu_0) &amp;  \\
+\end{cases}
+$$</p>
+<p>证明：</p>
+<p>$$
+r_x(p) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) e^{j 2 \pi \nu p} d\nu = \alpha^2 \cdot e^{j 2\pi \nu_0 p}
+$$</p>
+<p>在上述证明中，应用到了性质：</p>
+<p>$$
+\int f_x(x) \cdot \delta(x - x_0) dx = f_x(x_0)
+$$</p>
+<p>$$
+白噪声
+\begin{cases}
+&amp; E[B _n] = 0 \\
+&amp; S_x(\nu) = \text{constante} = \gamma_0 \\
+&amp; \gamma_x(p) = \gamma_0 \cdot \delta_p
+\end{cases}
+$$</p>
+<p>白噪声在两个不同时间点上无相关性，即 $\text{Cov} = 0$。</p>
+<h2 id="随机信号滤波">随机信号滤波<a hidden class="anchor" aria-hidden="true" href="#随机信号滤波">#</a></h2>
+<p>线性时不变系统（SLI）等价于卷积系统：</p>
+<p>$$
+y_n = x_n * h_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k)
+$$</p>
+<ol>
+<li>计算输出均值：</li>
+</ol>
+<p>$$
+m_y(n) = \mathbb{E}[y_n] = \sum_{k \in \mathbb{Z}} h(k) \cdot \mathbb{E}[x(n-k)] = \sum_{k \in \mathbb{Z}} h(k) \cdot m_x = h(0) \cdot m_x
+$$</p>
+<p>因此：</p>
+<ul>
+<li>
+<p>如果 $m_x = 0$，那么 $m_y = 0$</p>
+</li>
+<li>
+<p>如果频率增益 $h(0) = 0$，那么输出信号也是中心化的</p>
+</li>
+<li>
+<p>如果频率增益 $h(0) = 1$，那么 $m_y = m_x$</p>
+</li>
+</ul>
+<ol start="2">
+<li>计算协方差：</li>
+</ol>
+<p>$$
+r_y(n, p) = \text{Cov}(y_n, y_{n+p}) = \mathbb{E} \left[ \left( y_n - \mathbb{E}(y_n) \right) \left( y_{n+p} - \mathbb{E}(y_{n+p}) \right) \right]
+$$</p>
+<p>预计算：</p>
+<p>$$
+y_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k) \
+y_{n+p} = \sum_{e=-\infty}^{+\infty} h(e) \cdot x(n+p-e)
+$$</p>
+<p>因此：</p>
+<p>$$
+(y_n - m_y) = \sum_{k=-\infty}^{+\infty} h(k) \cdot \left[ x(n-k) - m_x \right] \
+(y_{n+p} - m_y) = \sum_{e=-\infty}^{+\infty} h(e) \cdot \left[ x(n+p-e) - m_x \right]
+$$</p>
+<p>计算协方差：</p>
+<p>$$
+\begin{align}
+\mathbb{E}\left[(y_n - m_y)(y_{n+p} - m_y)\right] &amp;= \sum_{k=-\infty}^{+\infty} h(k) \cdot \sum_{e=-\infty}^{+\infty} h(e) \cdot \mathbb{E}\left[ (x_{n-k} - m_x)(x_{n+p-e} - m_x) \right] \
+&amp;= \sum_{k=-\infty}^{+\infty} h(k) \cdot \tilde{r}_x(p+k)
+\end{align}
+$$</p>
+<p>其中：</p>
+<div>$$\mathbb{E} \left[ (X_{n-k} - m_x)(X_{n+p-e} - m_x) \right] = r_x(p+k-e) \\
+\tilde{r}_x(p+k) = \sum_{e=-\infty}^{+\infty} h(e) \cdot r_x(p+k-e)$$</div>
+<p>继续化简：</p>
+<p>$$
+\mathbb{E}\left[(y_n - m_y)(y_{n+p} - m_y)\right] = \sum_{k=-\infty}^{+\infty} h(k) \cdot \tilde{r}_x(p+k)
+$$</p>
+<p>令：</p>
+<p>$$
+\bar{h}(k) = h(-k)
+$$</p>
+<p>则：</p>
+<div>$$\sum_{k=-\infty}^{+\infty} \bar{h}(-k) \cdot \tilde{r}_x(p+k) = \sum_{q=-\infty}^{+\infty} \bar{h}(q) \cdot \tilde{r}_x(p-q) = \tilde{\tilde{r}}_x(p)$$</div>
+<p>综上所述：</p>
+<p>$$
+\begin{cases}
+r_y(p) = \bar{h} * h * \tilde{r}_x(p)  \\
+S_y(\nu) = H(\nu)^* \cdot H(\nu) \cdot S_x(\nu) = |H(\nu)|^2 \cdot S_x(\nu)  \\
+\end{cases}
+$$</p>
+<p><strong>维纳滤波器（Filtrage de Wiener）</strong>，用于在有噪音的环境中恢复信号。</p>
+<p>基于最小化输出误差的均方误差（MSE）。</p>
+<p>现在模型变为带噪音：</p>
+<p>$$
+y_n = x_n * h_n + b_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k) + b_n
+$$</p>
+<p>因此：</p>
+<p>$$
+\begin{cases}
+r_y(p) = \bar{h} * h * \tilde{r}_x(p) + r_b, \\
+S_y(\nu) = |H(\nu)|^2 \cdot S_x(\nu) + S_b(\nu)
+\end{cases}
+$$</p>
+<p>估计误差：</p>
+<p>$$
+e_n = \mathbb{E}\left[ (\hat{x}_n - x_n)^2 \right]
+$$</p>
+<p>其中 $\hat{x}_n = y_n * g_n$，即对输出进行滤波再次卷积得到新的输出向量。</p>
+<p>$g_n$ 是脉冲响应，$G(\nu)$ 是频率响应。</p>
+<p>我们现在致力于求解维纳滤波器的频率响应方程：</p>
+<div>$$\frac{d}{d g_{k_0}} e_n = \frac{d}{d g_{k_0}} \mathbb{E}[(\hat{x}_n - x_n)^2] = 2 \mathbb{E} \left[ y_{n-k_0} \left( \hat{x}_n - x_n \right) \right]$$</div>
+<p>其中：</p>
+<div>$$\frac{d\hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$</div>
+<p>计算：</p>
+<p>$$
+\mathbb{E} \left[ y_{n-k_0} \cdot x_n \right] = \bar{h} * r_x(k_0)
+$$</p>
+<p>$$
+\mathbb{E}[y_{n-k_0} \cdot \hat{x}_n] = g * r_y(k_0)
+$$</p>
+<p>因此：</p>
+<p>$$
+\frac{d}{d g_{k_0}} e_n = 2 \left( g * r_y(k_0) - \bar{h} * r_x(k_0) \right)
+$$</p>
+<p>令偏导数为零，得到最优滤波器公式：</p>
+<p>$$
+g * r_y(k_0) = \bar{h} * r_x(k_0)
+$$</p>
+<p>在频域：</p>
+<p>$$
+G(\nu) S_y(\nu) = H(\nu)^* S_x(\nu)
+$$</p>
+<p>解得：</p>
+<p>$$
+G(\nu) = \frac{H(\nu)^* S_x(\nu)}{|H(\nu)|^2 S_x(\nu) + S_b(\nu)}
+$$</p>
+<p>两种情况：</p>
+<ol>
+<li>无噪音（当 $\gamma_B = 0$，$S_B = 0$）</li>
+</ol>
+<p>$$
+G(\nu) = \frac{1}{H(\nu)}
+$$</p>
+<p>即 $H$ 的逆。</p>
+<ol start="2">
+<li>无滤波器（直通，但有噪声，即 $H(\nu) = 1$）</li>
+</ol>
+<p>$$
+G(\nu) = \frac{S_x(\nu)}{S_x(\nu) + S_b(\nu)} = \frac{1}{1 + \frac{S_b(\nu)}{S_x(\nu)}}
+$$</p>
+<h2 id="经验估计器">经验估计器<a hidden class="anchor" aria-hidden="true" href="#经验估计器">#</a></h2>
+<p>假设 $\hat{\theta}$ 为估计值，评判标准为最小均方误差（MSE）：</p>
+<p>$$
+\varepsilon = \mathbb{E}[(\theta - \hat{\theta})^2]
+$$</p>
+<p>展开：</p>
+<p>$$
+\varepsilon = \mathbb{E}[(\theta - \mathbb{E}(\hat{\theta}) + \mathbb{E}(\hat{\theta}) - \hat{\theta})^2] = \mathbb{E}[(\theta - \mathbb{E}(\hat{\theta}))^2] + \mathbb{E}[(\mathbb{E}(\hat{\theta}) - \hat{\theta})^2]
+$$</p>
+<p>假设偏差 $B = \theta - E[\hat{\theta}]$，即真实值减去估计的期望值。</p>
+<p>因此：</p>
+<p>$$
+\varepsilon = B^2 + \text{Var}(\hat{\theta})
+$$</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%9F%BA%E4%BA%8E%E5%88%B0%E5%A2%99%E5%A3%81%E8%B7%9D%E7%A6%BB%E6%B5%8B%E9%87%8F%E7%9A%84%E5%AE%9A%E4%BD%8D/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>基于到墙壁距离测量的定位</span>
+  </a>
+  <a class="next" href="https://zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>随机信号反卷积</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
