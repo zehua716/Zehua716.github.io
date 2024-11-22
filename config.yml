@@ -106,6 +106,7 @@ languages:
             url: posts/probability_cn  
           - name: 🤖  机器学习
             url: posts/machinelearning_cn
+      dateFormat: "1月2日, 2006"
 
 outputs:
   home:
@@ -124,6 +125,7 @@ params:
   ShowShareButtons: false
   ShowReadingTime: false
   # disableSpecial1stPost: true
+  ShowWordCount: true
   displayFullLangName: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
@@ -181,7 +183,7 @@ params:
 
   assets:
     disableHLJS: true
-    favicon: "/favicon.ico"
+    favicon: "favicon.ico"
   #     favicon16x16: "<link / abs url>"
   #     favicon32x32: "<link / abs url>"
   #     apple_touch_icon: "<link / abs url>"

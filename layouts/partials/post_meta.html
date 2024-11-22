@@ -1,0 +1,28 @@
+{{- $scratch := newScratch }}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css">
+
+{{- if not .Date.IsZero -}}
+{{- $scratch.Add "meta" (slice (printf "<span class=\"meta-tag\"><span class=\"fa fa-calendar-plus-o\"></span>&nbsp;<span title='%s'>%s</span></span>" (.Date) (.Date.Format (default "2006-01-02" .Site.Params.DateFormat)))) }}
+{{- end -}}
+
+{{- if (.Param "ShowLastMod") -}}
+{{- $scratch.Add "meta" (slice (printf "<span class=\"meta-tag\"><span class=\"fa fa-pencil-square-o\"></span>&nbsp;<span title='%s'>%s</span></span>" (.Lastmod) (.Lastmod.Format (.Site.Params.dateFormat | default "2006-01-02")))) }}
+{{- end }}
+
+{{- if (.Param "ShowWordCount") -}}
+{{- $scratch.Add "meta" (slice (printf "<span class=\"meta-tag\"><span class=\"fa fa-file-word-o\"></span>&nbsp;<span>%s</span></span>" (i18n "words" .WordCount | default (printf "%d words" .WordCount)))) }}
+{{- end }}
+
+{{- if (.Param "ShowReadingTime") -}}
+{{- $scratch.Add "meta" (slice (printf "<span class=\"meta-tag\"><span class=\"fa fa-hourglass-half\"></span>&nbsp;<span>%s</span></span>" (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
+{{- end }}
+
+{{- with (partial "author.html" .) }}
+{{- $scratch.Add "meta" (slice (printf "<span class=\"meta-tag\"><span class=\"fa fa-user-circle-o\"></span>&nbsp;<span>%s</span></span>" .)) }}
+{{- end }}
+
+{{- with ($scratch.Get "meta") }}
+{{- delimit . "&nbsp; | &nbsp;" | safeHTML -}}
+{{- end -}}

@@ -6,13 +6,13 @@
 
 - id: read_time
   translation:
-    one : "1 分钟"
-    other: "{{ .Count }} 分钟"
+    one : "大约需要 1 分钟"
+    other: "大约需要{{ .Count }}分钟"
 
 - id: words
   translation: 
-    one: "字"
-    other: "{{ .Count }} 字"
+    one: "只有 1 个字"
+    other: "共{{ .Count }}字"
 
 - id: toc
   translation: "目录"
@@ -26,8 +26,17 @@
 - id: edit_post
   translation: "编辑"
 
-- id: code_copy
-  translation: "复制"
+- id: create_at
+  translation: "创建于"
 
-- id: code_copied
-  translation: "已复制！"
+- id: last_mod
+  translation: "修改于"
+
+- id: total_visit
+  translation: "一共有"
+
+- id: times
+  translation: "人来过这里"
+
+- id: last_change
+  translation: "最后更新于"
