@@ -668,6 +668,8 @@ function SamplePrecision = RNDGamma(Alpha,Beta)
 
 在傅里叶域中，协方差矩阵是对角线形式的，这意味着其各个分量是解相关的。因此，每个分量是独立的，这使得可以并行采样。
 
+{{< alert class="warning" >}} 
+
 **接下来我们给出上面两个表达式的推导过程，基于循环矩阵对角化的思想。**
 
 由于矩阵 $H$ 是实数矩阵，因此它也是它的复共轭矩阵，且 $H^t = H^\dagger$。$D$ 同理。
@@ -722,6 +724,10 @@ function SamplePrecision = RNDGamma(Alpha,Beta)
 <div>$$\mu_{x|*} = \gamma_e \Lambda_{x|*} \Lambda_H^\dagger \hat{y}$$</div>
 
 第二个公式证毕。
+
+ {{< /alert >}}
+
+
 
 在进行步骤 (c) 时，对图像 $x^{[k]}$ 的样本应从具有在傅里叶域中给定的第一和第二矩中的高斯分布中抽取。可以使用自定义的 Matlab 函数 `RNDGauss(Moy, Cov)`，`Moy` 和 `Cov` 必须在傅里叶域中给出，函数具体内容为：
 

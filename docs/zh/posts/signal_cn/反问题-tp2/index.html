@@ -10,7 +10,7 @@
 <meta name="description" content="第二次实验内容">
 <meta name="author" content="Zehua">
 <link rel="canonical" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp2/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.c46176c8bd5bd166e89ee897e2ded71846fbdaf6dffaa0ecd2fc5e7306d0a831.css" integrity="sha256-xGF2yL1b0WbonuiX4t7XGEb72vbf&#43;qDs0vxecwbQqDE=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e8683bded7a3bcd6b7b12abaea09e5245b6d1612c31d148c528eceaba17a1853.css" integrity="sha256-6Gg73tejvNa3sSq66gnlJFttFhLDHRSMUo7Oq6F6GFM=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://zehua716.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
@@ -553,7 +553,8 @@
 <div>$$\overset{\circ}{\mu}_{x|*} = \gamma_e \Lambda_{x|*} \Lambda_H^{\dagger} \overset{\circ}{y}$$</div>
 <div>$$\Lambda_{x|*} = \left( \gamma_e \Lambda_H^\dagger \Lambda_H + \gamma_x \Lambda_D^\dagger \Lambda_D \right)^{-1}$$</div>
 <p>在傅里叶域中，协方差矩阵是对角线形式的，这意味着其各个分量是解相关的。因此，每个分量是独立的，这使得可以并行采样。</p>
-<p><strong>接下来我们给出上面两个表达式的推导过程，基于循环矩阵对角化的思想。</strong></p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>接下来我们给出上面两个表达式的推导过程，基于循环矩阵对角化的思想。</strong></p>
 <p>由于矩阵 $H$ 是实数矩阵，因此它也是它的复共轭矩阵，且 $H^t = H^\dagger$。$D$ 同理。</p>
 <p>因此我们将利用循环矩阵的对角化性质，由于 $H$ 和 $D$ 是循环矩阵，且循环矩阵是具有特殊结构的方阵，矩阵的每一行元素是前一行元素循环右移一位。基于这一性质，循环矩阵的一个重要性质是，它可以通过傅里叶变换对角化。具体来说，任何 $N \times N$ 的循环矩阵 $C$ 都可以写成：</p>
 <div>$$C = F \Lambda F^\dagger$$</div>
@@ -583,6 +584,8 @@
 <p>由于 $F^\dagger F = I$，可以简化为：</p>
 <div>$$\mu_{x|*} = \gamma_e \Lambda_{x|*} \Lambda_H^\dagger \hat{y}$$</div>
 <p>第二个公式证毕。</p>
+</text></div>
+
 <p>在进行步骤 (c) 时，对图像 $x^{[k]}$ 的样本应从具有在傅里叶域中给定的第一和第二矩中的高斯分布中抽取。可以使用自定义的 Matlab 函数 <code>RNDGauss(Moy, Cov)</code>，<code>Moy</code> 和 <code>Cov</code> 必须在傅里叶域中给出，函数具体内容为：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

@@ -1,10 +1,10 @@
 .main {
-    position: relative;
-    min-height: calc(100vh - var(--header-height) - var(--footer-height));
-    max-width: calc(var(--main-width) + var(--gap) * 2);
-    margin: auto;
-    padding: var(--gap);
+    margin-left: calc(var(--toc-width) + var(--gap)); /* 主内容区域从目录右侧开始 */
+    max-width: calc(100% - var(--toc-width) - var(--gap) - 200px); /* 右侧留出 50px 的空白 */
+    padding: var(--gap); /* 添加内边距 */
+    position: relative; /* 相对定位，便于子元素布局 */
 }
+
 
 .page-header h1 {
     font-size: 40px;

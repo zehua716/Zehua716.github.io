@@ -127,19 +127,12 @@ $$
 $$
 
 
-证明:
 
+{{< alert class="warning" >}} 
 
-$$
-\hat{x} = (H^T H + \mu D^T D)^{-1} H^T y
-$$
-
-
-
+**证明** 
 
 我们已知损失准则为:
-
-
 
 
 $$
@@ -147,16 +140,14 @@ J_{\text{PLS}}(x) = y^T y - 2x^T H^T y + x^T H^T H x + \mu x^T D^T D x
 $$
 
 
-
-
 求偏导为0:
-
-
 
 
 $$
 \hat{x} = (H^T H + \mu D^T D)^{-1} H^T y
 $$
+
+ {{< /alert >}}
 
 
 
@@ -302,17 +293,15 @@ $$
 \Lambda_H^{+} \cdot \Lambda_H = \Lambda_H^{*} \cdot \Lambda_H = |\Lambda_H|^2
 $$
 
-
-
-
-证明：
-
-
-
-
+因此有:
 $$
 \overset{\circ}{\hat{x}} = (\Lambda_{h}^{\dagger} \Lambda_{h} + \mu \Lambda_{d}^{\dagger} \Lambda_{d})^{-1} \Lambda_{h}^{\dagger} \overset{\circ}{y}
 $$
+
+
+{{< alert class="warning" >}}  **证明** 
+
+
 
 
 
@@ -321,7 +310,7 @@ $$
 
 
 
-在近似为循环矩阵后，公式 (15) 变为:
+在近似为循环矩阵后，公式  变为:
 
 
 
@@ -373,7 +362,9 @@ $$
 
 
 
-证毕。
+证毕。{{< /alert >}}
+
+
 
 
 
@@ -1169,11 +1160,17 @@ legend('\Delta_\infty(\mu)', ['Min at \mu = ', num2str(mu_min_delta_inf, '%.1e')
 
 和之前肉眼观察得到的 $\mu$ 值相比，可见差距还是挺大的。
 
+
+
+{{< alert class="info" >}} 
+
+**版权说明** 
+
 ​	本文内容均为 ’ [Problème inverse](https://formations.u-bordeaux.fr/#/details-formation?type=enseignement&id=53344) ’ 课程下的实验部分。
 
 ​	具体实验PDF文稿见 **Jean-François Giovanelli** 老师官方网站: [http://giovannelli.free.fr](http://giovannelli.free.fr/)
 
-
+ {{< /alert >}}
 
 
 
