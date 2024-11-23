@@ -9,11 +9,18 @@
       <url>https://zehua716.github.io/images/papermod-cover.png</url>
       <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- 0.135.0</generator>
+    <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Tue, 19 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 23 Nov 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="https://zehua716.github.io/zh/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>勒让德变换</title>
+      <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</link>
+      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</guid>
+      <description>勒让德变换是将一个函数映射为其凸共轭函数，广泛用于优化理论中。本文将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。</description>
+    </item>
     <item>
       <title>粒子最优滤波</title>
       <link>https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/</link>

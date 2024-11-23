@@ -6,7 +6,7 @@ lastmod: "2024-11-06T17:12:35+08:00"
 draft: false
 summary: "VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。"
 description: ""
-tags: ["tst"]
+tags: ["机器学习","生成模型","统计分析"]
 lang: "zh"
 # categories: "posts"
 # cover:
