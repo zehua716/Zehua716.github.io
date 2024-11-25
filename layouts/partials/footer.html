@@ -55,7 +55,7 @@
     {{ end }}
     {{- else }}
     · <span id="last_change">
-        {{ i18n "last_change" }}{{ .Lastmod | time.Format ":date_long" }}
+        {{ i18n "last_change" }}{{ .Site.Lastmod | time.Format ":date_long" }}
     </span>
     {{- end }}
 </footer>
