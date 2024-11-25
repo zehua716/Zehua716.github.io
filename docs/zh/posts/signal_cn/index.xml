@@ -12,7 +12,7 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Sun, 24 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Nov 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="https://zehua716.github.io/zh/posts/signal_cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>勒让德变换</title>
@@ -38,9 +38,9 @@
     <item>
       <title>反问题 TP1</title>
       <link>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <pubDate>Thu, 07 Nov 2024 16:25:17 +0100</pubDate>
       <guid>https://zehua716.github.io/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</guid>
-      <description>图像恢复中去卷积问题</description>
+      <description>对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像</description>
     </item>
     <item>
       <title>反问题 TP2</title>

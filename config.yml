@@ -54,7 +54,7 @@ languages:
         imageTitle: ProfileMode image
         # imageWidth: 120
         # imageHeight: 120
-        subtitle: "☄️ Signal processing | ☁️ Statistics | 🌙 Machine learning | 📱 Control system"
+        subtitle: " Signal processing |  Statistics |  Machine learning |  Control system"
         buttons:
           - name: Signal processing
             url: posts/signal
@@ -98,13 +98,13 @@ languages:
         imageTitle: ProfileMode image
         # imageWidth: 120
         # imageHeight: 120
-        subtitle: "📈 信号处理 | 🎲 概率统计 | 🤖 机器学习 | 🚀 控制系统"
+        subtitle: " 信号处理 |  概率统计 |  机器学习 |  控制系统"
         buttons:
-          - name: 📈  信号处理
+          - name:   信号处理
             url: posts/signal_cn
-          - name: 🎲  概率统计
+          - name:   概率统计
             url: posts/probability_cn  
-          - name: 🤖  机器学习
+          - name:   机器学习
             url: posts/machinelearning_cn
       dateFormat: "1月2日, 2006"
 
@@ -210,7 +210,7 @@ markup:
   highlight:
     noClasses: false
     # anchorLineNos: true
-    # codeFences: true
+    codeFences: true
     guessSyntax: true
     lineNos: true
     # style: monokai
