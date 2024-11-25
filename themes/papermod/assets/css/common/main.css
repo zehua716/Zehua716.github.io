@@ -1,21 +1,76 @@
-/* 设置父容器为 flex 布局 */
+/* 电脑端样式 */
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* 确保内容占满整个视口高度 */
-    margin: 0; /* 移除默认的 margin */
+    min-height: 100vh;
+    margin: 0;
 }
 
-/* 主内容区域 */
 .main {
-    margin-left: calc(var(--toc-width) + var(--gap)); /* 主内容区域从目录右侧开始 */
-    max-width: calc(100% - var(--toc-width) - var(--gap) - 200px); /* 右侧留出 200px 的空白 */
-    padding: var(--gap); /* 添加内边距 */
-    position: relative; /* 相对定位，便于子元素布局 */
-    flex: 1; /* 让主内容区域占据剩余的高度 */
+    margin-left: calc(var(--toc-width) + var(--gap));
+    max-width: calc(100% - var(--toc-width) - var(--gap) - 200px);
+    padding: var(--gap);
+    position: relative;
+    flex: 1;
 }
 
+/* 手机端样式 */
+@media (max-width: 768px) {
+    .toc {
+        display: none;
+    }
 
+    .main {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    body {
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    html {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+/* iPad 竖屏样式 */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .main {
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: calc(100% - 40px);
+        padding: 20px;
+        flex: 1;
+    }
+
+    .toc {
+        display: none;
+    }
+
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+/* iPad 横屏样式 */
+@media (min-width: 1024px) and (orientation: landscape) {
+    /* 电脑端样式直接适用，无需修改 */
+}
 
 
 .page-header h1 {
