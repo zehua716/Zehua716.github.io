@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>随机过程 on 主页</title>
+    <link>https://Zehua716.github.io/zh/tags/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/</link>
+    <description>Recent content in 随机过程 on 主页</description>
+    <image>
+      <title>主页</title>
+      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>zh</language>
+    <copyright>PaperMod</copyright>
+    <lastBuildDate>Wed, 13 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <atom:link href="https://Zehua716.github.io/zh/tags/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随机信号与噪音（理论部分）</title>
+      <link>https://Zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</link>
+      <pubDate>Wed, 20 Dec 2023 16:25:17 +0100</pubDate>
+      <guid>https://Zehua716.github.io/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</guid>
+      <description>主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用</description>
+    </item>
+  </channel>
+</rss>
