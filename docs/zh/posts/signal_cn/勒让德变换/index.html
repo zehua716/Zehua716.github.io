@@ -9,16 +9,16 @@
 <meta name="keywords" content="信号处理, 正则化, 反问题, Optimisation">
 <meta name="description" content="勒让德变换是将一个函数映射为其凸共轭函数，广泛用于优化理论中。本文将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。">
 <meta name="author" content="Zehua">
-<link rel="canonical" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
+<link rel="canonical" href="http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.555e8889a324a4e96ce6751e5a6db535bb380495bd716aff56431212ff61ae56.css" integrity="sha256-VV6IiaMkpOls5nUeWm21Nbs4BJW9cWr/VkMSEv9hrlY=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://zehua716.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://zehua716.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://zehua716.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,14 +86,14 @@
 <meta property="og:title" content="勒让德变换" />
 <meta property="og:description" content="勒让德变换是将一个函数映射为其凸共轭函数，广泛用于优化理论中。本文将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/" />
-<meta property="og:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-11-22T16:25:17+01:00" />
 <meta property="article:modified_time" content="2024-11-23T17:12:35+08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
 <meta name="twitter:title" content="勒让德变换"/>
 <meta name="twitter:description" content="勒让德变换是将一个函数映射为其凸共轭函数，广泛用于优化理论中。本文将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。"/>
 
@@ -107,19 +107,19 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "https://zehua716.github.io/zh/posts/"
+      "item": "http://zehua.eu/zh/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "信号处理",
-      "item": "https://zehua716.github.io/zh/posts/signal_cn/"
+      "item": "http://zehua.eu/zh/posts/signal_cn/"
     }, 
     {
       "@type": "ListItem",
       "position":  3 ,
       "name": "勒让德变换",
-      "item": "https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/"
+      "item": "http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/"
     }
   ]
 }
@@ -137,7 +137,7 @@
   "articleBody": "勒让德变换（$Legendre$ Transform，$LT$）或称作凸共轭（$Convex$ $Conjugate$，$CC$）\n给定一个函数 $f : \\mathbb{R} \\to \\mathbb{R}$ ，该函数满足以下条件：\n严格凸性（strictly convex）： 函数 $f(x)$ 是严格凸的。 可导性（differentiability）： 函数 $f(x)$ 至少一次可导（一般要二次导）。 勒让德变换可以得到一个新的函数 $f^{*}$\n$$ f^*(t) = \\sup_{x \\in \\mathbb{R}} \\big[ x t - f(x) \\big] $$ 其中：\n$\\sup$ 表示取上确界（$supremum$）。 特殊值 $f^*(0)$ ：\n$$ f^*(0) = \\sup_{x \\in \\mathbb{R}} \\big[ -f(x) \\big] = - \\inf_{x \\in \\mathbb{R}} f(x) $$ 这说明 $f^*(0)$ 是 $-f(x)$ 的上确界，也可以看作是 $f(x)$ 的负下确界。\n对任意的 $t$, $x \\in \\mathbb{R}$ ，有以下性质：\n$x t - f(x) \\leq f^{*}(t)$ 说明 $f^ *(t)$ 是所有 $x t - f(x)$ 的上界； $f^ *(t) + f(x) \\geq x t$ 体现了 $f^ *(t)$ 和 $f(x)$ 的对偶性。 勒让德变换是凸分析中的一个基本工具，广泛用于优化理论中，它将一个函数 $f(x)$ 映射为另一个凸函数 $f^*(t)$\n勒让德变换（$Legendre$ Transform, $LT$）在函数的横向伸缩（$dilatation$）、平移（$shift$）、以及纵向平移和伸缩的情况下的性质变化\n(a) 横向伸缩 (Horizontal Dilatation):\n设 $\\gamma \u003e 0$ 是横向伸缩系数，定义一个新函数 $g(x)$ ： $$ g(x) = f(\\gamma x) $$ 对应的勒让德变换为：\n$$ g^*(t) = f^*\\left(\\frac{t}{\\gamma}\\right) $$ 横向缩放（乘以 $\\gamma$ ）会导致勒让德共轭中的自变量 $t$ 被缩放为 $\\frac{t}{\\gamma}$\n(b) 横向平移 (Horizontal Shift):\n设 $x_0 \\in \\mathbb{R}$ 是横向平移的位移量，定义： $$ g(x) = f(x - x_0) $$ 对应的勒让德变换为：\n$$ g^*(t) = f^*(t) - x_0 t $$ 对 $x$ 进行平移，相当于在勒让德共轭中增加一项线性修正 $-x_0 t$ 。\n纵向平移和伸缩 (Vertical Shift-Dilatation):\n设 $\\alpha \\in \\mathbb{R}$ 和 $\\beta \u003e 0$ ，定义新的函数 $g(x)$ ： $$ g(x) = \\alpha + \\beta f(x) $$ 对应的勒让德变换为：\n$$ g^*(t) = \\beta f^*\\left(\\frac{t}{\\beta}\\right) - \\alpha $$ 纵向伸缩 $\\beta$ 会缩放勒让德变换的自变量 $t$ ，并乘以 $\\beta$ 。纵向平移 $\\alpha$ 直接导致勒让德共轭函数的值减去 $\\alpha$\n特殊情况：\n当 $\\alpha = 0$, $\\beta = 1$ （即没有纵向平移或缩放） $x_0 = 0$ （即没有横向平移）$\\gamma = 1$ （即没有横向伸缩）\n函数保持不变，勒让德变换回归其标准形式。\n下面我们以一个二次函数为例，展示如何计算勒让德变换（$Legendre$ Transform, $LT$），并具体推导\n考虑一个二次函数： $$ f(x) = \\alpha + \\frac{1}{2} \\beta (x - x_0)^2, $$ 其中：\n$\\alpha \\in \\mathbb{R}$ 是一个常数，表示垂直偏移； $\\beta \u003e 0$ 是参数，控制二次项的系数； $x_0$ 是偏移中心。 目标是找到其勒让德变换： $$ f^*(t) = \\sup_{x \\in \\mathbb{R}} \\big[ x t - f(x) \\big] $$ 推导\n定义辅助函数： $$ g_t(x) = x t - f(x) $$ 将 $f(x)$ 代入得到： $$ g_t(x) = x t - \\left(\\alpha + \\frac{\\beta}{2}(x - x_0)^2 \\right) $$ 展开： $$ g_t(x) = x t - \\alpha - \\frac{\\beta}{2}(x - x_0)^2 $$ 求导数并找到极值点\n计算 $g_t(x)$ 的一阶导数： $$ g_t^{\\prime}(x) = t - \\beta (x - x_0). $$ 令 $g_t^{\\prime}(x) = 0$ 解出极值点： $$ t - \\beta (\\bar{x} - x_0) = 0 \\quad \\implies \\quad \\bar{x} = x_0 + \\frac{t}{\\beta} $$ 计算 $g_t^{\\prime\\prime}(x) = -\\beta$\n由于 $\\beta \u003e 0$ ，说明 $g_t(x)$ 是一个严格凹函数，因此在 $\\bar{x}$ 处确实取得最大值。\n将极值点代回 $g_t(x)$\n将 $\\bar{x} = x_0 + \\frac{t}{\\beta}$ 代入 $g_t(x)$ ：\n$$ f^*(t) = g_t(\\bar{x}) = \\bar{x} t - f(\\bar{x}) $$ 具体代入：\n$$ f^*(t) = \\left(x_0 + \\frac{t}{\\beta} \\right) t - \\left(\\alpha + \\frac{\\beta}{2} \\left(x_0 + \\frac{t}{\\beta} - x_0 \\right)^2 \\right) $$ 展开化简：\n$$ f^*(t) = x_0 t + \\frac{t^2}{\\beta} - \\alpha - \\frac{\\beta}{2} \\cdot \\frac{t^2}{\\beta^2} $$ 进一步整理：\n$$ f^*(t) = x_0 t + \\frac{t^2}{2\\beta} - \\alpha $$ 最终结果： $$ f^*(t) = \\frac{1}{2\\beta} t^2 + t x_0 - \\alpha $$ 当取特定参数：\n$\\alpha = 0$, $x_0 = 0$, $\\beta = 1$, 此时原函数变为 $f(x) = \\frac{1}{2} x^2$ ，勒让德变换的结果简化为： $$ f^*(t) = \\frac{1}{2} t^2 $$ 具体过程是：\n定义辅助函数 $g_t(x) = x t - f(x)$ ； 求导数 $g_t^{\\prime}(x) = t - f^{\\prime}(x)$ ； 找到零点 $\\bar{x} = \\chi(t)$ ； 代回 $g_t( \\bar{x})$ 得到 $f^*(t)$ 。 勒让德变换通用表达式为： $$ f^*(t) = t \\chi(t) - f[\\chi(t)] $$ 其中： $\\chi(t)$ 是 $f^{\\prime}(x)$ 的反函数，即 $\\chi(t) = (f^{\\prime})^{-1}(t)$ 。\n一阶导数\n为了求 $f^(t)$ 的一阶导数，对 $f^(t)$ 进行求导：\n$$ f^{*\\prime}(t) = \\frac{\\partial}{\\partial t} \\big( t \\chi(t) - f[\\chi(t)] \\big) $$ 利用链式法则，得到：\n$$ f^{*\\prime}(t) = \\chi(t) + t \\chi^{\\prime}(t) - \\chi^{\\prime}(t) f^{\\prime}[\\chi(t)] $$ 由于 $\\chi(t) = f^{\\prime-1}(t)$ ，并且 $f^{\\prime}[\\chi(t)] = t$ ，代入后有：\n$$ f^{*\\prime}(t) = \\chi(t) $$ 因此，一阶导数结果为： $$ f^{*\\prime}(t) = \\chi(t) = f^{\\prime-1}(t) $$ 勒让德变换的二阶导数\n对 $f^ { *\\prime}(t) = \\chi(t)$ 再求导：\n$$ f^{*\\prime\\prime}(t) = \\chi^{\\prime}(t) $$ 由于 $\\chi(t) = f^{\\prime-1}(t)$ ，求导得到： $$ \\chi^{\\prime}(t) = \\frac{1}{f^{\\prime\\prime}[\\chi(t)]} $$ 因此，勒让德变换的二阶导数为：\n$$ \\chi^{\\prime}(t) = \\frac{1}{f^{\\prime\\prime}[\\chi(t)]} $$ 由于 $f^{\\prime\\prime}(x) \u003e 0$ （$f(x)$ 是严格凸函数），所以 $f^ {*\\prime\\prime}(t) \u003e 0$ ，从而证明 $f^ *(t)$ 始终是凸函数。\n勒让德变换的一个关键性质，即双重共轭恢复原函数\n$$ f^{**}(x) = f(x) $$ 双重共轭函数定义为：\n$$ f^{**}(t) = \\sup_{x \\in \\mathbb{R}} \\big[ x t - f^*(x) \\big] $$ 定义辅助函数 $h_t(x)$ ：\n$$ h_t(x) = x t - f^*(x) $$ 对 $h_t(x)$ 求导，计算 $h_t^{\\prime}(x)$ ：\n$$ h_t^{\\prime}(x) = t - f^{*\\prime}(x) $$ 根据勒让德变换的性质：\n$$ f^{*\\prime}(x) = \\chi(x) = f^{\\prime-1}(x) $$ 因此： $$ h_t^{\\prime}(x) = t - \\chi(x) $$ 令导数 $h_t^{\\prime}(x) = 0$ ，得： $$ t - \\chi(\\bar{x}) = 0 \\quad \\implies \\quad \\bar{x} = \\chi(t) $$ 将极值点代入\n将 $\\bar{x} = \\chi(t)$ 代入 $h_t(x)$ ：\n$$ f^{**}(t) = h_t(\\bar{x}) = \\bar{x} t - f^*(\\bar{x}) $$ 由于 $\\bar{x} = \\chi(t)$ ，结合勒让德变换的定义 $f^*(\\bar{x}) = \\bar{x} \\chi(t) - f[\\chi(t)]$ ，可以展开为：\n$$ f^{**}(t) = \\chi(t) t - \\big[\\chi(t) t - f[\\chi(t)]\\big] $$ 化简得到：\n$$ f^{**}(t) = f[\\chi(t)] $$ 由于 $\\chi(t) = f^{\\prime-1}(t)$ ，我们知道 $f[\\chi(t)] = f(f^{\\prime-1}(t))$ 。而这个表达式本质上就是原函数 $f(t)$ 。因此：\n$$ f^{**}(t) = f(t) $$ 双重共轭性质表明，严格凸且下半连续的函数在进行两次勒让德变换后会恢复原函数。这一性质的意义在于。它保证了勒让德变换的对偶性；在优化中可以用于构造对偶问题或分析系统的对偶关系。\n半二次优化方法（$Half$-$Quadratic$ Minimization）的原理和实现\n原始准则（Criterion）\n定义的优化目标函数 $\\mathcal{J}(x)$ 为： $$ \\mathcal{J}(x) = | \\mathbf{y} - \\mathbf{H} \\mathbf{x} |^2 + \\mu \\sum_{p \\sim q} \\varphi(x_p - x_q) $$ 第一项 $| \\mathbf{y} - \\mathbf{H} \\mathbf{x} |^2$ 是数据拟合项，用来度量 $\\mathbf{x}$ 和观测数据 $\\mathbf{y}$ 之间的误差；\n第二项 $\\mu \\sum_{p \\sim q} \\varphi(x_p - x_q)$ 是正则化项，用于惩罚相邻变量（如图像像素或其他邻接点）之间的差异；\n目标是最小化 $\\mathcal{J}(x)$ 。\n半二次优化的核心是将非二次函数 $\\varphi(\\delta)$ 转化为带有辅助变量 $a$ 的二次形式\n根据 [Geman 和 Yang, 1995] 的方法，为每个 $x_p - x_q$ 引入辅助变量 $a_{pq}$ ，使得：\n$\\varphi(\\delta) \\leftrightarrow \\delta_{pq}^2.$\n具体定义为： $$ \\varphi(\\delta) = \\inf_a \\left[ \\frac{1}{2} (\\delta - a)^2 + \\zeta(a) \\right] $$ 其中：\n$\\zeta(a)$ 是一个适当选择的函数，确保原函数 $\\varphi(\\delta)$ 的精确表达。 这种引入将非二次函数 $\\varphi(\\delta)$ 分解为关于变量 $a$ 的优化问题。\n引入辅助变量后，原始准则扩展为： $$ \\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a}) = | \\mathbf{y} - \\mathbf{H} \\mathbf{x} |^2 + \\mu \\sum_{p \\sim q} \\left[ \\frac{1}{2} ( (x_p - x_q) - a_{pq} )^2 + \\zeta(a_{pq}) \\right] $$ 新准则 $\\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a})$ 现在是关于 $\\mathbf{x}$ 和辅助变量 $\\mathbf{a}$ 的联合优化问题。\n原始准则和扩展准则之间有如下关系： $$ \\mathcal{J}(\\mathbf{x}) = \\inf_{\\mathbf{a}} \\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a}) $$ 这说明通过优化 $\\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a})$ 的辅助变量 $\\mathbf{a}$ ，可以间接得到原始问题的解。\n这样做的好处是：\n分离 $\\mathbf{x}$ 和 $\\mathbf{a}$ ，从而使得在固定一个变量时，另一个变量的优化变得简单； $\\mathbf{x}$ 和 $\\mathbf{a}$ 的优化可以交替进行，通过迭代方法逐步收敛到全局最优解。 如何通过勒让德变换来得到辅助变量的形式 $\\zeta(a)$\n我们试图找到一个辅助函数 $\\zeta(a)$ 使得，通过 $\\zeta(a)$ 的构造，将 $\\varphi(\\delta)$ 转化为一个关于变量 $a$ 的分解形式。 $$ \\varphi(\\delta) = \\inf_{a \\in \\mathbb{R}} \\left[ \\frac{ (\\delta - a)^2 }{2} + \\zeta(a) \\right] $$ 引入一个新的辅助函数 $g(\\delta)$ ，定义为： $$ g(\\delta) = \\frac{\\delta^2}{2} - \\varphi(\\delta). $$ 这里 $g(\\delta)$ 被设计为一个严格凸函数（因为二次项 $\\frac{\\delta^2}{2}$ 保证了凸性）。\n我们对 $g(\\delta)$ 应用勒让德变换 $g^*(a)$ ：\n$$ g^*(a) = \\sup_{\\delta \\in \\mathbb{R}} \\big[ a \\delta - g(\\delta) \\big] $$ 代入 $g(\\delta) = \\frac{\\delta^2}{2} - \\varphi(\\delta)$ ，勒让德变换展开为：\n$$ g^*(a) = \\sup_{\\delta \\in \\mathbb{R}} \\left[ a \\delta - \\frac{\\delta^2}{2} + \\varphi(\\delta) \\right] $$ 重新整理后：\n$$ g^*(a) = \\sup_{\\delta \\in \\mathbb{R}} \\left[ \\varphi(\\delta) - \\frac{ (\\delta - a)^2 }{2} \\right] $$ 将辅助函数 $\\zeta(a)$ 定义为：\n$$ \\zeta(a) = g^*(a) - \\frac{a^2}{2} $$ 代入 $g^*(a)$ 的表达式，得： $$ \\zeta(a) = \\sup_{\\delta \\in \\mathbb{R}} \\left[ \\varphi(\\delta) - \\frac{ (\\delta - a)^2 }{2} \\right] $$ 这表明 $\\zeta(a)$ 是由 $\\varphi(\\delta)$ 和二次项 $\\frac{ (\\delta - a)^2 }{2}$ 的优化分解所定义的。\n利用双重勒让德变换的性质 $g = g^{**}$ 的性质，我们可以写出\n$$ g(\\delta) = g^{**}(\\delta) $$ $$ g(\\delta) = \\sup_{a} \\big[ a \\delta - g^*(a) \\big] $$ 结合 $g(\\delta) = \\frac{\\delta^2}{2} - \\varphi(\\delta)$ ，可以进一步推导出：\n$$ \\frac{\\delta^2}{2} - \\varphi(\\delta) = \\sup_{a} \\big[ a \\delta - g^*(a) \\big] $$ 由上述方程，可以得到：\n$$ \\varphi(\\delta) = \\frac{\\delta^2}{2} - \\sup_{a} \\big[ a \\delta - g^*(a) \\big] $$ 进一步等价为：\n$$ \\varphi(\\delta) = \\frac{\\delta^2}{2} + \\inf_{a} \\big[ g^*(a) - a \\delta \\big] $$ 将 $g^*(a)$ 的定义代入： $$ \\varphi(\\delta) = \\frac{\\delta^2}{2} + \\inf_{a} \\left[ \\zeta(a) + \\frac{a^2}{2} - a \\delta \\right] $$ 重新整理： $$ \\varphi(\\delta) = \\inf_{a} \\left[ \\frac{ (\\delta - a)^2 }{2} + \\zeta(a) \\right] $$ 这就恢复了半二次分解的基本形式。\n为了进一步分析辅助变量 $a$，考虑优化问题： $$ \\inf_{a} \\left[ \\frac{ (\\delta - a)^2 }{2} + \\zeta(a) \\right] $$ 对优化准则求导： $$ \\frac{\\partial}{\\partial a} \\left[ \\frac{ (\\delta - a)^2 }{2} + \\zeta(a) \\right] = (a - \\delta) + \\zeta^{\\prime}(a) = 0 $$ 解出最优 $a = \\bar{a}$： $$ \\bar{a} = \\delta - \\zeta^{\\prime}(a) $$ 结合 $\\zeta^{\\prime}(a) = g^{\\prime}(a)$ ，可以进一步得到： $$ \\bar{a} = g^{*\\prime -1} (\\delta) $$ 或简化为： $$ \\bar{a} = g^{\\prime}(\\delta) = \\delta - \\varphi^{\\prime}(\\delta) $$ 通过上述推导，我们得到：\n半二次分解的标准形式： $$ \\varphi(\\delta) = \\inf_{a} \\left[ \\frac{ (\\delta - a)^2 }{2} + \\zeta(a) \\right] $$\n其中 $\\zeta(a) = g^*(a) - \\frac{a^2}{2}$ 是辅助函数。\n最优辅助变量的表达式： $$ \\bar{a} = \\delta - \\varphi^{\\prime}(\\delta) $$\n这个理论保证了对于任何给定的 $\\varphi(\\delta)$，我们都能通过构造辅助变量 $a$ 来优化原始函数。\n总结\n原始优化问题的目标函数为： $$ \\mathcal{J}(x) = | \\mathbf{y} - \\mathbf{H} \\mathbf{x} |^2 + \\mu \\sum_{p \\sim q} \\varphi(x_p - x_q) $$ 为了解决非二次项 $\\varphi(x_p - x_q)$ ，引入辅助变量 $a_{pq}$ ，将原始准则扩展为： $$ \\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a}) = | \\mathbf{y} - \\mathbf{H} \\mathbf{x} |^2 + \\mu \\sum_{p \\sim q} \\left[ \\frac{1}{2} \\big( (x_p - x_q) - a_{pq} \\big)^2 + \\zeta(a_{pq}) \\right] $$\n$a_{pq}$ 是辅助变量，用于解耦 $x_p$ 和 $x_q$ 。 $\\zeta(a_{pq})$ 是通过勒让德变换定义的辅助函数。 算法策略：交替优化（Alternating Minimization）\n(1) 对 $\\mathbf{x}$ 固定 $\\mathbf{a}$ 进行优化\n在固定 $\\mathbf{a}$ 的情况下，优化目标函数变为关于 $\\mathbf{x}$ 的二次问题： $$ \\widetilde{\\mathbf{x}}(\\mathbf{a}) = \\arg\\min_{\\mathbf{x}} \\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a}) $$ 这是一个标准的二次优化问题，可以通过解析解（如线性代数方法）或数值方法高效求解。\n(2) 对 $\\mathbf{a}$ 固定 $\\mathbf{x}$ 进行优化\n在固定 $\\mathbf{x}$ 的情况下，优化目标函数变为关于 $\\mathbf{a}$ 的问题： $$ \\widetilde{\\mathbf{a}}(\\mathbf{x}) = \\arg\\min_{\\mathbf{a}} \\widetilde{\\mathcal{J}}(\\mathbf{x}, \\mathbf{a}) $$ 这个优化问题也可以通过显式公式解出，因为 $\\zeta(a)$ 是预定义的。\n通过在这两个步骤之间交替迭代，逐步接近全局最优解。\n变量的相互作用（Interacting Variables）：\n原始问题中的变量 $x_p$ 和 $x_q$ 存在耦合关系（通过 $\\varphi(x_p - x_q)$）。 扩展准则通过引入 $a_{pq}$ ，解耦了变量 $\\mathbf{x}$ 和 $\\mathbf{a}$ ，从而简化了优化问题。 优化问题的本质：\n原始问题是非二次的，且变量相互作用； 扩展后，尽管存在交互，但问题本质上是二次的，因此易于求解。 半二次优化和相关问题中变量更新的可能方法\n1. 直接计算（Direct Calculus）\n这类方法通过解析表达式或直接矩阵操作更新变量，常用技术包括：\n闭式解（Compact or Closed Form）：当问题有解析解时，可以通过直接计算得到。例如，二次优化问题可以通过矩阵代数方法解决。 矩阵求逆（Matrix Inversion）：对于线性系统，可以通过求解方程 $\\mathbf{A} \\mathbf{x} = \\mathbf{b}$ 来更新 $\\mathbf{x}$，如通过矩阵求逆或其他方法。 适用场景：\n问题规模较小，或系统稀疏，矩阵求逆的成本可接受。 2. 线性系统的算法（Algorithms for Linear Systems）\n这部分涵盖了经典的线性系统求解算法，适用于优化问题中涉及的线性方程组：\n高斯消元法（Gauss）和高斯-约当法（Gauss-Jordan）：通过消元法求解线性系统。 代入法（Substitution）：在某些特定的线性系统中，可以逐步代入解。 三角分解（Triangularisation）：将矩阵分解为上下三角矩阵以加速求解。 适用场景：\n当优化目标是二次形式，且涉及线性方程组时。 3. 数值优化（Numerical Optimization）\n针对非线性或复杂目标函数，使用数值优化技术逐步更新变量：\n梯度下降（Gradient Descent）及其变种： 标准梯度下降法通过计算梯度逐步逼近最优解； 可以结合动量、学习率调整等技术加速收敛。 逐像素更新（Pixel-Wise Update）： 在图像处理问题中，逐像素优化是常用策略，尤其是涉及稀疏正则化的场景。 适用场景：\n问题非线性或不可微，梯度信息可用但解析解不可得。 4. 对角化（Diagonalization）\n通过对矩阵的对角化或循环近似来加速计算：\n循环矩阵近似（Circulant Approximation）：在某些场景下，可以将矩阵近似为循环矩阵，从而通过快速傅里叶变换（FFT）简化运算。 通过快速傅里叶变换（Diagonalization by FFT）：对角化操作可以通过 FFT 快速实现，极大加速求解过程。 适用场景：\n当系统是周期性或卷积形式，FFT 是高效的选择。 5. 特殊算法（Special Algorithms for 1D Cases）\n针对一维情况，可以利用特别设计的算法：\n递归最小二乘法（Recursive Least Squares, RLS）： 适用于时间序列数据或动态系统建模。 卡尔曼滤波或平滑（Kalman Smoother/Filter）： 经典算法，用于估计动态系统的状态，可以扩展到快速变种以适应实时应用。 适用场景：\n动态系统、一维优化问题，尤其是涉及时间序列数据的场景。 辅助变量的更新策略 或者说 辅助变量的分离性\n扩展的准则为： $$ \\widetilde{\\mathcal{J}}(a) = \\sum_{p \\sim q} \\left[ \\frac{1}{2} \\big( (x_p - x_q) - a_{pq} \\big)^2 + \\zeta(a_{pq}) \\right] $$ 这表明该问题：\n非二次：因为 $\\zeta(a_{pq})$ 的形式可能不是二次的； 可分离：由于各 $a_{pq}$ 之间无交互，因此可以并行计算 $a_{pq}$。 2. 第二个优化优势：增强特性\n通过对辅助变量的分离优化，得到以下特性：\n并行计算（Parallel Computation）：每个 $a_{pq}$ 可以独立更新，无需遍历或循环。 显式更新（Explicit Updates）：辅助变量的更新可以通过解析公式完成，无需进一步的内层迭代。 这使得优化过程高效且适合并行处理硬件，如 GPU。\n3. 辅助变量的更新公式\n通过优化准则对 $a_{pq}$ 求导，得到更新公式：\n$$ \\widetilde{a}_{pq} = \\delta_{pq} - \\varphi^{\\prime}(\\delta_{pq}) $$ 其中：\n$\\delta_{pq} = x_p - x_q$ 表示当前变量 $x_p$ 和 $x_q$ 的差异； $\\varphi^{\\prime}(\\delta_{pq})$ 是正则化函数 $\\varphi(\\delta_{pq})$ 的导数。 Huber 函数特例\n对于 Huber 函数： $$ \\varphi(\\delta) = \\begin{cases} \\frac{\\delta^2}{2} \u0026 |\\delta| \\leq s, \\ s |\\delta| - \\frac{s^2}{2} \u0026 |\\delta| \u003e s, \\end{cases} $$ 其导数为： $$ \\varphi^{\\prime}(\\delta) = \\begin{cases} \\delta \u0026 |\\delta| \\leq s, \\ s \\cdot \\text{sign}(\\delta) \u0026 |\\delta| \u003e s. \\end{cases} $$ 对应的辅助变量更新为：\n$$ \\widetilde{a}_{pq} = \\delta_{pq} \\cdot \\left[ 1 - 2\\alpha \\cdot \\min\\left(1, \\frac{s}{|\\delta_{pq}|} \\right) \\right] $$ 总结与扩展\n图像反卷积（Image Deconvolution）：\n主要目标是通过正则化方法恢复原始图像。\n边缘保持与非二次正则化（Edge Preserving and Non-Quadratic Penalties）：\n包括灰度梯度（如边缘检测）的惩罚； 支持凸或部分非凸的正则化。 数值计算与半二次方法（Numerical Computations: Half-Quadratic Approach）：\n迭代优化策略结合分离性质； 使用循环矩阵近似（Circulant Approximation）或快速傅里叶变换（FFT）加速计算。 下一步研究方向包括：\n加入约束条件以提高图像分辨率； 自动估计超参数（正则化参数）或设备参数。 ",
   "wordCount" : "1583",
   "inLanguage": "zh",
-  "image": "https://zehua716.github.io/images/papermod-cover.png","datePublished": "2024-11-22T16:25:17+01:00",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-22T16:25:17+01:00",
   "dateModified": "2024-11-23T17:12:35+08:00",
   "author":{
     "@type": "Person",
@@ -145,14 +145,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/"
+    "@id": "http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "主页",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://zehua716.github.io/favicon.ico"
+      "url": "http://zehua.eu/favicon.ico"
     }
   }
 }
@@ -174,7 +174,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://zehua716.github.io/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -198,7 +198,7 @@
                 </button>
                 <ul class="lang-switch"><li>|</li>
                     <li>
-                        <a href="https://zehua716.github.io/" title="English"
+                        <a href="http://zehua.eu/" title="English"
                             aria-label="English">English</a>
                     </li>
                 </ul>
@@ -206,27 +206,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://zehua716.github.io/zh/posts/" title="列表">
+                <a href="http://zehua.eu/zh/posts/" title="列表">
                     <span>列表</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/tags/" title="标签">
+                <a href="http://zehua.eu/zh/tags/" title="标签">
                     <span>标签</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/archives/" title="时间轴">
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
                     <span>时间轴</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/about/" title="版权说明">
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
                     <span>版权说明</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/search/" title="搜索">
+                <a href="http://zehua.eu/zh/search/" title="搜索">
                     <span>搜索</span>
                 </a>
             </li>
@@ -237,7 +237,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://zehua716.github.io/zh/">主页</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/signal_cn/">信号处理</a></div>
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/signal_cn/">信号处理</a></div>
     <h1 class="post-title entry-hint-parent">
       勒让德变换
     </h1>
@@ -720,7 +720,7 @@ $$
     <ul class="post-tags">
     </ul>
 <nav class="paginav">
-  <a class="next" href="https://zehua716.github.io/zh/posts/machinelearning_cn/vae/">
+  <a class="next" href="http://zehua.eu/zh/posts/machinelearning_cn/vae/">
     <span class="title">下一页 »</span>
     <br>
     <span>变分自编码器VAE</span>

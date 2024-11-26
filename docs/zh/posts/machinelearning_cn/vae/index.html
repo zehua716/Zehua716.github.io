@@ -9,16 +9,16 @@
 <meta name="keywords" content="机器学习, 生成模型, 统计分析">
 <meta name="description" content="VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。">
 <meta name="author" content="zehua">
-<link rel="canonical" href="https://zehua716.github.io/zh/posts/machinelearning_cn/vae/">
+<link rel="canonical" href="http://zehua.eu/zh/posts/machinelearning_cn/vae/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.555e8889a324a4e96ce6751e5a6db535bb380495bd716aff56431212ff61ae56.css" integrity="sha256-VV6IiaMkpOls5nUeWm21Nbs4BJW9cWr/VkMSEv9hrlY=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://zehua716.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://zehua716.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://zehua716.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://zehua716.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://zehua716.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="https://zehua716.github.io/zh/posts/machinelearning_cn/vae/">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/machinelearning_cn/vae/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,14 +86,14 @@
 <meta property="og:title" content="变分自编码器VAE" />
 <meta property="og:description" content="VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://zehua716.github.io/zh/posts/machinelearning_cn/vae/" />
-<meta property="og:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/machinelearning_cn/vae/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-11-20T16:25:17+01:00" />
 <meta property="article:modified_time" content="2024-11-23T17:12:35+08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://zehua716.github.io/images/papermod-cover.png" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
 <meta name="twitter:title" content="变分自编码器VAE"/>
 <meta name="twitter:description" content="VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。"/>
 
@@ -107,19 +107,19 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "https://zehua716.github.io/zh/posts/"
+      "item": "http://zehua.eu/zh/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "机器学习",
-      "item": "https://zehua716.github.io/zh/posts/machinelearning_cn/"
+      "item": "http://zehua.eu/zh/posts/machinelearning_cn/"
     }, 
     {
       "@type": "ListItem",
       "position":  3 ,
       "name": "变分自编码器VAE",
-      "item": "https://zehua716.github.io/zh/posts/machinelearning_cn/vae/"
+      "item": "http://zehua.eu/zh/posts/machinelearning_cn/vae/"
     }
   ]
 }
@@ -137,7 +137,7 @@
   "articleBody": "第一章: 介绍 1.1 无监督学习概述 1.1.1 有监督学习 有监督学习，就是数据集有样本有标签，其目标是学习 $x$ 到 $y$ 的映射，相当于告诉正确答案，如果训练中做错了就根据答案调整一下。\n1.1.2 无监督学习 无监督学习，数据没有类标，那就不是映射了，其目标就是找到隐含在数据里的模式和结构，常见任务有：\n聚类任务 降维: 三维到二维，且同时保留有用信息。最常用的降维就是主成分分析，是一种线性降维方式 特征学习: 也是一种降维，使用了自编码器结构，将一个输入图像通过神经网络映射到一个低维空间，同时注意，保留的主要信息还得能够重构自己，区别在于这是非线性方法 密度估计：这就是我们下面要重点讲的方面——概率密度函数估计 1.2 生成模型与概率密度建模 1.2.1 生成模型 生成模型的定义\n我们给机器一个训练样本集，希望他能产生与训练样本集同分布的新样本。\n比如说有一组训练数据，服从其概率密度分布为 $p_{\\text{data}}(x)$，我们希望找到一个模型，其概率密度分布为 $p_{\\text{model}}(x)$ ，并且和训练样本的概率密度分布相近（即概率密度函数一样），因此可以从这个 (新构造的) 模型中采样数据从而产生新的样本，并且新样本服从 $p_{\\text{model}}(x)$这个概率密度分布。\n换句话说，我们用了一个模型去逼近这个原始真实输入数据分布 $p_{\\text{data}}(x)$ ，但是注意，真实分布 $p_{\\text{data}}(x)$ 是没有办法知道的，因为它太高维了，只能用一个模型去逼近。有了这个模型我们就可以从其中采样了。\n总而言之，生成模型通过学习输入数据的的联合概率密度分布，学习数据的生成过程，来产生新的且合理的数据样本\n生成模型分类\n根据概率密度估计方法的不同分为两类：\n显式的：估计的分布方程是可以写出来的。换句话说，模型可见。 RNN 的概率密度函数可定义、也可解。 VAE 密度函数能定义但是不可解。 隐式的：不要问模型长什么样子，也不要问概率分布是什么样的，反正我能生成样本，你要什么我就给你什么样的新样本。模型不可见。 GAN 完全不需要密度函数。 1.2.2 概率密度估计建模 机器学习中的不确定性建模\n机器学习，特别是生成模型中的核心理念之一：世界上的一切都是不确定的，任何事实发生的背后都有一个对应的概率分布。机器学习模型（如深度神经网络、生成模型）试图去建模真实世界中的不确定性。换句话说，我们认为数据（无论是图像、文本、音频等）都是由某种潜在的概率分布生成的。在生成模型中，我们希望通过学习这个分布来进行新的数据生成。\n任务目标\n因此这也引出了无监督模型里的一个核心问题，概率密度估计问题。\n初始的输入数据是有限的样本集，我们的目标是利用这些样本来构建一个生成模型，该模型能够生成与原始数据分布相似的无限新数据。这相当于用一个模型来近似原始数据分布。\n因此，我们面临的核心问题是：如何通过有限的样本去近似这个未知的、且可能是高维的原始数据分布。这也是密度估计问题的本质：在已知样本的前提下，估计出样本所属的概率密度函数（PDF）。即 密度估计的任务就是近似原始数据的概率密度分布。\n概率建模定义\n对于给定的输入数据，我们通过构建模型来推断出数据背后的潜在生成机制，并推断其最可能的输出数据。\n基本组成部分\n随机变量： 是一个不确定的变量，离散或连续都可以，它们的值可以通过概率分布来描述。 概率分布： 概率分布定义了随机变量取值的可能性。 对于随机变量，其概率分布是未知的，但是我们可以先入为主 假设其概率分布，例如正态分布、离散分布或指数分布。这种假定的分布就是我们构建的假设空间。 联合分布和条件分布： **联合分布 **表示多个随机变量同时出现的概率。例如，如果有两个变量 $X$ 和 $Y$，那么联合分布 $P(X, Y)$ 描述了 $X$ 和 $Y$ 同时发生的可能性。 条件分布 描述在已知某些变量取值的情况下，其他变量的概率分布。比如，$P(X|Y)$ 表示在已知 $Y$ 的情况下，$X$ 的分布。 监督学习中的概率建模\n在监督学习中，我们希望通过已知的数据样本 $D = {(x_i, y_i)}$ 来学习 $x$ 和 $y$ 之间的条件概率分布 $P(y|x)$。因此在给定新数据 $x$ 时，可以进行预测 $y$ (比如说给定一个猫的图片$x$ ，然后判断是 +1 的概率是多少 0 的概率是多少)。典型的基于概率密度建模的监督学习方法有逻辑回归、朴素贝叶斯和贝叶斯网络。\n非监督学习中的概率建模\n没有标签 y 与数据 x 的对应关系。因此我们需要从 未标注的数据样本 $D = {x_i}$ 中挖掘数据的潜在结构、分布或者规律。因此概率建模的目标是估计 $P(x)$ ，而不再是条件概率。典型的基于概率密度建模的非监督学习方法有 高斯混合模型 (GMM)、 核密度估计 (KDE) 和 变分自动编码器 (VAE)\n概率建模的步骤\n定义问题：找到随机变量，并且确定随机变量之间的相关性 (独立与否)，同时找到可观测的随机变量及不可观测的随机变量。 选择模型：选择一个合适描述这些随机变量分布的概率模型。比如，线性回归、逻辑回归、高斯分布、混合高斯模型等。 推断与学习：根据观测数据 $X$ 来估计模型参数$\\theta$ ，可以通过贝叶斯推断或最大似然估计等方法。 预测与决策：用训练好的模型对新数据进行预测、分类，或生成与数据分布相似的新样本。 贝叶斯推断\n贝叶斯推断是基于概率建模的重要推断方法。贝叶斯推断方法通过先验分布 $P(\\theta)$ 和似然函数 $P(X | \\theta)$ 来更新对参数的相信度： $$ P(\\theta | X) = \\frac{P(X|\\theta)P(\\theta)}{P(X)} $$ 其中，$\\theta$ 是模型的参数，$X$ 是观测数据。贝叶斯推断是一种动态的过程：从“先验假设”出发，结合“观测证据”，更新“后验认知”。\n朴素贝叶斯分类器 (监督学习中的分类问题)\n在朴素贝叶斯模型中，$Y$ 是目标变量，表示分类标签 (对于二分类是 0 或 1；或者离散值集合$ {C_1, C_2, \\dots, C_k} $ 的多分类)。 $X = (x_1, x_2, \\dots, x_n)$ ：输入特征，假设互相自独立。我们希望通过学习条件概率 $P(Y|X)$ 来对样本 X 进行分类。根\n据贝叶斯定理 即条件概率： $$ P(Y | X) = \\frac{P(X | Y) P(Y)}{P(X)} $$ 由于假设特征独立，我们可以将 $P(X|Y)$ 拆解为： $$ P(X | Y) = P(x_1, x_2, \\dots, x_n | Y) = \\prod_{i=1}^{n} P(x_i | Y) $$ 将多维特征联合分布的计算转化为单个特征的条件概率的乘积。现在只需要分别计算每个特征 $x_i$ 的条件概率 $P(x_i|Y)$，简化计算。\n最后选择能够最大后验概率的分类标签 Y $$ \\hat{Y} = \\arg\\max_Y P(Y) \\prod_{i=1}^n P(x_i | Y) $$ 独立性假设 是朴素贝叶斯的核心假设，现实中不可能完全独立。\n变分自编码器（VAE）\nVAE 是生成模型的一个典型例子，它通过概率建模来学习数据的隐含表示和生成过程。VAE 使用变分推断近似后验分布 Q(Z|X) 来计算对数似然的下界（Evidence Lower Bound，ELBO）：\n$$ \\log P(X) \\geq \\mathbb{E}_{Q(Z|X)} \\left[\\log P(X|Z)\\right] - D_{\\text{KL}}(Q(Z|X) \\| P(Z)) $$ ​\t•\t第一项：重构损失（$ \\mathbb{E}_{Q(Z|X)}[\\log P(X|Z)]$）\n表示使用潜在变量 Z 重构原始数据 X 的好坏，衡量生成数据与真实数据的接近程度。\n​\t•\t第二项：KL 散度项 （$ D_{\\text{KL}}(Q(Z|X) | P(Z)$ )\n表示近似后验分布 Q(Z|X) 与先验分布 P(Z) 的差异。通过最小化它，使潜在变量的分布接近设定的先验（通常是标准正态分布）。\n先不做展开，后续会极大篇幅讲解VAE原理及数学背景以及必要的证明。\n概率密度建模\n由于后续会大规模讲解潜在变量，因此概率建模会细致到概率密度建模\nVAE 的目标之一是学习在给定潜在变量 Z 的条件下观测数据 X 的概率密度，即 $P(X|Z$ ，因此如何从潜在变量生成观测数据，从而实现对数据分布的近似建模。这就是概率密度建模 问题\nVAE使用了变分推断，由于后验分布 $P(Z|X)$ 复杂，我们要使用优化方法来近似它，其核心思想是 在潜在变量 Z 的概率空间中寻找一个最优的近似分布$ Q(Z|X)$，使其尽可能接近真实的后验分布 $P(Z|X)$ 。这同样属于概率密度建模的范畴 (复杂概率分布的近似和优化)\n概率密度建模的任务是找到数据的概率密度函数 $P_{\\theta}(x)$，但是它必须满足以下两个基本约束条件。\n$P_{\\theta}(x) \\geq 0, \\forall x \\in \\mathcal{X}$：概率密度函数必须为非负的。 $\\int P_{\\theta}(x) dx = 1, \\forall \\theta \\in \\Theta$：概率密度函数需要归一化，使得其积分为1（确保总概率为1）。 概率密度建模的困难\n在概率密度建模中，往往需要对概率密度函数的对数求梯度，即$\\nabla_{\\theta} \\log P_{\\theta}(x)$ 不容易计算，其具体解释如下\n高维积分的不可解析性 $$ P(x) = \\int P(x, z) dz=\\int P(x|z) P(Z) , dz $$ 边缘概率表示通过积分消去潜在变量 $z$ 的影响来得到 $P(x)$。在实际应用中，求解这个积分往往没有解析解 (数据维度高、模型复杂)，直接计算 $P(x)$ 是不可行的\n梯度的复杂性\n真实的后验分布 P(Z|X) 是难以计算甚至无法表示的，这使得直接基于后验分布进行梯度计算是难实现的\n$$ \\nabla_\\theta \\log P_\\theta(x) = \\frac{\\nabla_\\theta P_\\theta(x)}{P_\\theta(x)} = \\frac{\\int \\nabla_\\theta P_\\theta(x|z) P(Z) , dz}{\\int P_\\theta(x|z) P(Z) , dz} $$\n高维数据采样生成的复杂性\n在图像生成任务中，像素空间可能具有数十万维度（ 例如 256×256×3 ），而真实数据分布可能集中在一个复杂的低维流形上。因此从高维分布直接采样既困难又不准确。\n1.3 概率分布假设 1.3.1 高斯分布 我们通常对概率分布的形式做出某种假设（因为我们本身不知道它的概率分布）。最常用的是 假设其概率分布是高斯分布：\n假设概率分布是多维高斯分布 $\\mathcal{N}(\\mu_{\\theta}(x), \\Sigma_{\\theta}(x))$，其中均值 $\\mu_{\\theta}(x)$ 和协方差 $\\Sigma_{\\theta}(x)$ 是数据 $x$ 的函数，并且由参数 $\\theta$ 控制。这个假设简化了模型的计算，因为对于高斯分布，许多操作都有解析解，比如极大似然估计。\n多维正态分布的概率密度函数（PDF）为：\n$f(z) = \\frac{1}{\\sqrt{(2\\pi)^d |\\Sigma_\\theta(x)|}} \\exp\\left( -\\frac{(z - \\mu_\\theta(x))^T (z - \\mu_\\theta(x))}{2\\Sigma_\\theta(x)} \\right)$\n对比一维正态分布的概率密度函数(PDF):\n$f(x) = \\frac{1}{\\sqrt{2\\pi \\sigma^2}} \\exp \\left( -\\frac{(x - \\mu)^2}{2\\sigma^2} \\right)$\n1.3.2 极大似然估计（MLE） 详细内容见极大似然估计文章\n经常使用极大似然估计（MLE）来推断高斯分布的参数 $\\mu_{\\theta}, \\Sigma_{\\theta}$ 。其目标是：给定一个数据 X ，找到能够最大化数据发生概率的模型参数$\\theta$ 。\n假设我们有一个概率模型 $P(X|\\theta)$，其中 $X$ 是观测到的数据，$\\theta$ 是我们希望估计的参数。MLE 的目标是找到一个参数估计值 $\\hat{\\theta}$，使得在参数 $\\hat{\\theta}$ 下，数据 $X$ 的似然函数最大化\n1.3.3 VAE 中的概率分布假设 VAE中有两个重要的概率分布：$Q_{\\phi}(Z|X)$ 和 $P_{\\theta}(Z|X)$，它们分别表示从数据 $X$ 到潜在变量 $Z$ 的近似后验分布，以及真实后验分布\n在后续变分推断的步骤中，VAE将有大量的假设概率分布的步骤\n1.4 序列建模与自回归模型 序列建模，特别是 自回归模型（Autoregressive Models） 是通过条件概率展开来建模高维数据的分布。\n1.4.1 条件概率链式法则 对于一个序列化的数据 $X = (x_1, x_2, \\dots, x_n)$，我们可以通过 条件概率链式法则 来表达整个序列的联合概率分布：\n$$ P(x_1, x_2, \\dots, x_n) = P(x_1) P(x_2 | x_1) \\cdots P(x_n | x_1, \\dots, x_{n-1}) $$\n序列中所有变量的联合概率分布等于每个变量在给定前面所有变量条件下的条件概率的连乘。\n1.4.2 自回归模型的原理和实现 自回归模型核心思想是通过条件概率分解来生成序列中的每一个元素。基于条件概率链式法则，每次生成当前元素时都会依赖之前已经生成的元素 ( 每一步的输出用于指导下一步的生成)。\n1.4.3 图像生成中自回归模型的挑战 图像二维空间数据，而自回归模型本质上是为一维序列设计的。因此，在应用自回归模型于图像生成时，必须将二维像素展平成一维序列。例如生成一张分辨率为 $1920 \\times 1080$ 的图片，其像素总数为 $1920 \\times 1080 = 2,073,600 $。这意味着模型需要依次生成长度为 207 万的序列。\n1.5 基于隐变量的生成模型类型 1.5.1 隐变量 隐变量（Latent Variable）是模型中引入的一类未被直接观测到的变量。可以捕获数据的潜在结构并且其模型能够实现降维操作。\n1.5.2 核心思想 基于隐变量的模型会假设观测数据 X 是由某些隐变量 Z 通过某种概率分布生成的，其中结构包括\n先验分布 $P(Z) $：\n通常假设隐变量 Z 服从某个先验分布，例如标准正态分布 P(Z) \\sim \\mathcal{N}(0, I) 。即隐变量的初始状态分布。\n生成过程$ P(X|Z) $\n在给定隐变量 Z 的条件下，观测数据 X 的生成过程被建模为条件分布 P(X|Z) 。这个分布可以由神经网络、混合高斯模型等方法建模。\n后验分布$ P(Z|X) $\n给定观测数据 X，隐变量 Z 的分布可以通过贝叶斯公式推断为 P(Z|X) 。这个后验分布基本上解不出来，变分自编码器 VAE 通过引入近似方法来估计。\n1.5.3 常见的基于隐变量的模型 混合高斯模型（GMM） 隐马尔可夫模型（HMM） 变分自编码器（VAE) 生成对抗网络（GAN） 1.5.4 变分自编码器（VAE）基于隐变量的思想 VAE通过学习数据的潜在表示（隐变量）来生成新的样本，使用了变分推断的思想，将复杂的后验分布近似为简单的高斯分布。其过程简单概述为:\n编码器将输入数据 $X$ 压缩到隐变量 $Z$ 的概率分布。\n解码器从隐变量 $Z$ 生成数据 $X$。\n通过优化损失函数（包括重构误差和KL散度），模型学习到如何从潜在空间生成真实数据。\n1.5.5 扩散模型 (Diffusion Model) 基于隐变量的思想 扩散模型（Diffusion Model）基于概率和隐变量的思想，利用逐步添加噪声和去噪的过程实现数据生成。这种生成模型通过建模从数据分布到噪声分布的正向过程，然后学习其反向去噪过程来生成数据。\n在这个过程中，隐变量是扩散过程中的中间状态 $x_1, x_2, \\dots, x_T $，这些状态表示逐步添加噪声后的数据分布，换句话说，正向扩散过程通过向数据逐步添加噪声，将观测变量 $x_0$ 转化为纯噪声 $x_T$ 。这一过程可以视为构造了一组隐变量 $x_1, x_2, \\dots, x_T $ 。\n详细内容看 扩散模型\n第二章：生成模型的数学基础 详细内容见 生成模型的数学基础\n第三章：基于隐变量的生成模型 3.1 潜在变量的概念 3.1.1 定义 潜在变量（Latent Variables），在统计学和机器学习中，是指那些未被直接观测到的变量，它们隐含在数据背后，控制着可观测变量的行为或模式。好比韩国的财阀，美国的背后集团，看不见老板，但是控制着一切\n在很多生成模型中，观测到的数据 X 通常是通过某些潜在的生成过程产生的，而生成这些数据的因素可以通过潜在变量 Z 来表示。\n观测变量 X：我们可以直接测量或观测到的数据。 潜在变量 Z：隐含在观测数据背后的未知变量，这些变量控制着数据的生成过程，但我们无法直接观测到它们。 举个简单的例子：在天气预测模型中，我们只能观测到温度、湿度、风速等变量，但得到了这些观测变量 X 的用处不大，也就多穿件衣服，我们真正想知道的是导致它这样的 背后规律，即我们无法直接测量的潜在变量 Z（比如说 大气层的复杂状态、地球表面气流的动态等），它们才是关键因素，找到这些决定气候的潜在因素，就可以控制气候\n3.1.2 高维空间与低维子空间的投影 我们观察到的世界可能是一个高维空间到低维子空间的投影。我们观测到的信息 X 并不总是完整的，而只是一些维度的投影。因此，观测到的 X 是潜在变量 Z 的某种反映或表现。\n3.1.3 图像中的潜在变量 尽管一张图片包含了所有的视觉信息，但很多信息是人脑在处理时通过反馈分析得出的。例如，给定一张图片，计算机看到的全是一堆数字，但是人类会自然而然地分析出图片中的颜色、特征等信息，因为大脑通过识别图片中的像素值从而推测出 潜在特征，这些特征就是潜在变量。\n在人脸识别任务中：给定一张人脸图片，潜在变量 Z 可能是皮肤颜色、脸型、发型、眼睛、鼻子的形状等。这些特征不能直接从像素中得知，但通过分析，我们可以推测这些特征控制了图片的生成过程。 潜在空间 $Z$ 两个关键属性\n连续平滑性：潜在空间 $Z$ 应该是连续的，比如说，假如潜在空间中的某个点 $z_1$ 解码为一张“闭着眼的猫”的图像，而另一个点 $z_2$ 解码为一张“睁开眼的猫”的图像，连续性保证我们可以通过从 $z_1$ 到 $z_2$ 的过程中生成一系列图像，代表猫从闭眼到睁眼的平滑变化。 完备性：潜在空间中的任意一个采样点 $Z$ 都应该能够解码成一个有意义的图像，即使是之前从未见过的 $Z$ 也能生成合理的图像。这确保潜在空间 $Z$ 覆盖了所有可能的图像。比如说 $z_1$ 是黑猫， $z_2$ 是白猫，应该合理的生成类似灰猫这样的图片，而不是给我一个狗。 3.1.4 引入潜在空间的必要性 换句话说，为什么要有潜在空间？因为直接在高维空间上对图像进行处理 (建模和采样) 很困难。这因为图像是高维的，而我们又是在像素级别试图对所有的图像进行建模，比如 128×128 的图像有 16,384 维，这个维度上有效的样本是很稀疏的，99%的采样都采到空白处。打个比方，一把豆子在一张纸上很容易找到(采样)，但是在房间里就很难了，更别提在一座大楼及更高维度中，这个难度是急剧增加的。同时，我们无法控制生成过程，比如说我现在就想要一个绿豆子(特定属性的图像)，我们是找不到的，本来找豆子都费劲，就算找到了，五颜六色什么都有随机采样导致是随机色的，根本做不到。\n因此，直接对高维图像 X 建模根本做不了。\n插曲\n为了图像生成，可以让每个像素都服从一个高斯分布，所以我们把每个像素都重新在对应的高斯分布中采样(均值 $\\mu_i$ 就是原始图像当前像素值，方差 $\\sigma_i^2$ 是人为设定的)，这不就能生成新的且非常相似略有不同的图像了吗。\n这个方法有两个缺点，第一，每个像素的分布是独立的，相邻像素没有相关性，比如说这个人胸前画了一个米老鼠，这是有强关联的，特征提取可以直接提取出这是个米老鼠，但是独立像素只会生成唐老鸭形状的麻子。第二，我们只是照猫画猫，照虎画虎，但是给你一道题举一反三照猫画虎，是绝对做不了的，因为它不知道猫的特征，也不知道老虎的特征，它做不到给猫的头上画个王字这么明显的特征。\n引入低维编码空间 Z\n为了解决上述问题，关键在于引入低维潜在空间 Z，将高维的图像的特征映射到一个低维空间上，即捕捉了图像的关键特征，可以被看作是对图像的压缩表示\n隐变量生成模型的优化与采样\n最大似然估计的目标是最大化数据的概率的对数似然函数：\n$$ \\sum_{i} \\log P_\\theta(X_i) $$\n这里的目标是通过对参数 $\\theta$ 进行优化，使得模型生成的样本与真实数据 $X$ 的分布最为接近。但是在VAE这样的生成模型中，建模上面这个东西不容易，因此通过引入隐变量 $Z$ 可以通过 $Z$ 来生成 $X$。原式变为: $$ P_\\theta(X) = \\int P_\\theta(X|Z) P_\\theta(Z) dZ $$\n3.2 变分自编码器（VAE） 在 VAE 中，潜在变量是核心思想。VAE 通过潜在变量空间 Z 的分布 来生成与原数据分布相似的新样本观测数据 X ，即 $Z \\rightarrow X$，这个过程是通过对潜在变量进行建模来捕获数据的生成机制而完成的。\n潜在变量Z\nZ 控制了数据 X 的生成过程。在训练过程中，VAE 会学习如何从一个简单的分布（如标准正态分布）中生成潜在变量 Z，然后通过解码器将 Z 映射到观测数据空间 X 中。\n样本 $(X, Z)$：\n这里样本的概念变了，不再是生成的数据 X，而是由 $X$ (可观测) 和潜在变量 $Z$ (不可观测)构成一个完整的样本。每一个观测样本 $X$ 都对应一个特定的潜在变量 $Z$ (影子)。\n3.2.1 VAE的目标 VAE目标是通过最大化数据 $X$ 的对数似然 $\\log P(X)$ 来学习模型的参数 $\\theta$。因为最开始的时候直接优化 $P(X)$ 很困难，因为它是高维空间的积分，所以给他变形，最终就可以得到对数似然。\n$$ P(X) = \\int_Z P_\\theta(X, Z) dZ $$\n通过对 $Z$ 进行采样并基于条件概率 $P(X|Z)$ 来生成对应的观测数据 $X$ : $$ P(X) = \\int_Z P_\\theta(X|Z) P_\\theta(Z) dZ $$ 求对数似然: $$ \\log P_\\theta(X) = \\log \\int P_\\theta(X|Z) P_\\theta(Z) dZ $$ 变到这里，直接计算这个积分仍然是非常困难的，因此 VAE 引入了变分推断来近似优化这个目标函数，使用 ELBO（Evidence Lower Bound）来近似最大化 $\\log P_\\theta(X)$。\n下面我们来详细推导后续的过程，首先要优化的目标为: $$ \\log P_\\theta(X) = \\log \\int P_\\theta(X|Z) P_\\theta(Z) dZ $$ 首先使用蒙特卡洛（Monte Carlo, MC）方法。其基本思想是通过对 $Z$ 进行采样来近似 $P(X)$，进而计算对数似然。\n上面概率积分的形式可以写成期望：\n$$ P(X) = \\mathbb{E}_{P(Z)} \\left[ P_\\theta(X|Z) \\right] $$ 蒙特卡洛采样过程：\n从 $P(Z)$ 中采样 $Z_1, Z_2, \\dots, Z_n$。\n通过这些采样的 $Z$ 来计算 $P(X)$ 的近似：\n$$ P(X) \\approx \\frac{1}{n} \\sum_{i=1}^{n} P_\\theta(X|Z_i) $$\n$$ \\log P_\\theta(X) \\approx \\log \\left( \\frac{1}{n} \\sum_{i=1}^{n} P_\\theta(X|Z_i) \\right). $$\n然后，我们可以基于这个近似来对参数 $\\theta$ 进行优化。\n但是这个方法也有一个问题，就是维度灾难，高维度情况下，$P(X|Z_i)$ 的值会非常小（接近 0），导致采样效率非常低。但是没关系，我们有办法。\n解决方案：\n为了提高采样效率，我们需要更有效地采样 $Z$，最理想的情况是从 $P(Z|X)$ 中采样 $Z$，因为从 $X$ 中得到的 $Z$ 可以更好地解释数据 $X$\n但是 $P(Z|X)$ 是未知的，我们可以通过一个近似分布 $Q(Z|X)$ 来逼近 $P(Z|X)$。这样我们就能通过 $Q(Z|X)$ 进行采样，并计算：\n$$ \\mathbb{E}_{Q(Z|X)} \\left[ P_\\theta(X|Z) \\right] $$ 这就是变分推断的核心思想，通过引入近似分布 $Q(Z|X)$，我们可以从 Q(Z|X) 采样得到一个高效很漂亮的 $Z$，再用之前的MC方法，可以有效地优化隐变量模型。\n正式推导过程: $$ \\log P(X) = \\log \\int P(X, Z) , dZ $$ 引入近似分布 $Q(Z|X)$ $$ \\log P(X) = \\log \\int P(X, Z) \\frac{Q(Z)}{Q(Z)} , dZ $$\n$$ \\log P(X) = \\log \\mathbb{E}_{Q(Z)} \\left[ \\frac{P(X, Z)}{Q(Z)} \\right] $$\n利用 Jensen 不等式，将 $\\log $穿过积分，即穿过期望。\nJensen 不等式的形式如下：\n​\t•\t定义：对于一个convexe函数 f(x)，任意随机变量 X，有： $$ f(\\mathbb{E}[X]) \\leq \\mathbb{E}[f(X)] $$ ​\t•\tconvexe函数 f(x) 的值在平均值点上$ f(\\mathbb{E}[X])$，总是小于或等于对所有 X 的 f(X) 的加权平均值$ \\mathbb{E}[f(X)]$。\n但是$\\log$ 是一个concave函数（对 $(0, \\infty) $范围来说），因此，Jensen 不等式应用到 $\\log$ 上需要改一下方向，因此有 $$ \\log \\mathbb{E}[f(Z)] \\geq \\mathbb{E}[\\log f(Z)] $$\n原式变成:\n$$ \\log P(X) = \\log \\mathbb{E}_{Q(Z)}\\left[\\frac{P(X, Z)}{Q(Z)}\\right] \\geq \\mathbb{E}_{Q(Z)}\\left[\\log \\frac{P(X, Z)}{Q(Z)}\\right] $$ 右边这个式子就是ELBO，即:\n$$ \\mathcal{L}(Q) = \\mathbb{E}_{Q(Z)} \\left[ \\log \\frac{P(X, Z)}{Q(Z)} \\right] $$ 但是这里我们忽略了一个问题，那就是 $\\log P(X)\\geq \\mathbb{E}_{Q(Z)}\\left[\\log \\frac{P(X, Z)}{Q(Z)}\\right]$ 是大于等于，并不是完全等于，为什么？我们需要从新变换数学公式来得到一个等号形式\n3.2.2 变分推断（VI） $$ \\begin{align*} \\log P(X) \u0026= \\mathbb{E}_{Q(Z)} \\log P(X) \\\\ \u0026= \\mathbb{E}_{Q(Z)} \\log \\frac{P(X, Z)}{P(Z \\mid X)} \\\\ \u0026= \\mathbb{E}_{Q(Z)} \\log \\frac{P(X, Z) Q(Z)}{P(Z \\mid X) Q(Z)} \\\\ \u0026= \\mathbb{E}_{Q(Z)} \\log \\frac{P(X, Z)}{Q(Z)} + \\mathbb{E}_{Q(Z)} \\log \\frac{Q(Z)}{P(Z \\mid X)} \\\\ \u0026= \\mathbb{E}_{Q(Z)} \\log \\frac{P(X, Z)}{Q(Z)} + D\\big[Q(Z) \\| P(Z \\mid X)\\big] \\\\ \u0026= \\mathcal{L}(Q) + D_{KL}(Q(Z) \\| P(Z|X)) \\end{align*} $$ $D_{KL}(Q(Z) | P(Z|X)) $ 是 $KL$ 散度，用来衡量近似分布 $Q(Z)$ 和真实后验 $P(Z|X)$ 的差异。当 $Q(Z) = P(Z|X)$ 时，KL 散度为零，优化就完美达成。对于高斯分布， KL 散度有解析解： $$ D_{KL}(Q_\\phi(Z|X) | P(Z)) = \\frac{1}{2} \\left( \\text{tr}(\\Sigma_\\phi(X)) + \\mu_\\phi(X)^\\top \\mu_\\phi(X) - k - \\log \\det(\\Sigma_\\phi(X)) \\right) $$\n因此，最大化 ELBO 等价于同时最小化 KL 散度和提升重建能力。\n由于 $D_{KL} \\geq 0$，因此： $$ \\log P_\\theta(X) \\geq \\mathcal{L}(\\phi, \\theta) $$ 变分的思想就是，通过最大化 $\\mathcal{L}(Q_\\phi) $来逼近$ \\log P(X)$，并找到能最大化$\\mathcal{L}(Q) $的那个$\\phi$ 即，$\\max_\\phi \\mathcal{L}(Q)$ 。\n$$ \\mathcal{L}(Q) = \\mathbb{E}_{Q(Z)} \\left[ \\log \\frac{P(X, Z)}{Q(Z)} \\right] $$\n第一步 拆 $P(X, Z)$ : $$ P(X,Z) = P(X|Z)*P(Z) $$\n第二步 $$ \\mathcal{L}(Q) = \\mathbb{E}_{Q(Z)} \\left[ \\log P(X|Z) + \\log P(Z) - \\log Q(Z) \\right] $$\n第三步 $$ \\mathcal{L}(Q) = \\underbrace{\\mathbb{E}_{Q(Z)} \\left[ \\log P(X|Z) \\right]}_{\\text{Erreur de reconstruction}} - \\underbrace{D_{KL}(Q(Z) \\| P(Z))}_{\\text{Terme de régularisation}} $$ 重建误差项衡量生成图像与原始图像的差异，控制图像质量。正则项（KL 散度），确保潜在空间每个点都能生成有意义的图像。在优化过程中，需要在重建误差和 KL 散度之间找到平衡。\n3.2.3 参数化 ELBO 近似后验分布：$Q(Z|X) = \\mathcal{N}(Z | \\mu_\\phi(X), \\Sigma_\\phi(X))$\n$\\mu_\\phi(X)$ 和 $\\Sigma_\\phi(X)$ 由编码器网络计算。 生成模型：$P(X|Z) = \\mathcal{N}(X | f_\\theta(Z), I)$\n$f_\\theta(Z)$ 由解码器网络计算。 先验分布： $P(Z)$\n通常设为标准正态分布：$P(Z) = \\mathcal{N}(0, I)$ 因此原式变成:\n$$ \\mathcal{L}(\\phi, \\theta) = \\mathbb{E}_{Q_\\phi(Z|X)} \\left[ \\log P_\\theta(X|Z) \\right] - D_{KL}(Q_\\phi(Z|X) \\| P(Z)) $$ 3.2.4 最终的优化目标 优化参数：\n$\\phi$：编码器参数，控制 $Q(Z|X)$ $\\theta$：解码器参数，控制 $P(X|Z)$ 因此，我们重写上面提到的变分思想，最大化初始下界 $\\mathcal{L}(\\phi, \\theta)$，从而逼近真实对数似然 $\\log P_\\theta(X)$，同时优化编码器参数 $\\phi$ 和解码器参数 $\\theta$，得到优化后的下界，再重复。\n3.2.5 重参数化技巧 我们再次完整的回顾VAE的优化目标\n$$ \\log P_\\theta(X) \\geq \\mathcal{L}(\\phi, \\theta) = \\mathbb{E}_{Q_\\phi(Z|X)} \\left[ \\log P_\\theta(X|Z) \\right] - D_{KL}(Q_\\phi(Z|X) \\| P(Z)) $$ 对 $\\theta$ 的求导是没有问题的，因为 $\\theta$ 只出现在 $P_\\theta(X|Z)$ 中，这个是可以直接计算的。 对 $\\phi$ 的求导是很复杂， $\\phi$ 出现在 $Q_\\phi(Z|X)$ 中， $Z$ 是从分布 $Q_\\phi(Z|X)$ 中随机采样的，即随机性被直接嵌入到了 Z 的采样过程，而这个采样过程又依赖 $\\phi$，因此 $\\phi$ 也被嵌入了 Z 的采样过程。这种情况相当于对随机变量求导。 通俗来讲，为了生成新的样本，我们希望能够从潜在变量空间 z 中采样，并使用解码器生成近似于输入数据 x 的样本。但是随机变量 $Z$ 没有导数，因此用梯度下降法进行优化，梯度下降法都用不了还玩什么神经网络。这就是 重新参数化技巧（reparameterization trick） 的核心所在，它通过辅助变量 $\\epsilon$ 将随机采样与模型参数分离 为了解决对 $\\phi$ 的求导问题，提出了重参数化技巧，即 引入辅助变量 $\\epsilon \\sim \\mathcal{N}(0, I)$ $$ Z = \\mu_\\phi(X) + \\Sigma_\\phi^{1/2}(X) \\cdot \\epsilon $$ 或者简单表示 $$ Z = \\mu_x + \\epsilon \\sigma_x $$ 这样$Z$ 的随机性完全来自 $\\epsilon$，而不是像以前一样由 $Q_\\phi(Z|X)$ 决定，使 $Z$ 关于 $\\phi$ 可导 (均值 $\\mu_\\phi(X)$ 和方差 $\\Sigma_\\phi(X)$ 是 $\\phi$ 的显式函数)。换句话说，可控部分由均值 $\\mu_\\phi(X)$ 和方差 $\\Sigma_\\phi(X)$ 组成，模型的优化过程完全依赖于 $\\mu_\\phi(X)$ 和 $\\Sigma_\\phi(X)$ ，不可控的随机部分由 $\\epsilon$决定，与$\\phi$ 无关，这样可以将随机性隔离在 $\\epsilon$ 中，可以用常规的梯度下降法优化。\n举个例子，一个球可以被推到某个位置。原始情况是球的位置 Z 直接由 $Q_\\phi(Z|X)$ 决定，而这个过程依赖于一个复杂的随机性，导致很难控制。 我们使用重参数化方法后，改用一个简单的标准随机输入 $\\epsilon$（比如“风力”），再通过某种“可控装置”（由 $\\mu_\\phi(X)$ 和 $\\Sigma_\\phi(X)$ 表示）决定最终位置 Z。这样，“装置”（即 $\\phi$）是可控可导的。\n一句话简要概括就是，潜在变量 z 的生成不再是直接从某个分布中随机抽样，而是给他构建一个公式，这个公式中保留了一丝随机性。\n因此根据重参数化，重写目标函数：\n$$ \\mathcal{L}(\\phi, \\theta) = \\mathbb{E}_{\\epsilon \\sim \\mathcal{N}(0, I)} \\left[ \\log P_\\theta(X | \\mu_\\phi(X) + \\Sigma_\\phi^{1/2}(X) \\cdot \\epsilon) \\right] - D_{KL}(Q_\\phi(Z|X) \\| P(Z)) $$ 然后用蒙特卡洛方法MC通过采样近似复杂积分期望部分，即 $\\mathbb{E} _{\\epsilon \\sim \\mathcal{N}(0, I)} \\left[ \\log P _\\theta(X | Z) \\right]$ 。\n​\t(a) 从标准正态分布 $ \\mathcal{N}(0, I) $ 中采样 $\\epsilon_1, \\epsilon_2, \\dots, \\epsilon_n $\n​\t(b) 对每个采样点 $\\epsilon_i$ ，计算对应的 $Z_i = \\mu_\\phi(X) + \\Sigma_\\phi^{1/2}(X) \\cdot \\epsilon_i$\n​\t(c) 用这些采样点的函数值的均值来近似期望值：\n$$ \\mathbb{E}_{\\epsilon \\sim \\mathcal{N}(0, I)} \\left[ \\log P_\\theta(X | Z) \\right] \\approx \\frac{1}{n} \\sum_{i=1}^n \\log P_\\theta(X | Z_i) $$ 3.2.6 生成过程流程 编码阶段 ​\t(a) 输入 $X$ 是观测到的样本（如一张图像），接下来我们着手提取潜在变量 Z 的分布。\n​\t(b) 编码器通过神经网络计算潜在变量的均值 $\\mu_\\phi(X)$ 和协方差矩阵 $\\Sigma_\\phi(X)$ 来估计潜在变量分布 $Q_\\phi(Z|X)$\n​\t(c) 有了潜在变量分布 $Q_\\phi(Z|X)$ ，就可以得到潜在变量 Z 的后验分布$Z \\sim Q_\\phi(Z|X) = \\mathcal{N}(Z | \\mu_\\phi(X), \\Sigma_\\phi(X))$\n​\t(d) 使用重参数化从标准正态分布 $\\epsilon \\sim \\mathcal{N}(0, I)$ 中采样辅助变量 $\\epsilon $ ，并根据公式 $Z = \\mu_\\phi(X) + \\Sigma_\\phi^{1/2}(X) \\cdot \\epsilon$ 来得到 （采样）潜在变量 Z\n解码阶段 ​\t(e) 将编码器生成的潜在变量 Z 输入解码器\n​\t(f) 解码器通过神经网络建模条件分布 $P_\\theta(X|Z)$ ，并输出重构数据 $ \\hat{X} $ 的均值 $\\mu_\\theta(Z)$ 和协方差矩阵（或方差）$ \\ \\Sigma_\\theta(Z)$\n​\t(g) 新的观测数据 $X$ 的就可以生成了 $\\hat{X} \\sim \\mathcal{N}(\\mu_\\theta(Z), \\Sigma_\\theta(Z))$\n​\t(h) 其整个过程对应的数学公式为边缘分布 $P(X)$ $$ P(X) = \\int_Z P_\\theta(X, Z) dZ = \\int_ZP(Z) P(X|Z) $$ ​\t它代表了观测到某个数据 X 的概率，可以通过对所有潜在变量 Z 的可能性进行加权求和（积分）得到。\n这种从潜在变量到观测数据的生成过程称为Ancestral Sampling，即先生成 $Z$，再生成 $X$。\n补充内容，还有另一种采样方式，叫做 VDM（扩散模型）采样，也是基于隐变量的生成模型，它通过逐步从噪声 $Z_n$ 还原到最终的图像 $X$。采样过程是逐步递归的，逐层还原潜在表示 $Z_{n-1}, Z_{n-2}, \\dots, Z_1, X$。 具体内容看 diffusion\n3.3 高斯混合模型 (GMM) 3.3.1 定义 看图比较直观\n高斯混合模型也是一个生成模型，多个高斯分布的线性组合成一个混合高斯分布，并以此生成观测数据。模型中每个数据点 $X$ 都可能来自 $K$ 个不同的高斯分布中的某一个，但是每个高斯分布的权重不一样。GMM 的概率密度函数 $P(X)$ 为：\n$$ P(X) = \\sum_{Z}P(Z)P(X|Z) = \\sum_{k=1}^{K} \\pi_k \\mathcal{N}(x|\\mu_k, \\Sigma_k) $$\n其中：\n$\\pi_k$ 是每个高斯成分的混合系数，满足 $\\sum_{k=1}^{K} \\pi_k = 1$。\n$\\mathcal{N}(x|\\mu_k, \\Sigma_k)$ 是第 $k$ 个高斯成分的概率密度函数，$\\mu_k$ 为均值，$\\Sigma_k$ 为协方差矩阵，更具体公式如下：\n$$ \\mathcal{N}(x|\\mu_k, \\Sigma_k) = \\frac{1}{(2\\pi)^{d/2} |\\Sigma_k|^{1/2}} \\exp\\left( -\\frac{1}{2}(x-\\mu_k)^\\top \\Sigma_k^{-1} (x-\\mu_k) \\right) $$ 生成过程：\n​\t(a) 选择一个高斯分量：根据先验 $P(Z)$ 决定 $X$ 来自哪个高斯成分 $k$，这个过程根据混合系数 $\\pi_k$ 进行采样。比如说有一个多色球的盒子，每种颜色代表一个高斯分量。每种颜色球的比例就是混合系数 $\\pi_k$ ，因此我们随机抽一个球出来，如果抽到了蓝色球，蓝色对应着第 $k$ 个高斯分量，就意味着选择第 $k$ 个高斯分量来生成数据。\n​\t(b) 从该分量采样：在选择了某个高斯成分 $k$ 之后，接下来基于 $P(X|Z)$ 从该分量的高斯分布 $\\mathcal{N}(x|\\mu_k, \\Sigma_k)$ 中生成 $X$。相当于我们有了一套生成规则，比如蓝色球对应一个“蓝色规则”，也就是正态分布 $\\mathcal{N}(x|\\mu_k, \\Sigma_k)$，我们就按照这个分布来生成随机数据点 $X$\n3.3.2 引入潜在变量 Z来优化 我们之前可见，GMM中直接优化 $P(X)$ 涉及对多个高斯成分的求和，我们想要简化计算。\n$$ P(X,Z) = \\prod_{k=1}^{K} \\pi_k^{Z_k} \\mathcal{N}(X|\\mu_k, \\Sigma_k)^{Z_k} $$\n其中\n$Z = (Z_1, Z_2, \\dots, Z_K)$ 是一个 one-hot 形式的向量(只有一个元素为 1，其他所有元素都为 0) $\\pi_k^{Z_k}$：表示混合系数 $\\pi_k$ ，只有当$Z_k = 1$ (第$k$个高斯分布被选中)时，才会保留对应的混合系数 $\\pi_k$。对于其他没被选中的都等于1，在连乘中相当于被忽略。 $\\mathcal{N}(X|\\mu_k, \\Sigma_k)^{Z_k}$：注意右上角有个次方，只有选中了的高斯分布才有意义，没有选中的统统等于1被忽略。 在这种情况下，联合概率的对数形式为：\n$$ \\log P(X, Z) = \\sum_{k=1}^{K} Z_k \\left[\\log \\pi_k + \\log \\mathcal{N}(X|\\mu_k, \\Sigma_k)\\right] $$\n这个对数似然函数的形式就更容易优化了。\n3.3.3 变分自编码器 (VAE) 与 GMM 的类比 VAE 可以被视为一种特殊形式的高斯混合模型，但有一些关键的不同。\nGMM 是引入隐变量 Z 来表示数据点属于哪个高斯分量，而 VAE 引入隐变量 z 是为了建模潜在空间的。 GMM 先由 Z 确定选择一个高斯分量，然后从该分量的高斯分布中生成观测数据 X 。而 VAE 是先从 Z 采样（通常是标准正态分布），然后通过解码器生成观测数据 X，但是有一点，VAE最后把多个从标准正态分布采样得到的 $P(Z)$做积分时，用的还是GMM的无穷混合思想，换句话说，$P_\\theta(X)$ 可以看作是无穷多个高斯模型的混合。 GMM 通过 EM 算法优化， VAE 通过变分推断优化。 GMM 完全基于概率分布， VAE 编码器和解码器是神经网络来完成的。 3.4 扩展问题 何用一个标准正态分布（高斯分布）的随机变量，生成符合任意分布（比如均匀分布、指数分布等）的随机变量？\n1. 高斯分布转均匀分布\n有一个标准正态分布$N \\sim \\mathcal{N}(0, 1)$，通过正态分布的累积分布函数（$CDF$，记作 $ \\Psi $），可以把它变成一个均匀分布 $Y \\sim \\text{Uniform}(0, 1)$。\n高斯分布的 CDF 是一个函数，输入高斯随机变量的值 $n$，会输出 $n$ 在高斯分布中的累积概率 $y = \\Psi (n)$。这个 $y$ 是一个在 $[0, 1]$ 区间内的均匀分布随机数。 证明\nY 的分布是均匀分布，即 $P(Y \\leq y) = y $ $$ P(Y \\leq y) = P(\\Psi(N) \\leq y) = P(N \\leq \\Psi^{-1}(y)) = \\Psi(\\Psi^{-1}(y)) = y $$\n2. 均匀分布转目标分布\n有了均匀分布的随机变量 $Y \\sim \\text{Uniform}(0, 1)$，接下来用目标分布的逆累积分布函数（Inverse CDF ，记作 $F^{-1}$），把均匀分布的随机变量转换为任意目标分布的随机变量 $X$。 $$ X = F^{-1}(Y) $$ 证明\n我们希望证明 X 的分布函数 $P(X \\leq x)$ 等于目标分布的 CDF，即 $F(x)$ 。 $$ P(X \\leq x) = P(F^{-1}(Y) \\leq x) = P(Y \\leq F(x)) = F(x) $$\n为什么要用高斯分布？\n高斯分布在整个实数域上都有定义，特别是在高维空间中，能够均匀覆盖潜在空间 标准正态分布便于计算 通过GMM我们可以看出，通过加权混合多个高斯分布，可以近似任意复杂的分布。 ",
   "wordCount" : "1834",
   "inLanguage": "zh",
-  "image": "https://zehua716.github.io/images/papermod-cover.png","datePublished": "2024-11-20T16:25:17+01:00",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-20T16:25:17+01:00",
   "dateModified": "2024-11-23T17:12:35+08:00",
   "author":{
     "@type": "Person",
@@ -145,14 +145,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://zehua716.github.io/zh/posts/machinelearning_cn/vae/"
+    "@id": "http://zehua.eu/zh/posts/machinelearning_cn/vae/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "主页",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://zehua716.github.io/favicon.ico"
+      "url": "http://zehua.eu/favicon.ico"
     }
   }
 }
@@ -174,7 +174,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://zehua716.github.io/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -198,7 +198,7 @@
                 </button>
                 <ul class="lang-switch"><li>|</li>
                     <li>
-                        <a href="https://zehua716.github.io/" title="English"
+                        <a href="http://zehua.eu/" title="English"
                             aria-label="English">English</a>
                     </li>
                 </ul>
@@ -206,27 +206,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://zehua716.github.io/zh/posts/" title="列表">
+                <a href="http://zehua.eu/zh/posts/" title="列表">
                     <span>列表</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/tags/" title="标签">
+                <a href="http://zehua.eu/zh/tags/" title="标签">
                     <span>标签</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/archives/" title="时间轴">
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
                     <span>时间轴</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/about/" title="版权说明">
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
                     <span>版权说明</span>
                 </a>
             </li>
             <li>
-                <a href="https://zehua716.github.io/zh/search/" title="搜索">
+                <a href="http://zehua.eu/zh/search/" title="搜索">
                     <span>搜索</span>
                 </a>
             </li>
@@ -237,7 +237,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://zehua716.github.io/zh/">主页</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://zehua716.github.io/zh/posts/machinelearning_cn/">机器学习</a></div>
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/machinelearning_cn/">机器学习</a></div>
     <h1 class="post-title entry-hint-parent">
       变分自编码器VAE
     </h1>
@@ -977,12 +977,12 @@ $$</p>
     <ul class="post-tags">
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://zehua716.github.io/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
+  <a class="prev" href="http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/">
     <span class="title">« 上一页</span>
     <br>
     <span>勒让德变换</span>
   </a>
-  <a class="next" href="https://zehua716.github.io/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+  <a class="next" href="http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
     <span class="title">下一页 »</span>
     <br>
     <span>粒子最优滤波</span>

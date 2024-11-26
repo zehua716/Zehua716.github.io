@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>生成模型 on 主页</title>
-    <link>https://zehua716.github.io/zh/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link>
+    <link>http://zehua.eu/zh/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link>
     <description>Recent content in 生成模型 on 主页</description>
     <image>
       <title>主页</title>
-      <url>https://zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://zehua716.github.io/images/papermod-cover.png</link>
+      <url>http://zehua.eu/images/papermod-cover.png</url>
+      <link>http://zehua.eu/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>zh</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate>Sat, 23 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="https://zehua716.github.io/zh/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://zehua.eu/zh/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>变分自编码器VAE</title>
-      <link>https://zehua716.github.io/zh/posts/machinelearning_cn/vae/</link>
+      <link>http://zehua.eu/zh/posts/machinelearning_cn/vae/</link>
       <pubDate>Wed, 20 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://zehua716.github.io/zh/posts/machinelearning_cn/vae/</guid>
+      <guid>http://zehua.eu/zh/posts/machinelearning_cn/vae/</guid>
       <description>VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。</description>
     </item>
   </channel>

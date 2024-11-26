@@ -2,115 +2,115 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://zehua716.github.io/</loc>
+    <loc>http://zehua.eu/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/"
+                href="http://zehua.eu/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/"
+                href="http://zehua.eu/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/search/</loc>
+    <loc>http://zehua.eu/search/</loc>
     <lastmod>2024-11-06T16:57:24+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/search/"
+                href="http://zehua.eu/zh/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/search/"
+                href="http://zehua.eu/search/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/posts/machinelearning/</loc>
+    <loc>http://zehua.eu/posts/machinelearning/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/posts/</loc>
+    <loc>http://zehua.eu/posts/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/posts/"
+                href="http://zehua.eu/zh/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/posts/"
+                href="http://zehua.eu/posts/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/posts/signal/</loc>
+    <loc>http://zehua.eu/posts/signal/</loc>
     <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/posts/probability/</loc>
+    <loc>http://zehua.eu/posts/probability/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/tags/</loc>
+    <loc>http://zehua.eu/tags/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/tags/"
+                href="http://zehua.eu/zh/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/tags/"
+                href="http://zehua.eu/tags/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/tags/tst/</loc>
+    <loc>http://zehua.eu/tags/tst/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/posts/machinelearning/test/</loc>
+    <loc>http://zehua.eu/posts/machinelearning/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/posts/probability/test/</loc>
+    <loc>http://zehua.eu/posts/probability/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/posts/signal/test/</loc>
+    <loc>http://zehua.eu/posts/signal/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>https://zehua716.github.io/about/</loc>
+    <loc>http://zehua.eu/about/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/about/"
+                href="http://zehua.eu/zh/about/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/about/"
+                href="http://zehua.eu/about/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/notes/</loc>
+    <loc>http://zehua.eu/notes/</loc>
   </url><url>
-    <loc>https://zehua716.github.io/archives/</loc>
+    <loc>http://zehua.eu/archives/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/archives/"
+                href="http://zehua.eu/zh/archives/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/archives/"
+                href="http://zehua.eu/archives/"
                 />
   </url><url>
-    <loc>https://zehua716.github.io/categories/</loc>
+    <loc>http://zehua.eu/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://zehua716.github.io/zh/categories/"
+                href="http://zehua.eu/zh/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://zehua716.github.io/categories/"
+                href="http://zehua.eu/categories/"
                 />
   </url>
 </urlset>
