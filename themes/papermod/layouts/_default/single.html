@@ -66,7 +66,7 @@
   {{ if ( .Params.password | default "" ) }}
   <script>
 (function(){
-          if (prompt('请输入文章密码') != {{ .Params.password }}){
+          if (prompt('本内容涉及导师版权问题，请输入密码') != {{ .Params.password }}){
       alert('密码错误！');
       if (history.length === 1) {
         window.opener = null;
