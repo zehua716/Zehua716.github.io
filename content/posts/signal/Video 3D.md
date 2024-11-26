@@ -3,7 +3,7 @@ title: "3D Reconstruction Theory"
 # author: "Zehua"
 date: "2024-10-21T16:25:17+01:00"
 lastmod: "2024-11-12T17:12:35+08:00"
-# draft: false
+draft: true
 lang: "en"
 summary: "In the field of computer vision within artificial intelligence, the subject focuses on theoretical topics including camera model calibration, homography estimation, epipolar geometry, bundle adjustment, etc., to achieve applications such as image calibration, stitching, and bundle calibration."
 description: "Course notes, for personal study and review only."
@@ -1572,8 +1572,4 @@ In practical applications, the steps of the Levenberg-Marquardt algorithm are as
 
 
 
-All content in this document is theoretical and part of the ‘Vidéo 3D - **Computer Vision**’ course, taught by instructor **Guillaume Bourmaud**. All rights are reserved by the instructor.
 
-
-
-For specific experimental content and complete code, please refer to **Guillaume Bourmaud**’s official website: https://gbourmaud.github.io/teaching/
