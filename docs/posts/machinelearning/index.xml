@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Machine learning on Home</title>
-    <link>https://Zehua716.github.io/posts/machinelearning/</link>
+    <link>https://zehua716.github.io/posts/machinelearning/</link>
     <description>Recent content in Machine learning on Home</description>
     <image>
       <title>Home</title>
-      <url>https://Zehua716.github.io/images/papermod-cover.png</url>
-      <link>https://Zehua716.github.io/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
-    <atom:link href="https://Zehua716.github.io/posts/machinelearning/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/posts/machinelearning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tst title</title>
-      <link>https://Zehua716.github.io/posts/machinelearning/test/</link>
+      <link>https://zehua716.github.io/posts/machinelearning/test/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>https://Zehua716.github.io/posts/machinelearning/test/</guid>
+      <guid>https://zehua716.github.io/posts/machinelearning/test/</guid>
       <description>deasdifgisdhbibf</description>
     </item>
   </channel>
