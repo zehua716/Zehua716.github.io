@@ -1,6 +1,6 @@
 # If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
-baseURL: "http://zehua.eu"
+baseURL: "http://zehua.eu/"
 title: Zehua
 copyright: "  [PaperMod](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
 pagination.pagerSize: 5
@@ -23,7 +23,7 @@ minify:
 languages:
   en:
     languageName: "English"
-    weight: 1
+    weight: 2
     title: Home
     menu:
       main:
@@ -66,7 +66,7 @@ languages:
   zh:
     languageName: "中文"
     languagedirection: ltr
-    weight: 2
+    weight: 1
     title: 主页
     contentDir: "content"
     menu:
@@ -116,7 +116,7 @@ outputs:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  description: "Zehua - https://zehua716.github.io"
+  description: "Zehua - http://zehua.eu/"
   author: Zehua
   # author: ["Me", "You"] # multiple authors
 
