@@ -1,5 +1,6 @@
 ---
 title: "反问题 TP1"
+password: "123"
 # author: "Zehua"
 date: "2024-11-07T16:25:17+01:00"
 lastmod: "2024-11-25T17:12:35+08:00"
@@ -1302,5 +1303,4 @@ legend('\Delta_\infty(\mu)', ['Min at \mu = ', num2str(mu_min_delta_inf, '%.1e')
 
 
 和之前肉眼观察得到的 $\mu$ 值相比，可见差距还是挺大的。
-
 
