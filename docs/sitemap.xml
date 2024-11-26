@@ -2,14 +2,14 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <sitemap>
-    <loc>http://localhost:1313/en/sitemap.xml</loc>
+    <loc>https://zehua716.github.io/en/sitemap.xml</loc>
     
       <lastmod>2024-11-12T17:12:35+08:00</lastmod>
     
   </sitemap>
   
   <sitemap>
-    <loc>http://localhost:1313/zh/sitemap.xml</loc>
+    <loc>https://zehua716.github.io/zh/sitemap.xml</loc>
     
       <lastmod>2024-11-25T17:12:35+08:00</lastmod>
     
