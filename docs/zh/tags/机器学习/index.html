@@ -189,6 +189,29 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">论文阅读 - DiffuseVAE 详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>DiffuseVAE 背景问题： 扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。 VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。 因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。
+VAE和扩散模型的优缺点 VAE 的特点：
+显式似然生成模型：以概率分布的方式描述数据生成过程。 低维潜在表示：通过学习隐空间表示，可以捕捉数据的结构和特征。 灵活性：适用于多种任务，包括： 解耦表示学习（分离数据中的不同特征）。 半监督学习（结合少量有标注数据进行学习）。 异常检测（识别偏离正常分布的样本）。 VAE 的局限性：
+模糊的生成样本：生成图像往往缺乏高频细节和清晰度。 结构复杂性：最近的一些改进（如层次化潜在结构）尽管提高了生成质量，但增加了模型复杂度（需要大规模的潜在代码层次化结构）。 与GAN的差距：相比隐式生成模型（如GAN），VAE在样本质量上仍显逊色，特别是在视觉感知方面。 扩散模型（DDPM）的优势和局限性：
+生成质量高：在多个图像合成任务中表现优异，甚至在某些基准上超越了GANs。 高昂的计算成本：生成样本时需要多次迭代的逐步采样过程，计算开销大，生成速度慢。 缺乏低维潜在表示：无法像VAE那样学习和利用低维潜在空间，这限制了其在某些下游任务（如表示解耦、异常检测、可控生成）中的应用。 VAE和DDPM复习回顾 变分自编码器 (VAE ) VAE 是一种利用深度神经网络进行变分推断的生成模型，使用编码器将数据 $x$ 映射到潜在空间表示 $z$，再通过解码器从 $z$ 重建 $x$。它通过最大化数据对数似然 $\log p(x)$ 来学习模型，但由于直接计算对数似然通常不可行，VAE 使用 证据下界（ELBO） 来近似优化。
+VAE 的损失函数（ELBO）定义如下： $$ \mathcal{L}(\theta, \phi) = \underbrace{\mathbb{E}{q\phi(z|x)}[\log p_\theta(x|z)]}{\text{重建误差}} - \underbrace{D{KL}[q_\phi(z|x) | p(z)]}_{\text{KL 散度正则化}} $$ 为了使模型的优化过程可微分，VAE 引入了重参数化技巧，将采样过程从随机变量 $z$ 中分离。例如，将随机变量 $z$ 表示为 $z = \mu &#43; \sigma \cdot \epsilon$，其中 $\epsilon$ 是从标准正态分布采样的噪声。默认先验分布 $p(z)$ 通常设为标准高斯分布，但可以扩展到更复杂的分布（如混合分布或归一化流）以提升模型的表达能力。
+...</p>
+  </div>
+        <footer class="entry-footer">
+          <span class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2024-11-27 16:25:17 +0100 CET'>11月27日, 2024</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共729字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>zehua</span></span></span>
+        <span class="entry-tags"><span>机器学习</span><span>生成模型</span><span>统计分析</span></span>
+  <a class="entry-link" aria-label="post link to 论文阅读 - DiffuseVAE 详解" href="http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">变分自编码器VAE
     </h2>
   </header>
