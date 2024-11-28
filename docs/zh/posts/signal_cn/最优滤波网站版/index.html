@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>粒子最优滤波 | 主页</title>
+<meta name="keywords" content="信号处理, 滤波器设计">
+<meta name="description" content="课程">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.555e8889a324a4e96ce6751e5a6db535bb380495bd716aff56431212ff61ae56.css" integrity="sha256-VV6IiaMkpOls5nUeWm21Nbs4BJW9cWr/VkMSEv9hrlY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="粒子最优滤波" />
+<meta property="og:description" content="课程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-19T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-27T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta name="twitter:title" content="粒子最优滤波"/>
+<meta name="twitter:description" content="课程"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://zehua.eu/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "信号处理",
+      "item": "http://zehua.eu/zh/posts/signal_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "粒子最优滤波",
+      "item": "http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "粒子最优滤波",
+  "name": "粒子最优滤波",
+  "description": "课程",
+  "keywords": [
+    "信号处理", "滤波器设计"
+  ],
+  "articleBody": "信号和系统的特性和建模 这部分内容在 随机信号处理(理论)中有更基础的推导\n信号和系统的特性描述 对于信号而言，其特性有 平稳性、周期性、功率谱密度等，它们用于建立信号的数学模型或描述其统计行为，并且我们通过自相关函数、傅里叶变换等方法提取信号的关键特性。对于系统建模而言，我们通过系统的时域或频域响应、系统的传递函数、极点与零点的分布等来提取系统等关键特性。\n下面我们从估计离散信号自相关函数开始着手刻画信号的 统计特性，自相关函数反映了信号在不同时间延迟下的相似性，描述信号随时间变化的内在规律，是随机过程建模的基础\n对于一个离散信号$ x(n) $，其自相关函数定义为： $$ R_{xx}(\\tau) = \\mathbb{E}[x(n) x^*(n-\\tau)] $$ 这个公式非常好，很漂亮，但是也有一个实际问题，我们采样得到的 $ x(n) $ 是有限样本序列，我们不可能对全体信号进行期望运算，因此需要通过有限样本（长度为 N ）来近似估计真实的自相关函数。\n期望操作 $\\mathbb{E}[\\cdot]$ 的近似可以用 样本均值 替代。注意，用样本均值替代期望的合理性基于大数定律：在样本量 $N \\to \\infty$ 时，样本均值会趋近于真实期望。因此我们最终给出:\n离散信号自相关函数的估计公式\n$$\\hat{R}_{xx}(\\tau) = \\frac{1}{N - \\tau} \\sum_{n=\\tau}^{N-1} x(n) \\cdot x^*(n-\\tau)$$ $N$ 表示信号的长度（样本总数）。\n$\\frac{1}{N - \\tau}$ 是归一化因子，可以调节不同延迟下的影响。比如对于较大延迟 $\\tau$ ，我们可以减少数据样本数量，以此来平衡可能的误差。\n$ x(n)x^*(n-\\tau) $ 代表信号和它延迟版本的乘积，表示信号在某个延迟下的相似性\n$$E\\left[ \\hat{R}_{xx}(\\tau) \\right] = \\frac{1}{N - \\tau} E\\left[ \\sum_{n=\\tau}^{N-1} x(n) \\cdot x^*(n-\\tau) \\right] = R_{xx}(\\tau)$$ 估计的自相关函数 $\\hat{R} _{xx}(\\tau)$ 的期望值等于真实的自相关函数 $R _{xx}(\\tau) $。这说明，估计的平均值不会系统性地偏离真实值，也就是说明这个估计量是无偏的。再通俗来讲，$\\hat{R} _{xx}(\\tau)$ 并不是每时每刻都等于真实的 $ R _{xx}(\\tau) $ ，但是$\\hat{R} _{xx}(\\tau)$ 所有时刻平均起来等于$ R _{xx}(\\tau) $ ，即这个估计方法是没有偏差的，可以用的。严谨一点叫做，取期望消除了样本随机性对结果的影响，体现了估计量的长期统计行为。\n证明: $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = E\\left[ \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} x(n) x^*(n-\\tau) \\right] $$\n$$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} E\\left[ x(n) x^*(n-\\tau) \\right] $$\n在假设信号是平稳过程下，可以将真实自相关函数拿出来 $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} R_{xx}(\\tau) $$ 自相关函数 $R_{xx}(\\tau)$ 与时间 n 无关 $$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = R{xx}(\\tau) \\cdot \\frac{1}{N-\\tau} \\sum_{n=\\tau}^{N-1} 1 $$\n$$ E\\left[ \\hat{R}{xx}(\\tau) \\right] = R{xx}(\\tau) $$\n证明了 $\\hat{R}_{xx}(\\tau)$ 是一个无偏估计量。\n根据上面我们已经证明的离散信号自相关函数的估计公式，我们有以下结论:\n假设 $x(n)$ 是一个平稳过程，那么对于任何固定的 $\\tau$，这个估计值的期望值就是 $R_{xx}(\\tau)$，即：\n$$E\\left[ \\hat{R}_{xx}(\\tau) \\right] = R_{xx}(\\tau)$$ 自相关函数的边界情况 我们有原式:\n$$\\hat{R}_{xx}(\\tau) = \\frac{1}{N - \\tau} \\sum_{n=\\tau}^{N-1} x(n) \\cdot x^*(n-\\tau)$$ 我们考虑自相关估计的一个特殊情况：当 $\\tau = N-1$ 时，只有一个样本 $x(N-1) \\cdot x^{*}(0)$，即\n$$\\hat{R}_{xx}(N-1) = x(N-1) \\cdot x^*(0)$$ 即，当 $\\tau = N-1$ 时，延迟值达到了信号长度的极限，仅剩下第一个样本 $x(0)$ 和最后一个样本 $x(N-1)$ ，自相关估计只能用这一个样本对来计算，没有太多统计意义。\n因此我们可以说，当滞后值接近于信号长度的时候，其得到的自相关值是不可靠的，因为样本数量不足。\n为此我们引入带偏估计\n在带偏估计中，归一化系数是固定的 $\\frac{1}{N}$ 而不是延迟 $\\tau$ 调整的 $\\frac{1}{N - \\tau}$，因此期望值会引入一个 $\\frac{N - \\tau}{N}$ 的系数，使得估计量不再是无偏的。\n带偏估计的自相关公式为：\n$$\\hat{R}_{xx}(\\tau) = \\frac{1}{N} \\sum_{n=0}^{N-\\tau-1} x(n) x(n-\\tau)$$ 带偏估计的期望值为：\n假设 $x(n)$ 是平稳过程，则：\n$$E[\\hat{R}_{xx}(\\tau)] = \\frac{N-\\tau}{N} R_{xx}(\\tau)$$ 因此我们可见，其带偏估计的偏差来源就是这个因子 $ \\frac{N-\\tau}{N} $ ，这一因子随着 $\\tau$ 增大而减小，表明滞后值较大时，带偏估计会系统性地低估自相关值，适用于大样本估计。并且在边界这种极端情况下，也能工作。\nHankel 矩阵定义\nHankel 矩阵是一种特殊的矩阵，其特点是 沿反对角线上的元素相同。在信号处理中，Hankel 矩阵是根据时间序列数据构造的，常用于表示信号的结构信息。\n给定时间序列 $x(0), x(1), x(2), \\ldots, x(N+L-1)$ ，Hankel 矩阵的定义为： $$ H = \\begin{bmatrix} x(0) \u0026 x(1) \u0026 x(2) \u0026 \\cdots \u0026 x(N-1) \\\\ x(1) \u0026 x(2) \u0026 x(3) \u0026 \\cdots \u0026 x(N) \\\\ x(2) \u0026 x(3) \u0026 x(4) \u0026 \\cdots \u0026 x(N+1) \\\\ \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ x(L) \u0026 x(L+1) \u0026 x(L+2) \u0026 \\cdots \u0026 x(N+L-1)\\ \\end{bmatrix} $$ 行的数量为 $L+1$ ，列的数量为 N 。\nHankel 矩阵通过序列 $x(k)$ 的排列捕获信号的时序相关特性，尤其适合分析平稳信号的统计特性，在自回归模型和功率谱估计中用于估计信号的自相关矩阵\n建模与傅里叶级数展开 离散时间信号 $x(n) $ 傅里叶级数展开公式 $$ x(n) = \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n} $$\n一个离散时间信号 $x(n)$ 可以通过复指数形式的傅里叶级数展开成不同频率成分的叠加。其中， $A_k$ 是第 $k$ 个频率分量的复幅度，包含信号在对应离散频率 $f_k$ 上的幅度和相位信息。\n假设信号 $x(n)$ 是一个平稳白噪声，即每个时刻的信号值彼此独立且服从相同的概率分布（通常为均值为零的高斯分布），即:\n零均值 $$ E[x(n)] = 0 $$\n自相关函数 $$ R_{xx}(\\tau) = \\sigma^2 \\delta(\\tau) $$\n表明信号的平均值为0，且信号在 $\\tau \\neq 0 $ 时无相关性，各时间点的值是独立的。\n频域特性 – 功率谱密度\n白噪声的功率谱密度 $S_{xx}(f)$ 是自相关函数 $R_{xx}(\\tau)$ 的傅里叶变换： $$ S_{xx}(f) = TF \\left( R_{xx}(\\tau) \\right) = \\sum_{\\tau} R_{xx}(\\tau) e^{-j 2 \\pi f \\tau} $$\n代入 $R_{xx}(\\tau) = \\sigma^2 \\delta(\\tau) $： $$ S_{xx}(f) = \\sum_{\\tau} \\sigma^2 \\delta(\\tau) e^{-j 2 \\pi f \\tau} $$ 因为 $\\delta(\\tau) 仅在 \\tau = 0$ 时非零： $$ S_{xx}(f) = \\sigma^2 $$ 白噪声的功率谱密度 $S_{xx}(f)$ 在所有频率 $ f$ 上都是均匀分布的常数 $\\sigma^2 $，即所有频率上的功率密度相同。换句话说，在白噪声的建模中，傅里叶级数揭示了白噪声信号在频域的均匀性，即没有特定的频率成分占主导。在时域上，自相关函数为 $\\sigma^2 \\delta(\\tau) $，说明信号无记忆、各时刻独立。在频域上，功率谱密度为常数 $ \\sigma^2 $，说明信号在所有频率上具有相同的能量。\n移动平均 (MA) 过程 移动平均（MA）过程是一种线性时间序列模型，其输出 x(n) 是当前和过去有限个输入信号 u(n) 的加权和： $$ x(n) = \\sum_{j=0}^{q} b_j \\cdot u(n - j) $$ ​\t•\t$u(n)$ 是输入信号，通常假设为白噪声，零均值 $ E[u(n)] = 0$ 和有限方差 $ E[u^2(n)] = \\sigma^2 $。\n​\t•\t$b_j$ 是 MA 过程的系数，表示每个输入信号对输出的权重。\n​\t•\t$q$ 是 MA 模型的阶数（滤波器的记忆长度），输出信号 $x(n)$ 依赖于 $u(n)$ 的过去 $q+1$ 个样本。\n输出信号 $x(n)$ 仅由有限长度的输入序列 $u(n), u(n-1), \\ldots, u(n-q)$ 决定，因此称为短期记忆过程（processus à mémoire courte）\n将输入信号 u(n) 和输出信号 x(n) 进行 z -变换，得： $$ X(z) = \\sum_{j=0}^q b_j \\cdot U(z) \\cdot z^{-j} $$ 因此得到了 MA 过程的传递函数： $$ H(z) = \\frac{X(z)}{U(z)} = \\sum_{j=0}^{q} b_j \\cdot z^{-j} $$ $$ H(z) = b_0 + b_1 z^{-1} + b_2 z^{-2} + \\cdots + b_q z^{-q} $$\n从传递函数中，我们可以看出，其 H(z) 仅包含有限项，滤波器只依赖于 q+1 个输入值，是一种 有限脉冲响应滤波器 (FIR Filter)。同时H(z) 是 z^{-1} 的多项式，假设具有 q 个零点 $z_1, z_2, \\ldots, z_q$，则H(z) 可以表示为： $$ H(z) = b_0 \\prod_{j=1}^{q} (1 - z_j z^{-1}) $$ 其中，$b_0$ 是增益常数，$z_j$ 是系统的零点。\nMA 模型的性质\n**短期记忆性: ** MA 过程仅依赖于有限长度的输入信号，因此是 短期记忆过程 平稳性: 输入信号 u(n) 是平稳白噪声，且 MA 过程只进行加权和操作，因此 MA 模型生成的输出信号 x(n) 也是平稳过程 自相关函数: MA 过程的自相关函数 $R_{xx}(\\tau)$ 仅在 $|\\tau| \\leq q$ 时非零(只关联到过去 $q+1$ 个输入) 功率谱密度: MA 过程的功率谱密度是有限脉冲响应滤波器作用于白噪声谱密度的结果，由滤波器传递函数的模平方决定 $$ S_{xx}(f) = \\sigma^2 \\cdot |H(e^{j 2 \\pi f})|^2 $$\n零点的复数表示 零点 $z_j$ 是复平面上的点，通过复数的极坐标形式，可以将 $z_j$ 表示为： $$ z_j = |z| \\cdot e^{j \\varphi_j} $$\n$|z|$ 是零点的模，表示零点距离原点的距离。\n零点的位置决定了滤波器的频率特性：如果 $z_j$ 位于单位圆内，滤波器在这些频率附近的效果较弱，但系统稳定。 对于 FIR 滤波器，比如这里的MA 过程，零点可以位于复平面的任意位置，不影响系统稳定性。 对于反馈系统（如 AR 模型或 IIR 滤波器），零点和极点的位置必须位于单位圆内以保证稳定性。 $e^{j \\varphi_j}$ 是零点的相位部分，以复指数形式表示，它决定了零点在复平面上的角度。\n$\\varphi_j$ 是零点与复平面实轴正方向的夹角，称为零点的相位角。\n相位角 $\\varphi_j$ 的计算 $$ \\varphi_j = \\frac{2 \\pi f_j}{f_{\\text{ech}}} $$\n$f_j$ 是零点对应的频率\n$\\varphi_j$ 是一个归一化的角频率，表示零点在复平面上的位置角度（以弧度计）。\n因为物理频率 $f_j $ 的范围是 $[0, f_{\\text{ech}}/2]$ （奈奎斯特采样定理的限制），归一化角频率 $\\varphi_j$ 的范围为 $[0, \\pi]$ （对应复平面上的上半圆）。\n举个例子：\n假设采样频率 $f_{\\text{ech}} = 1000 , \\text{Hz}$ ，零点对应频率 $f_j = 250 , \\text{Hz} $，则： $$ \\varphi_j = \\frac{2 \\pi f_j}{f_{\\text{ech}}} = \\frac{2 \\pi \\cdot 250}{1000} = \\frac{\\pi}{2} $$ 零点的相位角 $\\varphi_j = \\pi/2$，表示零点位于单位圆上的正虚轴位置，滤波器在频率 $f_j = 250 , \\text{Hz}$ 附近会显著衰减信号。若零点在远离单位圆的位置，则对频率响应的影响较小。\n自回归 (AR) 过程 AR 模型定义 $$ x(n) = -\\sum_{i=1}^{p} a_i , x(n - i) + u(n) $$\n​\t•\t$p$ 是 AR 模型的阶数，即使用的过去值的数量。\n​\t•\t$a_i$ 是 AR 系数，代表过去信号对当前信号的影响。\n​\t•\t$u(n)$ 是输入噪声项，通常假设为白噪声。\n当前的输出 $x(n)$ 是基于过去 $p$ 个输出值的加权和，再加上一个随机噪声 $u(n)$。AR 模型用于描述时间序列数据的内在依赖性，广泛应用于信号处理和时间序列分析。\n传递函数 $$ H(z) = \\frac{1}{1 + \\sum_{i=1}^{p} a_i \\cdot z^{-i}} $$\n进行因式分解\n$$ H(z) = \\frac{1}{\\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n通过该传递函数，我们可以分析系统的频率响应和极点。\nAR 模型的极点分布在复平面上会影响频率响应。如果极点接近单位圆，系统在相应频率会出现较强的响应；如果极点远离单位圆，系统的响应则较弱。\nARMA (Auto-Regressive Moving Average) 模型 ARMA 模型定义 $$ x(n) = -\\sum_{i=1}^{p} a_i , x(n - i) + \\sum_{j=0}^{q} b_j , u(n - j) $$\n在 ARMA 模型中：\n​\t•\tAR 部分：自回归部分是由前 $p$ 个输出值 $x(n - i)$ 的加权和构成，其系数为 $a_i$。\n​\t•\tMA 部分：移动平均部分是由当前和前 $q$ 个输入噪声 $u(n - j)$ 的加权和构成，其系数为 $b_j$。\n​\t•\t该模型结合了自回归和移动平均的特性，使其能够更灵活地描述时间序列数据中的依赖关系。\nARMA 模型的传递函数可以通过 Z 变换表示为：\n$$ H(z) = \\frac{\\sum_{j=0}^{q} b_j \\cdot z^{-j}}{1 + \\sum_{i=1}^{p} a_i \\cdot z^{-i}} $$\n​\t•\t分子：分子部分是 MA 部分的 Z 变换形式，由 $b_j$ 系数和 $z^{-j}$ 项构成。\n​\t•\t分母：分母部分是 AR 部分的 Z 变换形式，由 $a_i$ 系数和 $z^{-i}$ 项构成。\n进一步将传递函数因式分解，得到：\n$$ H(z) = \\frac{\\prod_{j=0}^{q} (1 - z_j z^{-1})}{\\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n​\t•\t$z_j$ 表示 MA 部分的零点。\n​\t•\t$p_i$ 表示 AR 部分的极点。\n当零点接近单位圆时，滤波器会在相应频率范围内有显著衰减；当极点接近单位圆时，滤波器会在对应频率范围内有增强效果。\nARMA 滤波器的频率响应特性 即频谱图示为: 待补充\n二阶移动平均 (MA) 模型的自相关函数计算 简单的二阶移动平均信号模型 $x(n) = b_0 u(n) + b_1 u(n-1)$\n​\t•\t$u(n)$ 是输入信号，通常假设为白噪声。\n​\t•\t$b_0$ 和 $b_1$ 是滤波器的系数。\n这个模型表示当前的输出 $x(n)$ 是当前输入 $u(n)$ 和前一个输入 $u(n-1)$ 的加权和。\n均值计算 $E[x(n)] = b_0 E[u(n)] + b_1 E[u(n-1)] = 0$\n自相关函数：\n$$ R_{xx}(n_1, n_2) = E[x(n_1) \\cdot x^*(n_2)] $$\n$$ \\begin{align*} R_{xx}(n_1, n_2) \u0026= E\\left[ (b_0 u(n_1) + b_1 u(n_1 - 1))(b_0 u^*(n_2) + b_1 u^*(n_2 - 1)) \\right] \\\\ \u0026= b_0^2 E[u(n_1) u^*(n_2)] + b_0 b_1 E[u(n_1) u^*(n_2 - 1)] + b_1 b_0 E[u(n_1 - 1) u^*(n_2)] + b_1^2 E[u(n_1 - 1) u^*(n_2 - 1)] \\end{align*} $$ 为了简化表达式，引入滞后变量 $\\tau = n_1 - n_2$\n$$ \\begin{align*} R_{xx}(\\tau) \u0026= b_0^2 R_{uu}(\\tau) + b_0 b_1 R_{uu}(\\tau + 1) + b_1 b_0 R_{uu}(\\tau - 1) + b_1^2 R_{uu}(\\tau) \\\\ \u0026= (b_0^2 + b_1^2) R_{uu}(\\tau) + b_0 b_1 \\left( R_{uu}(\\tau + 1) + R_{uu}(\\tau - 1) \\right) \\end{align*} $$ 其中 $R_{uu}(\\tau)$ 来表示输入白噪声 $u(n)$ 的自相关函数\n​\t•\t第一部分 $(b_0^2 + b_1^2) R_{uu}(\\tau)$，表示信号 $x(n)$ 的自相关主项。\n​\t•\t第二部分 $b_0 b_1 \\left( R_{uu}(\\tau + 1) + R_{uu}(\\tau - 1) \\right)$，表示由于滞后一单位时间所带来的影响。\n假设 $u(n)$ 是白噪声过程，其自相关函数 $R_{uu}(\\tau) = \\sigma^2 \\delta(\\tau)$\n$$ R_{xx}(\\tau) = (b_0^2 + b_1^2) \\sigma^2 \\delta(\\tau) + b_0 b_1 \\sigma^2 \\left( \\delta(\\tau + 1) + \\delta(\\tau - 1) \\right) $$\n​\t•\t当 $\\tau = 0$ 时，$R_{xx}(0) = (b_0^2 + b_1^2) \\sigma^2$。\n​\t•\t当 $\\tau = \\pm 1$ 时，$R_{xx}(\\pm 1) = b_0 b_1 \\sigma^2$。\n假设 $x$ 是一个包含 $N$ 个样本的随机向量：\n$$ x = \\begin{bmatrix} x_0 \\ x_1 \\ \\vdots \\ x_{N-1} \\end{bmatrix} $$\n每个元素 $x_i$ 是信号在不同时间的值。\n$x$ 的自相关矩阵 $E(x \\cdot x^T)$，即：\n$$ E(x \\cdot x^T) = E \\left( \\begin{bmatrix} x_0 \\ x_1 \\ \\vdots \\ x_{N-1} \\end{bmatrix} \\begin{bmatrix} x_0 \u0026 x_1 \u0026 \\cdots \u0026 x_{N-1} \\end{bmatrix} \\right) $$\n$$ E(x \\cdot x^T) = \\sigma^2 \\begin{bmatrix} b_0^2 + b_1^2 \u0026 b_0 b_1 \u0026 0 \u0026 \\cdots \u0026 0 \\\\ b_0 b_1 \u0026 b_0^2 + b_1^2 \u0026 b_0 b_1 \u0026 \\cdots \u0026 0 \\\\ 0 \u0026 b_0 b_1 \u0026 b_0^2 + b_1^2 \u0026 \\cdots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 b_0^2 + b_1^2\\ \\end{bmatrix} $$\n​\t•\t主对角线上，每个元素都是 $(b_0^2 + b_1^2) \\sigma^2$，对应于 $R_{xx}(0)$。\n​\t•\t在上下相邻的次对角线上，每个元素是 $b_0 b_1 \\sigma^2$，对应于 $R_{xx}(\\pm 1)$。\n二阶移动平均模型 (MA(2)) 的自相关特性：\n​\t•\t主对角线表示信号本身的方差。\n​\t•\t次对角线反映了相邻时刻之间的相关性，由 $b_0$ 和 $b_1$ 决定。\n这种矩阵结构称为带状矩阵，仅在主对角线及其附近具有非零元素，适合表示具有有限“记忆”的信号模型。\nTUMA（时变移动平均模型） 是移动平均模型的时变版本，其中滤波器系数随时间变化。模型定义如下：\n$$ x(n) = \\sum_{j=0}^{p} b_j(n) \\cdot u(n-j) $$\n​\t•\t$b_j(n)$ 是时变的系数\n​\t•\t$p$ 是模型的阶数。\n这里的时变性体现在 $b_j(n)$ 随时间 $n$ 而变化，这使得 TUMA 模型能够捕捉信号的时变特性。TUMA 模型特别适用于描述具有非平稳性的信号，因为系数的时间依赖性使其能够更好地适应信号的变化。\n另一种形式：\n$$ x(n) = \\sum_{j=0}^{p} B_j(u(n)) \\quad \\text{这里不懂，可能抄错} $$\nTVAR（时变自回归模型） （Time-Variant Auto-Regressive）是自回归模型的时变版本\n$$ x(n) = -\\sum_{i=1}^{p} a_i(n) \\cdot x(n-i) + u(n) $$\n​\t•\t$a_i(n)$ 是时变的 AR 系数，它随时间 $n$ 变化。\n​\t•\t$p$ 是模型的阶数。\n定义了系数 $a_i(n)$ 的更新规则：\n​\t1.\t第一种形式\n$$ a_i(n) = a_i(n-1) + N(n) $$\n其中 $N(n)$ 是一个BBGC 独立于 $u(n)$\n​\t2.\t系数 $a_i(n)$ 还可以写成如下形式：\n$$ a_i(n) = \\sum_{j} \\beta_{ij} b_j(n) $$\n这意味着 $a_i(n)$ 可以通过一组基函数 $b_j(n)$ 的线性组合来表示，其中 $\\beta_{ij}$ 是权重。这种表示允许我们用基函数表示时变系数，从而降低模型的复杂度。\n最终多维状态向量形式\n$$ \\underline{x}(n) = -\\sum_{i=1}^{p} A_i , x(n-i) + u(n) $$\n​\t•\t$A_i$ 不再是单一标量，而是一个矩阵系数\n长记忆过程（Processus à mémoire longue） 的模型 使用分数阶积分来模拟长记忆的白噪声\n滤波器的传递函数 $H(z)$ 定义为：\n$$ H(z) = \\frac{X(z)}{U(z)} = (1 - z^{-1})^{-d} $$\n功率谱密度计算\n$$ \\text{DSP}_{x(f)} = |H(z)|^2 \\cdot \\sigma_u^2 $$\n​\t•\t$\\sigma_u^2$ 是输入白噪声 $u(n)$ 的方差。\n​\t•\t将 $z$ 替换为 $e^{j 2 \\pi f / f_{\\text{ech}}}$，得到频率域的响应 $H(e^{j 2 \\pi f / f_{\\text{ech}}})$。\n代入 $H(z) = (1 - e^{-j 2 \\pi f / f_{\\text{ech}}})^{-d}$：\n$$ \\text{DSP}_{x(f)} = \\left| \\frac{1}{(1 - e^{-j 2 \\pi f / f*{\\text{ech}}})^d} \\right|^2 \\cdot \\sigma_u^2 $$ $$ \\text{DSP}_{x(f)} = \\frac{\\sigma_u^2}{\\left| e^{-j \\pi f / f*{\\text{ech}}} \\cdot 2j \\sin\\left( \\frac{\\pi f}{f_{\\text{ech}}} \\right) \\right|^{2d}} $$ 化简得到：\n$$ \\text{DSP}_{x(f)} = \\frac{\\sigma_u^2}{2^{2d} \\sin^{2d}\\left( \\frac{\\pi f}{f*{\\text{ech}}} \\right)} $$\n这个公式表明，输出信号 $x(n)$ 的功率谱密度 $\\text{DSP}_{x(f)}$ 在频率 $f \\to 0$ 附近会趋于无穷大，这说明该系统具有长记忆性，低频成分较强。\nARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型 ARFIMA 模型的传递函数可以写为：\n$$ H(z) = \\frac{\\prod_{j=1}^{q} (1 - z_j z^{-1})}{(1 - z^{-1})^d \\prod_{i=1}^{p} (1 - p_i z^{-1})} $$\n​\t•\t分子部分：$\\prod_{j=1}^{q} (1 - z_j z^{-1})$ 表示 MA（移动平均）部分，它包含了零点 $z_j$。\n​\t•\t分母部分：\n​\t•\t$(1 - z^{-1})^d$ 表示分数阶积分项，通常 $d$ 为分数，用于引入长记忆效应。\n​\t•\t$\\prod_{i=1}^{p} (1 - p_i z^{-1})$ 表示 AR（自回归）部分，包含了极点 $p_i$。\nARFIMA 模型是一种结合了自回归、分数阶积分和移动平均的模型，适用于描述具有长记忆性质的时间序列。通过分数阶积分项 $(1 - z^{-1})^d$，模型能够捕捉时间序列的长记忆特性。\n非线性模型（Non-linear Model）\n一个与汽车模型相关的复杂动态过程\n这个模型可以用以下表达式表示：\n$$ x(n) = \\sum_{j=0}^{q} b_j u(n - j) + h(0, 0) u^2(n) + h(0, 1) u(n) u(n - 1) + h(0, 2) u(n) u(n - 2) + \\dots $$\n​\t•\t线性部分：$\\sum_{j=0}^{q} b_j u(n - j)$，这是传统的移动平均 (MA) 部分，表示系统对输入信号 $u(n)$ 的线性响应。\n​\t•\t非线性部分：包含 $u(n)$ 的高阶项，例如 $u^2(n)$、$u(n) u(n - 1)$ 等。\n​\t•\t$h(0, 0) u^2(n)$ 是输入 $u(n)$ 的平方项，代表了二次非线性。\n​\t•\t$h(0, 1) u(n) u(n - 1)$ 是输入和其滞后项的乘积，代表了跨时间的非线性耦合。\n​\t•\t高阶项继续扩展为更高次方和不同滞后项的组合。\n非线性项表示系统的响应不仅依赖于当前和过去的输入值，还依赖于这些输入值的非线性组合。\n更高阶的非线性项例如：\n$$ h(1, 0, 0) u^3(n) + h(0, 0, 1) u^2(n) u(n - 1) + \\dots $$\n对于一个信号 $x(n) = u^2(n)$\n$$ x(n) = \\cos^2\\left(2 \\pi n \\frac{f_0}{f_{\\text{ech}}}\\right) $$\n这个表达式是一个余弦平方信号，频率为 $f_0$（归一化到采样频率 $f_{\\text{ech}}$）。我们可以利用三角恒等式（使用欧拉公式）将其展开。\n已知 $\\cos^2(\\theta) = \\frac{1 + \\cos(2\\theta)}{2}$，同时将 $\\cos^2$ 转换为指数形式\n可以将 $x(n)$ 表达为：\n$$ x(n) = \\frac{e^{j 4 \\pi n \\frac{f_0}{f_{\\text{ech}}}} + 2 + e^{-j 4 \\pi n \\frac{f_0}{f_{\\text{ech}}}}}{4} $$\n矩阵形式的表示：\n$$ x(n) = \\begin{bmatrix} u(n) \u0026 u(n-1) \u0026 u(n-2) \u0026 \\dots \u0026 u(n-q) \u0026 u^2(n) \u0026 u(n) u(n-1) \u0026 u(n) u(n-2) \u0026 \\dots \\end{bmatrix} \\begin{bmatrix} b_0 \\\\ b_1 \\\\ b_2 \\\\ \\vdots \\\\ b_q \\\\ h(0,0) \\\\ h(0,1) \\\\ h(0,2) \\\\ \\vdots \\end{bmatrix} $$ 估计部分 两个不同类型：\n​\t1.\tPar bloc（分块估计） 将数据分成固定长度的块，然后在每个块上独立地计算所需的估计值\n​\t2.\tÉchantillon par échantillon（逐样本估计） 对每个采样点独立地进行估计，不进行分块\n估计模型 的输出信号 $y(n)$ 的形式：\n$$ y(n) = \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n} + b(n) $$\n​\t•\t$\\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n}$ 表示一系列复指数信号的叠加，每个信号的频率为 $f_k$，采样频率为 $f_{\\text{ech}}$。\n​\t•\t这里 $A_k$ 被视为一个随机变量 并且 $E[A_k] = 0$\n​\t•\t$b(n)$ 是一个噪声项，假设为白噪声。\n$$ E[y(n)] = 0 $$\n自相关函数 $R_{yy}(n_1, n_2) = E[y(n_1) y^*(n_2)]$\n$$ \\begin{align*} R_{yy}(n_1, n_2) \u0026= E \\left[ \\left( \\sum_{k} A_k e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n_1} + b(n_1) \\right) \\left( \\sum_{l} A_l^* e^{-j 2 \\pi \\frac{f_l}{f_{\\text{ech}}} n_2} + b^*(n_2) \\right) \\right] \\\\ \u0026= E \\left[ \\sum_{k} \\sum_{l} A_k A_l^* e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} n_1} e^{-j 2 \\pi \\frac{f_l}{f_{\\text{ech}}} n_2} \\right] + E[b(n_1) b^*(n_2)] \\end{align*} $$ 噪声 $b(n)$ 是白噪声，且 $A_k$ 的均值为零并且彼此独立，这可以进一步简化为：\n$$ R_{yy}(n_1, n_2) = \\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} (n_1 - n_2)} + \\sigma_b^2 \\delta(n_1 - n_2) $$\n​\t•\t第一项 $\\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} \\tau}$ 表示信号部分的自相关，包含各个频率分量的贡献，其中 $\\tau = n_1 - n_2$。\n​\t•\t第二项 $\\sigma_b^2 \\delta(\\tau)$ 表示噪声部分的自相关，仅在 $\\tau = 0$ 时为非零。\n因此，最终的自相关函数表示为：\n$$ R_{yy}(\\tau) = \\sum_{k} E[|A_k|^2] e^{j 2 \\pi \\frac{f_k}{f_{\\text{ech}}} \\tau} + \\sigma_b^2 \\delta(\\tau) $$\n定义向量 $\\underline{Y}$ 为：\n$$ \\underline{Y} = \\begin{bmatrix} y(n) \\\\ y(n+1) \\\\ \\vdots \\\\ y(n+N-1)\\ \\end{bmatrix} $$\n自相关矩阵 $R_y$ 定义为：\n$$ R_y = E[\\underline{Y} \\cdot \\underline{Y}^H] $$\n​\t•\t$\\underline{Y}^H$ 是 $\\underline{Y}$ 的共轭转置（Hermitian 转置），在计算复数信号的自相关时特别重要。\n​\t•\t$R_y$ 是一个 $N \\times N$ 的矩阵。\n$$ R_y = \\begin{bmatrix} r _{yy}(0) \u0026 r _{yy}(-1) \u0026 \\dots \u0026 r _{yy}(-N+1) \\\\ r _{yy}(1) \u0026 r _{yy}(0) \u0026 \\dots \u0026 r _{yy}(-N+2) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ r _{yy}(N-1) \u0026 r _{yy}(N-2) \u0026 \\dots \u0026 r _{yy}(0)\\ \\end{bmatrix} $$\n​\t•\t主对角线上的元素为 $r_{yy}(0)$，表示零滞后的自相关。\n​\t•\t次对角线上的元素为 $r_{yy}(\\pm 1)$，表示滞后为 $\\pm 1$ 的自相关。\n​\t•\t该矩阵具有 Toeplitz 结构，即每一条对角线上的元素相同。\n$$ \\underline{S} \\underline{S}^H = \\begin{bmatrix} 1 \u0026 e^{-j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \u0026 \\cdots \u0026 e^{-j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}} \\\\ e^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \u0026 1 \u0026 \\cdots \u0026 e^{-j 2 \\pi (N-2) \\frac{f_0}{f_{\\text{ech}}}} \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ e^{j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}} \u0026 e^{j 2 \\pi (N-2) \\frac{f_0}{f_{\\text{ech}}}} \u0026 \\cdots \u0026 1\\ \\end{bmatrix} $$\n​\t•\t主对角线：所有元素都为 1，对应 $e^{j 2 \\pi \\cdot 0} = 1$。\n​\t•\t次对角线：依次为 $e^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}}$、$e^{j 2 \\pi \\cdot 2 \\frac{f_0}{f_{\\text{ech}}}}$，表示随着滞后增加的指数因子。\n​\t•\t共轭对称性：由于 $\\underline{S} \\underline{S}^H$ 是由 $\\underline{S}$ 和其共轭转置 $\\underline{S}^H$ 相乘得到，因此矩阵是共轭对称的，即 $(\\underline{S} \\underline{S}^H) _{i,j} = \\overline{(\\underline{S} \\underline{S}^H) _{j,i}}$。\n加上噪声项后，自相关矩阵可以表示为：\n$$ R_y = E[|A|^2] \\cdot \\underline{S} \\underline{S}^H + \\sigma_b^2 I_N $$\n​\t•\t信号部分 $E[|A|^2] \\cdot \\underline{S} \\underline{S}^H$：表示信号的自相关结构。\n​\t•\t噪声部分 $\\sigma_b^2 I_N$：均匀分布在对角线上，反映了白噪声的自相关性。\n矩阵 $\\underline{S}$ 表示为一个包含指数因子的向量：\n$$ \\underline{S} = \\begin{bmatrix} 1 \\\\ e^{j 2 \\pi \\frac{f_0}{f_{\\text{ech}}}} \\\\ \\vdots \\\\ e^{j 2 \\pi (N-1) \\frac{f_0}{f_{\\text{ech}}}}\\ \\end{bmatrix} $$\n$$ R_y = E[|A_1|^2] \\cdot \\underline{S} \\underline{S}^H + \\sigma_b^2 I_N $$\n$$ R_y \\underline{S} = E[|A|^2] \\cdot \\underline{S} (\\underline{S}^H \\underline{S}) + \\sigma_b^2 \\underline{S} $$\n设 $\\underline{S}^H \\underline{S}$ 值为 $N$（是一个标量）（范数平方）\n$$ = (N E[|A|^2] + \\sigma_b^2) \\underline{S} $$\n说明 $R_y$ 的一个特征值为 $N E[|A|^2] + \\sigma_b^2$\n假设 $\\underline{\\psi}_i \\perp \\underline{S}$\n也就是说，$\\underline{\\psi}_i$ 与 $\\underline{S}$ 正交。\n$$ \\underline{S}^T \\underline{\\psi}_i^* = 0 \\quad \\text{和} \\quad \\underline{S}^H \\underline{\\psi}_i = 0 $$\n$\\underline{\\psi}_i$ 属于 $R_y$ 的特征空间中，并且与 $\\underline{S}$ 的方向正交\n原式\n$$ R_y \\underline{\\psi}_i = E[|A|^2] \\cdot \\underline{S} \\underline{S}^H \\underline{\\psi}_i + \\sigma_b^2 \\underline{\\psi}_i = \\sigma_b^2 \\underline{\\psi}_i $$\n自相关矩阵在 $\\underline{\\psi}_i$ 方向上仅由噪声贡献，因为与信号成分 $\\underline{S}$ 正交，因此信号成分的部分会为零，留下的仅为噪声方差的贡献：\n$$ R_y \\underline{\\psi}_i = \\sigma_b^2 \\underline{\\psi}_i $$\n表明，可以通过正交特征向量来分离信号和噪声成分\n$3 \\times 3$ 特征向量的线性组合：\n$$ \\psi_3(0) \\cdot 1 + \\psi_3(1) \\cdot e^{j \\frac{2\\pi}{f_{\\text{ech}}}} + \\psi_3(2) \\cdot e^{-j \\frac{2\\pi}{f_{\\text{ech}}}} = 0 $$\n​\t•\t$\\psi_3(0)$、$\\psi_3(1)$、$\\psi_3(2)$ 是特征向量的各个分量。\n​\t•\t$e^{j \\frac{2\\pi}{f_{\\text{ech}}}}$ 和 $e^{-j \\frac{2\\pi}{f_{\\text{ech}}}}$ 表示复数指数因子，用于描述矩阵的频率特性。\n$$ z = e^{j \\frac{2\\pi}{f_{\\text{ech}}}} $$\n将 $z$ 代入后，表达式变为：\n$$ \\psi_3(0) + \\psi_3(1) \\cdot z^{-1} + \\psi_3(2) \\cdot z^{-2} = 0 $$\n维纳滤波器 接下来我们讨论维纳滤波器。维纳滤波器是设计最小均方意义上的滤波器的一个方法，目标是得到我们的期望响应。我们看到维纳滤波器实际上是一种分块的矩阵方法，这引出了相关矩阵的逆矩阵乘以输入和期望响应的互相关向量的计算。\n然而，当矩阵规模较大时，直接求逆可能并不现实。因此，另一种方法是采用在线计算，而不是分块计算。我们将引入维纳滤波器的一个扩展，即一种自适应方法，它会随着时间的推移动态调整冲激响应，以考虑误差。随着时间推移，这种方法会逐渐收敛到维纳滤波器。换句话说，自适应滤波器，尤其是 LMS（最小均方）、NLMS（归一化最小均方）等。再往后，我们会介绍维纳滤波器的变种，即通道滤波方法。\n状态向量定义为：\n$$ \\underline{x}(t) = \\begin{bmatrix} x(t) \\\\ \\dot{x}(t) \\\\ \\ddot{x}(t)\\ \\end{bmatrix} $$ 状态方程可以写成：\n$$ \\dot{\\underline{x}}(t) = \\begin{bmatrix} \\dot{x}(t) \\\\\\\\ \\ddot{x}(t) \\\\\\\\ \\overset{\\cdots}{x}(t)\\\\ \\end{bmatrix} $$ $$ \\dot{\\underline{x}}(t) = \\begin{bmatrix} 0 \u0026 1 \u0026 0 \\\\ 0 \u0026 0 \u0026 1 \\\\ 0 \u0026 0 \u0026 0\\ \\end{bmatrix} \\begin{bmatrix} x(t) \\\\ \\dot{x}(t) \\\\ \\ddot{x}(t)\\ \\end{bmatrix} + \\begin{bmatrix} 0 \\\\ 0 \\\\ 1\\ \\end{bmatrix} w(t) $$\n$$ \\dot{\\underline{x}}(t) = A \\underline{x}(t) + B w(t) $$\n状态向量 $x(t)$ 的解为： $$ x(t) = \\exp(A(t-t_0)) \\cdot x(t_0) + \\int_{t_0}^t \\exp(A(t-\\tau)) B w(\\tau) d\\tau $$\n给出采样条件： $$ \\begin{cases} t = (k+1)T_{\\text{ech}} \\\\ t_0 = kT_{\\text{ech}} \\\\ t - t_0 = T_{\\text{ech}}\\ \\end{cases} $$ 原式: $$ x(t) = \\exp(A \\cdot T_{\\text{ech}}) \\cdot x(kT_{\\text{ech}}) + \\int_{t_0}^t \\exp(A(t-\\tau)) B w(\\tau) d\\tau $$ 矩阵指数 $\\exp(A \\cdot T_{\\text{ech}})$ 的泰勒展开形式为：\n$$ \\exp(A \\cdot T_{\\text{ech}}) = I + A \\cdot T_{\\text{ech}} + \\frac{A^2 \\cdot T_{\\text{ech}}^2}{2!} + \\cdots $$ 矩阵 $A$ 的方幂具有如下性质：\n$$ A = \\begin{bmatrix} 0 \u0026 1 \u0026 0 \\\\\\\\ 0 \u0026 0 \u0026 1 \\\\\\\\ 0 \u0026 0 \u0026 0\\\\ \\end{bmatrix}, \\quad A^2 = \\begin{bmatrix} 0 \u0026 0 \u0026 1 \\\\\\\\ 0 \u0026 0 \u0026 0 \\\\\\\\ 0 \u0026 0 \u0026 0\\\\ \\end{bmatrix}, \\quad A^3 = 0 $$ 将以上性质代入矩阵指数的展开： $$ \\exp(A \\cdot T_{\\text{ech}}) = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \\\\ 0 \u0026 0 \u0026 1\\ \\end{bmatrix} + \\begin{bmatrix} 0 \u0026 T_{\\text{ech}} \u0026 0 \\\\ 0 \u0026 0 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 0\\ \\end{bmatrix} + \\begin{bmatrix} 0 \u0026 0 \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0\\ \\end{bmatrix} $$\n$$ \\exp(A \\cdot T_{\\text{ech}}) = \\begin{bmatrix} 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 1 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 1\\ \\end{bmatrix} $$\n离散系统状态更新表达式为：\n$$ x(k+1) = \\begin{bmatrix} 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 1 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 1 \\end{bmatrix} x(k) + \\int_{kT_{\\text{ech}}}^{(k+1)T_{\\text{ech}}} \\begin{bmatrix} 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 1 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 1 \\end{bmatrix} \\begin{bmatrix} 0 \\\\ 0 \\\\ 1 \\end{bmatrix} w(\\tau) \\, d\\tau $$ 将积分中的变量替换如下： $$ \\tau_1 = \\tau - kT_{\\text{ech}}\\\\ \\tau = \\tau_1 + kT_{\\text{ech}}\\\\ d\\tau_1 = d\\tau\\ $$\n$$ x(k+1) = \\Phi x(k) + \\int_0^{T_{\\text{ech}}} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau_1)^2}{2} \\ T_{\\text{ech}} - \\tau_1 \\ 1 \\end{bmatrix} w(\\tau_1 + k T_{\\text{ech}}) d\\tau_1 $$\n后半部分是 u(k)，即: $$ u(k) = \\int_0^{T_{\\text{ech}}} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau_1)^2}{2} \\\\ T_{\\text{ech}} - \\tau_1 \\\\ 1\\ \\end{bmatrix} w(\\tau_1 + kT_{\\text{ech}}) d\\tau_1 $$ 这部分代表了模型噪音，其均值为0\n系统过程噪声协方差矩阵 $Q$ $$ Q = \\mathbb{E}[u(k) \\cdot u(k)^T] $$ 假设条件：\t$w(t)$ 是不随时间相关的零均值白噪声。\n$u(k)$ 的计算基于积分结果，表达为： $$ u(k) = w(kT_{\\text{ech}}) \\begin{bmatrix} \\frac{T_{\\text{ech}}^2}{6} \\\\ \\frac{T_{\\text{ech}}}{2} \\\\ T_{\\text{ech}}\\ \\end{bmatrix} $$ 将 $u(k)$ 带入协方差矩阵定义，得到： $$ Q = \\begin{bmatrix} \\frac{T_{\\text{ech}}^6}{36} \u0026 \\frac{T_{\\text{ech}}^5}{12} \u0026 \\frac{T_{\\text{ech}}^4}{6} \\\\ \\frac{T_{\\text{ech}}^5}{12} \u0026 \\frac{T_{\\text{ech}}^4}{4} \u0026 \\frac{T_{\\text{ech}}^3}{3} \\\\ \\frac{T_{\\text{ech}}^4}{6} \u0026 \\frac{T_{\\text{ech}}^3}{3} \u0026 T_{\\text{ech}}^2\\ \\end{bmatrix} $$ 另一种情况 $$ Q = \\mathbb{E}[u(k) \\cdot u(k)^T] $$\n$$ \\mathbb{E}[u(k) \\cdot u(k)^T] = \\mathbb{E} \\left[ \\int_0^{T_{\\text{ech}}} \\int_0^{T_{\\text{ech}}} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau_1)^2}{2} \\\\ T_{\\text{ech}} - \\tau_1 \\\\ 1\\ \\end{bmatrix} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau_1)^2}{2} \u0026 T_{\\text{ech}} - \\tau_1 \u0026 1 \\end{bmatrix} w(\\tau_1 + kT_{\\text{ech}}) w(\\tau_2 + kT_{\\text{ech}}) d\\tau_1 d\\tau_2 \\right] $$\n假设 $w(t)$ 是零均值、方差为 $\\sigma_w^2$ 的白噪声，根据白噪声的正交性： $$ \\mathbb{E}[w(\\tau_1 + kT_{\\text{ech}}) w(\\tau_2 + kT_{\\text{ech}})] = \\sigma_w^2 \\delta(\\tau_1 - \\tau_2) $$ 利用这个假设，双重积分简化为单积分： $$ Q = \\sigma_w^2 \\int_0^{T_{\\text{ech}}} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau)^2}{2} \\\\ T_{\\text{ech}} - \\tau \\\\ 1\\ \\end{bmatrix} \\begin{bmatrix} \\frac{(T_{\\text{ech}} - \\tau)^2}{2} \u0026 T_{\\text{ech}} - \\tau \u0026 1 \\end{bmatrix} d\\tau $$\n$$ Q = q \\cdot \\begin{bmatrix} \\frac{T_{\\text{ech}}^5}{20} \u0026 \\frac{T_{\\text{ech}}^4}{8} \u0026 \\frac{T_{\\text{ech}}^3}{6} \\\\ \\frac{T_{\\text{ech}}^4}{8} \u0026 \\frac{T_{\\text{ech}}^3}{3} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ \\frac{T_{\\text{ech}}^3}{6} \u0026 \\frac{T_{\\text{ech}}^2}{2} \u0026 T_{\\text{ech}}\\ \\end{bmatrix} $$\n其中， q 表示噪声强度 $\\sigma_w^2 $。\n状态向量 $x(k+1)$ 表达为：\n$$ x(k+1) = \\begin{bmatrix} x(k+1) \\\\ \\dot{x}(k+1) \\\\ \\ddot{x}(k+1) \\end{bmatrix} = \\begin{bmatrix} 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 1 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 1 \\end{bmatrix} \\begin{bmatrix} x(k) \\\\ \\dot{x}(k) \\\\ \\ddot{x}(k) \\end{bmatrix} + u(k) $$ 第三个状态 $\\ddot{x}(k+1)$ 的更新公式为： $$ \\ddot{x}(k+1) = \\ddot{x}(k) + \\mu_3(k) $$\n$$ x(k+1) = \\begin{bmatrix} x(k+1) \\\\ \\dot{x}(k+1) \\\\ \\ddot{x}(k+1) \\\\ y(k+1) \\\\ \\dot{y}(k+1) \\\\ \\ddot{y}(k+1)\\ \\end{bmatrix} \\begin{bmatrix} 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 T_{\\text{ech}} \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 1 \u0026 T_{\\text{ech}} \u0026 \\frac{T_{\\text{ech}}^2}{2} \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 1 \u0026 T_{\\text{ech}} \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 1\\ \\end{bmatrix} \\begin{bmatrix} x(k) \\\\ \\dot{x}(k) \\\\ \\ddot{x}(k) \\\\ y(k) \\\\ \\dot{y}(k) \\\\ \\ddot{y}(k)\\ \\end{bmatrix} + \\begin{bmatrix} u_x(k) \\\\ \\vdots \\\\ u_y(k) \\\\ \\vdots \\ \\end{bmatrix} $$\n协方差矩阵 Q 被表示为分块矩阵形式： $$ Q = \\begin{bmatrix} Q_x \u0026 0 \\\\ 0 \u0026 Q_y\\ \\end{bmatrix} $$ 其中:\n$Q_x$ 是关于 $x$ 方向状态变量的协方差矩阵 ===\u003e $Q_x = \\mathbb{E}[u_x(k) u_x(k)^T]$\n$Q_y$ 是关于 $y$ 方向状态变量的协方差矩阵 ===\u003e $Q_y = \\mathbb{E}[u_y(k) u_y(k)^T]$\n矩阵的非对角线块为零，表示 x 和 y 两个方向的噪声是独立的。\n测量向量 $y(k)$ 的公式为：\n$$ y(k) = \\begin{bmatrix} x_b(k) \\\\ y_b(k) \\end{bmatrix} = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 1 \u0026 0 \u0026 0 \\end{bmatrix} \\begin{bmatrix} x(k) \\\\ \\dot{x}(k) \\\\ \\ddot{x}(k) \\\\ y(k) \\\\ \\dot{y}(k) \\\\ \\ddot{y}(k) \\end{bmatrix} + \\begin{bmatrix} b_x(k) \\\\ b_y(k) \\end{bmatrix} $$ 其中，$b(k)$是测量误差项，其协方差矩阵 $R$ 被定义为测量噪声的期望值： $$ R = \\mathbb{E}[b(k) \\cdot b(k)^T]= \\begin{bmatrix} \\sigma_{b_x}^2 \u0026 0 \\\\ 0 \u0026 \\sigma_{b_y}^2\\ \\end{bmatrix} $$ 即协方差矩阵 $R$ 是测量噪声 $b(k)$ 的二阶统计特性，描述了测量噪声的分布和强度。\n因此，我们得到综合线性状态方程表达式 $$ x(k+1) = \\Phi x(k) + u(k) $$\n$$ y(k) = H x(k) + b(k) $$\n举一个非线性的例子，雷达定位:\n目标点与估计位置之间的欧几里得距离 $C\\Delta T$ 被定义为： $$ C\\Delta T = \\sqrt{(x_A(k) - x(k))^2 + (y_A(k) - y(k))^2 + (z_A(k) - z(k))^2}+ \\xi(k) $$ 即: $$ \\Delta = g(x(k)) + \\xi(k) $$ 这就是个非线性方程\n输入信号模型： $$ s(k) = -\\sum_{i=1}^{p} a_i s(k-i) + u(k) $$ 测量信号 $y(k)$ 表达式 $$ y(k) = s(k) + b(k) $$\n$s(k)$：当前信号值。\n$a_i$：线性预测系数。\n$u(k)$：输入噪声。\n$p$：信号模型的阶数（表示模型依赖过去 $p$ 个时间步的信号值）。\n$b(k)$：测量噪声，具有方差 $R$，即：\n$$ b(k) \\sim \\mathcal{N}(0, \\sigma_b^2) $$\n为了使用状态空间表达式，将信号 $s(k)$ 表示为一个状态向量： $$ \\underline{x}_s(k) = \\begin{bmatrix} s(k) \\\\ s(k-1) \\\\ s(k-2) \\\\ \\vdots \\\\ s(k-p+1)\\ \\end{bmatrix} $$\n$$ \\underline{x}_s(k+1) = \\begin{bmatrix} -a_1 \u0026 -a_2 \u0026 \\cdots \u0026 -a_p \\\\ 1 \u0026 0 \u0026 \\cdots \u0026 0 \\\\ 0 \u0026 1 \u0026 \\cdots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\cdots \u0026 1\\ \\end{bmatrix} \\begin{bmatrix} s(k) \\\\ s(k-1) \\\\ s(k-2) \\\\ \\vdots \\\\ s(k-p+1)\\ \\end{bmatrix} + \\begin{bmatrix} 1 \\\\ 0 \\\\ 0 \\\\ \\vdots \\\\ 0\\ \\end{bmatrix} u(k) $$\n$$ \\underline{x}_s(k+1) = \\Phi \\underline{x}_s(k-1) + \\underline{u}(k) $$\n测量信号 $y(k)$ 的表达式为：\n$$ y(k) = \\begin{bmatrix} 1 \u0026 0 \u0026 \\cdots \u0026 0 \\end{bmatrix} \\begin{bmatrix} s(k) \\\\ s(k-1) \\\\ \\vdots \\\\ s(k-p+1)\\ \\end{bmatrix} +\tb(k) $$\n$$ \\underline{x}(k) = \\begin{bmatrix} a_1(k) \\\\ a_2(k) \\\\ \\vdots \\\\ a_p(k)\\ \\end{bmatrix} = I_d \\cdot \\begin{bmatrix} a_1(k-1) \\\\ a_2(k-1) \\\\ \\vdots \\\\ a_p(k-1)\\ \\end{bmatrix} + \\begin{bmatrix} w_1(k) \\\\ w_2(k) \\\\ \\vdots \\\\ w_p(k)\\ \\end{bmatrix} $$ 自回归信号的测量方程为：\n$$ y(k) = s(k) = \\begin{bmatrix} -s(k-1) \u0026 -s(k-2) \u0026 \\cdots \u0026 -s(k-p) \\end{bmatrix} \\cdot \\begin{bmatrix} a_1(k) \\\\ a_2(k) \\\\ \\vdots \\\\ a_p(k)\\ \\end{bmatrix} +\tu(k) $$\n维纳滤波器\n误差信号： $$ e(k) = d(k) - \\underline{H}_N^T \\underline{X}_N(k) $$ 滤波输出： $$ \\hat{d}(k) = \\underline{H}_N^T \\underline{X}_N(k) $$ 滤波器系数向量： $$ \\underline{H}_N^T = [h(0), h(1), \\ldots, h(N-1)] $$\n$$ \\hat{d}(k) = h * x(k) = \\sum_{n=0}^{N-1} h(n) \\cdot x(k-n) $$\n$$ \\hat{d}(k) = \\begin{bmatrix} h(0) \u0026 h(1) \u0026 \\ldots \u0026 h(N-1) \\end{bmatrix} \\begin{bmatrix} x(k) \\ x(k-1) \\ \\vdots \\ x(k-N+1) \\end{bmatrix} $$\n$$ \\hat{d}(k) = \\underline{H}_N^T \\underline{X}_N(k) $$\n$$ \\hat{d}(k) = \\underline{X}_N^T(k) \\underline{H}_N $$\n目标函数： $$ J = \\mathbb{E}[e^2(k)] $$ 误差项展开： $$ J = \\mathbb{E}[(d(k) - \\underline{H}_N^T \\underline{X}_N(k))^2] $$\n$$ J = \\mathbb{E}[d^2(k) - 2d(k) \\cdot \\underline{H}_N^T \\underline{X}_N(k) + \\underline{H}_N^T \\underline{X}_N(k) \\cdot \\underline{X}_N^T(k) \\cdot \\underline{H}_N] $$\n$$ J = \\mathbb{E}[d^2(k)] - 2 \\underline{H}_N^T \\mathbb{E}[d(k) \\cdot \\underline{X}_N(k)] + \\underline{H}_N^T \\mathbb{E}[\\underline{X}_N(k) \\cdot \\underline{X}_N^T(k)] \\cdot \\underline{H}_N $$\n$$ J = \\mathbb{E}[d^2(k)] - 2 \\underline{H}N^T R{dx} + \\underline{H}_N^T R_x \\cdot \\underline{H}_N $$\n关于 $\\underline{H}_N$ 的优化条件： $$ -2 \\underline{R}_{dx} + 2 R_x \\underline{H}_N = 0 $$ 解出 $\\underline{H}_N$： $$ \\underline{H}_N = R_x^{-1} \\underline{R}{dx} $$ 这就是维纳滤波器基本形式\n自回归模型： $$ x(k) = -\\sum_{i=1}^{p} a_i x(k-i) + u(k) $$\n$$ x(k) = \\hat{x}(k) + u(k) $$\n系数向量 $\\underline{H}_N$：\n$$ \\underline{H}_N = \\begin{bmatrix} a_1 \\\\ a_2 \\\\ \\vdots \\\\ a_p\\ \\end{bmatrix} $$\n状态向量 $\\underline{X}_N(k)$：\n$$ \\underline{X}_N(k) = \\begin{bmatrix} -x(k-1) \\\\ -x(k-2) \\\\ \\vdots \\\\ -x(k-p) \\end{bmatrix} $$ 自相关矩阵 $R_x$：\n$$ R_x = \\begin{bmatrix} R_{xx}(0) \u0026 R_{xx}(1) \u0026 \\cdots \u0026 R_{xx}(p-1) \\\\ R_{xx}(1) \u0026 R_{xx}(0) \u0026 \\cdots \u0026 R_{xx}(p-2) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ R_{xx}(p-1) \u0026 R_{xx}(p-2) \u0026 \\cdots \u0026 R_{xx}(0) \\end{bmatrix} $$ 输入信号： $$ d(k) = x(k) $$ 互相关向量 $R_{dx}$：\n$$ \\underline{R}_{dx} = - \\begin{bmatrix} R_{xx}(1) \\\\ \\vdots \\\\ R_{xx}(p) \\end{bmatrix} $$ 系数向量 $\\underline{H}_N$ $$ \\underline{H}_N = - R_x^{-1} R{dx} $$\n$$ \\underline{H}_N = - \\begin{bmatrix} R_{xx}(0) \u0026 R_{xx}(1) \u0026 \\cdots \u0026 R_{xx}(p-1) \\\\ R_{xx}(1) \u0026 R_{xx}(0) \u0026 \\cdots \u0026 R_{xx}(p-2) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ R_{xx}(p-1) \u0026 R_{xx}(p-2) \u0026 \\cdots \u0026 R_{xx}(0) \\end{bmatrix}^{-1} \\quad \\begin{bmatrix} R_{xx}(1) \\\\ \\vdots \\\\ R_{xx}(p) \\end{bmatrix} $$ 这就是 Yule-Walker 方程\n自相关函数 $R_{xx}(\\tau)$ 的定义：\n对于 $\\tau \u003e 0$： $$ R_{xx}(\\tau) = \\mathbb{E}[x(k) x(k-\\tau)] $$\n$$ R_{xx}(\\tau) = \\mathbb{E}\\left[\\left(-\\sum_{i=1}^p a_i x(k-i) + u(k)\\right) x(k-\\tau)\\right] $$\n$$ R_{xx}(\\tau) = -\\sum_{i=1}^p a_i \\mathbb{E}[x(k-i) x(k-\\tau)] + \\mathbb{E}[u(k) x(k-\\tau)] $$\n忽略噪声项（独立性假设）： $$ R_{xx}(\\tau) = -\\sum_{i=1}^p a_i R_{xx}(\\tau-i) $$ 对于 $\\tau = 0$： $$ R_{xx}(0) = \\sum_{i=1}^p a_i R_{xx}(-i) + \\mathbb{E}[u(k) \\cdot x(k)] $$\n$$ R_{xx}(0) = \\sum_{i=1}^p a_i R_{xx}(-i) + \\mathbb{E}[u(k) \\cdot \\left(-\\sum_{i=1}^p a_i x(k-i) + u(k)\\right)] $$\n自相关函数的递归形式： $$ R_{xx}(\\tau) = -\\sum_{i=1}^p a_i R_{xx}(\\tau - i) + \\sigma_u^2 \\delta(\\tau) $$\n$$ R_{xx}(\\tau) = - \\begin{bmatrix} R_{xx}(0) \u0026 R_{xx}(1) \u0026 \\cdots \u0026 R_{xx}(1-p) \\\\ R_{xx}(1) \u0026 R_{xx}(0) \u0026 \\cdots \u0026 R_{xx}(2-p) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ R_{xx}(p) \u0026 R_{xx}(p-2) \u0026 \\cdots \u0026 R_{xx}(0) \\end{bmatrix} \\begin{bmatrix} a_1 \\\\ a_2 \\\\ \\vdots \\\\ a_p \\end{bmatrix} $$ 噪声方差公式： $$ \\sigma_u^2 = R_{xx}(0) + \\sum_{i=1}^p a_i \\cdot R_{xx}(-i) $$\n$$ \\sigma_u^2 = \\sum_{i=0}^p a_i \\cdot R_{xx}(-i) $$\n测量方程： $$ y(k) = x(k) + b(k) $$ 自回归模型： $$ x(k) = -\\sum_{k=1}^p a_k x(k-i) + u(k) $$ 输出信号的自相关函数 $R_{yy}(\\tau)$： $$ R_{yy}(\\tau) = \\mathbb{E}[(x(k) + b(k))(x(k-\\tau) + b(k-\\tau))] $$\n$$ R_{yy}(\\tau) = R_{xx}(\\tau) + R_{bb}(\\tau) $$\n$y$ 的自相关矩阵和$x$ 的自相关矩阵的关系 ： $$ R_y = R_x + \\sigma_b^2 I $$\n$$ R_y^{-1} R_y \\neq R_x^{-1} r_x $$\n$$ (R_x - \\sigma_b^2 I)^{-1} R_y \\neq R_x^{-1} r_x $$\n左右不相等，怎么办呢\n一阶MA过程特性: 相关函数在滞后为 0 时，相关性不为零，在滞后为 ±1 时，相关性也不为零，也就是说只有主对角线和两边次对角线受到了影响，因此我们采用噪声补偿，搞定出现的 $r_{xx}(0)$，怎么做呢？==\u003e 序号值从 $p+1$ 开始递增：\n$$ p+1, , p+2, , \\ldots, 2p $$\n自相关与互相关的关系：\n$$ \\begin{bmatrix} R_{xx}(p+1) \\\\ R_{xx}(2p) \\end{bmatrix} = \\begin{bmatrix} \\hat{R}_{yy}(p+1) \\\\ \\hat{R}_{yy}(2p) \\end{bmatrix} = \\begin{bmatrix} R_{xx}(p) \u0026 \\cdots \u0026 R_{xx}(1) \\\\ R_{xx}(2p+1) \u0026 \\cdots \u0026 R_{xx}(p) \\end{bmatrix} \\begin{bmatrix} a_1 \\\\ \\vdots \\\\ a_p \\end{bmatrix} = \\begin{bmatrix} \\hat{R}_{yy}(p) \u0026 \\cdots \u0026 \\hat{R}_{yy}(1) \\\\ \\hat{R}_{yy}(2p+1) \u0026 \\cdots \u0026 \\hat{R}_{yy}(p) \\end{bmatrix} \\begin{bmatrix} a_1 \\\\ \\vdots \\\\ a_p \\end{bmatrix} $$ 我们称这些为修正后的 Yule-Walker 方程。因为我们使用了不同的滞后值。因此，从理论上讲，我们可以用这些关系来求解参数 $R$。在这种情况下，$R_{xx}(0)$ 并没有参与了计算，所以理论上没有问题。\n但在实践中我们无法得到精确的值。当滞后值增加时，样本平均的数量越少，方差会增大，可靠性就越差。\n因此，从理论上看，这种方法非常完美，但在实践中，问题在于我们需要越来越大的滞后值。而滞后值越大，在估计自相关函数和自相关矩阵时，需要用更多的样本进行平均才能确保质量。\n我们引入了维纳滤波器，并且将维纳滤波器应用于自回归过程（AR）\n如果我想估计一个 MA（移动平均）过程的参数，首先要先看MA 过程和 AR 过程的不同之处，在频域中，AR 过程会出现共振峰，而 MA 过程会出现零点，表现为频率的衰减。所以我们可以取信号并绘制它的功率谱，并利用谱下限（lower gramian）来估计一个 MA 过程的参数。(对于一个 MA 过程，功率谱中应该会出现频率的衰减)。然后我们再取功率谱的倒数，也就是谱的逆。这样我们就可以得到共振峰。然后我们还需要与之关联的自相关函数。所以可以进行傅里叶逆变换，从而得到关联的自相关函数。最后重新应用核心计算，就可以得到需要的参数。\n自适应滤波器 我们的核心目标是针对时间序列信号进行信号处理，最需要解决的是建模问题，尤其关注于系统的建模，也就是利用一系列方程或者状态空间表达式，来描述信号和系统。对于信号，我们主要关心的是其统计性质，广义平稳的信号（统计特性在时间内不随时间平移而变化）可以大大简化分析，同时需要关注信号的自相关函数(信号与自身在时间间隔上的依赖性)，如果自相关函数快速衰减，表明信号在时间上的相关性较短，易于建模，反之，长记忆过程的建模更加复杂。\n我们在之前研究了\n均值调整模型（Mean-Adjusted Models） $$ x(n) = \\sum_{j=0}^{q} b_j \\cdot u(n - j) $$\n自回归过程（Autoregressive Process, AR） $$ x_n = a_1 x_{n-1} + a_2 x_{n-2} + \\cdots + a_p x_{n-p} + \\epsilon_n $$\n自回归与均值调整结合的过程\n白噪声加长记忆特性的过程\n通过添加短相关性达到无限过程的模型。\n然后是是创建线性模型来分析时间序列信号，使用了最简单的模型之一，即 Volterra模型，以及最小二次自回归模型 等。\n在完成建模部分后，问题就变成了如何处理这些方程，尤其是估计其中的参数。\n我们可以将时间序列或信号结构化为矩阵形式，例如 Toeplitz矩阵 或者相关矩阵（协方差矩阵）。这时，我们要用到一些在文献或学习中见到的线性代数工具，例如QR分解、LDL分解、正交投影算子。还有一种 基于子空间的方法，通过分析相关矩阵的特征值 特征向量和范数来区分信号子空间和噪声子空间，利用信号子空间和噪声子空间的正交性来分析信号。\n接下来，我们探讨了线性滤波中的块处理问题，线性滤波的目标与传统的高通、低通或带通滤波不同(侧重于频率选择性)，线性滤波对输入信号进行处理，得到尽可能接近期望响应的输出，并最小化均方误差MSE。我们使用有限冲激响应**（FIR）滤波器**，我们通过反转输入信号的相关矩阵，并乘以输入信号与期望响应的互相关向量来实现。\n当信号中存在噪声时，噪声通常被建模为随机过程，其统计特性（如均值、方差、相关性）决定了其对信号和估计的影响，即噪声会显著影响参数估计，因此含噪信号的处理很重要。例如，当渐进模型中有噪声时，我们观察其影响并补偿。\n下面我们实现用递归方式逼近解，也就是逐步解决估计问题，即自适应滤波。它是一种实时更新滤波器系数的技术，通过每次接收一个新样本，动态调整滤波器的参数，使得输出信号逐渐逼近期望响应，即随着迭代和样本数量的增加逐渐收敛到精确解。这种方法不需要计算输入信号相关矩阵的反转(块处理方法)，计算量较小，非常适合实时处理场景。\n$d_k$: 期望响应（目标信号） $y_k$: 滤波器输出，是对 $d_k$ 的估计值 $e_k = d_k - y_k$: 误差，即期望响应和滤波器输出的差异 $\\underline{H}_N(k - 1)$ 自适应滤波 $\\underline{X}_N(k)$: 输入向量，第 $k$ 个样本的信号 我们将研究一个随时间变化的自适应滤波器，也就是说，随着时间的变化以及新样本的到来，这个滤波器将逐渐动态更新滤波器的系数，使其逐渐逼近最优解。 $$ \\underline{H}_N(k) = \\begin{bmatrix} h_1(k) \u0026 \\cdots \u0026 h_N(k) \\end{bmatrix}^T $$ 滤波器的冲激响应是有限的，可以看到这个冲激响应会随时间而变化 $$ \\underline{X}_N(i) = \\begin{bmatrix} x(i) \u0026 \\cdots \u0026 x(i-N+1) \\end{bmatrix}^T $$\n$$ y(k) = \\underline{H}_N^T(k-1) \\cdot \\underline{X}_N(k) = \\underline{X}_N^T(k) \\cdot \\underline{H}_N(k-1) $$\n$$ e(k) = d(k) - \\underline{H}_N^T(k-1) \\cdot \\underline{X}_N(k) $$\n$$ J(k) = \\mathbb{E} \\left[ e^2(k) \\right] $$\n$$ J(k) =\\mathbb{E} \\left[ (d(k) - \\underline{H}_N^T(k-1) \\cdot \\underline{X}_N(k))^2 \\right] $$\n$$ J(k) = \\mathbb{E} \\left[ d^2(k) \\right] - 2 d(k) \\cdot \\underline{H}_N^T(k-1) \\underline{X}_N(k) + \\underline{H}_N^T(k-1) \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_N(k-1) $$\n现在要做的就是梯度下降法\n![image-20241126152627287](/Users/zehua/Library/Application Support/typora-user-images/image-20241126152627287.png) $$ \\underline{H}_N(k) = \\underline{H}_N(k-1) - \\frac{\\alpha}{2} \\nabla J $$ 从$\\underline{H}_N(k-1)$ 到$\\underline{H}_N(k)$ 需要加一个修正项，即步长因子乘负梯度，之所以叫做负梯度方向是因为，这里是减号 ，所以如果梯度是正(斜率为正)，那么还是减，如果梯度是负，说明跑过了，那么就得加一加，往右走走，不停在最小值附近摇摆，最后收敛。 $\\alpha/2$ 只是为了简化运算\n所以现在要做的就是计算梯度$\\nabla J$\n$$ \\begin{align} \\nabla J \u0026= \\mathbb{E} \\left[ -2 \\underline{X}_N(k) d(k) + 2 \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_N(k-1) \\right] \\\\ \u0026= -2 \\mathbb{E} \\left[ \\underline{X}_N(k) d(k) - \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_N(k-1) \\right] \\\\ \u0026= -2 \\mathbb{E} \\left[ \\underline{X}_N(k) \\left( d(k) - \\underline{X}_N^T(k) \\underline{H}_N(k-1) \\right) \\right] \\\\ \u0026= -2 \\mathbb{E} \\left[ \\underline{X}_N(k) e(k) \\right]\\ \\end{align} $$ 经过计算后，我们得到了梯度，表达式，我们将其带入原梯度下降法公式中: $$ \\begin{cases} \\underline{H}_N(k) = \\underline{H}_N(k-1) + \\alpha \\mathbb{E} \\left[ \\underline{X}_N(k) e(k)\\right] \\\\ e(k) = d(k) - \\underline{X}_N^T(k) \\underline{H}_N(k-1)\\ \\end{cases} $$ 我们发现$\\underline{H}_N(k)$ 有一个问题，实际中我们无法在每个时刻得到期望值，因此我们用瞬时值将其代替，原式可得: $$ \\underline{H}_N(k) = \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) e(k) $$ 因此我们获得了LMS算法的核心更新公式，其目的是收敛到这些参数的最小二乘意义下（最小均方算法LMS）的解，即滤波意义上的最优解，这个最优解在理论上 是Yule-Walker方程的解，求这个解不需要时间的演变，可一次直接获得。而自适应方法是利用每一个样本逐步更新参数估计，使得这些估计值最终收敛到基于误差意义上的参数估计，也就是Yule-Walker方程的解。\n我们接下来会分析自适应滤波器与最优滤波器之间的偏差，这种偏差目前没有办法完全消除，也就是算法可能在最优解附近波动，但无法完全收敛到最优滤波器的参数。我们可以在某些特定时间点观察参数差异，如果相对较小，我们认可算法可能已经收敛，这个时候我们对后几次迭代参数估计只取均值或者中值(不要只取最后一次迭代的效果，会有瞬时波动的偏差影响)，这样就可以得到更稳健的滤波器系数。补充: 平均值可以平滑，中值可以对抗异常值。\n对于其中的 $α$ 学习率（步长因子），控制梯度下降的步幅大小。如果 $α$ 的值很小，梯度下降的过程非常缓慢 ; 如果 $α$ 的值很大，在最优解附近会强烈的振荡，甚至不稳定。\n因此我们可以使用Yule-Walker 方程(Yule-Walker 方程在自回归 (AR) 模型中用于描述自相关函数与 AR 系数之间的关系) 验证参数 $α$ 的合理性，其具体步骤如下\n先假设一个 $α$ ，然后根据理论AR模型来计算相关函数 $r(k)$ 使用 Yule-Walker 方程，基于计算的 $r(k)$ 和输入信号数据，反向估计 $α$ 比较计算值和先前假设值 随后，我们可以利用 ALMS 滤波器（自适应最小均方滤波器）在不同条件下动态调整步长参数 $α$ ，从而提高滤波器的性能。步长参数的动态调整使得 ALMS 更适合非平稳环境。这里关于ALMS不深入讨论。\n我们现在观察自适应滤波器与最优滤波器之间的差异 $\\Delta \\underline{H}_N(k)$\n$$ \\Delta \\underline{H}_N(k) = \\underline{H}_N(k) - \\underline{H}_{\\text{opt}} $$ $ \\underline{H}_{\\text{opt}}$ 是最优滤波器的系数，其表达式如下:\n$$ \\underline{H}_{\\text{opt}} = \\mathbb{E} \\left\\{ \\underline{X}_N(k) \\underline{X}_N^T(k) \\right\\}^{-1} \\mathbb{E} \\left\\{ \\underline{X}_N(k) d(k) \\right\\} = \\mathbf{R}_{xx}^{-1} \\mathbf{R}_{xd} $$ 通过分析 $\\Delta \\underline{H}_N(k)$，我们可以评估自适应滤波器在每个时刻与最优滤波器之间的距离，从而查看收敛过程及波动特性，有助于优化算法参数 $\\alpha$ ，以实现更快的收敛和更稳定的滤波器性能。\n回到前面，我们对$\\underline{H}_N(k)$ 有结论: $$ \\underline{H}_N(k) = \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) e(k) $$ 这只是第一种形式，反应的是和 $e(k)$ 之间的关系等，现在我们回到它最原始的公式: $$ \\underline{H}_N(k) = \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) \\left[ d(k) - \\underline{H}_N^T(k-1) \\underline{X}_N(k) \\right] $$ 我们已知: $$ \\underline{H}_N^T(n-1) \\underline{X}_N(n) = \\underline{X}_N^T(n) \\underline{H}_N(n-1) $$ 因为它是个标量\n因此展开:\n$$ \\underline{H}_N(k) = \\underline{H}_N(k-1) - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) d(k) $$ 我们将$\\underline{H}_N(k)$ 这个结果带入到 $\\Delta \\underline{H}_N(k)$ 中:\n$$ \\begin{align*} \\Delta \\underline{H}_N(k) \u0026= \\underline{H}_N(k) - \\underline{H}_{\\text{opt}} \\\\ \u0026= \\underline{H}_N(k-1) - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) d(k) - \\underline{H}_{\\text{opt}} \\end{align*} $$ $$ \\begin{align*} \\Delta \\underline{H}_N(k) \u0026= \\left[ I - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\right] \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) d(k) - \\underline{H}_{\\text{opt}} \\\\ \u0026= \\left[ I - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\right] \\Delta \\underline{H}_N(k-1) + \\alpha \\underline{X}_N(k) \\left[ d(k) - \\underline{X}_N^T(k) \\underline{H}_{\\text{opt}} \\right] \\end{align*} $$ 从公式中可以看出，如果：当迭代在某一时间点 $k-1$ 达到最优滤波器时，后续的迭代可不是最优滤波器，即: $$ \\text{Si } \\Delta \\underline{H}_N(k-1) = 0 \\implies \\Delta \\underline{H}_N(k) \\neq 0 $$ 这种情况下我们认为LMS 并未完全收敛到最优解。\n我们对 $\\Delta \\underline{H}_N(k)$ 求期望:\n$$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = \\mathbb{E} \\left[ \\left( I - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\right) \\Delta \\underline{H}_N(k-1) \\right] + \\alpha \\mathbb{E} \\left[ \\underline{X}_N(k) d(k) - \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_{\\text{opt}} \\right] $$ 其中:\n$$ \\mathbb{E} \\left[ \\underline{X}_N(k) d(k) - \\underline{X}_N(k) \\underline{X}_N^T(k) \\underline{H}_{\\text{opt}} \\right] = \\mathbf{R}_{dx} - \\mathbf{R}_{x} \\cdot \\mathbf{H}_{\\text{opt}} $$ 而我们知道最优滤波器公式为:\n$$ \\mathbf{H}_{\\text{opt}} = \\mathbf{R}_{x}^{-1} \\underline{\\mathbf{R}}_{dx} $$ 一代进去，后面等于0了，因此我们原式有\n$$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = \\mathbb{E} \\left[ \\left( I - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\right) \\right]\\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$ 我们假设独立性，期望值的分解将变得简单:\n$$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = \\left( I - \\alpha \\underline{X}_N(k) \\underline{X}_N^T(k) \\right) \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$ $$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = \\left( I - \\alpha \\mathbf{R}_{x} \\right) \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$ 我们利用线性代数中的性质 $$ I = P P^{-1} $$ 并且引入 $R_x = PDP^\\top$ 的特征分解形式，其中 $P$ 是特征向量矩阵，$D$ 是特征值对角矩阵，则： $$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = \\left( I - \\alpha P D P^{-1} \\right) \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$\n$$ \\mathbb{E}[\\Delta \\underline{H}_N(k)] = P \\left( I - \\alpha D \\right) P^{-1} \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$\n通过左乘 $P^{-1}$ 化简为： $$ P^{-1} \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k) \\right] = \\left( I - \\alpha D \\right) P^{-1} \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] $$\n最终，这一公式描述了偏差的迭代收敛过程，其收敛速度由 $(I - \\alpha D)$ 的特征值及学习率 $\\alpha$ 决定。\n我们假设: $$ P^{-1} \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k) \\right] = \\underline{u}_N(k) $$\n$$ P^{-1} \\mathbb{E} \\left[ \\Delta \\underline{H}_N(k-1) \\right] = \\underline{u}_N(k-1) $$\n原式变成:\n$$ \\underline{U}_N(k)= \\left( I - \\alpha D \\right) \\underline{U}_N(k-1) $$ 如果我们用 $u_i(k)$ 表示向量 $U_N(k)$ 的第 $i$ 个分量，那么它满足以下方程：\n$$ u_i(k) = (1 - \\alpha \\lambda_i) u_i(k-1), \\quad \\forall i \\in [1, N] $$ 这是一个一阶差分的标量方程。通过逐步替换，可以从 $u_i(0)$ 表示 $u_i(k)$，如下：\n$$ u_i(k) = (1 - \\alpha \\lambda_i)^k u_i(0), \\quad \\forall i \\in [1, N] $$ 因此，证明 LMS 算法在均值上收敛到最优解 $\\mathbf{H} _{\\text{opt}}$ 可以简化为证明误差 $u _i(k)$ 收敛到零，$\\forall i \\in [1, N]$。因此，$\\mathbf{R} _{xx}$ 的特征值 ${\\lambda_i} _{=1, \\dots, N}$ 是实数且为正，因为 $\\mathbf{R} _{xx}$ 是一个对称的正定矩阵。这些特征值必须满足以下收敛条件：\n$$ |1 - \\alpha \\lambda_i| \u003c 1, \\quad \\forall i \\in [1, N] $$ 所以学习率 $\\alpha$ 的范围为：\n$$ 0 \u003c \\alpha \u003c \\frac{2}{\\lambda_i}, \\quad \\forall i \\in [1, N] $$ 因此，LMS 收敛的必要且充分条件涉及输入信号自相关矩阵 $\\mathbf{R} _{xx}$ 的最大特征值：\n$$ 0 \u003c \\alpha \u003c \\frac{2}{\\lambda_{\\max}} $$ 只要 $\\alpha$ 在这个范围内即可保证了LMS算法在每个方向上的稳定性与最终的收敛性。理论看起来很美好，但是实际中我们必须要先计算相关矩阵，然后进行特征值分解，最后找到最大的特征值，如果找不到$\\lambda _{\\max}$ 就选不了了，为了解决这个问题，我们提出 NLMS 模型\nNLMS（归一化最小均方算法） 在LMS基础上对步长参数进行归一化，可以看作一个带约束的优化问题的解递归算法形式。\n其滤波器更新公式为： $$ \\underline{H}_N(k) = \\underline{H}_N(k-1) + \\frac{\\alpha}{\\beta + |\\underline{X}_N(k)|^2} \\underline{X}_N(k) e(k) $$\n其中，$0 \u003c \\alpha \u003c 2$ ，正则化标量 $\\beta$是为了防止向量 $\\underline{X}_N(k)$ 取较小值时导致分母为0。 $$ e(k) = d(k) - \\underline{X}_N^T(k) \\underline{H}_N(k-1) $$ 在实际使用NLMS算法时，需要多次运行并计算平均值(消除瞬时波动的偏差影响)，即重复运行 NLMS 算法 N次，对所有运行的滤波器系数进行平均，如果只有一次运行，可以将过程分为多个部分，$\\underline{H}_N(k_1),\\underline{H}_N(k_2)\\quad …\\quad \\underline{H}_N(k_M)$ ，每一部分的结果视为独立过程，重复步骤计算各段的平均值。\n我们还可以对NLMS进一步扩展，变成仿射投影算法，考虑多目标信号和多观测信号的特性，与传统LMS不同，这里期望输出 $d(k)$ 及输入$\\underline{X}_N (k)$等不再是标量，而是一个向量，其目标是最小化多目标误差的加权平方和，以此来调整滤波器，这种扩展使得算法能够处理多个输入信号，适合于高相关性信号或多目标估计场景\n卡尔曼滤波器 卡尔曼滤波器发展起来后，因为其通用性和强大的功能，被广泛应用于不同的领域。不仅在信号处理领域可以看到它的应用，同时在自动控制领域也有广泛使用，因为卡尔曼滤波的方法基于系统的状态空间表示。\n在我们通常的状态空间表达式建模过程中，测量噪声通常假设为白噪声，其协方差矩阵是已知的，但是实际情况下，噪声可能是彩色的，此时必须将其动态特性归纳到状态向量中进行建模\n卡尔曼滤波在状态空间中由两组基本方程组成：状态方程和观测方程。\n非线性情况： 状态方程： $$ x_k = f(x_{k-1}, u_k) $$\n观测方程： $$ y_k = g(x_k, b_k) $$\n线性情况： 在线性系统中，状态和观测方程具体化为：\n状态方程： $$ x_k = \\Phi_{k-1,k} x_{k-1} + G u_k + w_k $$\n观测方程： $$ y_k = H_k x_k + v_k $$ 其中：\n$\\Phi_{k-1,k}$ 是状态转移矩阵，\n$G$ 是控制输入矩阵，\n$w_k \\sim \\mathcal{N}(0, Q)$ 是高斯分布的过程噪声，协方差为 $Q$。\n$H_k$ 是观测矩阵，\n$v_k \\sim \\mathcal{N}(0, R)$ 是高斯分布的观测噪声，协方差为 $R$。\n卡尔曼滤波的核心目标是根据观测值 $y_k$ 和模型动态，优化估计状态 $x_k$，同时最小化估计误差的协方差。为了理论方便，我们以简单的线性情况为说明。\n参数\n先验\n$\\hat{x}_{k|k-1}$ 表示状态向量 $x_k$ 的先验估计，状态向量 $X_k$ 在已知 $k-1$ 时刻观测值的情况下的估计\n$\\tilde{x}_{k|k-1}$ 表示上述对应的先验误差，定义为：\n$$ \\tilde{x}_{k|k-1} = x_k - \\hat{x}_{k|k-1} $$ $P_{k|k-1}$ 估计先验误差的协方差矩阵，定义为：\n$$ P_{k|k-1} = \\mathbb{E}[\\tilde{x}_{k|k-1} \\tilde{x}_{k|k-1}^\\top] $$ 后验\n$\\hat{x}_{k|k}$ 状态向量 $X_k$ 在已知 $k$ 时刻观测值的情况下的估计\n$\\tilde{x}_{k|k}$ 表示后验估计的误差，定义为：\n$$ \\tilde{x}_{k|k} = x_k - \\hat{x}_{k|k} $$ $P_{k|k}$ 表示后验误差协方差矩阵，定义为：\n$$ P_{k|k} = \\mathbb{E}[\\tilde{x}_{k|k} \\tilde{x}_{k|k}^\\top] $$ 后验估计利用了当前观测值来更新状态，而先验估计则是基于系统模型对下一时刻状态的预测。误差协方差矩阵用于量化估计误差的分布范围。\n卡尔曼滤波器的工作过程\n卡尔曼滤波器的工作方式与LMS滤波类似，通过一个循环不断更新估计值。首先，在当前时刻 $k-1$ ，我们从 $ k-1$ 时刻的后验状态估计 $\\hat{x} _{k-1|k-1}$ 和协方差矩阵$ P _{k-1|k-1}$ 开始，进入预测阶段。\n在没有新观测值 $Y _k$ 的情况下，我们基于系统的动态方程对状态向量进行预测，计算 $\\hat{X} _{k|k-1}$ ，即状态向量在时刻 $k$ 的先验估计，同时得到了先验误差协方差矩阵 $P _{k|k-1}$ ，描述预测误差的大小。\n更新阶段\n当新观测值 $Y_k$ 到达时，我们使用该新信息来修正之前的预测。此时，通过引入一个修正项，将预测值 $\\hat{X} _{k|k-1}$ 更新为后验估计 $\\hat{X} _{k|k}$ 。修正项的大小依赖于新观测值和预测值之间的差异，以及观测值的不确定性。对应的后验误差协方差矩阵 $P _{k|k}$ 也会被更新，用以反映修正后估计的可靠性\n两个步骤的交替运行，完成 $k$ 时刻的预测和更新后，进入 $k+1$ 时刻的预测。可以动态地估计状态向量，并逐步降低估计误差，实际上，预测的核心思想是，预测的误差由协方差矩阵来表征。当有一个新的观测值到来时，我们就可以利用这个新观测值，优化和改进预测的精度。因此，我们会修正预测值，从而得到一个新的状态估计值。这是一个阶段性的过程。\n下面我们通过数学公式详细说明这两个过程\n关于先验估计 $\\hat{x}(k|k-1)$ 和时刻 $k-1$ 的后验估计 $\\hat{x}(k-1|k-1)$ 的关系，以及关于 $P(k|k-1)$ 和 $P(k-1|k-1)$ 的关系。\n后验估计 $$ \\underline{\\hat{x}}(k-1 | k-1) = \\mathbb{E}[\\underline{x}(k-1) | y(1), \\dots, y(k-1)] = \\int \\underline{x} P_{x}(\\underline{x} | y(1), \\dots, y(k-1)) d\\underline{x} $$ 先验估计 $$ \\underline{\\hat{x}}(k | k-1) = \\mathbb{E}[\\underline{x}(k) | y(1), \\dots, y(k-1)] $$\n$$ \\underline{\\hat{x}}(k|k-1) = \\Phi(k-1, k) \\mathbb{E}[\\underline{x}(k-1)|y(1), \\dots, y(k-1)] + G(k) \\mathbb{E}[u(k)|y(1), \\dots, y(k-1)] $$ 由于模型噪声是白噪声且均值为零，因此： $$ \\mathbb{E}[\\underline{u}(k)|y(1), \\dots, y(k-1)] = 0 $$ 因此，状态向量在时刻 $k$ 的预测可以通过状态向量在时刻 $k-1$ 的估计推导如下： $$ \\underline{\\hat{x}}(k|k-1) = \\Phi(k-1, k) \\underline{\\hat{x}}(k-1|k-1) $$ 在这种情况下，仅需要转移矩阵$\\Phi(k-1, k)$\n我们定义 $\\underline{\\tilde{x}}(k|k-1)$ 为时刻 $k$ 的状态向量的先验估计误差： $$ \\underline{\\tilde{x}}(k|k-1) = \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) $$\n$$ \\underline{\\tilde{x}}(k|k-1) = \\Phi(k-1, k) \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right] + G(k) \\underline{u}(k) $$\n先验误差的协方差矩阵定义为：\n$$ \\begin{align*} P(k|k-1) \u0026= \\mathbb{E} \\left\\{ \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right] \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right]^T \\right\\} \\\\ \u0026= \\mathbb{E} \\left[ \\underline{\\tilde{x}}(k|k-1) \\underline{\\tilde{x}}^T(k|k-1) \\right] \\end{align*} $$ $$ P(k|k-1) = \\Phi(k-1, k) P(k-1|k-1) \\Phi^T(k-1, k) + G(k) Q(k) G^T(k) $$\n最终得到误差协方差矩阵的更新公式:\n$$ \\begin{align*} P(k|k-1) \u0026= \\mathbb{E} \\left\\{ \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right] \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right]^T \\right\\} \\\\ \u0026= \\mathbb{E} \\left[ \\underline{\\tilde{x}}(k|k-1) \\underline{\\tilde{x}}^T(k|k-1) \\right] \\end{align*} $$ 现在，我们进入修正阶段，对状态向量的估计进行更新，在这个阶段，我们从上一时刻的估计值出发，并添加一个修正项，它的特别之处在于，它利用了新观测值 $\\underline{y}(k)$ 的信息，状态向量线性估计公式如下： $$ \\underline{\\hat{x}}(k|k) = \\underline{\\hat{x}}(k|k-1) + K(k) \\left[ \\underline{y}(k) - H(k) \\underline{\\hat{x}}(k|k-1) \\right] $$\n$K(k)$ 被称为滤波增益或卡尔曼增益 $\\underline{y}(k) - H(k) \\underline{\\hat{x}}(k|k-1)$ 被称为 innovation，实际观测值 $\\underline{y}(k)$ 与其预测值 $\\underline{\\hat{y}}(k)$ 之间的差异 重新回顾估计误差 $\\tilde{x}(k|k)$ 的表达式 $$ \\underline{\\tilde{x}}(k|k) = \\underline{x}(k) - \\underline{\\hat{x}}(k|k) $$ 并将估计值 $\\underline{\\hat{x}}(k|k)$ 用上式替换：\n$$ \\begin{align*} P(k|k-1) \u0026= \\mathbb{E} \\left\\{ \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right] \\left[ \\underline{x}(k) - \\underline{\\hat{x}}(k|k-1) \\right]^T \\right\\} \\\\ \u0026= \\mathbb{E} \\left[ \\underline{\\tilde{x}}(k|k-1) \\underline{\\tilde{x}}^T(k|k-1) \\right] \\end{align*} $$ 后验误差协方差矩阵: $$ P(k|k) = \\left[ I - K(k) H(k) \\right] P(k|k-1) \\left[ I - H^T(k) K^T(k) \\right] + K(k) R(k) K^T(k) $$ 其中: $$ K(k) = P(k|k-1) H^T(k) \\left[ H(k) P(k|k-1) H^T(k) + R(k) \\right]^{-1} $$\n",
+  "wordCount" : "5388",
+  "inLanguage": "zh",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-19T16:25:17+01:00",
+  "dateModified": "2024-11-27T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://zehua.eu/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://zehua.eu/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://zehua.eu/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/signal_cn/">信号处理</a></div>
+    <h1 class="post-title entry-hint-parent">
+      粒子最优滤波
+    </h1>
+    <div class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2024-11-19 16:25:17 +0100 CET'>11月19日, 2024</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共5388字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul><ul>
+                    <li>
+                        <a href="#%e4%bf%a1%e5%8f%b7%e5%92%8c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%89%b9%e6%80%a7%e5%92%8c%e5%bb%ba%e6%a8%a1" aria-label="信号和系统的特性和建模"><strong>信号和系统的特性和建模</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e4%bf%a1%e5%8f%b7%e5%92%8c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%89%b9%e6%80%a7%e6%8f%8f%e8%bf%b0" aria-label="信号和系统的特性描述"><strong>信号和系统的特性描述</strong></a></li>
+                    <li>
+                        <a href="#%e8%87%aa%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0%e7%9a%84%e8%be%b9%e7%95%8c%e6%83%85%e5%86%b5" aria-label="自相关函数的边界情况"><strong>自相关函数的边界情况</strong></a></li>
+                    <li>
+                        <a href="#%e5%bb%ba%e6%a8%a1%e4%b8%8e%e5%82%85%e9%87%8c%e5%8f%b6%e7%ba%a7%e6%95%b0%e5%b1%95%e5%bc%80" aria-label="建模与傅里叶级数展开"><strong>建模与傅里叶级数展开</strong></a></li>
+                    <li>
+                        <a href="#%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87-ma-%e8%bf%87%e7%a8%8b" aria-label="移动平均 (MA) 过程"><strong>移动平均 (MA) 过程</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e9%9b%b6%e7%82%b9%e7%9a%84%e5%a4%8d%e6%95%b0%e8%a1%a8%e7%a4%ba" aria-label="零点的复数表示"><strong>零点的复数表示</strong></a></li>
+                    <li>
+                        <a href="#%e7%9b%b8%e4%bd%8d%e8%a7%92-varphi_j-%e7%9a%84%e8%ae%a1%e7%ae%97" aria-label="相位角 $\varphi_j$ 的计算"><strong>相位角</strong> $\varphi_j$ <strong>的计算</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e8%87%aa%e5%9b%9e%e5%bd%92-ar-%e8%bf%87%e7%a8%8b" aria-label="自回归 (AR) 过程"><strong>自回归 (AR) 过程</strong></a><ul>
+                            
+                    <li>
+                        <a href="#ar-%e6%a8%a1%e5%9e%8b%e5%ae%9a%e4%b9%89" aria-label="AR 模型定义"><strong>AR 模型定义</strong></a></li>
+                    <li>
+                        <a href="#%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0" aria-label="传递函数"><strong>传递函数</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#arma-auto-regressive-moving-average-%e6%a8%a1%e5%9e%8b" aria-label="ARMA (Auto-Regressive Moving Average) 模型"><strong>ARMA (Auto-Regressive Moving Average) 模型</strong></a><ul>
+                            
+                    <li>
+                        <a href="#arma-%e6%a8%a1%e5%9e%8b%e5%ae%9a%e4%b9%89" aria-label="ARMA 模型定义"><strong>ARMA 模型定义</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8c%e9%98%b6%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87-ma-%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%87%aa%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0%e8%ae%a1%e7%ae%97" aria-label="二阶移动平均 (MA) 模型的自相关函数计算"><strong>二阶移动平均 (MA) 模型的自相关函数计算</strong></a></li>
+                    <li>
+                        <a href="#tuma%e6%97%b6%e5%8f%98%e7%a7%bb%e5%8a%a8%e5%b9%b3%e5%9d%87%e6%a8%a1%e5%9e%8b" aria-label="TUMA（时变移动平均模型）"><strong>TUMA（时变移动平均模型）</strong></a></li>
+                    <li>
+                        <a href="#tvar%e6%97%b6%e5%8f%98%e8%87%aa%e5%9b%9e%e5%bd%92%e6%a8%a1%e5%9e%8b" aria-label="TVAR（时变自回归模型）"><strong>TVAR（时变自回归模型）</strong></a></li>
+                    <li>
+                        <a href="#%e9%95%bf%e8%ae%b0%e5%bf%86%e8%bf%87%e7%a8%8bprocessus-%c3%a0-m%c3%a9moire-longue-%e7%9a%84%e6%a8%a1%e5%9e%8b" aria-label="长记忆过程（Processus à mémoire longue） 的模型"><strong>长记忆过程（Processus à mémoire longue）</strong> 的模型</a></li>
+                    <li>
+                        <a href="#arfima-autoregressive-fractionally-integrated-moving-average-%e6%a8%a1%e5%9e%8b" aria-label="ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型"><strong>ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%bc%b0%e8%ae%a1%e9%83%a8%e5%88%86" aria-label="估计部分">估计部分</a><ul>
+                            
+                    <li>
+                        <a href="#%e7%bb%b4%e7%ba%b3%e6%bb%a4%e6%b3%a2%e5%99%a8" aria-label="维纳滤波器">维纳滤波器</a></li></ul>
+                    </li></ul>
+                        
+                    <li>
+                        <a href="#%e8%87%aa%e9%80%82%e5%ba%94%e6%bb%a4%e6%b3%a2%e5%99%a8" aria-label="自适应滤波器">自适应滤波器</a></li>
+                    <li>
+                        <a href="#%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2%e5%99%a8" aria-label="卡尔曼滤波器">卡尔曼滤波器</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e9%9d%9e%e7%ba%bf%e6%80%a7%e6%83%85%e5%86%b5" aria-label="非线性情况：">非线性情况：</a></li>
+                    <li>
+                        <a href="#%e7%ba%bf%e6%80%a7%e6%83%85%e5%86%b5" aria-label="线性情况：">线性情况：</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="信号和系统的特性和建模"><strong>信号和系统的特性和建模</strong><a hidden class="anchor" aria-hidden="true" href="#信号和系统的特性和建模">#</a></h2>
+<p>这部分内容在 随机信号处理(理论)中有更基础的推导</p>
+<h3 id="信号和系统的特性描述"><strong>信号和系统的特性描述</strong><a hidden class="anchor" aria-hidden="true" href="#信号和系统的特性描述">#</a></h3>
+<p>对于信号而言，其特性有 平稳性、周期性、功率谱密度等，它们用于建立信号的数学模型或描述其统计行为，并且我们通过自相关函数、傅里叶变换等方法提取信号的关键特性。对于系统建模而言，我们通过系统的时域或频域响应、系统的传递函数、极点与零点的分布等来提取系统等关键特性。</p>
+<p>下面我们从估计离散信号自相关函数开始着手刻画信号的 <strong>统计特性</strong>，自相关函数反映了信号在不同时间延迟下的相似性，描述信号随时间变化的内在规律，是随机过程建模的基础</p>
+<p>对于一个离散信号$ x(n) $，其自相关函数定义为：
+$$
+R_{xx}(\tau) = \mathbb{E}[x(n) x^*(n-\tau)]
+$$
+这个公式非常好，很漂亮，但是也有一个实际问题，我们采样得到的 $ x(n) $ 是有限样本序列，我们不可能对全体信号进行期望运算，因此需要通过有限样本（长度为 N ）来近似估计真实的自相关函数。</p>
+<p>期望操作 $\mathbb{E}[\cdot]$ 的近似可以用 <strong>样本均值</strong> 替代。注意，用样本均值替代期望的合理性基于大数定律：在样本量 $N \to \infty$ 时，样本均值会趋近于真实期望。因此我们最终给出:</p>
+<p><strong>离散信号自相关函数的估计公式</strong></p>
+<div>$$\hat{R}_{xx}(\tau) = \frac{1}{N - \tau} \sum_{n=\tau}^{N-1} x(n) \cdot x^*(n-\tau)$$</div>
+<ul>
+<li>
+<p>$N$ 表示信号的长度（样本总数）。</p>
+</li>
+<li>
+<p>$\frac{1}{N - \tau}$ 是归一化因子，可以调节不同延迟下的影响。比如对于较大延迟 $\tau$ ，我们可以减少数据样本数量，以此来平衡可能的误差。</p>
+</li>
+<li>
+<p>$ x(n)x^*(n-\tau) $ 代表信号和它延迟版本的乘积，表示信号在某个延迟下的相似性</p>
+</li>
+</ul>
+<div>$$E\left[ \hat{R}_{xx}(\tau) \right] = \frac{1}{N - \tau} E\left[ \sum_{n=\tau}^{N-1} x(n) \cdot x^*(n-\tau) \right] = R_{xx}(\tau)$$</div>
+<p><strong>估计的自相关函数</strong> $\hat{R} _{xx}(\tau)$  的期望值等于真实的自相关函数  $R _{xx}(\tau) $。这说明，估计的平均值不会系统性地偏离真实值，也就是说明这个估计量是无偏的。再通俗来讲，$\hat{R} _{xx}(\tau)$ 并不是每时每刻都等于真实的 $ R _{xx}(\tau) $ ，但是$\hat{R} _{xx}(\tau)$ 所有时刻平均起来等于$ R _{xx}(\tau) $ ，即这个估计方法是没有偏差的，可以用的。严谨一点叫做，取期望消除了样本随机性对结果的影响，体现了估计量的<strong>长期统计行为</strong>。</p>
+<p>证明:
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = E\left[ \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} x(n) x^*(n-\tau) \right]
+$$</p>
+<p>$$
+E\left[ \hat{R}{xx}(\tau) \right] = \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} E\left[ x(n) x^*(n-\tau) \right]
+$$</p>
+<p>在假设信号是平稳过程下，可以将真实自相关函数拿出来
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} R_{xx}(\tau)
+$$
+自相关函数 $R_{xx}(\tau)$ 与时间 n 无关
+$$
+E\left[ \hat{R}{xx}(\tau) \right] = R{xx}(\tau) \cdot \frac{1}{N-\tau} \sum_{n=\tau}^{N-1} 1
+$$</p>
+<p>$$
+E\left[ \hat{R}{xx}(\tau) \right] = R{xx}(\tau)
+$$</p>
+<p>证明了 $\hat{R}_{xx}(\tau)$ 是一个无偏估计量。</p>
+<p>根据上面我们已经证明的离散信号自相关函数的估计公式，我们有以下结论:</p>
+<p>假设 $x(n)$ 是一个平稳过程，那么对于任何固定的 $\tau$，这个估计值的期望值就是 $R_{xx}(\tau)$，即：</p>
+<div>$$E\left[ \hat{R}_{xx}(\tau) \right] = R_{xx}(\tau)$$</div>
+<h3 id="自相关函数的边界情况"><strong>自相关函数的边界情况</strong><a hidden class="anchor" aria-hidden="true" href="#自相关函数的边界情况">#</a></h3>
+<p>我们有原式:</p>
+<div>$$\hat{R}_{xx}(\tau) = \frac{1}{N - \tau} \sum_{n=\tau}^{N-1} x(n) \cdot x^*(n-\tau)$$</div>
+<p>我们考虑自相关估计的一个特殊情况：当 $\tau = N-1$ 时，只有一个样本 $x(N-1) \cdot x^{*}(0)$，即</p>
+<div>$$\hat{R}_{xx}(N-1) = x(N-1) \cdot x^*(0)$$</div>
+<p>即，当 $\tau = N-1$ 时，延迟值达到了信号长度的极限，仅剩下第一个样本 $x(0)$ 和最后一个样本 $x(N-1)$ ，自相关估计只能用这一个样本对来计算，没有太多统计意义。</p>
+<p>因此我们可以说，当滞后值接近于信号长度的时候，其得到的自相关值是不可靠的，因为样本数量不足。</p>
+<p>为此我们引入<strong>带偏估计</strong></p>
+<p>在带偏估计中，归一化系数是固定的 $\frac{1}{N}$ 而不是延迟 $\tau$ 调整的 $\frac{1}{N - \tau}$，因此期望值会引入一个 $\frac{N - \tau}{N}$ 的系数，使得估计量不再是无偏的。</p>
+<p>带偏估计的自相关公式为：</p>
+<div>$$\hat{R}_{xx}(\tau) = \frac{1}{N} \sum_{n=0}^{N-\tau-1} x(n) x(n-\tau)$$</div>
+<p>带偏估计的期望值为：</p>
+<p>假设 $x(n)$ 是平稳过程，则：</p>
+<div>$$E[\hat{R}_{xx}(\tau)] = \frac{N-\tau}{N} R_{xx}(\tau)$$</div>
+<p>因此我们可见，其带偏估计的偏差来源就是这个因子 $ \frac{N-\tau}{N} $ ，这一因子随着 $\tau$ 增大而减小，表明滞后值较大时，带偏估计会系统性地低估自相关值，适用于大样本估计。并且在边界这种极端情况下，也能工作。</p>
+<p>Hankel 矩阵定义</p>
+<p>Hankel 矩阵是一种特殊的矩阵，其特点是 <strong>沿反对角线上的元素相同</strong>。在信号处理中，Hankel 矩阵是根据时间序列数据构造的，常用于表示信号的结构信息。</p>
+<p>给定时间序列 $x(0), x(1), x(2), \ldots, x(N+L-1)$ ，Hankel 矩阵的定义为：
+$$
+H = \begin{bmatrix}
+x(0) &amp; x(1) &amp; x(2) &amp; \cdots &amp; x(N-1) \\
+x(1) &amp; x(2) &amp; x(3) &amp; \cdots &amp; x(N) \\
+x(2) &amp; x(3) &amp; x(4) &amp; \cdots &amp; x(N+1) \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x(L) &amp; x(L+1) &amp; x(L+2) &amp; \cdots &amp; x(N+L-1)\
+\end{bmatrix}
+$$
+行的数量为 $L+1$ ，列的数量为 N 。</p>
+<p>Hankel 矩阵通过序列 $x(k)$ 的排列捕获信号的时序相关特性，尤其适合分析平稳信号的统计特性，在自回归模型和功率谱估计中用于估计信号的自相关矩阵</p>
+<h3 id="建模与傅里叶级数展开"><strong>建模与傅里叶级数展开</strong><a hidden class="anchor" aria-hidden="true" href="#建模与傅里叶级数展开">#</a></h3>
+<p><strong>离散时间信号 $x(n) $ 傅里叶级数展开公式</strong>
+$$
+x(n) = \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n}
+$$</p>
+<p>一个离散时间信号 $x(n)$ 可以通过复指数形式的傅里叶级数展开成不同频率成分的叠加。其中， $A_k$ 是第 $k$ 个频率分量的复幅度，包含信号在对应离散频率 $f_k$ 上的幅度和相位信息。</p>
+<p>假设信号 $x(n)$ 是一个<strong>平稳白噪声</strong>，即每个时刻的信号值彼此独立且服从相同的概率分布（通常为均值为零的高斯分布），即:</p>
+<p><strong>零均值</strong>
+$$
+E[x(n)] = 0
+$$</p>
+<p><strong>自相关函数</strong>
+$$
+R_{xx}(\tau) = \sigma^2 \delta(\tau)
+$$</p>
+<p>表明信号的平均值为0，且信号在 $\tau \neq 0 $ 时无相关性，各时间点的值是独立的。</p>
+<p><strong>频域特性 &ndash; 功率谱密度</strong></p>
+<p>白噪声的功率谱密度 $S_{xx}(f)$ 是自相关函数 $R_{xx}(\tau)$ 的傅里叶变换：
+$$
+S_{xx}(f) = TF \left( R_{xx}(\tau) \right) = \sum_{\tau} R_{xx}(\tau) e^{-j 2 \pi f \tau}
+$$</p>
+<p>代入 $R_{xx}(\tau) = \sigma^2 \delta(\tau) $：
+$$
+S_{xx}(f) = \sum_{\tau} \sigma^2 \delta(\tau) e^{-j 2 \pi f \tau}
+$$
+因为 $\delta(\tau) 仅在 \tau = 0$ 时非零：
+$$
+S_{xx}(f) = \sigma^2
+$$
+白噪声的功率谱密度 $S_{xx}(f)$ 在所有频率 $ f$ 上都是均匀分布的常数 $\sigma^2 $，即所有频率上的功率密度相同。换句话说，在白噪声的建模中，傅里叶级数揭示了白噪声信号在频域的均匀性，即没有特定的频率成分占主导。在时域上，自相关函数为 $\sigma^2 \delta(\tau) $，说明信号无记忆、各时刻独立。在频域上，功率谱密度为常数 $ \sigma^2 $，说明信号在所有频率上具有相同的能量。</p>
+<h3 id="移动平均-ma-过程"><strong>移动平均 (MA) 过程</strong><a hidden class="anchor" aria-hidden="true" href="#移动平均-ma-过程">#</a></h3>
+<p>移动平均（MA）过程是一种线性时间序列模型，其输出 x(n) 是当前和过去有限个输入信号 u(n) 的加权和：
+$$
+x(n) = \sum_{j=0}^{q} b_j \cdot u(n - j)
+$$
+​	•	$u(n)$ 是输入信号，通常假设为白噪声，零均值 $ E[u(n)] = 0$ 和有限方差 $ E[u^2(n)] = \sigma^2 $。</p>
+<p>​	•	$b_j$ 是 MA 过程的系数，表示每个输入信号对输出的权重。</p>
+<p>​	•	$q$ 是 MA 模型的阶数（滤波器的记忆长度），输出信号 $x(n)$ 依赖于 $u(n)$ 的过去 $q+1$ 个样本。</p>
+<p>输出信号 $x(n)$ 仅由有限长度的输入序列 $u(n), u(n-1), \ldots, u(n-q)$ 决定，因此称为<strong>短期记忆过程</strong>（processus à mémoire courte）</p>
+<p>将输入信号 u(n) 和输出信号 x(n) 进行 z -变换，得：
+$$
+X(z) = \sum_{j=0}^q b_j \cdot U(z) \cdot z^{-j}
+$$
+因此得到了 MA 过程的传递函数：
+$$
+H(z) = \frac{X(z)}{U(z)} = \sum_{j=0}^{q} b_j \cdot z^{-j}
+$$
+$$
+H(z) = b_0 + b_1 z^{-1} + b_2 z^{-2} + \cdots + b_q z^{-q}
+$$</p>
+<p>从传递函数中，我们可以看出，其 H(z) 仅包含有限项，滤波器只依赖于 q+1 个输入值，是一种 有限脉冲响应滤波器 (FIR Filter)。同时H(z) 是 z^{-1} 的多项式，假设具有 q 个零点 $z_1, z_2, \ldots, z_q$，则H(z) 可以表示为：
+$$
+H(z) = b_0 \prod_{j=1}^{q} (1 - z_j z^{-1})
+$$
+其中，$b_0$ 是增益常数，$z_j$ 是系统的零点。</p>
+<p><strong>MA 模型的性质</strong></p>
+<ul>
+<li>**短期记忆性: ** MA 过程仅依赖于有限长度的输入信号，因此是 <strong>短期记忆过程</strong></li>
+<li><strong>平稳性</strong>:  输入信号 u(n) 是平稳白噪声，且 MA 过程只进行加权和操作，因此 MA 模型生成的输出信号 x(n) 也是平稳过程</li>
+<li><strong>自相关函数:</strong> MA 过程的自相关函数 $R_{xx}(\tau)$ 仅在 $|\tau| \leq q$ 时非零(只关联到过去 $q+1$ 个输入)</li>
+<li><strong>功率谱密度:</strong> MA 过程的功率谱密度是有限脉冲响应滤波器作用于白噪声谱密度的结果，由滤波器传递函数的模平方决定</li>
+</ul>
+<p>$$
+S_{xx}(f) = \sigma^2 \cdot |H(e^{j 2 \pi f})|^2
+$$</p>
+<h4 id="零点的复数表示"><strong>零点的复数表示</strong><a hidden class="anchor" aria-hidden="true" href="#零点的复数表示">#</a></h4>
+<p>零点 $z_j$ 是复平面上的点，通过复数的极坐标形式，可以将 $z_j$ 表示为：
+$$
+z_j = |z| \cdot e^{j \varphi_j}
+$$</p>
+<ul>
+<li>
+<p>$|z|$ 是零点的模，表示零点距离原点的距离。</p>
+<ul>
+<li><strong>零点的位置决定了滤波器的频率特性</strong>：如果 $z_j$ 位于单位圆内，滤波器在这些频率附近的效果较弱，但系统稳定。</li>
+<li>对于 FIR 滤波器，比如这里的MA 过程，零点可以位于复平面的任意位置，不影响系统稳定性。</li>
+<li>对于反馈系统（如 AR 模型或 IIR 滤波器），零点和极点的位置必须位于单位圆内以保证稳定性。</li>
+</ul>
+</li>
+<li>
+<p>$e^{j \varphi_j}$ 是零点的相位部分，以复指数形式表示，它决定了零点在复平面上的角度。</p>
+</li>
+<li>
+<p>$\varphi_j$ 是零点与复平面实轴正方向的夹角，称为零点的<strong>相位角</strong>。</p>
+</li>
+</ul>
+<h4 id="相位角-varphi_j-的计算"><strong>相位角</strong> $\varphi_j$ <strong>的计算</strong><a hidden class="anchor" aria-hidden="true" href="#相位角-varphi_j-的计算">#</a></h4>
+<p>$$
+\varphi_j = \frac{2 \pi f_j}{f_{\text{ech}}}
+$$</p>
+<ul>
+<li>
+<p>$f_j$ 是零点对应的频率</p>
+</li>
+<li>
+<p>$\varphi_j$ 是一个归一化的角频率，表示零点在复平面上的位置角度（以弧度计）。</p>
+</li>
+</ul>
+<p>因为物理频率 $f_j $ 的范围是 $[0, f_{\text{ech}}/2]$ （奈奎斯特采样定理的限制），归一化角频率 $\varphi_j$ 的范围为 $[0, \pi]$ （对应复平面上的上半圆）。</p>
+<p>举个例子：</p>
+<p>假设采样频率 $f_{\text{ech}} = 1000 , \text{Hz}$ ，零点对应频率 $f_j = 250 , \text{Hz} $，则：
+$$
+\varphi_j = \frac{2 \pi f_j}{f_{\text{ech}}} = \frac{2 \pi \cdot 250}{1000} = \frac{\pi}{2}
+$$
+零点的相位角 $\varphi_j = \pi/2$，表示零点位于单位圆上的正虚轴位置，滤波器在频率 $f_j = 250 , \text{Hz}$ 附近会显著衰减信号。若零点在远离单位圆的位置，则对频率响应的影响较小。</p>
+<h3 id="自回归-ar-过程"><strong>自回归 (AR) 过程</strong><a hidden class="anchor" aria-hidden="true" href="#自回归-ar-过程">#</a></h3>
+<h4 id="ar-模型定义"><strong>AR 模型定义</strong><a hidden class="anchor" aria-hidden="true" href="#ar-模型定义">#</a></h4>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i , x(n - i) + u(n)
+$$</p>
+<p>​	•	$p$ 是 AR 模型的阶数，即使用的过去值的数量。</p>
+<p>​	•	$a_i$ 是 AR 系数，代表过去信号对当前信号的影响。</p>
+<p>​	•	$u(n)$ 是输入噪声项，通常假设为白噪声。</p>
+<p>当前的输出 $x(n)$ 是基于过去 $p$ 个输出值的加权和，再加上一个随机噪声 $u(n)$。AR 模型用于描述时间序列数据的内在依赖性，广泛应用于信号处理和时间序列分析。</p>
+<h4 id="传递函数"><strong>传递函数</strong><a hidden class="anchor" aria-hidden="true" href="#传递函数">#</a></h4>
+<p>$$
+H(z) = \frac{1}{1 + \sum_{i=1}^{p} a_i \cdot z^{-i}}
+$$</p>
+<p><strong>进行因式分解</strong></p>
+<p>$$
+H(z) = \frac{1}{\prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>通过该传递函数，我们可以分析系统的频率响应和极点。</p>
+<p>AR 模型的极点分布在复平面上会影响频率响应。如果极点接近单位圆，系统在相应频率会出现较强的响应；如果极点远离单位圆，系统的响应则较弱。</p>
+<h3 id="arma-auto-regressive-moving-average-模型"><strong>ARMA (Auto-Regressive Moving Average) 模型</strong><a hidden class="anchor" aria-hidden="true" href="#arma-auto-regressive-moving-average-模型">#</a></h3>
+<h4 id="arma-模型定义"><strong>ARMA 模型定义</strong><a hidden class="anchor" aria-hidden="true" href="#arma-模型定义">#</a></h4>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i , x(n - i) + \sum_{j=0}^{q} b_j , u(n - j)
+$$</p>
+<p>在 ARMA 模型中：</p>
+<p>​	•	<strong>AR 部分</strong>：自回归部分是由前 $p$ 个输出值 $x(n - i)$ 的加权和构成，其系数为 $a_i$。</p>
+<p>​	•	<strong>MA 部分</strong>：移动平均部分是由当前和前 $q$ 个输入噪声 $u(n - j)$ 的加权和构成，其系数为 $b_j$。</p>
+<p>​	•	该模型结合了自回归和移动平均的特性，使其能够更灵活地描述时间序列数据中的依赖关系。</p>
+<p>ARMA 模型的传递函数可以通过 Z 变换表示为：</p>
+<p>$$
+H(z) = \frac{\sum_{j=0}^{q} b_j \cdot z^{-j}}{1 + \sum_{i=1}^{p} a_i \cdot z^{-i}}
+$$</p>
+<p>​	•	<strong>分子</strong>：分子部分是 MA 部分的 Z 变换形式，由 $b_j$ 系数和 $z^{-j}$ 项构成。</p>
+<p>​	•	<strong>分母</strong>：分母部分是 AR 部分的 Z 变换形式，由 $a_i$ 系数和 $z^{-i}$ 项构成。</p>
+<p>进一步将传递函数因式分解，得到：</p>
+<p>$$
+H(z) = \frac{\prod_{j=0}^{q} (1 - z_j z^{-1})}{\prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>​	•	$z_j$ 表示 MA 部分的零点。</p>
+<p>​	•	$p_i$ 表示 AR 部分的极点。</p>
+<p>当零点接近单位圆时，滤波器会在相应频率范围内有显著衰减；当极点接近单位圆时，滤波器会在对应频率范围内有增强效果。</p>
+<p><strong>ARMA 滤波器的频率响应特性</strong> 即频谱图示为: 待补充</p>
+<h3 id="二阶移动平均-ma-模型的自相关函数计算"><strong>二阶移动平均 (MA) 模型的自相关函数计算</strong><a hidden class="anchor" aria-hidden="true" href="#二阶移动平均-ma-模型的自相关函数计算">#</a></h3>
+<p><strong>简单的二阶移动平均信号模型</strong> $x(n) = b_0 u(n) + b_1 u(n-1)$</p>
+<p>​	•	$u(n)$ 是输入信号，通常假设为白噪声。</p>
+<p>​	•	$b_0$ 和 $b_1$ 是滤波器的系数。</p>
+<p>这个模型表示当前的输出 $x(n)$ 是当前输入 $u(n)$ 和前一个输入 $u(n-1)$ 的加权和。</p>
+<p><strong>均值计算</strong> $E[x(n)] = b_0 E[u(n)] + b_1 E[u(n-1)] = 0$</p>
+<p>自相关函数：</p>
+<p>$$
+R_{xx}(n_1, n_2) = E[x(n_1) \cdot x^*(n_2)]
+$$</p>
+<div>$$
+\begin{align*}
+R_{xx}(n_1, n_2) &= E\left[ (b_0 u(n_1) + b_1 u(n_1 - 1))(b_0 u^*(n_2) + b_1 u^*(n_2 - 1)) \right] \\
+&= b_0^2 E[u(n_1) u^*(n_2)] + b_0 b_1 E[u(n_1) u^*(n_2 - 1)] + b_1 b_0 E[u(n_1 - 1) u^*(n_2)] + b_1^2 E[u(n_1 - 1) u^*(n_2 - 1)]
+\end{align*}
+$$</div>
+<p>为了简化表达式，引入滞后变量 $\tau = n_1 - n_2$</p>
+<div>$$
+\begin{align*}
+R_{xx}(\tau) &= b_0^2 R_{uu}(\tau) + b_0 b_1 R_{uu}(\tau + 1) + b_1 b_0 R_{uu}(\tau - 1) + b_1^2 R_{uu}(\tau) \\
+&= (b_0^2 + b_1^2) R_{uu}(\tau) + b_0 b_1 \left( R_{uu}(\tau + 1) + R_{uu}(\tau - 1) \right)
+\end{align*}
+$$</div>
+<p>其中 $R_{uu}(\tau)$ 来表示输入白噪声 $u(n)$ 的自相关函数</p>
+<p>​	•	第一部分 $(b_0^2 + b_1^2) R_{uu}(\tau)$，表示信号 $x(n)$ 的自相关主项。</p>
+<p>​	•	第二部分 $b_0 b_1 \left( R_{uu}(\tau + 1) + R_{uu}(\tau - 1) \right)$，表示由于滞后一单位时间所带来的影响。</p>
+<p>假设 $u(n)$ 是白噪声过程，其自相关函数 $R_{uu}(\tau) = \sigma^2 \delta(\tau)$</p>
+<p>$$
+R_{xx}(\tau) = (b_0^2 + b_1^2) \sigma^2 \delta(\tau) + b_0 b_1 \sigma^2 \left( \delta(\tau + 1) + \delta(\tau - 1) \right)
+$$</p>
+<p>​	•	当 $\tau = 0$ 时，$R_{xx}(0) = (b_0^2 + b_1^2) \sigma^2$。</p>
+<p>​	•	当 $\tau = \pm 1$ 时，$R_{xx}(\pm 1) = b_0 b_1 \sigma^2$。</p>
+<p>假设 $x$ 是一个包含 $N$ 个样本的随机向量：</p>
+<p>$$
+x = \begin{bmatrix} x_0 \ x_1 \ \vdots \ x_{N-1} \end{bmatrix}
+$$</p>
+<p>每个元素 $x_i$ 是信号在不同时间的值。</p>
+<p>$x$ 的自相关矩阵 $E(x \cdot x^T)$，即：</p>
+<p>$$
+E(x \cdot x^T) = E \left( \begin{bmatrix} x_0 \ x_1 \ \vdots \ x_{N-1} \end{bmatrix} \begin{bmatrix} x_0 &amp; x_1 &amp; \cdots &amp; x_{N-1} \end{bmatrix} \right)
+$$</p>
+<p>$$
+E(x \cdot x^T) = \sigma^2 \begin{bmatrix}
+b_0^2 + b_1^2 &amp; b_0 b_1 &amp; 0 &amp; \cdots &amp; 0 \\
+b_0 b_1 &amp; b_0^2 + b_1^2 &amp; b_0 b_1 &amp; \cdots &amp; 0 \\
+0 &amp; b_0 b_1 &amp; b_0^2 + b_1^2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; \cdots &amp; b_0^2 + b_1^2\
+\end{bmatrix}
+$$</p>
+<p>​	•	主对角线上，每个元素都是 $(b_0^2 + b_1^2) \sigma^2$，对应于 $R_{xx}(0)$。</p>
+<p>​	•	在上下相邻的次对角线上，每个元素是 $b_0 b_1 \sigma^2$，对应于 $R_{xx}(\pm 1)$。</p>
+<p>二阶移动平均模型 (MA(2)) 的自相关特性：</p>
+<p>​	•	<strong>主对角线</strong>表示信号本身的方差。</p>
+<p>​	•	<strong>次对角线</strong>反映了相邻时刻之间的相关性，由 $b_0$ 和 $b_1$ 决定。</p>
+<p>这种矩阵结构称为<strong>带状矩阵</strong>，仅在主对角线及其附近具有非零元素，适合表示具有有限“记忆”的信号模型。</p>
+<h3 id="tuma时变移动平均模型"><strong>TUMA（时变移动平均模型）</strong><a hidden class="anchor" aria-hidden="true" href="#tuma时变移动平均模型">#</a></h3>
+<p>是移动平均模型的时变版本，其中滤波器系数随时间变化。模型定义如下：</p>
+<p>$$
+x(n) = \sum_{j=0}^{p} b_j(n) \cdot u(n-j)
+$$</p>
+<p>​	•	$b_j(n)$ 是时变的系数</p>
+<p>​	•	$p$ 是模型的阶数。</p>
+<p>这里的时变性体现在 $b_j(n)$ 随时间 $n$ 而变化，这使得 TUMA 模型能够捕捉信号的时变特性。TUMA 模型特别适用于描述具有非平稳性的信号，因为系数的时间依赖性使其能够更好地适应信号的变化。</p>
+<p>另一种形式：</p>
+<p>$$
+x(n) = \sum_{j=0}^{p} B_j(u(n)) \quad \text{这里不懂，可能抄错}
+$$</p>
+<h3 id="tvar时变自回归模型"><strong>TVAR（时变自回归模型）</strong><a hidden class="anchor" aria-hidden="true" href="#tvar时变自回归模型">#</a></h3>
+<p>（Time-Variant Auto-Regressive）是自回归模型的时变版本</p>
+<p>$$
+x(n) = -\sum_{i=1}^{p} a_i(n) \cdot x(n-i) + u(n)
+$$</p>
+<p>​	•	$a_i(n)$ 是时变的 AR 系数，它随时间 $n$ 变化。</p>
+<p>​	•	$p$ 是模型的阶数。</p>
+<p>定义了系数 $a_i(n)$ 的更新规则：</p>
+<p>​	1.	<strong>第一种形式</strong></p>
+<p>$$
+a_i(n) = a_i(n-1) + N(n)
+$$</p>
+<p>其中 $N(n)$ 是一个BBGC 独立于 $u(n)$</p>
+<p>​	2.	系数 $a_i(n)$ 还可以写成如下形式：</p>
+<p>$$
+a_i(n) = \sum_{j} \beta_{ij} b_j(n)
+$$</p>
+<p>这意味着 $a_i(n)$ 可以通过一组基函数 $b_j(n)$ 的线性组合来表示，其中 $\beta_{ij}$ 是权重。这种表示允许我们用基函数表示时变系数，从而降低模型的复杂度。</p>
+<p>最终多维状态向量形式</p>
+<p>$$
+\underline{x}(n) = -\sum_{i=1}^{p} A_i , x(n-i) + u(n)
+$$</p>
+<p>​	•	$A_i$ 不再是单一标量，而是一个矩阵系数</p>
+<h3 id="长记忆过程processus-à-mémoire-longue-的模型"><strong>长记忆过程（Processus à mémoire longue）</strong> 的模型<a hidden class="anchor" aria-hidden="true" href="#长记忆过程processus-à-mémoire-longue-的模型">#</a></h3>
+<p>使用分数阶积分来模拟<strong>长记忆的白噪声</strong></p>
+<p>滤波器的传递函数 $H(z)$ 定义为：</p>
+<p>$$
+H(z) = \frac{X(z)}{U(z)} = (1 - z^{-1})^{-d}
+$$</p>
+<p><strong>功率谱密度计算</strong></p>
+<p>$$
+\text{DSP}_{x(f)} = |H(z)|^2 \cdot \sigma_u^2
+$$</p>
+<p>​	•	$\sigma_u^2$ 是输入白噪声 $u(n)$ 的方差。</p>
+<p>​	•	将 $z$ 替换为 $e^{j 2 \pi f / f_{\text{ech}}}$，得到频率域的响应 $H(e^{j 2 \pi f / f_{\text{ech}}})$。</p>
+<p>代入 $H(z) = (1 - e^{-j 2 \pi f / f_{\text{ech}}})^{-d}$：</p>
+<div>$$
+\text{DSP}_{x(f)} = \left| \frac{1}{(1 - e^{-j 2 \pi f / f*{\text{ech}}})^d} \right|^2 \cdot \sigma_u^2
+$$</div>
+<div>$$
+\text{DSP}_{x(f)} = \frac{\sigma_u^2}{\left| e^{-j \pi f / f*{\text{ech}}} \cdot 2j \sin\left( \frac{\pi f}{f_{\text{ech}}} \right) \right|^{2d}}
+$$</div>
+<p>化简得到：</p>
+<p>$$
+\text{DSP}_{x(f)} = \frac{\sigma_u^2}{2^{2d} \sin^{2d}\left( \frac{\pi f}{f*{\text{ech}}} \right)}
+$$</p>
+<p>这个公式表明，输出信号 $x(n)$ 的功率谱密度 $\text{DSP}_{x(f)}$ 在频率 $f \to 0$ 附近会趋于无穷大，这说明该系统具有长记忆性，低频成分较强。</p>
+<h3 id="arfima-autoregressive-fractionally-integrated-moving-average-模型"><strong>ARFIMA (AutoRegressive Fractionally Integrated Moving Average) 模型</strong><a hidden class="anchor" aria-hidden="true" href="#arfima-autoregressive-fractionally-integrated-moving-average-模型">#</a></h3>
+<p>ARFIMA 模型的传递函数可以写为：</p>
+<p>$$
+H(z) = \frac{\prod_{j=1}^{q} (1 - z_j z^{-1})}{(1 - z^{-1})^d \prod_{i=1}^{p} (1 - p_i z^{-1})}
+$$</p>
+<p>​	•	<strong>分子部分</strong>：$\prod_{j=1}^{q} (1 - z_j z^{-1})$ 表示 MA（移动平均）部分，它包含了零点 $z_j$。</p>
+<p>​	•	<strong>分母部分</strong>：</p>
+<p>​	•	$(1 - z^{-1})^d$ 表示分数阶积分项，通常 $d$ 为分数，用于引入长记忆效应。</p>
+<p>​	•	$\prod_{i=1}^{p} (1 - p_i z^{-1})$ 表示 AR（自回归）部分，包含了极点 $p_i$。</p>
+<p>ARFIMA 模型是一种结合了自回归、分数阶积分和移动平均的模型，适用于描述具有长记忆性质的时间序列。通过分数阶积分项 $(1 - z^{-1})^d$，模型能够捕捉时间序列的长记忆特性。</p>
+<p><strong>非线性模型（Non-linear Model）</strong></p>
+<p>一个与汽车模型相关的复杂动态过程</p>
+<p>这个模型可以用以下表达式表示：</p>
+<p>$$
+x(n) = \sum_{j=0}^{q} b_j u(n - j) + h(0, 0) u^2(n) + h(0, 1) u(n) u(n - 1) + h(0, 2) u(n) u(n - 2) + \dots
+$$</p>
+<p>​	•	<strong>线性部分</strong>：$\sum_{j=0}^{q} b_j u(n - j)$，这是传统的移动平均 (MA) 部分，表示系统对输入信号 $u(n)$ 的线性响应。</p>
+<p>​	•	<strong>非线性部分</strong>：包含 $u(n)$ 的高阶项，例如 $u^2(n)$、$u(n) u(n - 1)$ 等。</p>
+<p>​	•	$h(0, 0) u^2(n)$ 是输入 $u(n)$ 的平方项，代表了二次非线性。</p>
+<p>​	•	$h(0, 1) u(n) u(n - 1)$ 是输入和其滞后项的乘积，代表了跨时间的非线性耦合。</p>
+<p>​	•	高阶项继续扩展为更高次方和不同滞后项的组合。</p>
+<p>非线性项表示系统的响应不仅依赖于当前和过去的输入值，还依赖于这些输入值的非线性组合。</p>
+<p>更高阶的非线性项例如：</p>
+<p>$$
+h(1, 0, 0) u^3(n) + h(0, 0, 1) u^2(n) u(n - 1) + \dots
+$$</p>
+<p>对于一个信号 $x(n) = u^2(n)$</p>
+<p>$$
+x(n) = \cos^2\left(2 \pi n \frac{f_0}{f_{\text{ech}}}\right)
+$$</p>
+<p>这个表达式是一个余弦平方信号，频率为 $f_0$（归一化到采样频率 $f_{\text{ech}}$）。我们可以利用三角恒等式（<strong>使用欧拉公式</strong>）将其展开。</p>
+<p>已知 $\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}$，同时将 $\cos^2$ 转换为指数形式</p>
+<p>可以将 $x(n)$ 表达为：</p>
+<p>$$
+x(n) = \frac{e^{j 4 \pi n \frac{f_0}{f_{\text{ech}}}} + 2 + e^{-j 4 \pi n \frac{f_0}{f_{\text{ech}}}}}{4}
+$$</p>
+<p>矩阵形式的表示：</p>
+<div>$$
+x(n) = \begin{bmatrix}
+u(n) & u(n-1) & u(n-2) & \dots & u(n-q) & u^2(n) & u(n) u(n-1) & u(n) u(n-2) & \dots
+\end{bmatrix}
+\begin{bmatrix}
+b_0 \\
+b_1 \\
+b_2 \\
+\vdots \\
+b_q \\
+h(0,0) \\
+h(0,1) \\
+h(0,2) \\
+\vdots
+\end{bmatrix}
+$$</div>
+<h2 id="估计部分">估计部分<a hidden class="anchor" aria-hidden="true" href="#估计部分">#</a></h2>
+<p>两个不同类型：</p>
+<p>​	1.	<strong>Par bloc（分块估计）</strong> 将数据分成固定长度的块，然后在每个块上独立地计算所需的估计值</p>
+<p>​	2.	<strong>Échantillon par échantillon（逐样本估计）</strong> 对每个采样点独立地进行估计，不进行分块</p>
+<p><strong>估计模型 的输出信号 $y(n)$ 的形式：</strong></p>
+<p>$$
+y(n) = \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n} + b(n)
+$$</p>
+<p>​	•	$\sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n}$ 表示一系列复指数信号的叠加，每个信号的频率为 $f_k$，采样频率为 $f_{\text{ech}}$。</p>
+<p>​	•	这里 $A_k$ 被视为一个随机变量 并且 $E[A_k] = 0$</p>
+<p>​	•	$b(n)$ 是一个噪声项，假设为白噪声。</p>
+<p>$$
+E[y(n)] = 0
+$$</p>
+<p>自相关函数 $R_{yy}(n_1, n_2) = E[y(n_1) y^*(n_2)]$</p>
+<div>$$
+\begin{align*}
+R_{yy}(n_1, n_2) &= E \left[ \left( \sum_{k} A_k e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n_1} + b(n_1) \right) \left( \sum_{l} A_l^* e^{-j 2 \pi \frac{f_l}{f_{\text{ech}}} n_2} + b^*(n_2) \right) \right] \\
+&= E \left[ \sum_{k} \sum_{l} A_k A_l^* e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} n_1} e^{-j 2 \pi \frac{f_l}{f_{\text{ech}}} n_2} \right] + E[b(n_1) b^*(n_2)]
+\end{align*}
+$$</div>
+<p>噪声 $b(n)$ 是白噪声，且 $A_k$ 的均值为零并且彼此独立，这可以进一步简化为：</p>
+<p>$$
+R_{yy}(n_1, n_2) = \sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} (n_1 - n_2)} + \sigma_b^2 \delta(n_1 - n_2)
+$$</p>
+<p>​	•	第一项 $\sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} \tau}$ 表示信号部分的自相关，包含各个频率分量的贡献，其中 $\tau = n_1 - n_2$。</p>
+<p>​	•	第二项 $\sigma_b^2 \delta(\tau)$ 表示噪声部分的自相关，仅在 $\tau = 0$ 时为非零。</p>
+<p>因此，最终的自相关函数表示为：</p>
+<p>$$
+R_{yy}(\tau) = \sum_{k} E[|A_k|^2] e^{j 2 \pi \frac{f_k}{f_{\text{ech}}} \tau} + \sigma_b^2 \delta(\tau)
+$$</p>
+<p>定义向量 $\underline{Y}$ 为：</p>
+<p>$$
+\underline{Y} = \begin{bmatrix} y(n) \\ y(n+1) \\ \vdots \\ y(n+N-1)\ \end{bmatrix}
+$$</p>
+<p>自相关矩阵 $R_y$ 定义为：</p>
+<p>$$
+R_y = E[\underline{Y} \cdot \underline{Y}^H]
+$$</p>
+<p>​	•	$\underline{Y}^H$ 是 $\underline{Y}$ 的共轭转置（Hermitian 转置），在计算复数信号的自相关时特别重要。</p>
+<p>​	•	$R_y$ 是一个 $N \times N$ 的矩阵。</p>
+<p>$$
+R_y = \begin{bmatrix}
+r _{yy}(0) &amp; r _{yy}(-1) &amp; \dots &amp; r _{yy}(-N+1) \\
+r _{yy}(1) &amp; r _{yy}(0) &amp; \dots &amp; r _{yy}(-N+2) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+r _{yy}(N-1) &amp; r _{yy}(N-2) &amp; \dots &amp; r _{yy}(0)\
+\end{bmatrix}
+$$</p>
+<p>​	•	<strong>主对角线</strong>上的元素为 $r_{yy}(0)$，表示零滞后的自相关。</p>
+<p>​	•	<strong>次对角线</strong>上的元素为 $r_{yy}(\pm 1)$，表示滞后为 $\pm 1$ 的自相关。</p>
+<p>​	•	该矩阵具有 <strong>Toeplitz 结构</strong>，即每一条对角线上的元素相同。</p>
+<p>$$
+\underline{S} \underline{S}^H = \begin{bmatrix}
+1 &amp; e^{-j 2 \pi \frac{f_0}{f_{\text{ech}}}} &amp; \cdots &amp; e^{-j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}} \\
+e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}} &amp; 1 &amp; \cdots &amp; e^{-j 2 \pi (N-2) \frac{f_0}{f_{\text{ech}}}} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+e^{j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}} &amp; e^{j 2 \pi (N-2) \frac{f_0}{f_{\text{ech}}}} &amp; \cdots &amp; 1\
+\end{bmatrix}
+$$</p>
+<p>​	•	<strong>主对角线</strong>：所有元素都为 1，对应 $e^{j 2 \pi \cdot 0} = 1$。</p>
+<p>​	•	<strong>次对角线</strong>：依次为 $e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}}$、$e^{j 2 \pi \cdot 2 \frac{f_0}{f_{\text{ech}}}}$，表示随着滞后增加的指数因子。</p>
+<p>​	•	<strong>共轭对称性</strong>：由于 $\underline{S} \underline{S}^H$ 是由 $\underline{S}$ 和其共轭转置 $\underline{S}^H$ 相乘得到，因此矩阵是共轭对称的，即 $(\underline{S} \underline{S}^H) _{i,j} = \overline{(\underline{S} \underline{S}^H) _{j,i}}$。</p>
+<p>加上噪声项后，自相关矩阵可以表示为：</p>
+<p>$$
+R_y = E[|A|^2] \cdot \underline{S} \underline{S}^H + \sigma_b^2 I_N
+$$</p>
+<p>​	•	<strong>信号部分</strong> $E[|A|^2] \cdot \underline{S} \underline{S}^H$：表示信号的自相关结构。</p>
+<p>​	•	<strong>噪声部分</strong> $\sigma_b^2 I_N$：均匀分布在对角线上，反映了白噪声的自相关性。</p>
+<p>矩阵 $\underline{S}$ 表示为一个包含指数因子的向量：</p>
+<p>$$
+\underline{S} = \begin{bmatrix}
+1 \\
+e^{j 2 \pi \frac{f_0}{f_{\text{ech}}}} \\
+\vdots \\
+e^{j 2 \pi (N-1) \frac{f_0}{f_{\text{ech}}}}\
+\end{bmatrix}
+$$</p>
+<p>$$
+R_y = E[|A_1|^2] \cdot \underline{S} \underline{S}^H + \sigma_b^2 I_N
+$$</p>
+<p>$$
+R_y \underline{S} = E[|A|^2] \cdot \underline{S} (\underline{S}^H \underline{S}) + \sigma_b^2 \underline{S}
+$$</p>
+<p>设 $\underline{S}^H \underline{S}$ 值为 $N$（是一个标量）（范数平方）</p>
+<p>$$
+= (N E[|A|^2] + \sigma_b^2) \underline{S}
+$$</p>
+<p>说明 $R_y$ 的一个特征值为 $N E[|A|^2] + \sigma_b^2$</p>
+<p>假设 $\underline{\psi}_i \perp \underline{S}$</p>
+<p>也就是说，$\underline{\psi}_i$ 与 $\underline{S}$ 正交。</p>
+<p>$$
+\underline{S}^T \underline{\psi}_i^* = 0 \quad \text{和} \quad \underline{S}^H \underline{\psi}_i = 0
+$$</p>
+<p>$\underline{\psi}_i$ 属于 $R_y$ 的特征空间中，并且与 $\underline{S}$ 的方向正交</p>
+<p>原式</p>
+<p>$$
+R_y \underline{\psi}_i = E[|A|^2] \cdot \underline{S} \underline{S}^H \underline{\psi}_i + \sigma_b^2 \underline{\psi}_i = \sigma_b^2 \underline{\psi}_i
+$$</p>
+<p>自相关矩阵在 $\underline{\psi}_i$ 方向上仅由噪声贡献，因为与信号成分 $\underline{S}$ 正交，因此信号成分的部分会为零，留下的仅为噪声方差的贡献：</p>
+<p>$$
+R_y \underline{\psi}_i = \sigma_b^2 \underline{\psi}_i
+$$</p>
+<p>表明，可以通过正交特征向量来分离信号和噪声成分</p>
+<p>$3 \times 3$ 特征向量的线性组合：</p>
+<p>$$
+\psi_3(0) \cdot 1 + \psi_3(1) \cdot e^{j \frac{2\pi}{f_{\text{ech}}}} + \psi_3(2) \cdot e^{-j \frac{2\pi}{f_{\text{ech}}}} = 0
+$$</p>
+<p>​	•	$\psi_3(0)$、$\psi_3(1)$、$\psi_3(2)$ 是特征向量的各个分量。</p>
+<p>​	•	$e^{j \frac{2\pi}{f_{\text{ech}}}}$ 和 $e^{-j \frac{2\pi}{f_{\text{ech}}}}$ 表示复数指数因子，用于描述矩阵的频率特性。</p>
+<p>$$
+z = e^{j \frac{2\pi}{f_{\text{ech}}}}
+$$</p>
+<p>将 $z$ 代入后，表达式变为：</p>
+<p>$$
+\psi_3(0) + \psi_3(1) \cdot z^{-1} + \psi_3(2) \cdot z^{-2} = 0
+$$</p>
+<h3 id="维纳滤波器">维纳滤波器<a hidden class="anchor" aria-hidden="true" href="#维纳滤波器">#</a></h3>
+<p>接下来我们讨论维纳滤波器。维纳滤波器是设计最小均方意义上的滤波器的一个方法，目标是得到我们的期望响应。我们看到维纳滤波器实际上是一种分块的矩阵方法，这引出了相关矩阵的逆矩阵乘以输入和期望响应的互相关向量的计算。</p>
+<p>然而，当矩阵规模较大时，直接求逆可能并不现实。因此，另一种方法是采用在线计算，而不是分块计算。我们将引入维纳滤波器的一个扩展，即一种<strong>自适应方法</strong>，它会随着时间的推移动态调整冲激响应，以考虑误差。随着时间推移，这种方法会逐渐收敛到维纳滤波器。换句话说，自适应滤波器，尤其是 LMS（最小均方）、NLMS（归一化最小均方）等。再往后，我们会介绍维纳滤波器的变种，即通道滤波方法。</p>
+<p>状态向量定义为：</p>
+<p>$$
+\underline{x}(t) =
+\begin{bmatrix}
+x(t) \\
+\dot{x}(t) \\
+\ddot{x}(t)\
+\end{bmatrix}
+$$
+状态方程可以写成：</p>
+<div>$$
+\dot{\underline{x}}(t) =
+\begin{bmatrix}
+\dot{x}(t) \\\\
+\ddot{x}(t) \\\\
+\overset{\cdots}{x}(t)\\
+\end{bmatrix}
+$$</div>
+<p>$$
+\dot{\underline{x}}(t) =
+\begin{bmatrix}
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 0\
+\end{bmatrix}
+\begin{bmatrix}
+x(t) \\
+\dot{x}(t) \\
+\ddot{x}(t)\
+\end{bmatrix}
++
+\begin{bmatrix}
+0 \\
+0 \\
+1\
+\end{bmatrix}
+w(t)
+$$</p>
+<p>$$
+\dot{\underline{x}}(t) =
+A \underline{x}(t) + B w(t)
+$$</p>
+<p>状态向量 $x(t)$ 的解为：
+$$
+x(t) = \exp(A(t-t_0)) \cdot x(t_0) + \int_{t_0}^t \exp(A(t-\tau)) B w(\tau) d\tau
+$$</p>
+<p>给出采样条件：
+$$
+\begin{cases}
+t = (k+1)T_{\text{ech}} \\
+t_0 = kT_{\text{ech}} \\
+t - t_0 = T_{\text{ech}}\
+\end{cases}
+$$
+原式:
+$$
+x(t) = \exp(A \cdot T_{\text{ech}}) \cdot x(kT_{\text{ech}}) + \int_{t_0}^t \exp(A(t-\tau)) B w(\tau) d\tau
+$$
+矩阵指数 $\exp(A \cdot T_{\text{ech}})$ 的泰勒展开形式为：</p>
+<p>$$
+\exp(A \cdot T_{\text{ech}}) = I + A \cdot T_{\text{ech}} + \frac{A^2 \cdot T_{\text{ech}}^2}{2!} + \cdots
+$$
+矩阵 $A$ 的方幂具有如下性质：</p>
+<div>$$
+A =
+\begin{bmatrix}
+0 & 1 & 0 \\\\
+0 & 0 & 1 \\\\
+0 & 0 & 0\\
+\end{bmatrix}, \quad
+A^2 =
+\begin{bmatrix}
+0 & 0 & 1 \\\\
+0 & 0 & 0 \\\\
+0 & 0 & 0\\
+\end{bmatrix}, \quad
+A^3 = 0
+$$</div>
+<p>将以上性质代入矩阵指数的展开：
+$$
+\exp(A \cdot T_{\text{ech}}) =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1\
+\end{bmatrix}
++
+\begin{bmatrix}
+0 &amp; T_{\text{ech}} &amp; 0 \\
+0 &amp; 0 &amp; T_{\text{ech}} \\
+0 &amp; 0 &amp; 0\
+\end{bmatrix}
++
+\begin{bmatrix}
+0 &amp; 0 &amp; \frac{T_{\text{ech}}^2}{2} \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0\
+\end{bmatrix}
+$$</p>
+<p>$$
+\exp(A \cdot T_{\text{ech}}) =
+\begin{bmatrix}
+1 &amp; T_{\text{ech}} &amp; \frac{T_{\text{ech}}^2}{2} \\
+0 &amp; 1 &amp; T_{\text{ech}} \\
+0 &amp; 0 &amp; 1\
+\end{bmatrix}
+$$</p>
+<p>离散系统状态更新表达式为：</p>
+<div>$$
+x(k+1) =
+\begin{bmatrix}
+1 & T_{\text{ech}} & \frac{T_{\text{ech}}^2}{2} \\
+0 & 1 & T_{\text{ech}} \\
+0 & 0 & 1
+\end{bmatrix}
+x(k)
++
+\int_{kT_{\text{ech}}}^{(k+1)T_{\text{ech}}}
+\begin{bmatrix}
+1 & T_{\text{ech}} & \frac{T_{\text{ech}}^2}{2} \\
+0 & 1 & T_{\text{ech}} \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+0 \\
+0 \\
+1
+\end{bmatrix}
+w(\tau) \, d\tau
+$$</div>
+<p>将积分中的变量替换如下：
+$$
+\tau_1 = \tau - kT_{\text{ech}}\\
+\tau = \tau_1 + kT_{\text{ech}}\\
+d\tau_1 = d\tau\
+$$</p>
+<p>$$
+x(k+1) = \Phi x(k) + \int_0^{T_{\text{ech}}}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau_1)^2}{2} \
+T_{\text{ech}} - \tau_1 \
+1
+\end{bmatrix}
+w(\tau_1 + k T_{\text{ech}}) d\tau_1
+$$</p>
+<p>后半部分是 u(k)，即:
+$$
+u(k) = \int_0^{T_{\text{ech}}}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau_1)^2}{2} \\
+T_{\text{ech}} - \tau_1 \\
+1\
+\end{bmatrix}
+w(\tau_1 + kT_{\text{ech}}) d\tau_1
+$$
+这部分代表了模型噪音，其均值为0</p>
+<p><strong>系统过程噪声协方差矩阵 $Q$</strong>
+$$
+Q = \mathbb{E}[u(k) \cdot u(k)^T]
+$$
+<strong>假设条件：</strong>	$w(t)$ 是不随时间相关的零均值白噪声。</p>
+<p>$u(k)$ 的计算基于积分结果，表达为：
+$$
+u(k) = w(kT_{\text{ech}})
+\begin{bmatrix}
+\frac{T_{\text{ech}}^2}{6} \\
+\frac{T_{\text{ech}}}{2} \\
+T_{\text{ech}}\
+\end{bmatrix}
+$$
+将 $u(k)$ 带入协方差矩阵定义，得到：
+$$
+Q =
+\begin{bmatrix}
+\frac{T_{\text{ech}}^6}{36} &amp; \frac{T_{\text{ech}}^5}{12} &amp; \frac{T_{\text{ech}}^4}{6} \\
+\frac{T_{\text{ech}}^5}{12} &amp; \frac{T_{\text{ech}}^4}{4} &amp; \frac{T_{\text{ech}}^3}{3} \\
+\frac{T_{\text{ech}}^4}{6} &amp; \frac{T_{\text{ech}}^3}{3} &amp; T_{\text{ech}}^2\
+\end{bmatrix}
+$$
+另一种情况
+$$
+Q = \mathbb{E}[u(k) \cdot u(k)^T]
+$$</p>
+<p>$$
+\mathbb{E}[u(k) \cdot u(k)^T] = \mathbb{E} \left[ \int_0^{T_{\text{ech}}} \int_0^{T_{\text{ech}}}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau_1)^2}{2} \\
+T_{\text{ech}} - \tau_1 \\
+1\
+\end{bmatrix}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau_1)^2}{2} &amp; T_{\text{ech}} - \tau_1 &amp; 1
+\end{bmatrix}
+w(\tau_1 + kT_{\text{ech}}) w(\tau_2 + kT_{\text{ech}}) d\tau_1 d\tau_2 \right]
+$$</p>
+<p>假设 $w(t)$ 是零均值、方差为 $\sigma_w^2$ 的白噪声，根据白噪声的正交性：
+$$
+\mathbb{E}[w(\tau_1 + kT_{\text{ech}}) w(\tau_2 + kT_{\text{ech}})] = \sigma_w^2 \delta(\tau_1 - \tau_2)
+$$
+利用这个假设，双重积分简化为单积分：
+$$
+Q = \sigma_w^2 \int_0^{T_{\text{ech}}}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau)^2}{2} \\
+T_{\text{ech}} - \tau \\
+1\
+\end{bmatrix}
+\begin{bmatrix}
+\frac{(T_{\text{ech}} - \tau)^2}{2} &amp; T_{\text{ech}} - \tau &amp; 1
+\end{bmatrix}
+d\tau
+$$</p>
+<p>$$
+Q = q \cdot
+\begin{bmatrix}
+\frac{T_{\text{ech}}^5}{20} &amp; \frac{T_{\text{ech}}^4}{8} &amp; \frac{T_{\text{ech}}^3}{6} \\
+\frac{T_{\text{ech}}^4}{8} &amp; \frac{T_{\text{ech}}^3}{3} &amp; \frac{T_{\text{ech}}^2}{2} \\
+\frac{T_{\text{ech}}^3}{6} &amp; \frac{T_{\text{ech}}^2}{2} &amp; T_{\text{ech}}\
+\end{bmatrix}
+$$</p>
+<p>其中， q 表示噪声强度 $\sigma_w^2 $。</p>
+<p><strong>状态向量 $x(k+1)$ 表达为：</strong></p>
+<div>$$
+x(k+1) =
+\begin{bmatrix}
+x(k+1) \\
+\dot{x}(k+1) \\
+\ddot{x}(k+1)
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 & T_{\text{ech}} & \frac{T_{\text{ech}}^2}{2} \\
+0 & 1 & T_{\text{ech}} \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+x(k) \\
+\dot{x}(k) \\
+\ddot{x}(k)
+\end{bmatrix}
++ u(k)
+$$</div>
+<p>第三个状态 $\ddot{x}(k+1)$ 的更新公式为：
+$$
+\ddot{x}(k+1) = \ddot{x}(k) + \mu_3(k)
+$$</p>
+<p>$$
+x(k+1) =
+\begin{bmatrix}
+x(k+1) \\
+\dot{x}(k+1) \\
+\ddot{x}(k+1) \\
+y(k+1) \\
+\dot{y}(k+1) \\
+\ddot{y}(k+1)\
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; T_{\text{ech}} &amp; \frac{T_{\text{ech}}^2}{2} &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; T_{\text{ech}} &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; T_{\text{ech}} &amp; \frac{T_{\text{ech}}^2}{2} \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; T_{\text{ech}} \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\
+\end{bmatrix}
+\begin{bmatrix}
+x(k) \\
+\dot{x}(k) \\
+\ddot{x}(k) \\
+y(k) \\
+\dot{y}(k) \\
+\ddot{y}(k)\
+\end{bmatrix}
++
+\begin{bmatrix}
+u_x(k) \\
+\vdots  \\
+u_y(k) \\
+\vdots \
+\end{bmatrix}
+$$</p>
+<p>协方差矩阵 Q 被表示为分块矩阵形式：
+$$
+Q =
+\begin{bmatrix}
+Q_x &amp; 0 \\
+0 &amp; Q_y\
+\end{bmatrix}
+$$
+其中:</p>
+<ul>
+<li>
+<p>$Q_x$ 是关于 $x$ 方向状态变量的协方差矩阵 ===&gt; $Q_x = \mathbb{E}[u_x(k) u_x(k)^T]$</p>
+</li>
+<li>
+<p>$Q_y$ 是关于 $y$ 方向状态变量的协方差矩阵 ===&gt; $Q_y = \mathbb{E}[u_y(k) u_y(k)^T]$</p>
+</li>
+<li>
+<p>矩阵的非对角线块为零，表示 x 和 y 两个方向的噪声是独立的。</p>
+</li>
+</ul>
+<p><strong>测量向量 $y(k)$ 的公式为：</strong></p>
+<div>$$
+y(k) =
+\begin{bmatrix}
+x_b(k) \\
+y_b(k)
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+x(k) \\
+\dot{x}(k) \\
+\ddot{x}(k) \\
+y(k) \\
+\dot{y}(k) \\
+\ddot{y}(k)
+\end{bmatrix}
++
+\begin{bmatrix}
+b_x(k) \\
+b_y(k)
+\end{bmatrix}
+$$</div>
+<p>其中，$b(k)$是<strong>测量误差项</strong>，其协方差矩阵 $R$ 被定义为测量噪声的期望值：
+$$
+R = \mathbb{E}[b(k) \cdot b(k)^T]=
+\begin{bmatrix}
+\sigma_{b_x}^2 &amp; 0 \\
+0 &amp; \sigma_{b_y}^2\
+\end{bmatrix}
+$$
+即协方差矩阵 $R$ 是测量噪声 $b(k)$ 的二阶统计特性，描述了测量噪声的分布和强度。</p>
+<p>因此，我们得到综合线性状态方程表达式
+$$
+x(k+1) = \Phi x(k) + u(k)
+$$</p>
+<p>$$
+y(k) = H x(k) + b(k)
+$$</p>
+<p>举一个非线性的例子，雷达定位:</p>
+<p>目标点与估计位置之间的欧几里得距离 $C\Delta T$ 被定义为：
+$$
+C\Delta T = \sqrt{(x_A(k) - x(k))^2 + (y_A(k) - y(k))^2 + (z_A(k) - z(k))^2}+ \xi(k)
+$$
+即:
+$$
+\Delta = g(x(k)) + \xi(k)
+$$
+这就是个非线性方程</p>
+<p><strong>输入信号模型：</strong>
+$$
+s(k) = -\sum_{i=1}^{p} a_i s(k-i) + u(k)
+$$
+测量信号 $y(k)$ 表达式
+$$
+y(k) = s(k) + b(k)
+$$</p>
+<ul>
+<li>
+<p>$s(k)$：当前信号值。</p>
+</li>
+<li>
+<p>$a_i$：线性预测系数。</p>
+</li>
+<li>
+<p>$u(k)$：输入噪声。</p>
+</li>
+<li>
+<p>$p$：信号模型的阶数（表示模型依赖过去 $p$ 个时间步的信号值）。</p>
+</li>
+<li>
+<p>$b(k)$：测量噪声，具有方差 $R$，即：</p>
+</li>
+</ul>
+<p>$$
+b(k) \sim \mathcal{N}(0, \sigma_b^2)
+$$</p>
+<p>为了使用状态空间表达式，将信号 $s(k)$ 表示为一个状态向量：
+$$
+\underline{x}_s(k) =
+\begin{bmatrix}
+s(k) \\
+s(k-1) \\
+s(k-2) \\
+\vdots \\
+s(k-p+1)\
+\end{bmatrix}
+$$</p>
+<p>$$
+\underline{x}_s(k+1) =
+\begin{bmatrix}
+-a_1 &amp; -a_2 &amp; \cdots &amp; -a_p \\
+1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; 1 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; 1\
+\end{bmatrix}
+\begin{bmatrix}
+s(k) \\
+s(k-1) \\
+s(k-2) \\
+\vdots \\
+s(k-p+1)\
+\end{bmatrix}
++
+\begin{bmatrix}
+1 \\
+0 \\
+0 \\
+\vdots \\
+0\
+\end{bmatrix}
+u(k)
+$$</p>
+<p>$$
+\underline{x}_s(k+1) = \Phi \underline{x}_s(k-1) + \underline{u}(k)
+$$</p>
+<p>测量信号 $y(k)$ 的表达式为：</p>
+<p>$$
+y(k) =
+\begin{bmatrix}
+1 &amp; 0 &amp; \cdots &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+s(k) \\
+s(k-1) \\
+\vdots \\
+s(k-p+1)\
+\end{bmatrix}
++	b(k)
+$$</p>
+<div>$$
+\underline{x}(k) =
+\begin{bmatrix}
+a_1(k) \\
+a_2(k) \\
+\vdots \\
+a_p(k)\
+\end{bmatrix}
+=
+I_d \cdot
+\begin{bmatrix}
+a_1(k-1) \\
+a_2(k-1) \\
+\vdots \\
+a_p(k-1)\
+\end{bmatrix}
++
+\begin{bmatrix}
+w_1(k) \\
+w_2(k) \\
+\vdots \\
+w_p(k)\
+\end{bmatrix}
+$$</div>
+<p>自回归信号的测量方程为：</p>
+<p>$$
+y(k) = s(k) =
+\begin{bmatrix}
+-s(k-1) &amp; -s(k-2) &amp; \cdots &amp; -s(k-p)
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+a_1(k) \\
+a_2(k) \\
+\vdots \\
+a_p(k)\
+\end{bmatrix}
++	u(k)
+$$</p>
+<p>维纳滤波器</p>
+<p>误差信号：
+$$
+e(k) = d(k) - \underline{H}_N^T \underline{X}_N(k)
+$$
+滤波输出：
+$$
+\hat{d}(k) = \underline{H}_N^T \underline{X}_N(k)
+$$
+滤波器系数向量：
+$$
+\underline{H}_N^T = [h(0), h(1), \ldots, h(N-1)]
+$$</p>
+<p>$$
+\hat{d}(k) = h * x(k) = \sum_{n=0}^{N-1} h(n) \cdot x(k-n)
+$$</p>
+<p>$$
+\hat{d}(k) =
+\begin{bmatrix}
+h(0) &amp; h(1) &amp; \ldots &amp; h(N-1)
+\end{bmatrix}
+\begin{bmatrix}
+x(k) \
+x(k-1) \
+\vdots \
+x(k-N+1)
+\end{bmatrix}
+$$</p>
+<p>$$
+\hat{d}(k) = \underline{H}_N^T \underline{X}_N(k)
+$$</p>
+<p>$$
+\hat{d}(k) = \underline{X}_N^T(k) \underline{H}_N
+$$</p>
+<p>目标函数：
+$$
+J = \mathbb{E}[e^2(k)]
+$$
+误差项展开：
+$$
+J = \mathbb{E}[(d(k) - \underline{H}_N^T \underline{X}_N(k))^2]
+$$</p>
+<p>$$
+J = \mathbb{E}[d^2(k) - 2d(k) \cdot \underline{H}_N^T \underline{X}_N(k) + \underline{H}_N^T \underline{X}_N(k) \cdot \underline{X}_N^T(k) \cdot \underline{H}_N]
+$$</p>
+<p>$$
+J = \mathbb{E}[d^2(k)] - 2 \underline{H}_N^T \mathbb{E}[d(k) \cdot \underline{X}_N(k)] + \underline{H}_N^T \mathbb{E}[\underline{X}_N(k) \cdot \underline{X}_N^T(k)] \cdot \underline{H}_N
+$$</p>
+<p>$$
+J = \mathbb{E}[d^2(k)] - 2 \underline{H}N^T R{dx} + \underline{H}_N^T R_x \cdot \underline{H}_N
+$$</p>
+<p><strong>关于 $\underline{H}_N$ 的优化条件</strong>：
+$$
+-2 \underline{R}_{dx} + 2 R_x \underline{H}_N = 0
+$$
+<strong>解出 $\underline{H}_N$</strong>：
+$$
+\underline{H}_N = R_x^{-1} \underline{R}{dx}
+$$
+这就是维纳滤波器基本形式</p>
+<p><strong>自回归模型</strong>：
+$$
+x(k) = -\sum_{i=1}^{p} a_i x(k-i) + u(k)
+$$</p>
+<p>$$
+x(k) = \hat{x}(k) + u(k)
+$$</p>
+<p><strong>系数向量 $\underline{H}_N$</strong>：</p>
+<p>$$
+\underline{H}_N =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_p\
+\end{bmatrix}
+$$</p>
+<p><strong>状态向量 $\underline{X}_N(k)$</strong>：</p>
+<div>$$
+\underline{X}_N(k) =
+\begin{bmatrix}
+-x(k-1) \\
+-x(k-2) \\
+\vdots \\
+-x(k-p)
+\end{bmatrix}
+$$</div>
+<p><strong>自相关矩阵 $R_x$</strong>：</p>
+<div>$$
+R_x =
+\begin{bmatrix}
+R_{xx}(0) & R_{xx}(1) & \cdots & R_{xx}(p-1) \\
+R_{xx}(1) & R_{xx}(0) & \cdots & R_{xx}(p-2) \\
+\vdots & \vdots & \ddots & \vdots \\
+R_{xx}(p-1) & R_{xx}(p-2) & \cdots & R_{xx}(0)
+\end{bmatrix}
+$$</div>
+<p><strong>输入信号</strong>：
+$$
+d(k) = x(k)
+$$
+<strong>互相关向量 $R_{dx}$</strong>：</p>
+<div>$$
+\underline{R}_{dx} = -
+\begin{bmatrix}
+R_{xx}(1) \\
+\vdots \\
+R_{xx}(p)
+\end{bmatrix}
+$$</div>
+<p><strong>系数向量 $\underline{H}_N$</strong>
+$$
+\underline{H}_N = - R_x^{-1} R{dx}
+$$</p>
+<div>$$
+\underline{H}_N = - \begin{bmatrix}
+R_{xx}(0) & R_{xx}(1) & \cdots & R_{xx}(p-1) \\
+R_{xx}(1) & R_{xx}(0) & \cdots & R_{xx}(p-2) \\
+\vdots & \vdots & \ddots & \vdots \\
+R_{xx}(p-1) & R_{xx}(p-2) & \cdots & R_{xx}(0)
+\end{bmatrix}^{-1} \quad
+\begin{bmatrix}
+R_{xx}(1) \\
+\vdots \\
+R_{xx}(p)
+\end{bmatrix}
+$$</div>
+<p>这就是 <strong>Yule-Walker 方程</strong></p>
+<p><strong>自相关函数 $R_{xx}(\tau)$ 的定义</strong>：</p>
+<p>对于 $\tau &gt; 0$：
+$$
+R_{xx}(\tau) = \mathbb{E}[x(k) x(k-\tau)]
+$$</p>
+<p>$$
+R_{xx}(\tau) = \mathbb{E}\left[\left(-\sum_{i=1}^p a_i x(k-i) + u(k)\right) x(k-\tau)\right]
+$$</p>
+<p>$$
+R_{xx}(\tau) = -\sum_{i=1}^p a_i \mathbb{E}[x(k-i) x(k-\tau)] + \mathbb{E}[u(k) x(k-\tau)]
+$$</p>
+<p><strong>忽略噪声项（独立性假设）</strong>：
+$$
+R_{xx}(\tau) = -\sum_{i=1}^p a_i R_{xx}(\tau-i)
+$$
+对于 $\tau = 0$：
+$$
+R_{xx}(0) = \sum_{i=1}^p a_i R_{xx}(-i) + \mathbb{E}[u(k) \cdot x(k)]
+$$</p>
+<p>$$
+R_{xx}(0) = \sum_{i=1}^p a_i R_{xx}(-i) + \mathbb{E}[u(k) \cdot \left(-\sum_{i=1}^p a_i x(k-i) + u(k)\right)]
+$$</p>
+<p><strong>自相关函数的递归形式</strong>：
+$$
+R_{xx}(\tau) = -\sum_{i=1}^p a_i R_{xx}(\tau - i) + \sigma_u^2 \delta(\tau)
+$$</p>
+<div>$$
+R_{xx}(\tau) = -
+\begin{bmatrix}
+R_{xx}(0) & R_{xx}(1) & \cdots & R_{xx}(1-p) \\
+R_{xx}(1) & R_{xx}(0) & \cdots & R_{xx}(2-p) \\
+\vdots & \vdots & \ddots & \vdots \\
+R_{xx}(p) & R_{xx}(p-2) & \cdots & R_{xx}(0)
+\end{bmatrix}
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_p
+\end{bmatrix}
+$$</div>
+<p><strong>噪声方差公式</strong>：
+$$
+\sigma_u^2 = R_{xx}(0) + \sum_{i=1}^p a_i \cdot R_{xx}(-i)
+$$</p>
+<p>$$
+\sigma_u^2 = \sum_{i=0}^p a_i \cdot R_{xx}(-i)
+$$</p>
+<p><strong>测量方程：</strong>
+$$
+y(k) = x(k) + b(k)
+$$
+<strong>自回归模型：</strong>
+$$
+x(k) = -\sum_{k=1}^p a_k x(k-i) + u(k)
+$$
+<strong>输出信号的自相关函数 $R_{yy}(\tau)$：</strong>
+$$
+R_{yy}(\tau) = \mathbb{E}[(x(k) + b(k))(x(k-\tau) + b(k-\tau))]
+$$</p>
+<p>$$
+R_{yy}(\tau) = R_{xx}(\tau) + R_{bb}(\tau)
+$$</p>
+<p><strong>$y$ 的自相关矩阵和$x$ 的自相关矩阵的关系 ：</strong>
+$$
+R_y = R_x + \sigma_b^2 I
+$$</p>
+<p>$$
+R_y^{-1} R_y \neq R_x^{-1} r_x
+$$</p>
+<p>$$
+(R_x - \sigma_b^2 I)^{-1} R_y  \neq R_x^{-1} r_x
+$$</p>
+<p>左右不相等，怎么办呢</p>
+<p>一阶MA过程特性: 相关函数在滞后为 0 时，相关性不为零，在滞后为 ±1 时，相关性也不为零，也就是说只有主对角线和两边次对角线受到了影响，因此我们采用噪声补偿，搞定出现的 $r_{xx}(0)$，怎么做呢？==&gt; 序号值从 $p+1$ 开始递增：</p>
+<p>$$
+p+1, , p+2, , \ldots, 2p
+$$</p>
+<p>自相关与互相关的关系：</p>
+<div>$$
+\begin{bmatrix}
+R_{xx}(p+1) \\
+R_{xx}(2p)
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{R}_{yy}(p+1) \\
+\hat{R}_{yy}(2p)
+\end{bmatrix}
+=
+\begin{bmatrix}
+R_{xx}(p) & \cdots & R_{xx}(1) \\
+R_{xx}(2p+1) & \cdots & R_{xx}(p)
+\end{bmatrix}
+\begin{bmatrix}
+a_1 \\
+\vdots \\
+a_p
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{R}_{yy}(p) & \cdots & \hat{R}_{yy}(1) \\
+\hat{R}_{yy}(2p+1) & \cdots & \hat{R}_{yy}(p)
+\end{bmatrix}
+\begin{bmatrix}
+a_1 \\
+\vdots \\
+a_p
+\end{bmatrix}
+$$</div>
+<p>我们称这些为<strong>修正后的 Yule-Walker 方程</strong>。因为我们使用了不同的滞后值。因此，从理论上讲，我们可以用这些关系来求解参数 $R$。在这种情况下，$R_{xx}(0)$ 并没有参与了计算，所以理论上没有问题。</p>
+<p>但在实践中我们无法得到精确的值。当滞后值增加时，样本平均的数量越少，方差会增大，可靠性就越差。</p>
+<p>因此，从理论上看，这种方法非常完美，但在实践中，问题在于我们需要越来越大的滞后值。而滞后值越大，在估计自相关函数和自相关矩阵时，需要用更多的样本进行平均才能确保质量。</p>
+<p>我们引入了<strong>维纳滤波器</strong>，并且将维纳滤波器应用于<strong>自回归过程（AR）</strong></p>
+<p>如果我想估计一个 MA（移动平均）过程的参数，首先要先看MA 过程和 AR 过程的不同之处，在频域中，AR 过程会出现<strong>共振峰</strong>，而 MA 过程会出现<strong>零点</strong>，表现为频率的衰减。所以我们可以取信号并绘制它的功率谱，并利用谱下限（lower gramian）来估计一个 MA 过程的参数。(对于一个 MA 过程，功率谱中应该会出现频率的衰减)。然后我们再取功率谱的倒数，也就是谱的逆。这样我们就可以得到共振峰。然后我们还需要与之关联的自相关函数。所以可以进行傅里叶逆变换，从而得到关联的自相关函数。最后重新应用核心计算，就可以得到需要的参数。</p>
+<h1 id="自适应滤波器">自适应滤波器<a hidden class="anchor" aria-hidden="true" href="#自适应滤波器">#</a></h1>
+<p>我们的核心目标是针对时间序列信号进行信号处理，最需要解决的是建模问题，尤其关注于系统的建模，也就是利用一系列方程或者状态空间表达式，来描述信号和系统。对于信号，我们主要关心的是其统计性质，广义平稳的信号（统计特性在时间内不随时间平移而变化）可以大大简化分析，同时需要关注信号的自相关函数(信号与自身在时间间隔上的依赖性)，如果自相关函数快速衰减，表明信号在时间上的相关性较短，易于建模，反之，长记忆过程的建模更加复杂。</p>
+<p>我们在之前研究了</p>
+<ul>
+<li>
+<p><strong>均值调整模型（Mean-Adjusted Models）</strong>
+$$
+x(n) = \sum_{j=0}^{q} b_j \cdot u(n - j)
+$$</p>
+</li>
+<li>
+<p><strong>自回归过程（Autoregressive Process, AR）</strong>
+$$
+x_n = a_1 x_{n-1} + a_2 x_{n-2} + \cdots + a_p x_{n-p} + \epsilon_n
+$$</p>
+</li>
+<li>
+<p><strong>自回归与均值调整结合</strong>的过程</p>
+</li>
+<li>
+<p><strong>白噪声加长记忆特性</strong>的过程</p>
+</li>
+<li>
+<p>通过添加短相关性达到<strong>无限过程</strong>的模型。</p>
+</li>
+</ul>
+<p>然后是是创建线性模型来分析时间序列信号，使用了最简单的模型之一，即 <strong>Volterra模型</strong>，以及<strong>最小二次自回归模型</strong> 等。</p>
+<p>在完成建模部分后，问题就变成了如何处理这些方程，尤其是估计其中的参数。</p>
+<p>我们可以将时间序列或信号结构化为矩阵形式，例如 <strong>Toeplitz矩阵</strong> 或者<strong>相关矩阵</strong>（协方差矩阵）。这时，我们要用到一些在文献或学习中见到的线性代数工具，例如<strong>QR分解</strong>、<strong>LDL分解</strong>、<strong>正交投影算子</strong>。还有一种 <strong>基于子空间的方法</strong>，通过分析相关矩阵的<strong>特征值 特征向量</strong>和<strong>范数</strong>来区分<strong>信号子空间</strong>和噪声子空间，利用信号子空间和噪声子空间的正交性来分析信号。</p>
+<p>接下来，我们探讨了线性滤波中的块处理问题，线性滤波的目标与传统的高通、低通或带通滤波不同(侧重于频率选择性)，线性滤波对输入信号进行处理，得到尽可能接近期望响应的输出，并最小化<strong>均方误差MSE</strong>。我们使用有限冲激响应**（FIR）滤波器**，我们通过反转输入信号的相关矩阵，并乘以输入信号与期望响应的互相关向量来实现。</p>
+<p>当信号中存在噪声时，噪声通常被建模为随机过程，其统计特性（如均值、方差、相关性）决定了其对信号和估计的影响，即噪声会显著影响参数估计，因此含噪信号的处理很重要。例如，当渐进模型中有噪声时，我们观察其影响并补偿。</p>
+<p>下面我们实现用递归方式逼近解，也就是逐步解决估计问题，即自适应滤波。它是一种实时更新滤波器系数的技术，通过每次接收一个新样本，动态调整滤波器的参数，使得输出信号逐渐逼近期望响应，即随着迭代和样本数量的增加逐渐收敛到精确解。这种方法不需要计算输入信号相关矩阵的反转(块处理方法)，计算量较小，非常适合实时处理场景。</p>
+<img src="/Users/zehua/Library/Application Support/typora-user-images/image-20241126151314935.png" alt="image-20241126151314935"  />
+<ul>
+<li>$d_k$: 期望响应（目标信号）</li>
+<li>$y_k$: 滤波器输出，是对 $d_k$ 的估计值</li>
+<li>$e_k = d_k - y_k$: 误差，即期望响应和滤波器输出的差异</li>
+<li>$\underline{H}_N(k - 1)$ 自适应滤波</li>
+<li>$\underline{X}_N(k)$: 输入向量，第 $k$ 个样本的信号</li>
+</ul>
+<p>我们将研究一个随时间变化的自适应滤波器，也就是说，随着时间的变化以及新样本的到来，这个滤波器将逐渐动态更新滤波器的系数，使其逐渐逼近最优解。
+$$
+\underline{H}_N(k) = \begin{bmatrix} h_1(k) &amp; \cdots &amp; h_N(k) \end{bmatrix}^T
+$$
+滤波器的冲激响应是有限的，可以看到这个冲激响应会随时间而变化
+$$
+\underline{X}_N(i) = \begin{bmatrix} x(i) &amp; \cdots &amp; x(i-N+1) \end{bmatrix}^T
+$$</p>
+<p>$$
+y(k) = \underline{H}_N^T(k-1) \cdot \underline{X}_N(k) = \underline{X}_N^T(k) \cdot \underline{H}_N(k-1)
+$$</p>
+<p>$$
+e(k) = d(k) - \underline{H}_N^T(k-1) \cdot \underline{X}_N(k)
+$$</p>
+<p>$$
+J(k) = \mathbb{E} \left[ e^2(k) \right]
+$$</p>
+<p>$$
+J(k) =\mathbb{E} \left[ (d(k) - \underline{H}_N^T(k-1) \cdot \underline{X}_N(k))^2 \right]
+$$</p>
+<p>$$
+J(k) = \mathbb{E} \left[ d^2(k) \right] - 2 d(k) \cdot \underline{H}_N^T(k-1) \underline{X}_N(k)
++ \underline{H}_N^T(k-1) \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_N(k-1)
+$$</p>
+<p>现在要做的就是梯度下降法</p>
+<p>![image-20241126152627287](/Users/zehua/Library/Application Support/typora-user-images/image-20241126152627287.png)
+$$
+\underline{H}_N(k) = \underline{H}_N(k-1) - \frac{\alpha}{2} \nabla J
+$$
+从$\underline{H}_N(k-1)$ 到$\underline{H}_N(k)$ 需要加一个修正项，即步长因子乘负梯度，之所以叫做负梯度方向是因为，这里是减号 ，所以如果梯度是正(斜率为正)，那么还是减，如果梯度是负，说明跑过了，那么就得加一加，往右走走，不停在最小值附近摇摆，最后收敛。 $\alpha/2$ 只是为了简化运算</p>
+<p>所以现在要做的就是计算梯度$\nabla J$</p>
+<p>$$
+\begin{align}
+\nabla J &amp;= \mathbb{E} \left[ -2 \underline{X}_N(k) d(k) + 2  \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_N(k-1) \right] \\
+&amp;= -2 \mathbb{E} \left[ \underline{X}_N(k) d(k) - \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_N(k-1) \right] \\
+&amp;= -2 \mathbb{E} \left[ \underline{X}_N(k) \left( d(k) - \underline{X}_N^T(k) \underline{H}_N(k-1) \right) \right] \\
+&amp;= -2 \mathbb{E} \left[ \underline{X}_N(k) e(k) \right]\
+\end{align}
+$$
+经过计算后，我们得到了梯度，表达式，我们将其带入原梯度下降法公式中:
+$$
+\begin{cases}
+\underline{H}_N(k) = \underline{H}_N(k-1) + \alpha \mathbb{E} \left[  \underline{X}_N(k) e(k)\right] \\
+e(k) = d(k) - \underline{X}_N^T(k) \underline{H}_N(k-1)\
+\end{cases}
+$$
+我们发现$\underline{H}_N(k)$ 有一个问题，实际中我们无法在每个时刻得到期望值，因此我们用瞬时值将其代替，原式可得:
+$$
+\underline{H}_N(k) = \underline{H}_N(k-1) + \alpha \underline{X}_N(k) e(k)
+$$
+因此我们获得了LMS算法的核心更新公式，其目的是收敛到这些参数的最小二乘意义下（最小均方算法LMS）的解，即滤波意义上的最优解，这个最优解在理论上 是Yule-Walker方程的解，求这个解不需要时间的演变，可一次直接获得。而自适应方法是利用每一个样本逐步更新参数估计，使得这些估计值最终收敛到基于误差意义上的参数估计，也就是Yule-Walker方程的解。</p>
+<p>我们接下来会分析自适应滤波器与最优滤波器之间的偏差，这种偏差目前没有办法完全消除，也就是算法可能在最优解附近波动，但无法完全收敛到最优滤波器的参数。我们可以在某些特定时间点观察参数差异，如果相对较小，我们认可算法可能已经收敛，这个时候我们对后几次迭代参数估计只取均值或者中值(不要只取最后一次迭代的效果，会有瞬时波动的偏差影响)，这样就可以得到更稳健的滤波器系数。补充: 平均值可以平滑，中值可以对抗异常值。</p>
+<p>对于其中的 $α$ 学习率（步长因子），控制梯度下降的步幅大小。如果 $α$ 的值很小，梯度下降的过程非常缓慢 ; 如果 $α$ 的值很大，在最优解附近会强烈的振荡，甚至不稳定。</p>
+<p>因此我们可以使用Yule-Walker 方程(Yule-Walker 方程在自回归 (AR) 模型中用于描述自相关函数与 AR 系数之间的关系) 验证参数  $α$ 的合理性，其具体步骤如下</p>
+<ul>
+<li>先假设一个 $α$ ，然后根据理论AR模型来计算相关函数 $r(k)$</li>
+<li>使用 Yule-Walker 方程，基于计算的 $r(k)$ 和输入信号数据，反向估计 $α$</li>
+<li>比较计算值和先前假设值</li>
+</ul>
+<p>随后，我们可以利用 ALMS 滤波器（自适应最小均方滤波器）在不同条件下动态调整步长参数  $α$ ，从而提高滤波器的性能。步长参数的动态调整使得 ALMS 更适合非平稳环境。这里关于ALMS不深入讨论。</p>
+<p>我们现在观察自适应滤波器与最优滤波器之间的差异 $\Delta \underline{H}_N(k)$</p>
+<div>$$
+\Delta \underline{H}_N(k) = \underline{H}_N(k) - \underline{H}_{\text{opt}}
+$$</div>
+<p>$ \underline{H}_{\text{opt}}$ 是最优滤波器的系数，其表达式如下:</p>
+<div>$$
+\underline{H}_{\text{opt}} = \mathbb{E} \left\{ \underline{X}_N(k) \underline{X}_N^T(k) \right\}^{-1} 
+\mathbb{E} \left\{ \underline{X}_N(k) d(k) \right\}  
+= \mathbf{R}_{xx}^{-1} \mathbf{R}_{xd}
+$$</div>
+<p>通过分析 $\Delta \underline{H}_N(k)$，我们可以评估自适应滤波器在每个时刻与最优滤波器之间的距离，从而查看收敛过程及波动特性，有助于优化算法参数 $\alpha$ ，以实现更快的收敛和更稳定的滤波器性能。</p>
+<p>回到前面，我们对$\underline{H}_N(k)$ 有结论:
+$$
+\underline{H}_N(k) = \underline{H}_N(k-1) + \alpha \underline{X}_N(k) e(k)
+$$
+这只是第一种形式，反应的是和 $e(k)$ 之间的关系等，现在我们回到它最原始的公式:
+$$
+\underline{H}_N(k) = \underline{H}_N(k-1) + \alpha \underline{X}_N(k)
+\left[ d(k) - \underline{H}_N^T(k-1) \underline{X}_N(k) \right]
+$$
+我们已知:
+$$
+\underline{H}_N^T(n-1) \underline{X}_N(n) = \underline{X}_N^T(n) \underline{H}_N(n-1)
+$$
+因为它是个标量</p>
+<p>因此展开:</p>
+<div>$$
+\underline{H}_N(k) = \underline{H}_N(k-1) 
+- \alpha \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_N(k-1) 
++ \alpha \underline{X}_N(k) d(k)
+$$</div>
+<p>我们将$\underline{H}_N(k)$ 这个结果带入到 $\Delta \underline{H}_N(k)$ 中:</p>
+<div>$$
+\begin{align*}
+\Delta \underline{H}_N(k) &= \underline{H}_N(k) - \underline{H}_{\text{opt}} \\
+&= \underline{H}_N(k-1) - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_N(k-1) 
++ \alpha \underline{X}_N(k) d(k) - \underline{H}_{\text{opt}}
+\end{align*}
+$$</div>
+<div>$$
+\begin{align*}
+\Delta \underline{H}_N(k) &= \left[ I - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \right] \underline{H}_N(k-1) 
++ \alpha \underline{X}_N(k) d(k) - \underline{H}_{\text{opt}} \\
+&= \left[ I - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \right] \Delta \underline{H}_N(k-1) 
++ \alpha \underline{X}_N(k) \left[ d(k) - \underline{X}_N^T(k) \underline{H}_{\text{opt}} \right]
+\end{align*}
+$$</div>
+<p>从公式中可以看出，如果：当迭代在某一时间点 $k-1$ 达到最优滤波器时，后续的迭代可不是最优滤波器，即:
+$$
+\text{Si } \Delta \underline{H}_N(k-1) = 0 \implies \Delta \underline{H}_N(k) \neq 0
+$$
+这种情况下我们认为LMS 并未完全收敛到最优解。</p>
+<p>我们对 $\Delta \underline{H}_N(k)$ 求期望:</p>
+<div>$$
+\mathbb{E}[\Delta \underline{H}_N(k)] = \mathbb{E} \left[ \left( I - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \right) \Delta \underline{H}_N(k-1) \right] 
++ \alpha \mathbb{E} \left[ \underline{X}_N(k) d(k) - \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_{\text{opt}} \right]
+$$</div>
+<p>其中:</p>
+<div>$$
+\mathbb{E} \left[ \underline{X}_N(k) d(k) - \underline{X}_N(k) \underline{X}_N^T(k) \underline{H}_{\text{opt}} \right]
+= \mathbf{R}_{dx} - \mathbf{R}_{x} \cdot \mathbf{H}_{\text{opt}}
+$$</div>
+<p>而我们知道最优滤波器公式为:</p>
+<div>$$
+\mathbf{H}_{\text{opt}} = \mathbf{R}_{x}^{-1} \underline{\mathbf{R}}_{dx}
+$$</div>
+<p>一代进去，后面等于0了，因此我们原式有</p>
+<div>$$
+\mathbb{E}[\Delta \underline{H}_N(k)] = \mathbb{E} \left[ \left( I - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \right) \right]\mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</div>
+<p>我们假设独立性，期望值的分解将变得简单:</p>
+<div>$$
+\mathbb{E}[\Delta \underline{H}_N(k)] = \left( I - \alpha \underline{X}_N(k) \underline{X}_N^T(k) \right) \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</div>
+<div>$$
+\mathbb{E}[\Delta \underline{H}_N(k)] = \left( I - \alpha \mathbf{R}_{x} \right) \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</div>
+<p>我们利用线性代数中的性质
+$$
+I = P P^{-1}
+$$
+并且引入 $R_x = PDP^\top$ 的特征分解形式，其中 $P$ 是特征向量矩阵，$D$ 是特征值对角矩阵，则：
+$$
+\mathbb{E}[\Delta \underline{H}_N(k)] =  \left( I -  \alpha P D P^{-1} \right) \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</p>
+<p>$$
+\mathbb{E}[\Delta \underline{H}_N(k)] =  P \left( I -  \alpha D \right) P^{-1} \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</p>
+<p>通过左乘 $P^{-1}$ 化简为：
+$$
+P^{-1} \mathbb{E} \left[ \Delta \underline{H}_N(k) \right] = \left( I - \alpha D \right) P^{-1} \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right]
+$$</p>
+<p>最终，这一公式描述了偏差的迭代收敛过程，其收敛速度由 $(I - \alpha D)$ 的特征值及学习率 $\alpha$ 决定。</p>
+<p>我们假设:
+$$
+P^{-1} \mathbb{E} \left[ \Delta \underline{H}_N(k) \right] = \underline{u}_N(k)
+$$</p>
+<p>$$
+P^{-1} \mathbb{E} \left[ \Delta \underline{H}_N(k-1) \right] = \underline{u}_N(k-1)
+$$</p>
+<p>原式变成:</p>
+<div>$$
+\underline{U}_N(k)= \left( I - \alpha D \right)  \underline{U}_N(k-1)
+$$</div>
+<p>如果我们用 $u_i(k)$ 表示向量 $U_N(k)$ 的第 $i$ 个分量，那么它满足以下方程：</p>
+<div>$$
+u_i(k) = (1 - \alpha \lambda_i) u_i(k-1), \quad \forall i \in [1, N]
+$$</div>
+<p>这是一个一阶差分的标量方程。通过逐步替换，可以从 $u_i(0)$ 表示 $u_i(k)$，如下：</p>
+<div>$$
+u_i(k) = (1 - \alpha \lambda_i)^k u_i(0), \quad \forall i \in [1, N]
+$$</div>
+<p>因此，证明 LMS 算法在均值上收敛到最优解 $\mathbf{H} _{\text{opt}}$ 可以简化为证明误差 $u _i(k)$ 收敛到零，$\forall i \in [1, N]$。因此，$\mathbf{R} _{xx}$ 的特征值 ${\lambda_i} _{=1, \dots, N}$ 是实数且为正，因为 $\mathbf{R} _{xx}$ 是一个对称的正定矩阵。这些特征值必须满足以下收敛条件：</p>
+<div>$$
+|1 - \alpha \lambda_i| < 1, \quad \forall i \in [1, N]
+$$</div>
+<p>所以学习率 $\alpha$ 的范围为：</p>
+<div>$$
+0 < \alpha < \frac{2}{\lambda_i}, \quad \forall i \in [1, N]
+$$</div>
+<p>因此，LMS 收敛的必要且充分条件涉及输入信号自相关矩阵 $\mathbf{R} _{xx}$ 的最大特征值：</p>
+<div>$$
+0 < \alpha < \frac{2}{\lambda_{\max}}
+$$</div>
+<p>只要 $\alpha$ 在这个范围内即可保证了LMS算法在每个方向上的稳定性与最终的收敛性。理论看起来很美好，但是实际中我们必须要先计算相关矩阵，然后进行特征值分解，最后找到最大的特征值，如果找不到$\lambda _{\max}$ 就选不了了，为了解决这个问题，我们提出 NLMS 模型</p>
+<p><strong>NLMS（归一化最小均方算法）</strong> 在LMS基础上对步长参数进行归一化，可以看作一个带约束的优化问题的解递归算法形式。</p>
+<p>其滤波器更新公式为：
+$$
+\underline{H}_N(k) = \underline{H}_N(k-1) + \frac{\alpha}{\beta + |\underline{X}_N(k)|^2} \underline{X}_N(k) e(k)
+$$</p>
+<ul>
+<li>其中，$0 &lt; \alpha &lt; 2$ ，正则化标量 $\beta$是为了防止向量 $\underline{X}_N(k)$ 取较小值时导致分母为0。</li>
+</ul>
+<p>$$
+e(k) = d(k) - \underline{X}_N^T(k) \underline{H}_N(k-1)
+$$
+在实际使用NLMS算法时，需要<strong>多次运行并计算平均值</strong>(消除瞬时波动的偏差影响)，即重复运行 NLMS 算法 N次，对所有运行的滤波器系数进行平均，如果只有一次运行，可以将过程分为多个部分，$\underline{H}_N(k_1),\underline{H}_N(k_2)\quad &hellip;\quad \underline{H}_N(k_M)$ ，每一部分的结果视为独立过程，重复步骤计算各段的平均值。</p>
+<p>我们还可以对NLMS进一步扩展，变成仿射投影算法，考虑多目标信号和多观测信号的特性，与传统LMS不同，这里期望输出 $d(k)$ 及输入$\underline{X}_N (k)$等不再是标量，而是一个向量，其目标是<strong>最小化多目标误差的加权平方和</strong>，以此来调整滤波器，这种扩展使得算法能够处理多个输入信号，适合于高相关性信号或多目标估计场景</p>
+<h1 id="卡尔曼滤波器">卡尔曼滤波器<a hidden class="anchor" aria-hidden="true" href="#卡尔曼滤波器">#</a></h1>
+<p>卡尔曼滤波器发展起来后，因为其通用性和强大的功能，被广泛应用于不同的领域。不仅在信号处理领域可以看到它的应用，同时在自动控制领域也有广泛使用，因为卡尔曼滤波的方法基于系统的状态空间表示。</p>
+<p>在我们通常的状态空间表达式建模过程中，测量噪声通常假设为白噪声，其协方差矩阵是已知的，但是实际情况下，噪声可能是彩色的，此时必须将其动态特性归纳到状态向量中进行建模</p>
+<p>卡尔曼滤波在状态空间中由两组基本方程组成：状态方程和观测方程。</p>
+<h3 id="非线性情况">非线性情况：<a hidden class="anchor" aria-hidden="true" href="#非线性情况">#</a></h3>
+<ul>
+<li>状态方程：</li>
+</ul>
+<p>$$
+x_k = f(x_{k-1}, u_k)
+$$</p>
+<ul>
+<li>观测方程：</li>
+</ul>
+<p>$$
+y_k = g(x_k, b_k)
+$$</p>
+<h3 id="线性情况">线性情况：<a hidden class="anchor" aria-hidden="true" href="#线性情况">#</a></h3>
+<p>在线性系统中，状态和观测方程具体化为：</p>
+<ul>
+<li>状态方程：</li>
+</ul>
+<p>$$
+x_k = \Phi_{k-1,k} x_{k-1} + G u_k + w_k
+$$</p>
+<ul>
+<li>观测方程：
+$$
+y_k = H_k x_k + v_k
+$$</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>
+<p>$\Phi_{k-1,k}$ 是状态转移矩阵，</p>
+</li>
+<li>
+<p>$G$ 是控制输入矩阵，</p>
+</li>
+<li>
+<p>$w_k \sim \mathcal{N}(0, Q)$ 是高斯分布的过程噪声，协方差为 $Q$。</p>
+</li>
+<li>
+<p>$H_k$ 是观测矩阵，</p>
+</li>
+<li>
+<p>$v_k \sim \mathcal{N}(0, R)$ 是高斯分布的观测噪声，协方差为 $R$。</p>
+</li>
+</ul>
+<p>卡尔曼滤波的核心目标是根据观测值 $y_k$ 和模型动态，优化估计状态 $x_k$，同时最小化估计误差的协方差。为了理论方便，我们以简单的线性情况为说明。</p>
+<p><strong>参数</strong></p>
+<p>先验</p>
+<p><strong>$\hat{x}_{k|k-1}$</strong>  表示状态向量 $x_k$ 的先验估计，状态向量 $X_k$ 在已知 $k-1$ 时刻观测值的情况下的估计</p>
+<p><strong>$\tilde{x}_{k|k-1}$</strong>  表示上述对应的先验误差，定义为：</p>
+<div>$$
+\tilde{x}_{k|k-1} = x_k - \hat{x}_{k|k-1}
+$$</div>
+<p><strong>$P_{k|k-1}$</strong>  估计先验误差的协方差矩阵，定义为：</p>
+<div>$$
+P_{k|k-1} = \mathbb{E}[\tilde{x}_{k|k-1} \tilde{x}_{k|k-1}^\top]
+$$</div>
+<p>后验</p>
+<p><strong>$\hat{x}_{k|k}$</strong>  状态向量 $X_k$ 在已知 $k$ 时刻观测值的情况下的估计</p>
+<p><strong>$\tilde{x}_{k|k}$</strong>  表示后验估计的误差，定义为：</p>
+<div>$$
+\tilde{x}_{k|k} = x_k - \hat{x}_{k|k}
+$$</div>
+<p><strong>$P_{k|k}$</strong> 表示后验误差协方差矩阵，定义为：</p>
+<div>$$
+P_{k|k} = \mathbb{E}[\tilde{x}_{k|k} \tilde{x}_{k|k}^\top]
+$$</div>
+<p>后验估计利用了当前观测值来更新状态，而先验估计则是基于系统模型对下一时刻状态的预测。误差协方差矩阵用于量化估计误差的分布范围。</p>
+<p><strong>卡尔曼滤波器的工作过程</strong></p>
+<p>卡尔曼滤波器的工作方式与LMS滤波类似，通过一个循环不断更新估计值。首先，在当前时刻 $k-1$ ，我们从 $ k-1$ 时刻的后验状态估计 $\hat{x} _{k-1|k-1}$ <em>和协方差矩阵</em>$ P _{k-1|k-1}$ 开始，进入<strong>预测阶段</strong>。</p>
+<p>在没有新观测值 $Y _k$ 的情况下，我们基于系统的动态方程对状态向量进行预测，计算 $\hat{X} _{k|k-1}$ ，即状态向量在时刻 $k$ 的先验估计，同时得到了先验误差协方差矩阵 $P _{k|k-1}$ ，描述预测误差的大小。</p>
+<p><strong>更新阶段</strong></p>
+<p>当新观测值 $Y_k$ 到达时，我们使用该新信息来修正之前的预测。此时，通过引入一个修正项，将预测值 $\hat{X} _{k|k-1}$  更新为后验估计  $\hat{X} _{k|k}$ 。修正项的大小依赖于新观测值和预测值之间的差异，以及观测值的不确定性。对应的后验误差协方差矩阵 $P _{k|k}$ 也会被更新，用以反映修正后估计的可靠性</p>
+<p>两个步骤的交替运行，完成 $k$ 时刻的预测和更新后，进入 $k+1$ 时刻的预测。可以动态地估计状态向量，并逐步降低估计误差，实际上，预测的核心思想是，预测的误差由协方差矩阵来表征。当有一个新的观测值到来时，我们就可以利用这个新观测值，优化和改进预测的精度。因此，我们会修正预测值，从而得到一个新的状态估计值。这是一个阶段性的过程。</p>
+<p>下面我们通过数学公式详细说明这两个过程</p>
+<p>关于<strong>先验估计</strong> $\hat{x}(k|k-1)$ 和时刻 $k-1$ 的<strong>后验估计</strong> $\hat{x}(k-1|k-1)$ 的关系，以及关于 $P(k|k-1)$ 和 $P(k-1|k-1)$ 的关系。</p>
+<p><strong>后验估计</strong>
+$$
+\underline{\hat{x}}(k-1 | k-1) = \mathbb{E}[\underline{x}(k-1) | y(1), \dots, y(k-1)] = \int \underline{x} P_{x}(\underline{x} | y(1), \dots, y(k-1)) d\underline{x}
+$$
+<strong>先验估计</strong>
+$$
+\underline{\hat{x}}(k | k-1) = \mathbb{E}[\underline{x}(k) | y(1), \dots, y(k-1)]
+$$</p>
+<div>$$
+\underline{\hat{x}}(k|k-1) = \Phi(k-1, k) \mathbb{E}[\underline{x}(k-1)|y(1), \dots, y(k-1)] 
++ G(k) \mathbb{E}[u(k)|y(1), \dots, y(k-1)]
+$$</div>
+<p>由于模型噪声是白噪声且均值为零，因此：
+$$
+\mathbb{E}[\underline{u}(k)|y(1), \dots, y(k-1)] = 0
+$$
+因此，状态向量在时刻 $k$ 的预测可以通过状态向量在时刻 $k-1$ 的估计推导如下：
+$$
+\underline{\hat{x}}(k|k-1) = \Phi(k-1, k) \underline{\hat{x}}(k-1|k-1)
+$$
+在这种情况下，仅需要转移矩阵$\Phi(k-1, k)$</p>
+<p>我们定义 $\underline{\tilde{x}}(k|k-1)$ 为时刻 $k$ 的状态向量的<strong>先验估计误差</strong>：
+$$
+\underline{\tilde{x}}(k|k-1) = \underline{x}(k) - \underline{\hat{x}}(k|k-1)
+$$</p>
+<p>$$
+\underline{\tilde{x}}(k|k-1)  = \Phi(k-1, k) \left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right] + G(k) \underline{u}(k)
+$$</p>
+<p>先验误差的协方差矩阵定义为：</p>
+<div>
+$$
+\begin{align*}
+P(k|k-1) &= \mathbb{E} \left\{ \left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right] 
+\left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right]^T \right\} \\
+         &= \mathbb{E} \left[ \underline{\tilde{x}}(k|k-1) \underline{\tilde{x}}^T(k|k-1) \right]
+\end{align*}
+$$
+</div>
+<p>$$
+P(k|k-1) = \Phi(k-1, k) P(k-1|k-1) \Phi^T(k-1, k) + G(k) Q(k) G^T(k)
+$$</p>
+<p>最终得到误差协方差矩阵的更新公式:</p>
+<div>
+$$
+\begin{align*}
+P(k|k-1) &= \mathbb{E} \left\{ \left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right] 
+\left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right]^T \right\} \\
+         &= \mathbb{E} \left[ \underline{\tilde{x}}(k|k-1) \underline{\tilde{x}}^T(k|k-1) \right]
+\end{align*}
+$$
+</div>
+<p>现在，我们进入修正阶段，对状态向量的估计进行更新，在这个阶段，我们从上一时刻的估计值出发，并添加一个修正项，它的特别之处在于，它利用了新观测值 $\underline{y}(k)$  的信息，状态向量线性估计公式如下：
+$$
+\underline{\hat{x}}(k|k) = \underline{\hat{x}}(k|k-1) + K(k) \left[ \underline{y}(k) - H(k) \underline{\hat{x}}(k|k-1) \right]
+$$</p>
+<ul>
+<li>$K(k)$ 被称为滤波增益或卡尔曼增益</li>
+<li>$\underline{y}(k) - H(k) \underline{\hat{x}}(k|k-1)$ 被称为 <strong>innovation</strong>，实际观测值 $\underline{y}(k)$ 与其预测值 $\underline{\hat{y}}(k)$ 之间的差异</li>
+</ul>
+<p>重新回顾估计误差 $\tilde{x}(k|k)$ 的表达式
+$$
+\underline{\tilde{x}}(k|k) = \underline{x}(k) - \underline{\hat{x}}(k|k)
+$$
+并将估计值 $\underline{\hat{x}}(k|k)$ 用上式替换：</p>
+<div>
+$$
+\begin{align*}
+P(k|k-1) &= \mathbb{E} \left\{ \left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right] 
+\left[ \underline{x}(k) - \underline{\hat{x}}(k|k-1) \right]^T \right\} \\
+         &= \mathbb{E} \left[ \underline{\tilde{x}}(k|k-1) \underline{\tilde{x}}^T(k|k-1) \right]
+\end{align*}
+$$
+</div>
+<p>后验误差协方差矩阵:
+$$
+P(k|k) = \left[ I - K(k) H(k) \right] P(k|k-1) \left[ I - H^T(k) K^T(k) \right] + K(k) R(k) K^T(k)
+$$
+其中:
+$$
+K(k) = P(k|k-1) H^T(k) \left[ H(k) P(k|k-1) H^T(k) + R(k) \right]^{-1}
+$$</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://zehua.eu/zh/posts/machinelearning_cn/vae/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>变分自编码器VAE</span>
+  </a>
+  <a class="next" href="http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>傅里叶综合</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+
+<div class="post-password"></div>
+  
+</div>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <br>
+    <span id="busuanzi_container_page_pv" style='display:none'>
+        一共有<span id="busuanzi_value_page_pv"></span>人来过这里
+    </span>
+    · <span id="last_change">
+        最后更新于2024年11月28日
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

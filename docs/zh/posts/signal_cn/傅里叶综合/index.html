@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>傅里叶综合 | 主页</title>
+<meta name="keywords" content="信号处理, 图像处理, 傅里叶变换, 正则化">
+<meta name="description" content="傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.555e8889a324a4e96ce6751e5a6db535bb380495bd716aff56431212ff61ae56.css" integrity="sha256-VV6IiaMkpOls5nUeWm21Nbs4BJW9cWr/VkMSEv9hrlY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="傅里叶综合" />
+<meta property="og:description" content="傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-11T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-13T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta name="twitter:title" content="傅里叶综合"/>
+<meta name="twitter:description" content="傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://zehua.eu/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "信号处理",
+      "item": "http://zehua.eu/zh/posts/signal_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "傅里叶综合",
+      "item": "http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "傅里叶综合",
+  "name": "傅里叶综合",
+  "description": "傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。",
+  "keywords": [
+    "信号处理", "图像处理", "傅里叶变换", "正则化"
+  ],
+  "articleBody": "初步说明：复矩阵。 如果 $M$ 是一个复元素的矩阵，那么 $M^\\dagger$ 表示它的共轭转置：$M^\\dagger = (M^{\\top})^\\ast = (M^\\ast)^{\\top}$。当 $M = M^\\dagger$ 时，我们称 $M$ 为厄米特对称矩阵。如果 $M$ 的元素都是实数，则有 $M^\\dagger = M^{\\top}$。\n初步结果：梯度和 Hessian 矩阵。 设 $M$ 是一个 $N \\times N$ 的厄米特对称方阵，$m$ 是一个大小为 $N$ 的向量。定义从 $\\mathbb{C}^N$ 到 $\\mathbb{R}$ 的映射 $\\varphi$ 和 $\\psi$，对于任意 $u \\in \\mathbb{C}^N$：\n$$ \\varphi(u) = u^\\dagger M u \\quad \\text{和} \\quad \\psi(u) = m^\\dagger u + u^\\dagger m $$\n它们都是二次可微的。它们的梯度分别为：\n$$ \\frac{\\partial}{\\partial u} \\varphi(u) = 2 M u \\quad \\text{和} \\quad \\frac{\\partial}{\\partial u} \\psi(u) = 2 m $$\n它们的 Hessian 矩阵分别为：\n$$ \\frac{\\partial^2}{\\partial u^2} \\varphi(u) = 2 M \\quad \\text{和} \\quad \\frac{\\partial^2}{\\partial u^2} \\psi(u) = 0 $$\n核磁共振成像（MRI）是一种现代医学成像技术，能够提供高分辨率的图像。从图像重建所涉及的数据处理角度来看，该问题属于“傅里叶综合”（FS）问题的范畴：观测数据集代表了未知对象的不完整（且受噪声污染）的傅里叶变换系数集。\nMRI 图像重建问题是一个病态问题 MRI 图像重建问题是病态的，因为我们无法获得目标对象的完整傅里叶变换系数集。由于噪声和实际操作的限制，我们只能获取有限且不完整的频率信息，这意味着在频率域中，特别是高频部分的信息缺失。\n因此，在尝试通过反卷积重建图像时，可能存在多个可能的解，解的唯一性无法保证。这使得问题变得病态。\n频率的不均匀观测在重建图像中的体现 频率的不均匀观测导致重建图像中缺失某些频率成分。如果低频信息缺失，图像的整体结构信息会丢失；如果高频成分缺失，图像会变得模糊。此外，这可能导致图像中亮度和对比度的不均匀，或者产生伪影和失真。\n一维傅立叶综合问题描述 在实践中，FS 问题是在二维或三维域上提出的。然而，我们在一维域上处理它。数学上，我们可以将问题表述为：\n$$ y = T F x + e, \\quad (4) $$\n其中：\n$y \\in \\mathbb{C}^M$ 是包含 $M$ 个观测数据的向量，$x \\in \\mathbb{C}^N$ 是包含 $N$ 个未知数的向量，$e \\in \\mathbb{C}^M$ 是包含 $M$ 个测量误差的向量。 $F$ 是归一化的 DFT（离散傅里叶变换）矩阵：$F^\\dagger F = F F^\\dagger = I$，其中 $I$ 是大小为 $N$ 的单位矩阵。此外，它是一个对称矩阵，$F^{\\top} = F$。 $T$ 是截断矩阵：它从 $F x$ 中提取被观测到的傅里叶系数，丢弃未被观测到的。例如，如果 $N = 8$，$M = 3$，系统只观测第 1、第 2 和第 4 个系数，那么有： $$ T = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ \\end{bmatrix} $$\n不同情况下的讨论 如果所有系数都被观测到或者只观测到每两个系数中的一个，对应矩阵 $T$ 的表达式如下:\n(1) 如果所有 $N$ 个傅里叶系数都被观测到，那么 $M = N$。因此，矩阵 $T$ 是一个 $N \\times N$ 的单位矩阵 $I_N$：\n$$ T = I = \\begin{bmatrix} 1 \u0026 0 \u0026 \\cdots \u0026 0 \\\\ 0 \u0026 1 \u0026 \\cdots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\cdots \u0026 1 \\\\ \\end{bmatrix} $$\n(2) 如果只观测到每两个系数中的一个（即观测位置为 $1, 3, 5, \\dots$ 的系数），那么 $M = \\frac{N}{2}$（假设 $N$ 为偶数），$T$ 是一个 $\\frac{N}{2} \\times N$ 的矩阵，在对应于被观测到的傅里叶系数的位置上为 1，其余为 0：\n$$ T = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 0 \\\\ 0 \u0026 0 \u0026 1 \u0026 0 \u0026 \\cdots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 \\cdots \u0026 1 \\\\ \\end{bmatrix} $$\n前置计算 接下来我们计算矩阵 $T^{\\top} T$，$T T^{\\top}$ 和向量 $\\bar{y} = T^{\\top} y$。\n以 $N = 8$，$M = 3$，观测位置在第 1、第 2 和第 4 个系数为例：\n$$ T = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ \\end{bmatrix} $$\n则有：\n$$ T^{\\top} = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 1 \\\\ 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \\\\ \\end{bmatrix} $$\n矩阵 $T^{\\top} T$ 为：\n$$ T^{\\top} T = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 1 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \u0026 0 \\\\ \\end{bmatrix} $$\n矩阵 $T T^{\\top}$ 是一个 $3 \\times 3$ 的单位矩阵 $I$：\n$$ T T^{\\top} = I_{3 \\times 3} $$\n向量 $\\bar{y}$ 为：\n$$ \\bar{y} = T^{\\top} y $$\n这实际上是在对应于被观测到的傅里叶系数的位置上放置观测数据，其余位置为零。\n现在我们令 $x_0 \\in \\mathbb{C}^N$ 为一种特殊情况， $x = F^\\dagger (I - T^{\\top} T) F x_0$。对于此 $x$，我们给出包含观测数据的 $y$ 的表达式:\n首先，计算 $F x$：\n$$ F x = F F^\\dagger (I - T^{\\top} T) F x_0 = (I)(I - T^{\\top} T) F x_0 = (I - T^{\\top} T) F x_0 $$\n然后，\n$$ y = T F x + e = T (I - T^{\\top} T) F x_0 + e = (T - T T^{\\top} T) F x_0 + e $$\n由于 $T T^{\\top} = I$，因此：\n$$ y = (T - T) F x_0 + e = e $$\n因此，观测数据 $y$ 仅包含噪声 $e$，我们无法从 $y$ 中获取关于 $x_0$ 的任何信息。这表明在这种特殊情况下，无法使用观测数据 $y$ 重建 $x_0$。\n傅里叶综合、内插-外推 和卷积 我们借助变量替换 $\\overset{\\circ}{x} = F x$，来证明 FS 问题 的确可以被表述为一个“内插-外推”问题。\n首先使用替换 $\\overset{\\circ}{x} = F x$，则有：\n$$ y = T \\overset{\\circ}{x} + e $$\n由于我们只观测到了部分傅里叶系数（内插），任务是估计完整的傅里叶系数集（外推）。这涉及对未知的傅里叶系数进行插值和外推，即在给定某些点的值的情况下，估计其他点的值，这是一个插值问题的本质。\n然后我们再令 $\\tilde{x} = F^\\dagger \\bar{y}$。并计算出 $\\tilde{x}$ 和 $x$ 之间的关系，以此来推导出 FS 问题也可以被表述为一个反卷积问题。\n首先，$\\bar{y} = T^{\\top} y$，因此：\n$$ \\tilde{x} = F^\\dagger \\bar{y} = F^\\dagger T^{\\top} y $$\n由于 $y = T F x + e$，代入得：\n$$ \\tilde{x} = F^\\dagger T^{\\top} T F x + F^\\dagger T^{\\top} e $$\n因为 $F^\\dagger T^{\\top} T F$ 是一个线性算子作用于 $x$，所以可以写成：\n$$ \\tilde{x} = (F^\\dagger T^{\\top} T F) x + \\tilde{e} $$\n其中 $\\tilde{e} = F^\\dagger T^{\\top} e$。\n这表明傅里叶综合问题也可以被视为一个反卷积问题，其中 $F^\\dagger T^{\\top} T F$ 充当卷积矩阵。\n因此反卷积任务 是从被模糊的信号 $\\tilde{x}$ 中恢复原始信号 $x$，其中模糊是由系统函数 $F^\\dagger T^{\\top} T F$ 引起的。\n经验估计 针对以上问题，我们提出一个 $x$ 的经验估计量 $\\hat{x}_E$，可以定义为： $$ \\hat{x}_E = \\tilde{x} = F^\\dagger \\bar{y} $$\n即将未观测到的傅里叶系数设为零，用 $\\bar{y}$ 替换完整的傅里叶系数集，然后通过逆傅里叶变换获得 $x$ 的估计。\n我们让 $\\overset{\\circ}{x}_E = F \\hat{x}_E$ $$ \\overset{\\circ}{x}_E = F \\hat{x}_E = F F^\\dagger \\bar{y} = \\bar{y} = T^{\\top} y $$\n由于 $\\hat{x}_E$ 是 $\\tilde{x}$，其表达式为：\n$$ \\overset{\\circ}{x}_E = \\tilde{x} = (F^\\dagger T^{\\top} T F) x + F^\\dagger T^{\\top} e $$\n这解释了为什么它可以被视为一个反卷积问题。在这种情况下，卷积导致图像模糊，细节丢失，分辨率下降。因此，由于傅里叶系数的不完整，经验估计量导致图像分辨率较低。\n最小二乘估计方法 我们尝试使用最小二乘（LS）方法估计 $x$。我们从公式 (4) 引入一个准则 $J_{\\text{LS}}$：\n$$ J_{\\text{LS}}(x) = (y - T F x)^\\dagger (y - T F x) = | y - T F x |^2 $$\n$J_{\\text{LS}}$ 没有唯一的极小值点\n证明\n对 $J_{\\text{LS}}(x)$ 求导：\n$$ \\frac{\\partial J_{\\text{LS}}}{\\partial x} = -2 F^\\dagger T^{\\top} (y - T F x) = 0 $$\n解得：\n$$ F^\\dagger T^{\\top} T F \\hat{x} = F^\\dagger T^{\\top} y $$\n即：\n$$ T F \\hat{x} = y $$\n由于 $T$ 只观测部分傅里叶系数，这意味着矩阵 $T F$ 是秩亏的。因此，方程 $T F x = y$ 没有唯一解。这表明仅使用最小二乘方法无法获得 $x$ 的唯一估计，需要引入正则化项以改善解的唯一性。\n我们再计算 $J_{\\text{LS}}(\\tilde{x})$\n由于 $\\tilde{x} = F^\\dagger \\bar{y} = F^\\dagger T^{\\top} y$，则：\n$$ J_{\\text{LS}}(\\tilde{x}) = | y - T F \\tilde{x} |^2 = | y - T F F^\\dagger T^{\\top} y |^2 = | y - y |^2 = 0 $$\n准则达到最小值 0，但这并不意味着 $\\tilde{x}$ 是原始信号的正确重建，表明仅使用最小二乘方法无法获得正确的唯一解。\n带惩罚的最小二乘估计方法 现在我们尝试使用带惩罚的最小二乘（PLS）方法估计 $x$。我们引入一个惩罚项 $P$，考虑到 $x$ 的连续样本之间的差异（在循环情况下，即 $x_{N+1} = x_1$）\n$$ P(x) = \\sum_{n=1}^{N} |x_{n+1} - x_n|^2 = x^\\dagger D^\\dagger D x $$\n首先构建相应的 PLS 准则 $J_{\\text{PLS}}$ $$ J_{\\text{PLS}}(x) = | y - T F x |^2 + \\mu P(x) = | y - T F x |^2 + \\mu x^\\dagger D^\\dagger D x $$\n其中 $\\mu$ 是正则化参数，控制惩罚项的权重。\n矩阵 $D$ 的形式为：\n$$ D = \\begin{bmatrix} -1 \u0026 1 \u0026 0 \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 -1 \u0026 1 \u0026 0 \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 0 \u0026 \\dots \u0026 -1 \u0026 1 \\\\ 1 \u0026 0 \u0026 0 \u0026 \\dots \u0026 0 \u0026 -1 \\\\ \\end{bmatrix} $$\n$D$ 是一个 $N \\times N$ 的循环差分矩阵，用于计算 $x$ 中相邻元素的差值。\n$\\mu$ 控制数据拟合项和平滑惩罚项之间的平衡：\n当 $\\mu$ 较大时，惩罚项权重较高，更多地抑制高频噪声，但可能使图像细节模糊。 当 $\\mu$ 较小时，更侧重于数据拟合，但可能过度拟合噪声。 最小化 $J_{\\text{PLS}}(x)$，有：\n$$ \\hat{x}_{\\text{PLS}} = \\arg \\min_x \\left( | y - T F x |^2 + \\mu x^\\dagger D^\\dagger D x \\right) $$\n对 $x$ 求导并令导数为零：\n",
+  "wordCount" : "1219",
+  "inLanguage": "zh",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-11T16:25:17+01:00",
+  "dateModified": "2024-11-13T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://zehua.eu/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://zehua.eu/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://zehua.eu/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/signal_cn/">信号处理</a></div>
+    <h1 class="post-title entry-hint-parent">
+      傅里叶综合
+    </h1>
+    <div class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2024-11-11 16:25:17 +0100 CET'>11月11日, 2024</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共1219字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#mri-%e5%9b%be%e5%83%8f%e9%87%8d%e5%bb%ba%e9%97%ae%e9%a2%98%e6%98%af%e4%b8%80%e4%b8%aa%e7%97%85%e6%80%81%e9%97%ae%e9%a2%98" aria-label="MRI 图像重建问题是一个病态问题">MRI 图像重建问题是一个病态问题</a></li>
+                    <li>
+                        <a href="#%e9%a2%91%e7%8e%87%e7%9a%84%e4%b8%8d%e5%9d%87%e5%8c%80%e8%a7%82%e6%b5%8b%e5%9c%a8%e9%87%8d%e5%bb%ba%e5%9b%be%e5%83%8f%e4%b8%ad%e7%9a%84%e4%bd%93%e7%8e%b0" aria-label="频率的不均匀观测在重建图像中的体现">频率的不均匀观测在重建图像中的体现</a></li>
+                    <li>
+                        <a href="#%e4%b8%80%e7%bb%b4%e5%82%85%e7%ab%8b%e5%8f%b6%e7%bb%bc%e5%90%88%e9%97%ae%e9%a2%98%e6%8f%8f%e8%bf%b0" aria-label="一维傅立叶综合问题描述">一维傅立叶综合问题描述</a></li>
+                    <li>
+                        <a href="#%e4%b8%8d%e5%90%8c%e6%83%85%e5%86%b5%e4%b8%8b%e7%9a%84%e8%ae%a8%e8%ae%ba" aria-label="不同情况下的讨论">不同情况下的讨论</a></li>
+                    <li>
+                        <a href="#%e5%89%8d%e7%bd%ae%e8%ae%a1%e7%ae%97" aria-label="前置计算">前置计算</a></li>
+                    <li>
+                        <a href="#%e5%82%85%e9%87%8c%e5%8f%b6%e7%bb%bc%e5%90%88%e5%86%85%e6%8f%92-%e5%a4%96%e6%8e%a8-%e5%92%8c%e5%8d%b7%e7%a7%af" aria-label="傅里叶综合、内插-外推 和卷积">傅里叶综合、内插-外推 和卷积</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p><strong>初步说明：复矩阵。</strong> 如果 $M$ 是一个复元素的矩阵，那么 $M^\dagger$ 表示它的共轭转置：$M^\dagger = (M^{\top})^\ast = (M^\ast)^{\top}$。当 $M = M^\dagger$ 时，我们称 $M$ 为厄米特对称矩阵。如果 $M$ 的元素都是实数，则有 $M^\dagger = M^{\top}$。</p>
+<p><strong>初步结果：梯度和 Hessian 矩阵。</strong> 设 $M$ 是一个 $N \times N$ 的厄米特对称方阵，$m$ 是一个大小为 $N$ 的向量。定义从 $\mathbb{C}^N$ 到 $\mathbb{R}$ 的映射 $\varphi$ 和 $\psi$，对于任意 $u \in \mathbb{C}^N$：</p>
+<p>$$
+\varphi(u) = u^\dagger M u \quad \text{和} \quad \psi(u) = m^\dagger u + u^\dagger m
+$$</p>
+<p>它们都是二次可微的。它们的梯度分别为：</p>
+<p>$$
+\frac{\partial}{\partial u} \varphi(u) = 2 M u \quad \text{和} \quad \frac{\partial}{\partial u} \psi(u) = 2 m
+$$</p>
+<p>它们的 Hessian 矩阵分别为：</p>
+<p>$$
+\frac{\partial^2}{\partial u^2} \varphi(u) = 2 M \quad \text{和} \quad \frac{\partial^2}{\partial u^2} \psi(u) = 0
+$$</p>
+<p>核磁共振成像（MRI）是一种现代医学成像技术，能够提供高分辨率的图像。从图像重建所涉及的数据处理角度来看，该问题属于“傅里叶综合”（FS）问题的范畴：观测数据集代表了未知对象的不完整（且受噪声污染）的傅里叶变换系数集。</p>
+<h3 id="mri-图像重建问题是一个病态问题">MRI 图像重建问题是一个病态问题<a hidden class="anchor" aria-hidden="true" href="#mri-图像重建问题是一个病态问题">#</a></h3>
+<p>MRI 图像重建问题是病态的，因为我们无法获得目标对象的完整傅里叶变换系数集。由于噪声和实际操作的限制，我们只能获取有限且不完整的频率信息，这意味着在频率域中，特别是高频部分的信息缺失。</p>
+<p>因此，在尝试通过反卷积重建图像时，可能存在多个可能的解，解的唯一性无法保证。这使得问题变得病态。</p>
+<h3 id="频率的不均匀观测在重建图像中的体现">频率的不均匀观测在重建图像中的体现<a hidden class="anchor" aria-hidden="true" href="#频率的不均匀观测在重建图像中的体现">#</a></h3>
+<p>频率的不均匀观测导致重建图像中缺失某些频率成分。如果低频信息缺失，图像的整体结构信息会丢失；如果高频成分缺失，图像会变得模糊。此外，这可能导致图像中亮度和对比度的不均匀，或者产生伪影和失真。</p>
+<h3 id="一维傅立叶综合问题描述">一维傅立叶综合问题描述<a hidden class="anchor" aria-hidden="true" href="#一维傅立叶综合问题描述">#</a></h3>
+<p>在实践中，FS 问题是在二维或三维域上提出的。然而，我们在一维域上处理它。数学上，我们可以将问题表述为：</p>
+<p>$$
+y = T F x + e, \quad (4)
+$$</p>
+<p>其中：</p>
+<ul>
+<li>$y \in \mathbb{C}^M$ 是包含 $M$ 个观测数据的向量，$x \in \mathbb{C}^N$ 是包含 $N$ 个未知数的向量，$e \in \mathbb{C}^M$ 是包含 $M$ 个测量误差的向量。</li>
+<li>$F$ 是归一化的 DFT（离散傅里叶变换）矩阵：$F^\dagger F = F F^\dagger = I$，其中 $I$ 是大小为 $N$ 的单位矩阵。此外，它是一个对称矩阵，$F^{\top} = F$。</li>
+<li>$T$ 是截断矩阵：它从 $F x$ 中提取被观测到的傅里叶系数，丢弃未被观测到的。例如，如果 $N = 8$，$M = 3$，系统只观测第 1、第 2 和第 4 个系数，那么有：</li>
+</ul>
+<p>$$
+T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+\end{bmatrix}
+$$</p>
+<h3 id="不同情况下的讨论">不同情况下的讨论<a hidden class="anchor" aria-hidden="true" href="#不同情况下的讨论">#</a></h3>
+<p>如果所有系数都被观测到或者只观测到每两个系数中的一个，对应矩阵 $T$ 的表达式如下:</p>
+<p>(1) 如果所有 $N$ 个傅里叶系数都被观测到，那么 $M = N$。因此，矩阵 $T$ 是一个 $N \times N$ 的单位矩阵 $I_N$：</p>
+<p>$$
+T = I = \begin{bmatrix}
+1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; 1 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; 1 \\
+\end{bmatrix}
+$$</p>
+<p>(2) 如果只观测到每两个系数中的一个（即观测位置为 $1, 3, 5, \dots$ 的系数），那么 $M = \frac{N}{2}$（假设 $N$ 为偶数），$T$ 是一个 $\frac{N}{2} \times N$ 的矩阵，在对应于被观测到的傅里叶系数的位置上为 1，其余为 0：</p>
+<p>$$
+T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; 1 \\
+\end{bmatrix}
+$$</p>
+<h3 id="前置计算">前置计算<a hidden class="anchor" aria-hidden="true" href="#前置计算">#</a></h3>
+<p>接下来我们计算矩阵 $T^{\top} T$，$T T^{\top}$ 和向量 $\bar{y} = T^{\top} y$。</p>
+<p>以 $N = 8$，$M = 3$，观测位置在第 1、第 2 和第 4 个系数为例：</p>
+<p>$$
+T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+\end{bmatrix}
+$$</p>
+<p>则有：</p>
+<p>$$
+T^{\top} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+\end{bmatrix}
+$$</p>
+<p>矩阵 $T^{\top} T$ 为：</p>
+<p>$$
+T^{\top} T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+\end{bmatrix}
+$$</p>
+<p>矩阵 $T T^{\top}$ 是一个 $3 \times 3$ 的单位矩阵 $I$：</p>
+<p>$$
+T T^{\top} = I_{3 \times 3}
+$$</p>
+<p>向量 $\bar{y}$ 为：</p>
+<p>$$
+\bar{y} = T^{\top} y
+$$</p>
+<p>这实际上是在对应于被观测到的傅里叶系数的位置上放置观测数据，其余位置为零。</p>
+<p>现在我们令 $x_0 \in \mathbb{C}^N$ 为一种特殊情况， $x = F^\dagger (I - T^{\top} T) F x_0$。对于此 $x$，我们给出包含观测数据的 $y$ 的表达式:</p>
+<p>首先，计算 $F x$：</p>
+<p>$$
+F x = F F^\dagger (I - T^{\top} T) F x_0 = (I)(I - T^{\top} T) F x_0 = (I - T^{\top} T) F x_0
+$$</p>
+<p>然后，</p>
+<p>$$
+y = T F x + e = T (I - T^{\top} T) F x_0 + e = (T - T T^{\top} T) F x_0 + e
+$$</p>
+<p>由于 $T T^{\top} = I$，因此：</p>
+<p>$$
+y = (T - T) F x_0 + e = e
+$$</p>
+<p>因此，观测数据 $y$ 仅包含噪声 $e$，我们无法从 $y$ 中获取关于 $x_0$ 的任何信息。这表明在这种特殊情况下，无法使用观测数据 $y$ 重建 $x_0$。</p>
+<h3 id="傅里叶综合内插-外推-和卷积">傅里叶综合、内插-外推 和卷积<a hidden class="anchor" aria-hidden="true" href="#傅里叶综合内插-外推-和卷积">#</a></h3>
+<p>我们借助变量替换 $\overset{\circ}{x} = F x$，来证明 FS 问题 的确可以被表述为一个“内插-外推”问题。</p>
+<p>首先使用替换 $\overset{\circ}{x} = F x$，则有：</p>
+<p>$$
+y = T \overset{\circ}{x} + e
+$$</p>
+<p>由于我们只观测到了部分傅里叶系数（内插），任务是估计完整的傅里叶系数集（外推）。这涉及对未知的傅里叶系数进行插值和外推，即在给定某些点的值的情况下，估计其他点的值，这是一个插值问题的本质。</p>
+<p>然后我们再令 $\tilde{x} = F^\dagger \bar{y}$。并计算出 $\tilde{x}$ 和 $x$ 之间的关系，以此来推导出 FS 问题也可以被表述为一个反卷积问题。</p>
+<p>首先，$\bar{y} = T^{\top} y$，因此：</p>
+<p>$$
+\tilde{x} = F^\dagger \bar{y} = F^\dagger T^{\top} y
+$$</p>
+<p>由于 $y = T F x + e$，代入得：</p>
+<p>$$
+\tilde{x} = F^\dagger T^{\top} T F x + F^\dagger T^{\top} e
+$$</p>
+<p>因为 $F^\dagger T^{\top} T F$ 是一个线性算子作用于 $x$，所以可以写成：</p>
+<p>$$
+\tilde{x} = (F^\dagger T^{\top} T F) x + \tilde{e}
+$$</p>
+<p>其中 $\tilde{e} = F^\dagger T^{\top} e$。</p>
+<p>这表明傅里叶综合问题也可以被视为一个反卷积问题，其中 $F^\dagger T^{\top} T F$ 充当卷积矩阵。</p>
+<p>因此反卷积任务 是从被模糊的信号 $\tilde{x}$ 中恢复原始信号 $x$，其中模糊是由系统函数 $F^\dagger T^{\top} T F$ 引起的。</p>
+<div align="center"><b> 经验估计 </b></div>
+<p>针对以上问题，我们提出一个 $x$ 的经验估计量 $\hat{x}_E$，可以定义为：
+$$
+\hat{x}_E = \tilde{x} = F^\dagger \bar{y}
+$$</p>
+<p>即将未观测到的傅里叶系数设为零，用 $\bar{y}$ 替换完整的傅里叶系数集，然后通过逆傅里叶变换获得 $x$ 的估计。</p>
+<p>我们让 $\overset{\circ}{x}_E = F \hat{x}_E$
+$$
+\overset{\circ}{x}_E = F \hat{x}_E = F F^\dagger \bar{y} = \bar{y} = T^{\top} y
+$$</p>
+<p>由于 $\hat{x}_E$ 是 $\tilde{x}$，其表达式为：</p>
+<p>$$
+\overset{\circ}{x}_E = \tilde{x} = (F^\dagger T^{\top} T F) x + F^\dagger T^{\top} e
+$$</p>
+<p>这解释了为什么它可以被视为一个反卷积问题。在这种情况下，卷积导致图像模糊，细节丢失，分辨率下降。因此，由于傅里叶系数的不完整，经验估计量导致图像分辨率较低。</p>
+<div align="center"><b>最小二乘估计方法</b></div>
+<p>我们尝试使用最小二乘（LS）方法估计 $x$。我们从公式 (4) 引入一个准则 $J_{\text{LS}}$：</p>
+<p>$$
+J_{\text{LS}}(x) = (y - T F x)^\dagger (y - T F x) = | y - T F x |^2
+$$</p>
+<p>$J_{\text{LS}}$ 没有唯一的极小值点</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong></p>
+<p>对 $J_{\text{LS}}(x)$ 求导：</p>
+<p>$$
+\frac{\partial J_{\text{LS}}}{\partial x} = -2 F^\dagger T^{\top} (y - T F x) = 0
+$$</p>
+<p>解得：</p>
+<p>$$
+F^\dagger T^{\top} T F \hat{x} = F^\dagger T^{\top} y
+$$</p>
+<p>即：</p>
+<p>$$
+T F \hat{x} = y
+$$</p>
+<p>由于 $T$ 只观测部分傅里叶系数，这意味着矩阵 $T F$ 是秩亏的。因此，方程 $T F x = y$ 没有唯一解。这表明仅使用最小二乘方法无法获得 $x$ 的唯一估计，需要引入正则化项以改善解的唯一性。</p>
+<p>我们再计算 $J_{\text{LS}}(\tilde{x})$</p>
+<p>由于 $\tilde{x} = F^\dagger \bar{y} = F^\dagger T^{\top} y$，则：</p>
+<p>$$
+J_{\text{LS}}(\tilde{x}) = | y - T F \tilde{x} |^2 = | y - T F F^\dagger T^{\top} y |^2 = | y - y |^2 = 0
+$$</p>
+<p>准则达到最小值 0，但这并不意味着 $\tilde{x}$ 是原始信号的正确重建，表明仅使用最小二乘方法无法获得正确的唯一解。</p>
+</text></div>
+
+<div align="center"><b>带惩罚的最小二乘估计方法</b></div>
+<p>现在我们尝试使用带惩罚的最小二乘（PLS）方法估计 $x$。我们引入一个惩罚项 $P$，考虑到 $x$ 的连续样本之间的差异（在循环情况下，即 $x_{N+1} = x_1$）</p>
+<p>$$
+P(x) = \sum_{n=1}^{N} |x_{n+1} - x_n|^2 = x^\dagger D^\dagger D x
+$$</p>
+<p>首先构建相应的 PLS 准则 $J_{\text{PLS}}$
+$$
+J_{\text{PLS}}(x) = | y - T F x |^2 + \mu P(x) = | y - T F x |^2 + \mu x^\dagger D^\dagger D x
+$$</p>
+<p>其中 $\mu$ 是正则化参数，控制惩罚项的权重。</p>
+<p>矩阵 $D$ 的形式为：</p>
+<p>$$
+D = \begin{bmatrix}
+-1 &amp; 1 &amp; 0 &amp; 0 &amp; \dots &amp; 0 \\
+0 &amp; -1 &amp; 1 &amp; 0 &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; \dots &amp; -1 &amp; 1 \\
+1 &amp; 0 &amp; 0 &amp; \dots &amp; 0 &amp; -1 \\
+\end{bmatrix}
+$$</p>
+<p>$D$ 是一个 $N \times N$ 的循环差分矩阵，用于计算 $x$ 中相邻元素的差值。</p>
+<p>$\mu$ 控制数据拟合项和平滑惩罚项之间的平衡：</p>
+<ul>
+<li>当 $\mu$ 较大时，惩罚项权重较高，更多地抑制高频噪声，但可能使图像细节模糊。</li>
+<li>当 $\mu$ 较小时，更侧重于数据拟合，但可能过度拟合噪声。</li>
+</ul>
+<p>最小化 $J_{\text{PLS}}(x)$，有：</p>
+<p>$$
+\hat{x}_{\text{PLS}} = \arg \min_x \left( | y - T F x |^2 + \mu x^\dagger D^\dagger D x \right)
+$$</p>
+<p>对 $x$ 求导并令导数为零：</p>
+<div 
+</div>
+<div>$$ \frac{\partial J_{\text{PLS}}}{\partial x} = -2 F^\dagger T^{\top} \left( y - T F \hat{x}_{\text{PLS}} \right) + 2 \mu D^\dagger D \hat{x}_{\text{PLS}} = 0$$</div>
+<p>解得：</p>
+<p>$$
+\left( F^\dagger T^{\top} T F + \mu D^\dagger D \right) \hat{x}_{\text{PLS}} = F^\dagger T^{\top} y
+$$</p>
+<p>因此，</p>
+<p>$$
+\hat{x}_{\text{PLS}} = \left( F^\dagger T^{\top} T F + \mu D^\dagger D \right)^{-1} F^\dagger T^{\top} y
+$$</p>
+<p>我们令 $\overset{\circ}{x} _{\text{PLS}} = F \hat{x} _{\text{PLS}}$</p>
+<div>$$\overset{\circ}{x}_{\text{PLS}} = F \hat{x}_{\text{PLS}} = F \left( F^\dagger T^{\top} T F + \mu D^\dagger D \right)^{-1} F^\dagger T^{\top} y$$</div>
+<p>由于 $F F^\dagger = I$，并且 $F D F^\dagger$ 可以对角化 $D$，因此有：</p>
+<p>$$
+\overset{\circ}{x}_{\text{PLS}} = \left( T^{\top} T + \mu F D^\dagger D F^\dagger \right)^{-1} T^{\top} y
+$$</p>
+<p>因为 $D$ 是循环差分矩阵，$F D F^\dagger$ 会产生一个对角矩阵 $\Lambda$，所以：</p>
+<p>$$
+F D^\dagger D F^\dagger = \Lambda^\dagger \Lambda = |\Lambda|^2
+$$</p>
+<p>因此，</p>
+<p>$$
+\overset{\circ}{x}_{\text{PLS}} = \left( T^{\top} T + \mu |\Lambda|^2 \right)^{-1} T^{\top} y
+$$</p>
+<ul>
+<li>当 $\mu \rightarrow 0$ 时，正则化项的影响消失，回到最小二乘准则。此时，解可能不唯一，且容易受到噪声影响。</li>
+<li>当 $\mu \rightarrow +\infty$ 时，惩罚项的权重极大，所有的频率成分都被抑制，分辨率极低，图像过于平滑，细节完全丢失。</li>
+</ul>
+<p>时代不一样了，现在都用深度学习的方法，如卷积神经网络CNN，来自动提取数据特征，从而重建高分辨率的图像。缺点是训练数据要多，学习从不完整或受噪声污染的数据中恢复细节的能力，显著提高图像的分辨率和质量。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://zehua.eu/zh/posts/signal_cn/%E6%9C%80%E4%BC%98%E6%BB%A4%E6%B3%A2%E7%BD%91%E7%AB%99%E7%89%88/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>粒子最优滤波</span>
+  </a>
+  <a class="next" href="http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>反问题 TP1</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+
+<div class="post-password"></div>
+  
+</div>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <br>
+    <span id="busuanzi_container_page_pv" style='display:none'>
+        一共有<span id="busuanzi_value_page_pv"></span>人来过这里
+    </span>
+    · <span id="last_change">
+        最后更新于2024年11月28日
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

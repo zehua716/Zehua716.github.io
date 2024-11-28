@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>各类控制方法实现思路及代码 | 主页</title>
+<meta name="keywords" content="控制, 复杂系统">
+<meta name="description" content="本科写完毕业论文的时候没事瞎写的，现在看感觉没有太多含金量">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="http://zehua.eu/zh/posts/probability_cn/%E5%90%84%E7%B1%BB%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E5%90%88%E9%9B%86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.555e8889a324a4e96ce6751e5a6db535bb380495bd716aff56431212ff61ae56.css" integrity="sha256-VV6IiaMkpOls5nUeWm21Nbs4BJW9cWr/VkMSEv9hrlY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/probability_cn/%E5%90%84%E7%B1%BB%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E5%90%88%E9%9B%86/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="各类控制方法实现思路及代码" />
+<meta property="og:description" content="本科写完毕业论文的时候没事瞎写的，现在看感觉没有太多含金量" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/probability_cn/%E5%90%84%E7%B1%BB%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E5%90%88%E9%9B%86/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-29T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-23T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta name="twitter:title" content="各类控制方法实现思路及代码"/>
+<meta name="twitter:description" content="本科写完毕业论文的时候没事瞎写的，现在看感觉没有太多含金量"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://zehua.eu/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "概率统计",
+      "item": "http://zehua.eu/zh/posts/probability_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "各类控制方法实现思路及代码",
+      "item": "http://zehua.eu/zh/posts/probability_cn/%E5%90%84%E7%B1%BB%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E5%90%88%E9%9B%86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "各类控制方法实现思路及代码",
+  "name": "各类控制方法实现思路及代码",
+  "description": "本科写完毕业论文的时候没事瞎写的，现在看感觉没有太多含金量",
+  "keywords": [
+    "控制", "复杂系统"
+  ],
+  "articleBody": "主要包含根轨迹+频率分析+状态空间+数字控制器+PID。\n拿到物理模型→系统分析→列出物理运动方程式→拉普拉斯变换→传递函数+状态空间方程→引入控制器→系统输出响应波形即可达到期望要求\n一.物理建模得被控对象 1.传递函数 1 2 3 % 传递函数 s = tf('s'); P_pitch = (1.151*s + 0.1774)/(s^3 + 0.739*s^2 + 0.921*s); 2.状态空间方程 做法一：直接构建 A、B、C、D 矩阵 1 2 3 4 5 6 7 8 9 10 % 状态空间方程 A = [-0.313, 56.7, 0; -0.0139, -0.426, 0; 0, 56.7, 0]; B = [0.232; 0.0203; 0]; C = [0, 0, 1]; D = [0]; pitch_ss = ss(A, B, C, D); 做法二：由传递函数得到状态方程 (1) 自己写出来传递函数分子、分母\n1 2 3 4 5 % 自己写传递函数分子分母 num = [1.151, 0.1774]; den = [1, 0.739, 0.921, 0]; [A, B, C, D] = tf2ss(num, den); % num 是开环传递函数分子，den 是分母 pitch_ss_1 = ss(A, B, C, D); (2) 直接由传递函数转换\n1 pitch_ss_2 = ss(P_pitch); % 其中 P_pitch 是开环传递函数 注意：此命令得到状态方程的 A、B、C、D 并不会直接保存在工作区\n二.系统分析 1.设计要求 超调量 上升时间 稳定时间 稳态误差 2.在阶跃响应下开环传递函数输出波形 做法一：带 figure 1 2 3 4 5 6 7 8 % 看看开环传递函数输出响应波形 t = 0:0.01:10; % 时间从 0→10s，中间每间隔 0.01 就记录一下数值大小，即采样 figure(1); % 告诉软件，我要画一个图，先把图方框准备好 step(P_pitch, t); % 阶跃响应 step 下，开环传递函数的输出响应波形 grid on; % 显示网格 xlabel('时间'); % 横坐标的名字 ylabel('飞机的俯仰角'); % 纵坐标的名字 title('开环阶跃响应曲线'); % 标题 做法二：直接输出波形图 1 2 3 4 5 6 % 直接输出波形图 step(P_pitch), grid; % 不加分号直接显示输出 axis([0 10 0 5]); % 限制坐标范围。横坐标范围 0-10，纵坐标范围 0-5 xlabel('时间'); ylabel('飞机的俯仰角'); title('开环阶跃响应曲线'); 做法三：线性系统分析器 1 2 3 % 启动线性系统分析器，输入波形是 step，研究对象是开环传递函数，时间为 0→10 linearSystemAnalyzer('step', P_pitch, 0:0.01:10); % 可在分析器里看到输出阶跃响应波形 注意：线性系统分析器功能强大，例如\n可以更改输入响应。右键→线性仿真→设计信号（或者在命令语句将 step 改为正弦波等等） 右键可以更改想看的波形，可以改看零极点分布图、Bode 图、根轨迹图等等 1 2 3 % 可以同时输入多个传递函数，观察波形分析 rP_pitch = 0.1/(0.5*s + 1); % 随便设的 linearSystemAnalyzer('step', rP_pitch, P_pitch, 0:0.1:10); 3.看看开环传递函数零极点 做法一：pole、zero 指令 1 2 3 fprintf('开环传递函数极点为'); pole(P_pitch) % 开环极点，注意没有分号 zero(P_pitch) % 开环零点 做法二：pzmap 指令 1 2 3 % 同时看零极点 pzmap(P_pitch); axis([-1 1 -1 1]); 4.得到闭环传递函数 1 2 fprintf('闭环传递函数为'); sys_cl = feedback(P_pitch, 1); 5.对输出 $Y(s)$ 进行因式分解以求得拉普拉斯反变换 （若无特殊要求，此步省略）\n输出 $Y(s) = \\text{传递函数} G(s) \\times \\text{输入} R(s)$。此处输入 $R(s) = \\dfrac{1}{s}$。\n1 2 R = 1/s; Y = zpk(sys_cl * R); ①即 $Y(s) = \\dfrac{1.151 (s + 0.1541)}{s (s + 0.08805) (s^2 + 0.6509s + 2.015)}$\n②当前目标是因式分解成如下形式\n③现在求 $A$、$B$、$C$、$D$（也可以手动计算），若使用 MATLAB 计算，相关命令为 residue\n1 [r, p, k] = residue([1.151, 0.1774], [1, 0.739, 2.072, 0.1774, 0]); 得到\n$$ r = \\begin{bmatrix} -0.2802 + 0.0800i \\ -0.2802 - 0.0800i \\ -0.4395 + 0.0000i \\ 1.0000 + 0.0000i \\end{bmatrix} $$\n$$ p = \\begin{bmatrix} -0.3255 + 1.3816i \\ -0.3255 - 1.3816i \\ -0.0881 + 0.0000i \\ 0.0000 + 0.0000i \\end{bmatrix} $$\n$$ k = [] $$\n④因此 $A = 1$，$B = -0.0881$，现在求 $C$、$D$\n1 2 [num, den] = residue(r(1:2), p(1:2), k); tf(num, den); ⑤可得\n$$ \\frac{-0.5605 s - 0.4036}{s^2 + 0.6509 s + 2.015} $$\n⑥因此 $C = -0.5605$，$D = -0.4036$，$A$、$B$、$C$、$D$ 全部得到，可以进行拉普拉斯反变换求解\n1 2 3 4 5 6 7 syms s A = 1; B = -0.0881; C = -0.5605; D = -0.4036; F = A/s + B/(s + 0.08805) + (C*s + D)/(s^2 + 0.6509*s + 2.015); ilaplace(F); ⑦这样 $y(t)$ 就得到了\n三.控制方法与分析 1.根轨迹法 先找补偿器增益 $K_p$，看看单纯用 $K_p$ 能不能满足要求\n（1）做法一：\n1 2 3 % 打开控制系统设计器 controlSystemDesigner('rlocus', P_pitch); % 命令中，VIEWS 必须为以下一个或多个项: 'rlocus'、'bode'、'nichols' 和 'filter' 注意：控制系统设计器功能强大，例如\n可同时查看根轨迹与输出响应，并且根轨迹的零极点可拖动，移动根轨迹上的零极点从而改变 $K$，使得输出响应实时变化 针对不同的回路结构，可以在编辑架构里选择不同的回路 点击控制器 $G$，可实时查看当前回路增益 $K_p$ 与开环传递函数 根轨迹中，右键→设计需求→新建，可添加要求。其中上升时间与固有频率有响应转换关系，要求添加完毕后，非阴影区（白色区）即是期望区域 输出响应也可以右键添加指标，显示当前的稳定值、上升时间等 （2）做法二：\n1 2 3 4 % 绘制根轨迹图 rlocus(P_pitch); axis([-0.6 0 -0.6 0.6]); % 坐标范围 sgrid(0.6, 0.9); % 第一个是阻尼比，第二个是固有频率（有公式算出来的） 根轨迹图有了，接下来找 $K_p$。找 $K_p$ 就必须先在根轨迹上选一个点。\n1 [Kp, pole] = rlocfind(P_pitch); % 选择极点后对应的 K 值 命令执行后会让你在根轨迹上选一个点，选择此点后会显示①此点对应的 $K_p$ 值 + ②离这个点最近的、实轴上的极点坐标\n以上两个方法都得到了 $K_p$ 值，把这个 $K_p$ 值乘进开环传递函数看看输出响应波形，如果单纯的 $K_p$ 无能为力，则还有超前/滞后补偿器可以抢救。\n超前补偿器\n适用条件：当前的根轨迹与所要求的非阴影区（期望区域、要求区域）不沾边，具体来说当前根轨迹范围完全在期望区域的右侧，就不得不向左移动根轨迹。（换句话说，当我们希望闭环的根往左移动（更稳定时），引入超前补偿即可）\n传递函数：\n$$ C_{\\text{lead}}(s) = \\frac{s + z_0}{s + p_0} $$\n（1）做法一：\n继续在控制系统设计器中调节\n点击右上角预设项→选项→零点/极点/增益→确定 右击空白处→编辑器补偿器→右击→添加零极点→超前→修改实极点、实零点的值（选择有技巧）（此例的零点选择为 $-0.9$，极点选择为 $-3$） 随后新根轨迹图就有了，拖动极点以达到期望的输出响应波形 （2）做法二：\n1 2 3 4 5 6 7 8 9 10 % 带超前补偿器的根轨迹图 z0 = -0.9; p0 = -3; s = tf('s'); C_lead = (s - z0)/(s - p0); % 构建超前补偿器 rlocus(C_lead * P_pitch); % 看根轨迹图 axis([-0.6 0 -0.6 0.6]); sgrid(0.6, 0.36); % 重新选 Kp [Kp, pole] = rlocfind(C_lead * P_pitch); 再用此 $K_p$ 去求输出波形\n1 2 3 4 Kp = 200; sys_cl = feedback(Kp * C_lead * P_pitch, 1); t = 0:0.1:20; step(sys_cl, t); （3）做法三：\n可以尝试不同类型的动态补偿器（添加零点和极点）\n滞后补偿器\n适用条件：响应速度都挺好，就是稳态误差太大，稳定值跟期望值差老远。因此滞后补偿器可以在减小稳态误差的同时，仍能满足暂态要求（不会过大的改变系统原有的特性）。\n传递函数：\n$$ C_{\\text{lag}}(s) = \\frac{s + z_0}{s + p_0} $$\n完全同超前补偿器，唯独不同之处在于 $z$ 值与 $p$ 值的选取，超前补偿器 $|z| \u003c |p|$，滞后补偿器 $|z| \u003e |p|$\n例如 超前补偿器：\n$$ C_{\\text{lead}}(s) = \\frac{s + 0.9}{s + 3} $$\n滞后补偿器：\n$$ C_{\\text{lag}}(s) = \\frac{s + 3}{s + 0.9} $$\n其他步骤一模一样。\n特殊情况：\n在某些特殊情况下，例如什么补偿器都加了，共轭极点已经拉到期望范围的边缘了，但是输出波形还是不满足要求，有可能是因为实轴上的、靠近虚轴的第三极点作为主导极点，不仅减缓了系统响应，而且压制了共轭极点的影响，这个情况下，可以将共轭极点拉到期望范围外，依然会满足要求。\n2.频率分析法 先看开环 Bode 图\n（1）做法一：\n1 2 % 在控制系统设计器里看开环传函 Bode 图 controlSystemDesigner('bode', P_pitch); （2）做法二：\n1 2 % 绘制 Bode 图 bode(P_pitch), grid; （3）做法三：\n1 2 3 % 查看增益裕度与相位裕度 margin(P_pitch), grid; % 若增益裕度与相位裕度都为正，则系统稳定 设计比例控制器 $K_p$\n如果当前 Bode 图与输出波形不符合要求，则有以下两种方法找到增益 $K_p$\n（1）做法一：比较适用于一阶系统\n①稳态误差公式：$\\text{error} = \\dfrac{1}{1 + M_{w \\rightarrow 0}} \\times 100$\n②在 Bode 图上找到 $w \\rightarrow 0$ 时对应的幅值 dB（例如 $-34$ dB），带入公式计算得到稳态误差，同时也可以再看看闭环输出响应来验证一下（$K_p$ 取 $1$ 即可）\n1 2 sys_cl = feedback(Kp * P_pitch, 1); step(sys_cl); ③减小稳态误差，即抬高稳态值，例如要求稳态误差小于 $2%$，带入公式可以计算得出期望幅值 $=33.8$ dB，因此从原本的 $-34$ dB → 期望的 $33.8$ dB，一次性抬高 $67.8$ dB。再根据幅值与比例增益 $K_p$ 之间的关系，可得 $K_p = 2455$。\n④随后便可以将 $K_p = 2455$ 乘入传递函数，观察开环传函 Bode 图以及闭环输出波形\n⑤特殊情况，由于这种做法 $K_p$ 往往取的很大，在某些特殊控制情况下（例如汽车巡航控制，输出速度响应波形变化太快，现实里根本无法实现）（例如 $K_p$ 过大导致系统有振荡，相位裕度太小，系统不稳定等），就不得不降低 $K_p$，可以引入滞后补偿器。\n（2）做法二：比较适用于多阶系统\n①直接考虑相位裕度，一般为了得到满意的性能，相位裕度一般为 $30^\\circ$~$60^\\circ$，这里直接拉满令 $P_m = 60^\\circ$。$180^\\circ - \\text{相位}120^\\circ = \\text{相位裕度}60^\\circ$，因此直接找到相位 $120^\\circ$ 所对应的点\n②在原始开环 Bode 图中找相位 $120^\\circ$ 所对应的频率（例如 $=9.17$ rad/s），将此频率作为新的截止频率\n③查看频率为 $9.17$ 所对应的 $mag$（幅值图的横坐标）与相角 $phase$\n1 [mag, phase, w] = bode(P_pitch, 9.17); ④得到数据（举例）$mag = 0.0157$，再将 $mag$ 换算成幅值\n1 20 * log10(0.0157); ⑤得到幅值 $= -36.0820$ dB，为了使当前选中频率 $9.17$ rad/s 为截止频率，就必须将此幅值 $-36.0820$ dB → $0$ dB，因此需要抬高 $36.0820$ dB，换算成 $K_p$ 值 ≈ $63$。\n⑥利用此 $K_p$ 值再去看新 Bode 图（$P_m \\approx 60^\\circ$）与输出阶跃响应。如果输出波形不满意，引入补偿器\n超前补偿器\n特别注意：使用补偿器的时候要从系统的开环传递函数从头设计，以上得到的 $K_p$ 值全部扔掉。\n使用条件： 加快截止频率且增加相位裕度。它为系统增加了正相位，这样可以增加相位裕度，从而增加阻尼。与此同时，它还可以在高频率下增加开环频率响应的幅度，进而增强截止频率和整体速度（稳定时间降低）。\n传递函数：\n$$ C_{\\text{lead}}(s) = K \\times \\frac{T s + 1}{\\alpha T s + 1} $$\n步骤：\n①先只引入一个 $K$，先初步决定 $K = 10$，看看根轨迹 + 输出波形\n1 2 3 4 5 K = 10; margin(K * P_pitch), grid; figure; sys_cl = feedback(K * P_pitch, 1); step(sys_cl), grid; ②在本例中，增加 $K = 10$ 会使得输出有振荡，这是因为相位裕度变小了（本例 $P_m = 10.4^\\circ$），不过没关系，超前补偿器可以增大阻尼、消除振荡。\n③现在选择 $\\alpha$，$\\alpha$ 需要由最大相位确定。\n$\\alpha$ 与最大相位的关系：\n$$ \\alpha = \\frac{1 - \\sin\\phi_m}{1 + \\sin\\phi_m} $$\n④现在找最大相位，超调量 → 阻尼比 → 相位裕度三者也有关系。举例超调量小于 $10%$ → 阻尼比 $\\zeta$ 就要大于 $0.6$ → 相位裕度要大于 $60^\\circ$。当前的相位裕度 $=10.4^\\circ$，要提到 $60^\\circ$，再来个 $50^\\circ$ 就够了。再由于超前补偿器的特性，要额外多加几度，最终选定添加 $55^\\circ$ 的相位超前。因此最大相位 $\\phi_m = 55^\\circ$。\n⑤根据公式可计算得到 $\\alpha \\approx 0.1$\n⑥根据下面关系式计算出超前补偿器所造成的幅度增加量\n$$ \\text{幅值增加量（dB）} = 10 \\log_{10} \\left( \\frac{1}{\\alpha} \\right) $$\n⑦从（$K = 10$ 的）Bode 图可得知，截止频率为 $3.49$ rad/s，幅值 $= -10$ dB 的频率为 $6.1$ rad/s，因此引入 $\\alpha$ 后新截止频率 $=6.1$ rad/s，利用这个新截止频率来计算 $T$\n$$ T = \\frac{1}{\\omega \\sqrt{\\alpha}} $$\n⑧至此超前补偿器的三个参数全部得到 $K = 10$，$\\alpha = 0.1$，$T = 0.52$。看看波形图。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 % 重新将开环传递函数写一遍 s = tf('s'); P_pitch = (1.151*s + 0.1774)/(s^3 + 0.739*s^2 + 0.921*s); % 引入超前补偿器 K = 10; alpha = 0.1; T = 0.52; C_lead = K * (T*s + 1)/(alpha*T*s + 1); margin(C_lead * P_pitch), grid; % 闭环输出响应 sys_cl = feedback(C_lead * P_pitch, 1); step(sys_cl), grid; title('加入了 K、α、T 后的拥有超前补偿器的输出阶跃响应图'); ⑨输出波形图很难直观看到超调量等数据，采用 stepinfo 命令，可看到全部的性能指标值。\n1 stepinfo(sys_cl); ⑩如果某些指标还是差一些，可以微调 $K$、$\\alpha$ 的值，例如本例超调量依然略大，取 $\\alpha = 0.0718$（添加 $60^\\circ$ 的相位超前）（$T = 0.5654$），就可以解决问题。\n滞后补偿器\n与根轨迹里的滞后补偿器完全相同\n适用条件：滞后补偿器可以在保持带宽频率不变的情况下增加低频段的幅值增益，这样就可以抬高稳定值，并且带宽频率不变\n传递函数：\n$$ C_{\\text{lag}}(s) = \\frac{s + z_0}{s + p_0} $$\n零极点的选择：通常来说，与根轨迹法一样，滞后补偿器的零点要与系统的极点放在一起；至于极点选个靠近虚轴的就可以，例如 $p = 0.01$ 即可\n1 2 3 4 % 找到回路增益 Kp，滞后补偿器 C_lag 后，命令如下（步骤同根轨迹） bode(Kp * C_lag * P_pitch), grid; % 在控制系统设计器中也可以实现（步骤同根轨迹） controlSystemDesigner('bode', P_pitch); 3.状态空间法 观察能控性（全状态反馈控制器）\n先给出能控性矩阵 $M = [B\\ AB\\ A^2B\\ \\ldots\\ A^{n-1}B]$\n1 2 3 4 5 6 7 8 9 10 11 12 13 A = [-0.313, 56.7, 0; -0.0139, -0.426, 0; 0, 56.7, 0]; B = [0.232; 0.0203; 0]; C = [0, 0, 1]; D = [0]; sys_order = order(pitch_ss); % 找到最小的 MIMO 系统 mo = ctrb(A, B); % 构建能控性矩阵 M = [B AB ...] sys_rank = rank(mo); % 找到矩阵的秩 若 sys_order == sys_rank，则矩阵满秩，则能控\n观察能观性（状态观测器）\n1 2 no = obsv(A, C); % 构建能观性矩阵 N = [C; CA; ...]' sys_rank = rank(no); 设计全状态反馈控制器\n经过对原状态空间进行全状态反馈的变换，可以得新状态空间表达式\n$$ \\dot{x} = (A - BK)x + Br $$\n（1）做法一：极点放置法\n适用于标准的一阶二阶系统（不适用于本例）\n①从 $\\det(sI - (A - BK))$ 的行列式（矩阵的根）中找到闭环极点，根据阶数可获得几个可任意放置的极点（一阶可放一个，二阶可放两个）\n②先找到极点要放的位置，例如 $p_1 = -5 + i$，$p_2 = -5 - i$（举例），调用命令得到 $K$ 值\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 % 开环传递函数（举例） J = 0.01; % 转子的转动惯量 b = 0.1; % 电机粘性摩擦常数 K = 0.01; % 电动势常数、电机转矩常数 R = 1; % 电阻 L = 0.5; % 电感 % 状态方程 A = [-b/J, K/J; K/L, -R/L]; B = [0; 1/L]; C = [1, 0]; D = 0; motor_ss = ss(A, B, C, D); % 放极点，求 Kc p1 = -5 + 1i; p2 = -5 - 1i; Kc = place(A, B, [p1, p2]); ③ $K_c = [13.0100, -1.0000]$，将 $K$ 带回新状态方程，看输出响应波形\n1 2 3 4 5 6 motor_ss = ss(A, B, C, D); motor_ss_new = ss(A - B * Kc, B, C, D); t = 0:0.01:3; step(motor_ss_new, t); title('状态控制器的输出响应'); ④通常来说，放置极点不可能一次成功，一般都需要引入预补偿器 $N_{\\text{bar}}$，目的是缩放输入，抬高稳定值。\n1 2 3 4 5 6 Nbar = rscale(motor_ss, Kc); % 利用原状态方程算 Nbar t = 0:0.01:10; step(motor_ss_new * Nbar, t); % 将新状态方程乘以 Nbar grid; title('状态控制器 + 预补偿器的输出响应'); 注意：rscale 函数（查找比例因子以消除稳态误差函数）内容可以在 MATLAB 官方帮助中找到，复制粘贴到 MATLAB 当前目录中\n（2）做法二：使用 LQR（线性二次调节器）来生成最佳增益矩阵 $K$（适用本例）\n①若要使用 LQR，需要定义两个参数：状态成本加权矩阵 $Q$ 和控制权重矩阵 $R$，为图简单，选择 $R = 1$，$Q = p \\cdot C^T \\cdot C$\n②LQR 参数全了，接下来得到反馈控制矩阵 $K$，先令加权因子 $p = 2$\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 % 状态空间方程 A = [-0.313, 56.7, 0; -0.0139, -0.426, 0; 0, 56.7, 0]; B = [0.232; 0.0203; 0]; C = [0, 0, 1]; D = [0]; pitch_ss = ss(A, B, C, D); % 设计 LQR p = 2; Q = p * C' * C; R = 1; [K] = lqr(A, B, Q, R); ③可得 $K = [-0.5034, 52.8645, 1.4142]$，根据此 $K$ 得到新状态方程，且查看输出响应\n1 2 3 4 5 6 % 新状态方程 sys_cl = ss(A - B * K, B, C, D); % 查看输出响应 step(sys_cl), grid; title('LQR 下的闭环阶跃响应'); ④如果输出波形响应太慢，则增大 LQR 里的加权因子 $p$ 值（本例将加权因子增大到 $p = 50$），这样可以得到更大的 $K$，加快系统响应，但是与此同时也会降低稳态值。如果输出波形稳态值过小，稳态误差过大，则再调节 LQR 也没救了，需要再同样引入预补偿器 $N_{\\text{bar}}$\n⑤同样使用 rscale（查找比例因子以消除稳态误差函数）来得到 $N_{\\text{bar}}$\n1 Nbar = rscale(A, B, C, D, K); % 在 LQR 的基础上继续做，因此 K 为之前由 LQR 得到的 K ⑥得到 $N_{\\text{bar}}$ 看看输出波形\n1 2 3 4 5 % 带 LQR + Nbar 的新状态空间方程 sys_cl = ss(A - B * K, B * Nbar, C, D); % 也可以同做法一，先求得 sys_cl_new，再乘以 Nbar，是一样的 step(sys_cl), grid; title('LQR + Nbar 下的闭环阶跃响应'); 预补偿器 $N_{\\text{bar}}$\n由于上述两种做法都可能用到 $N_{\\text{bar}}$，因此做一些补充\n添加的预补偿器 $N_{\\text{bar}}$ 并不位于反馈回路，这就意味着如果有未知干扰，预补偿器对此部分的偏差无法消除 换句话说，预补偿器的作用就是将输入放大或者缩小，导致了输出稳态值的提升，但是稳态误差说到底还是没真正被消除。根本原因就是 $N_{\\text{bar}}$ 不在反馈回路，它不能真正改变输出的波形，也就是说不会真正减小稳态误差 有一种方法是将预补偿器与积分控制相结合，既可以缩放输出波形，又可以一定程度减小稳态误差 4.PID PID 传递函数：\n$$ C(s) = K_p + \\frac{K_i}{s} + K_d s $$\n1 2 3 4 5 % 打开控制系统设计器 s = tf('s'); P_pitch = (1.151*s + 0.1774)/(s^3 + 0.739*s^2 + 0.921*s); controlSystemDesigner(P_pitch); 左上角→调节方法→PID 调节→选择鲁棒响应时间/经典设计公式\n鲁棒响应时间就是自动谐调 PID 参数，可以为所有类型的 PID 调节参数，可用于设计稳定、不稳定、积分的系统 经典设计公式算法需要稳定的或带有积分的设备，无法调整导数滤波器，但是会有很多的公式方法 此例选择鲁棒响应时间算法→设计模式时域表示→参数调调调→设计成功\n5.数字控制器 （1）做法一：状态方程 + LQR\n①先得到离散状态空间方程，使用 c2d 命令将连续时间模型→离散时间模型，c2d 需要三个参数：系统模型 + 采样时间 + 保持电路的类型（通常用零阶保持器 zoh）\n②采样时间：采样频率至少比闭环 Bode 图的带宽频率（闭环截止频率）（不是开环截止频率）大 30 倍。根据闭环波特图可得，带宽频率为 2 rad/sec，因此得到 0.01s 的采样时间\n③使用 c2d 命令，可以得到原离散状态空间模型\n1 2 3 4 5 6 7 8 9 10 11 A = [-0.313, 56.7, 0; -0.0139, -0.426, 0; 0, 56.7, 0]; B = [0.232; 0.0203; 0]; C = [0, 0, 1]; D = [0]; sys_ss = ss(A, B, C, D); Ts = 0.01; sys_d = c2d(sys_ss, Ts, 'zoh'); ④验证能控性\n1 2 co = ctrb(sys_d); Controllability = rank(co); ⑤离散全状态反馈控制系统，得到新离散状态空间方程\n$$ x[k + 1] = (A - B K) x[k] + B N_{\\text{bar}} r[k] $$\n⑥依旧利用 LQR，不过是离散版本\n1 2 3 4 5 6 7 8 A = sys_d.A; B = sys_d.B; C = sys_d.C; D = sys_d.D; p = 50; Q = p * C' * C; R = 1; [K] = dlqr(A, B, Q, R); ⑦得到 $K$，就可以得到离散状态空间方程了，且看看输出波形\n1 2 3 4 5 6 7 time = 0:Ts:10; theta_des = ones(size(time)); sys_cl = ss(A - B * K, B, C, D, Ts); [y, t] = lsim(sys_cl, theta_des, time); % 画图 stairs(t, y); title('DLQR 下的闭环阶跃响应'); ⑧可能仍需要添加预补偿器 $N_{\\text{bar}}$，但是离散版本不可以用 rscale 自动求了，需要手动调调改改，最后选定 $N_{\\text{bar}} = 6.95$。重新得离散状态空间方程 + 输出波形\n1 2 3 4 5 6 Nbar = 6.95; sys_cl = ss(A - B * K, B * Nbar, C, D, Ts); % 多乘了 Nbar [y, t] = lsim(sys_cl, theta_des, time); % 画图 stairs(t, y); title('DLQR 下的闭环阶跃响应'); （2）做法二：传递函数 + 根轨迹\n①将连续传函转换成离散传函\n1 2 3 Ts = 1/50; dp_pitch = c2d(P_pitch, Ts, 'zoh'); zpk(dp_pitch); % 变成因式分解形式，更容易看零极点 ②利用 zgrid 命令找到离散的可接受符合要求的根轨迹区域，然后在该区域里找增益 $K$。而使用 zgrid 命令需要两个参数：自然频率 $W_n$ + 阻尼比 $\\zeta$。\n假设上升时间为 5 秒，超调量为 $10%$，因此固有频率大于 0.36，阻尼比大于 0.6。但由于 zgrid 命令的固有频率单位是 rad/sample，因此换算成 0.0072 rad/sample\n1 2 3 4 5 6 7 Wn = 0.0072; zeta = 0.6; % 画根轨迹图 rlocus(dp_pitch); zgrid(zeta, Wn); axis([0.97 1 -0.05 0.05]); 后面步骤与代码同根轨迹法\n③选极点 → 得 $K_p$ 值 → 画闭环输出波形 → 不满意 → 乘上超前/滞后补偿器 → 重新选极点 → 得新 $K_p$ 值 → $K_p$ × 超前/滞后补偿器 × 原离散开环传递函数 → 得闭环传递函数 → 画闭环输出波形\n（3）做法三：传递函数 + PID + 根轨迹\n①将连续传函转换成离散传函\n1 2 3 Ts = 1/50; dp_pitch = c2d(P_pitch, Ts, 'zoh'); zpk(dp_pitch); ②把连续 PID 转换成离散 PID\n1 2 3 4 5 6 7 % 离散 PID Kp = 100; Ki = 200; Kd = 10; C = Kp + Ki/s + Kd*s; dC = c2d(C, Ts, 'tustin'); ③用离散 PID 去控制离散传递函数，看看输出响应波形\n1 2 3 4 sys_cl = feedback(dC * dp_pitch, 1); [x2, t] = step(sys_cl, 12); % 12 的意思是时间范围 % 画图 stairs(t, x2); 如果发现输出响应不稳定，但该 PID 参数在连续域可以得到很好的调节结果（在离散域就调节不好），需要进根轨迹找原因\n④看看离散系统 + 离散 PID 的根轨迹\n1 2 3 4 % 不稳定，看看根轨迹 rlocus(dC * dp_pitch); axis([-1.5 1.5 -1 1]); title('离散系统带 PID 的根轨迹'); ⑤经过很复杂的、我不会的分析后发现，PID 控制器有个我们不想要的极点，因此就需要改变 PID 控制器。因此给离散 PID 增加了一个 $-0.82$ 的极点（随便举例）\n1 2 3 4 5 % 给离散 PID 再增加一个极点 z = tf('z', Ts); dC_new = dC / (z + 0.82); % 看看新根轨迹 rlocus(dC_new * dp_pitch); ⑥在新根轨迹上找个极点，看看对应的 $K$ 值。此时得到 $K$ 值\n⑦在此 $K$ 值下 + 新离散 PID + 原离散开环传递函数的输出波形如何？\n1 2 3 4 5 6 sys_cl = feedback(K * dC_new * dp_pitch, 1); % 其中 K 值为上一步选择极点得到的值 [x3, t] = step(sys_cl, 8); % 8 的意思是时间范围 % 画输出波形图 stairs(t, x3); title('离散域下开传函 + PID + 根轨迹'); ⑧如果不行就重新选 $K$，一直达到设计要求\n",
+  "wordCount" : "2107",
+  "inLanguage": "zh",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2023-03-29T16:25:17+01:00",
+  "dateModified": "2024-11-23T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://zehua.eu/zh/posts/probability_cn/%E5%90%84%E7%B1%BB%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E5%90%88%E9%9B%86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://zehua.eu/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://zehua.eu/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://zehua.eu/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/probability_cn/">概率统计</a></div>
+    <h1 class="post-title entry-hint-parent">
+      各类控制方法实现思路及代码
+    </h1>
+    <div class="post-description">
+      本科写完毕业论文的时候没事瞎写的，现在看感觉没有太多含金量
+    </div>
+    <div class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2023-03-29 16:25:17 +0100 +0100'>3月29日, 2023</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共2107字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%b8%80%e7%89%a9%e7%90%86%e5%bb%ba%e6%a8%a1%e5%be%97%e8%a2%ab%e6%8e%a7%e5%af%b9%e8%b1%a1" aria-label="一.物理建模得被控对象">一.物理建模得被控对象</a><ul>
+                            
+                    <li>
+                        <a href="#1%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0" aria-label="1.传递函数">1.传递函数</a></li>
+                    <li>
+                        <a href="#2%e7%8a%b6%e6%80%81%e7%a9%ba%e9%97%b4%e6%96%b9%e7%a8%8b" aria-label="2.状态空间方程">2.状态空间方程</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%b8%80%e7%9b%b4%e6%8e%a5%e6%9e%84%e5%bb%ba-abcd-%e7%9f%a9%e9%98%b5" aria-label="做法一：直接构建 A、B、C、D 矩阵">做法一：直接构建 A、B、C、D 矩阵</a></li>
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%ba%8c%e7%94%b1%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0%e5%be%97%e5%88%b0%e7%8a%b6%e6%80%81%e6%96%b9%e7%a8%8b" aria-label="做法二：由传递函数得到状态方程">做法二：由传递函数得到状态方程</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%ba%8c%e7%b3%bb%e7%bb%9f%e5%88%86%e6%9e%90" aria-label="二.系统分析">二.系统分析</a><ul>
+                            
+                    <li>
+                        <a href="#1%e8%ae%be%e8%ae%a1%e8%a6%81%e6%b1%82" aria-label="1.设计要求">1.设计要求</a></li>
+                    <li>
+                        <a href="#2%e5%9c%a8%e9%98%b6%e8%b7%83%e5%93%8d%e5%ba%94%e4%b8%8b%e5%bc%80%e7%8e%af%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0%e8%be%93%e5%87%ba%e6%b3%a2%e5%bd%a2" aria-label="2.在阶跃响应下开环传递函数输出波形">2.在阶跃响应下开环传递函数输出波形</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%b8%80%e5%b8%a6-figure" aria-label="做法一：带 figure">做法一：带 figure</a></li>
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%ba%8c%e7%9b%b4%e6%8e%a5%e8%be%93%e5%87%ba%e6%b3%a2%e5%bd%a2%e5%9b%be" aria-label="做法二：直接输出波形图">做法二：直接输出波形图</a></li>
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%b8%89%e7%ba%bf%e6%80%a7%e7%b3%bb%e7%bb%9f%e5%88%86%e6%9e%90%e5%99%a8" aria-label="做法三：线性系统分析器">做法三：线性系统分析器</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#3%e7%9c%8b%e7%9c%8b%e5%bc%80%e7%8e%af%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0%e9%9b%b6%e6%9e%81%e7%82%b9" aria-label="3.看看开环传递函数零极点">3.看看开环传递函数零极点</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%b8%80polezero-%e6%8c%87%e4%bb%a4" aria-label="做法一：pole、zero 指令">做法一：pole、zero 指令</a></li>
+                    <li>
+                        <a href="#%e5%81%9a%e6%b3%95%e4%ba%8cpzmap-%e6%8c%87%e4%bb%a4" aria-label="做法二：pzmap 指令">做法二：pzmap 指令</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#4%e5%be%97%e5%88%b0%e9%97%ad%e7%8e%af%e4%bc%a0%e9%80%92%e5%87%bd%e6%95%b0" aria-label="4.得到闭环传递函数">4.得到闭环传递函数</a></li>
+                    <li>
+                        <a href="#5%e5%af%b9%e8%be%93%e5%87%ba-ys-%e8%bf%9b%e8%a1%8c%e5%9b%a0%e5%bc%8f%e5%88%86%e8%a7%a3%e4%bb%a5%e6%b1%82%e5%be%97%e6%8b%89%e6%99%ae%e6%8b%89%e6%96%af%e5%8f%8d%e5%8f%98%e6%8d%a2" aria-label="5.对输出 $Y(s)$ 进行因式分解以求得拉普拉斯反变换">5.对输出 $Y(s)$ 进行因式分解以求得拉普拉斯反变换</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%b8%89%e6%8e%a7%e5%88%b6%e6%96%b9%e6%b3%95%e4%b8%8e%e5%88%86%e6%9e%90" aria-label="三.控制方法与分析">三.控制方法与分析</a><ul>
+                            
+                    <li>
+                        <a href="#1%e6%a0%b9%e8%bd%a8%e8%bf%b9%e6%b3%95" aria-label="1.根轨迹法">1.根轨迹法</a></li>
+                    <li>
+                        <a href="#2%e9%a2%91%e7%8e%87%e5%88%86%e6%9e%90%e6%b3%95" aria-label="2.频率分析法">2.频率分析法</a></li>
+                    <li>
+                        <a href="#3%e7%8a%b6%e6%80%81%e7%a9%ba%e9%97%b4%e6%b3%95" aria-label="3.状态空间法">3.状态空间法</a></li>
+                    <li>
+                        <a href="#4pid" aria-label="4.PID">4.PID</a></li>
+                    <li>
+                        <a href="#5%e6%95%b0%e5%ad%97%e6%8e%a7%e5%88%b6%e5%99%a8" aria-label="5.数字控制器">5.数字控制器</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>主要包含根轨迹+频率分析+状态空间+数字控制器+PID。</p>
+<p>拿到物理模型→系统分析→列出物理运动方程式→拉普拉斯变换→传递函数+状态空间方程→引入控制器→系统输出响应波形即可达到期望要求</p>
+<h2 id="一物理建模得被控对象">一.物理建模得被控对象<a hidden class="anchor" aria-hidden="true" href="#一物理建模得被控对象">#</a></h2>
+<h3 id="1传递函数">1.传递函数<a hidden class="anchor" aria-hidden="true" href="#1传递函数">#</a></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 传递函数</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="p">=</span> <span class="n">tf</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">P_pitch</span> <span class="p">=</span> <span class="p">(</span><span class="mf">1.151</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mf">0.1774</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mf">0.739</span><span class="o">*</span><span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mf">0.921</span><span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2状态空间方程">2.状态空间方程<a hidden class="anchor" aria-hidden="true" href="#2状态空间方程">#</a></h3>
+<h4 id="做法一直接构建-abcd-矩阵">做法一：直接构建 A、B、C、D 矩阵<a hidden class="anchor" aria-hidden="true" href="#做法一直接构建-abcd-矩阵">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 状态空间方程</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.313</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="o">-</span><span class="mf">0.0139</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.426</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mf">0.232</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mf">0.0203</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">pitch_ss</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="做法二由传递函数得到状态方程">做法二：由传递函数得到状态方程<a hidden class="anchor" aria-hidden="true" href="#做法二由传递函数得到状态方程">#</a></h4>
+<p>(1) 自己写出来传递函数分子、分母</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 自己写传递函数分子分母</span>
+</span></span><span class="line"><span class="cl"><span class="n">num</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.151</span><span class="p">,</span> <span class="mf">0.1774</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">den</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.739</span><span class="p">,</span> <span class="mf">0.921</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">]</span> <span class="p">=</span> <span class="n">tf2ss</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">den</span><span class="p">);</span> <span class="c">% num 是开环传递函数分子，den 是分母</span>
+</span></span><span class="line"><span class="cl"><span class="n">pitch_ss_1</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(2) 直接由传递函数转换</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">pitch_ss_2</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">);</span> <span class="c">% 其中 P_pitch 是开环传递函数</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em>注意：此命令得到状态方程的 A、B、C、D 并不会直接保存在工作区</em></p>
+<h2 id="二系统分析">二.系统分析<a hidden class="anchor" aria-hidden="true" href="#二系统分析">#</a></h2>
+<h3 id="1设计要求">1.设计要求<a hidden class="anchor" aria-hidden="true" href="#1设计要求">#</a></h3>
+<ul>
+<li>超调量</li>
+<li>上升时间</li>
+<li>稳定时间</li>
+<li>稳态误差</li>
+</ul>
+<h3 id="2在阶跃响应下开环传递函数输出波形">2.在阶跃响应下开环传递函数输出波形<a hidden class="anchor" aria-hidden="true" href="#2在阶跃响应下开环传递函数输出波形">#</a></h3>
+<h4 id="做法一带-figure">做法一：带 figure<a hidden class="anchor" aria-hidden="true" href="#做法一带-figure">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 看看开环传递函数输出响应波形</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>     <span class="c">% 时间从 0→10s，中间每间隔 0.01 就记录一下数值大小，即采样</span>
+</span></span><span class="line"><span class="cl"><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>         <span class="c">% 告诉软件，我要画一个图，先把图方框准备好</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>  <span class="c">% 阶跃响应 step 下，开环传递函数的输出响应波形</span>
+</span></span><span class="line"><span class="cl"><span class="n">grid</span> <span class="n">on</span><span class="p">;</span>           <span class="c">% 显示网格</span>
+</span></span><span class="line"><span class="cl"><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;时间&#39;</span><span class="p">);</span>    <span class="c">% 横坐标的名字</span>
+</span></span><span class="line"><span class="cl"><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;飞机的俯仰角&#39;</span><span class="p">);</span> <span class="c">% 纵坐标的名字</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;开环阶跃响应曲线&#39;</span><span class="p">);</span>  <span class="c">% 标题</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="做法二直接输出波形图">做法二：直接输出波形图<a hidden class="anchor" aria-hidden="true" href="#做法二直接输出波形图">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 直接输出波形图</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>  <span class="c">% 不加分号直接显示输出</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="mi">0</span> <span class="mi">10</span> <span class="mi">0</span> <span class="mi">5</span><span class="p">]);</span>     <span class="c">% 限制坐标范围。横坐标范围 0-10，纵坐标范围 0-5</span>
+</span></span><span class="line"><span class="cl"><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;时间&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;飞机的俯仰角&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;开环阶跃响应曲线&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="做法三线性系统分析器">做法三：线性系统分析器<a hidden class="anchor" aria-hidden="true" href="#做法三线性系统分析器">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 启动线性系统分析器，输入波形是 step，研究对象是开环传递函数，时间为 0→10</span>
+</span></span><span class="line"><span class="cl"><span class="n">linearSystemAnalyzer</span><span class="p">(</span><span class="s">&#39;step&#39;</span><span class="p">,</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 可在分析器里看到输出阶跃响应波形</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em>注意：线性系统分析器功能强大，例如</em></p>
+<ul>
+<li>可以更改输入响应。右键→线性仿真→设计信号（或者在命令语句将 step 改为正弦波等等）</li>
+<li>右键可以更改想看的波形，可以改看零极点分布图、Bode 图、根轨迹图等等</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 可以同时输入多个传递函数，观察波形分析</span>
+</span></span><span class="line"><span class="cl"><span class="n">rP_pitch</span> <span class="p">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c">% 随便设的</span>
+</span></span><span class="line"><span class="cl"><span class="n">linearSystemAnalyzer</span><span class="p">(</span><span class="s">&#39;step&#39;</span><span class="p">,</span> <span class="n">rP_pitch</span><span class="p">,</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">10</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3看看开环传递函数零极点">3.看看开环传递函数零极点<a hidden class="anchor" aria-hidden="true" href="#3看看开环传递函数零极点">#</a></h3>
+<h4 id="做法一polezero-指令">做法一：pole、zero 指令<a hidden class="anchor" aria-hidden="true" href="#做法一polezero-指令">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;开环传递函数极点为&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">pole</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">)</span>    <span class="c">% 开环极点，注意没有分号</span>
+</span></span><span class="line"><span class="cl"><span class="n">zero</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">)</span>    <span class="c">% 开环零点</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="做法二pzmap-指令">做法二：pzmap 指令<a hidden class="anchor" aria-hidden="true" href="#做法二pzmap-指令">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 同时看零极点</span>
+</span></span><span class="line"><span class="cl"><span class="n">pzmap</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span> <span class="mi">1</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4得到闭环传递函数">4.得到闭环传递函数<a hidden class="anchor" aria-hidden="true" href="#4得到闭环传递函数">#</a></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;闭环传递函数为&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5对输出-ys-进行因式分解以求得拉普拉斯反变换">5.对输出 $Y(s)$ 进行因式分解以求得拉普拉斯反变换<a hidden class="anchor" aria-hidden="true" href="#5对输出-ys-进行因式分解以求得拉普拉斯反变换">#</a></h3>
+<p>（若无特殊要求，此步省略）</p>
+<p>输出 $Y(s) = \text{传递函数} G(s) \times \text{输入} R(s)$。此处输入 $R(s) = \dfrac{1}{s}$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">R</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y</span> <span class="p">=</span> <span class="n">zpk</span><span class="p">(</span><span class="n">sys_cl</span> <span class="o">*</span> <span class="n">R</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>①即 $Y(s) = \dfrac{1.151 (s + 0.1541)}{s (s + 0.08805) (s^2 + 0.6509s + 2.015)}$</p>
+<p>②当前目标是因式分解成如下形式</p>
+<p>③现在求 $A$、$B$、$C$、$D$（也可以手动计算），若使用 MATLAB 计算，相关命令为 <code>residue</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="p">=</span> <span class="n">residue</span><span class="p">([</span><span class="mf">1.151</span><span class="p">,</span> <span class="mf">0.1774</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.739</span><span class="p">,</span> <span class="mf">2.072</span><span class="p">,</span> <span class="mf">0.1774</span><span class="p">,</span> <span class="mi">0</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到</p>
+<p>$$
+r =
+\begin{bmatrix}
+-0.2802 + 0.0800i \
+-0.2802 - 0.0800i \
+-0.4395 + 0.0000i \
+1.0000 + 0.0000i
+\end{bmatrix}
+$$</p>
+<p>$$
+p =
+\begin{bmatrix}
+-0.3255 + 1.3816i \
+-0.3255 - 1.3816i \
+-0.0881 + 0.0000i \
+0.0000 + 0.0000i
+\end{bmatrix}
+$$</p>
+<p>$$
+k = []
+$$</p>
+<p>④因此 $A = 1$，$B = -0.0881$，现在求 $C$、$D$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="n">den</span><span class="p">]</span> <span class="p">=</span> <span class="n">residue</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span> <span class="n">p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">den</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑤可得</p>
+<p>$$
+\frac{-0.5605 s - 0.4036}{s^2 + 0.6509 s + 2.015}
+$$</p>
+<p>⑥因此 $C = -0.5605$，$D = -0.4036$，$A$、$B$、$C$、$D$ 全部得到，可以进行拉普拉斯反变换求解</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">syms</span> <span class="n">s</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>                  
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="o">-</span><span class="mf">0.0881</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="o">-</span><span class="mf">0.5605</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="o">-</span><span class="mf">0.4036</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">F</span> <span class="p">=</span> <span class="n">A</span><span class="o">/</span><span class="n">s</span> <span class="o">+</span> <span class="n">B</span><span class="o">/</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mf">0.08805</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">C</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">D</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mf">0.6509</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mf">2.015</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ilaplace</span><span class="p">(</span><span class="n">F</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑦这样 $y(t)$ 就得到了</p>
+<h2 id="三控制方法与分析">三.控制方法与分析<a hidden class="anchor" aria-hidden="true" href="#三控制方法与分析">#</a></h2>
+<h3 id="1根轨迹法">1.根轨迹法<a hidden class="anchor" aria-hidden="true" href="#1根轨迹法">#</a></h3>
+<p>先找补偿器增益 $K_p$，看看单纯用 $K_p$ 能不能满足要求</p>
+<p>（1）做法一：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 打开控制系统设计器</span>
+</span></span><span class="line"><span class="cl"><span class="n">controlSystemDesigner</span><span class="p">(</span><span class="s">&#39;rlocus&#39;</span><span class="p">,</span> <span class="n">P_pitch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 命令中，VIEWS 必须为以下一个或多个项: &#39;rlocus&#39;、&#39;bode&#39;、&#39;nichols&#39; 和 &#39;filter&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em>注意：控制系统设计器功能强大，例如</em></p>
+<ul>
+<li>可同时查看根轨迹与输出响应，并且根轨迹的零极点可拖动，移动根轨迹上的零极点从而改变 $K$，使得输出响应实时变化</li>
+<li>针对不同的回路结构，可以在编辑架构里选择不同的回路</li>
+<li>点击控制器 $G$，可实时查看当前回路增益 $K_p$ 与开环传递函数</li>
+<li>根轨迹中，右键→设计需求→新建，可添加要求。其中上升时间与固有频率有响应转换关系，要求添加完毕后，非阴影区（白色区）即是期望区域</li>
+<li>输出响应也可以右键添加指标，显示当前的稳定值、上升时间等</li>
+</ul>
+<p>（2）做法二：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 绘制根轨迹图</span>
+</span></span><span class="line"><span class="cl"><span class="n">rlocus</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.6</span> <span class="mf">0.6</span><span class="p">]);</span> <span class="c">% 坐标范围</span>
+</span></span><span class="line"><span class="cl"><span class="n">sgrid</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>         <span class="c">% 第一个是阻尼比，第二个是固有频率（有公式算出来的）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根轨迹图有了，接下来找 $K_p$。找 $K_p$ 就必须先在根轨迹上选一个点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="p">[</span><span class="n">Kp</span><span class="p">,</span> <span class="n">pole</span><span class="p">]</span> <span class="p">=</span> <span class="n">rlocfind</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">);</span>  <span class="c">% 选择极点后对应的 K 值</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>命令执行后会让你在根轨迹上选一个点，选择此点后会显示①此点对应的 $K_p$ 值 + ②离这个点最近的、实轴上的极点坐标</p>
+<p>以上两个方法都得到了 $K_p$ 值，把这个 $K_p$ 值乘进开环传递函数看看输出响应波形，如果单纯的 $K_p$ 无能为力，则还有超前/滞后补偿器可以抢救。</p>
+<p><strong>超前补偿器</strong></p>
+<p>适用条件：当前的根轨迹与所要求的非阴影区（期望区域、要求区域）不沾边，具体来说当前根轨迹范围完全在期望区域的右侧，就不得不向左移动根轨迹。（换句话说，当我们希望闭环的根往左移动（更稳定时），引入超前补偿即可）</p>
+<p>传递函数：</p>
+<p>$$
+C_{\text{lead}}(s) = \frac{s + z_0}{s + p_0}
+$$</p>
+<p>（1）做法一：</p>
+<p>继续在控制系统设计器中调节</p>
+<ul>
+<li>点击右上角预设项→选项→零点/极点/增益→确定</li>
+<li>右击空白处→编辑器补偿器→右击→添加零极点→超前→修改实极点、实零点的值（选择有技巧）（此例的零点选择为 $-0.9$，极点选择为 $-3$）</li>
+<li>随后新根轨迹图就有了，拖动极点以达到期望的输出响应波形</li>
+</ul>
+<p>（2）做法二：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 带超前补偿器的根轨迹图</span>
+</span></span><span class="line"><span class="cl"><span class="n">z0</span> <span class="p">=</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p0</span> <span class="p">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="p">=</span> <span class="n">tf</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">C_lead</span> <span class="p">=</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">z0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">p0</span><span class="p">);</span>  <span class="c">% 构建超前补偿器</span>
+</span></span><span class="line"><span class="cl"><span class="n">rlocus</span><span class="p">(</span><span class="n">C_lead</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">);</span>     <span class="c">% 看根轨迹图</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.6</span> <span class="mf">0.6</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sgrid</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.36</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 重新选 Kp</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">Kp</span><span class="p">,</span> <span class="n">pole</span><span class="p">]</span> <span class="p">=</span> <span class="n">rlocfind</span><span class="p">(</span><span class="n">C_lead</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再用此 $K_p$ 去求输出波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Kp</span> <span class="p">=</span> <span class="mi">200</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">Kp</span> <span class="o">*</span> <span class="n">C_lead</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">20</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（3）做法三：</p>
+<p>可以尝试不同类型的动态补偿器（添加零点和极点）</p>
+<p><strong>滞后补偿器</strong></p>
+<p>适用条件：响应速度都挺好，就是稳态误差太大，稳定值跟期望值差老远。因此滞后补偿器可以在减小稳态误差的同时，仍能满足暂态要求（不会过大的改变系统原有的特性）。</p>
+<p>传递函数：</p>
+<p>$$
+C_{\text{lag}}(s) = \frac{s + z_0}{s + p_0}
+$$</p>
+<p>完全同超前补偿器，唯独不同之处在于 $z$ 值与 $p$ 值的选取，超前补偿器 $|z| &lt; |p|$，滞后补偿器 $|z| &gt; |p|$</p>
+<p>例如 超前补偿器：</p>
+<p>$$
+C_{\text{lead}}(s) = \frac{s + 0.9}{s + 3}
+$$</p>
+<p>滞后补偿器：</p>
+<p>$$
+C_{\text{lag}}(s) = \frac{s + 3}{s + 0.9}
+$$</p>
+<p>其他步骤一模一样。</p>
+<p><strong>特殊情况：</strong></p>
+<p>在某些特殊情况下，例如什么补偿器都加了，共轭极点已经拉到期望范围的边缘了，但是输出波形还是不满足要求，有可能是因为实轴上的、靠近虚轴的第三极点作为主导极点，不仅减缓了系统响应，而且压制了共轭极点的影响，这个情况下，可以将共轭极点拉到期望范围外，依然会满足要求。</p>
+<h3 id="2频率分析法">2.频率分析法<a hidden class="anchor" aria-hidden="true" href="#2频率分析法">#</a></h3>
+<p>先看开环 Bode 图</p>
+<p>（1）做法一：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 在控制系统设计器里看开环传函 Bode 图</span>
+</span></span><span class="line"><span class="cl"><span class="n">controlSystemDesigner</span><span class="p">(</span><span class="s">&#39;bode&#39;</span><span class="p">,</span> <span class="n">P_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（2）做法二：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 绘制 Bode 图</span>
+</span></span><span class="line"><span class="cl"><span class="n">bode</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（3）做法三：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 查看增益裕度与相位裕度</span>
+</span></span><span class="line"><span class="cl"><span class="n">margin</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 若增益裕度与相位裕度都为正，则系统稳定</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>设计比例控制器 $K_p$</strong></p>
+<p>如果当前 Bode 图与输出波形不符合要求，则有以下两种方法找到增益 $K_p$</p>
+<p>（1）做法一：比较适用于一阶系统</p>
+<p>①稳态误差公式：$\text{error} = \dfrac{1}{1 + M_{w \rightarrow 0}} \times 100$</p>
+<p>②在 Bode 图上找到 $w \rightarrow 0$ 时对应的幅值 dB（例如 $-34$ dB），带入公式计算得到稳态误差，同时也可以再看看闭环输出响应来验证一下（$K_p$ 取 $1$ 即可）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">Kp</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>③减小稳态误差，即抬高稳态值，例如要求稳态误差小于 $2%$，带入公式可以计算得出期望幅值 $=33.8$ dB，因此从原本的 $-34$ dB → 期望的 $33.8$ dB，一次性抬高 $67.8$ dB。再根据幅值与比例增益 $K_p$ 之间的关系，可得 $K_p = 2455$。</p>
+<p>④随后便可以将 $K_p = 2455$ 乘入传递函数，观察开环传函 Bode 图以及闭环输出波形</p>
+<p>⑤特殊情况，由于这种做法 $K_p$ 往往取的很大，在某些特殊控制情况下（例如汽车巡航控制，输出速度响应波形变化太快，现实里根本无法实现）（例如 $K_p$ 过大导致系统有振荡，相位裕度太小，系统不稳定等），就不得不降低 $K_p$，可以引入滞后补偿器。</p>
+<p>（2）做法二：比较适用于多阶系统</p>
+<p>①直接考虑相位裕度，一般为了得到满意的性能，相位裕度一般为 $30^\circ$~$60^\circ$，这里直接拉满令 $P_m = 60^\circ$。$180^\circ - \text{相位}120^\circ = \text{相位裕度}60^\circ$，因此直接找到相位 $120^\circ$ 所对应的点</p>
+<p>②在原始开环 Bode 图中找相位 $120^\circ$ 所对应的频率（例如 $=9.17$ rad/s），将此频率作为新的截止频率</p>
+<p>③查看频率为 $9.17$ 所对应的 $mag$（幅值图的横坐标）与相角 $phase$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="p">[</span><span class="n">mag</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span> <span class="p">=</span> <span class="n">bode</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">,</span> <span class="mf">9.17</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>④得到数据（举例）$mag = 0.0157$，再将 $mag$ 换算成幅值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="mi">20</span> <span class="o">*</span> <span class="nb">log10</span><span class="p">(</span><span class="mf">0.0157</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑤得到幅值 $= -36.0820$ dB，为了使当前选中频率 $9.17$ rad/s 为截止频率，就必须将此幅值 $-36.0820$ dB → $0$ dB，因此需要抬高 $36.0820$ dB，换算成 $K_p$ 值 ≈ $63$。</p>
+<p>⑥利用此 $K_p$ 值再去看新 Bode 图（$P_m \approx 60^\circ$）与输出阶跃响应。如果输出波形不满意，引入补偿器</p>
+<p><strong>超前补偿器</strong></p>
+<p><em>特别注意：使用补偿器的时候要从系统的开环传递函数从头设计，以上得到的 $K_p$ 值全部扔掉。</em></p>
+<p><strong>使用条件：</strong> 加快截止频率且增加相位裕度。它为系统增加了正相位，这样可以增加相位裕度，从而增加阻尼。与此同时，它还可以在高频率下增加开环频率响应的幅度，进而增强截止频率和整体速度（稳定时间降低）。</p>
+<p>传递函数：</p>
+<p>$$
+C_{\text{lead}}(s) = K \times \frac{T s + 1}{\alpha T s + 1}
+$$</p>
+<p><strong>步骤：</strong></p>
+<p>①先只引入一个 $K$，先初步决定 $K = 10$，看看根轨迹 + 输出波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">K</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">margin</span><span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">figure</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>②在本例中，增加 $K = 10$ 会使得输出有振荡，这是因为相位裕度变小了（本例 $P_m = 10.4^\circ$），不过没关系，超前补偿器可以增大阻尼、消除振荡。</p>
+<p>③现在选择 $\alpha$，$\alpha$ 需要由最大相位确定。</p>
+<p>$\alpha$ 与最大相位的关系：</p>
+<p>$$
+\alpha = \frac{1 - \sin\phi_m}{1 + \sin\phi_m}
+$$</p>
+<p>④现在找最大相位，超调量 → 阻尼比 → 相位裕度三者也有关系。举例超调量小于 $10%$ → 阻尼比 $\zeta$ 就要大于 $0.6$ → 相位裕度要大于 $60^\circ$。当前的相位裕度 $=10.4^\circ$，要提到 $60^\circ$，再来个 $50^\circ$ 就够了。再由于超前补偿器的特性，要额外多加几度，最终选定添加 $55^\circ$ 的相位超前。因此最大相位 $\phi_m = 55^\circ$。</p>
+<p>⑤根据公式可计算得到 $\alpha \approx 0.1$</p>
+<p>⑥根据下面关系式计算出超前补偿器所造成的幅度增加量</p>
+<p>$$
+\text{幅值增加量（dB）} = 10 \log_{10} \left( \frac{1}{\alpha} \right)
+$$</p>
+<p>⑦从（$K = 10$ 的）Bode 图可得知，截止频率为 $3.49$ rad/s，幅值 $= -10$ dB 的频率为 $6.1$ rad/s，因此引入 $\alpha$ 后新截止频率 $=6.1$ rad/s，利用这个新截止频率来计算 $T$</p>
+<p>$$
+T = \frac{1}{\omega \sqrt{\alpha}}
+$$</p>
+<p>⑧至此超前补偿器的三个参数全部得到 $K = 10$，$\alpha = 0.1$，$T = 0.52$。看看波形图。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 重新将开环传递函数写一遍</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="p">=</span> <span class="n">tf</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">P_pitch</span> <span class="p">=</span> <span class="p">(</span><span class="mf">1.151</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mf">0.1774</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mf">0.739</span><span class="o">*</span><span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mf">0.921</span><span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 引入超前补偿器</span>
+</span></span><span class="line"><span class="cl"><span class="n">K</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">T</span> <span class="p">=</span> <span class="mf">0.52</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">C_lead</span> <span class="p">=</span> <span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">margin</span><span class="p">(</span><span class="n">C_lead</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 闭环输出响应</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">C_lead</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;加入了 K、α、T 后的拥有超前补偿器的输出阶跃响应图&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑨输出波形图很难直观看到超调量等数据，采用 <code>stepinfo</code> 命令，可看到全部的性能指标值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">stepinfo</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑩如果某些指标还是差一些，可以微调 $K$、$\alpha$ 的值，例如本例超调量依然略大，取 $\alpha = 0.0718$（添加 $60^\circ$ 的相位超前）（$T = 0.5654$），就可以解决问题。</p>
+<p><strong>滞后补偿器</strong></p>
+<p>与根轨迹里的滞后补偿器完全相同</p>
+<p>适用条件：滞后补偿器可以在保持带宽频率不变的情况下增加低频段的幅值增益，这样就可以抬高稳定值，并且带宽频率不变</p>
+<p>传递函数：</p>
+<p>$$
+C_{\text{lag}}(s) = \frac{s + z_0}{s + p_0}
+$$</p>
+<p>零极点的选择：通常来说，与根轨迹法一样，滞后补偿器的零点要与系统的极点放在一起；至于极点选个靠近虚轴的就可以，例如 $p = 0.01$ 即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 找到回路增益 Kp，滞后补偿器 C_lag 后，命令如下（步骤同根轨迹）</span>
+</span></span><span class="line"><span class="cl"><span class="n">bode</span><span class="p">(</span><span class="n">Kp</span> <span class="o">*</span> <span class="n">C_lag</span> <span class="o">*</span> <span class="n">P_pitch</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 在控制系统设计器中也可以实现（步骤同根轨迹）</span>
+</span></span><span class="line"><span class="cl"><span class="n">controlSystemDesigner</span><span class="p">(</span><span class="s">&#39;bode&#39;</span><span class="p">,</span> <span class="n">P_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3状态空间法">3.状态空间法<a hidden class="anchor" aria-hidden="true" href="#3状态空间法">#</a></h3>
+<p><strong>观察能控性（全状态反馈控制器）</strong></p>
+<p>先给出能控性矩阵 $M = [B\ AB\ A^2B\ \ldots\ A^{n-1}B]$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.313</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="o">-</span><span class="mf">0.0139</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.426</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mf">0.232</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mf">0.0203</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">sys_order</span> <span class="p">=</span> <span class="n">order</span><span class="p">(</span><span class="n">pitch_ss</span><span class="p">);</span>   <span class="c">% 找到最小的 MIMO 系统</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">mo</span> <span class="p">=</span> <span class="n">ctrb</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>      <span class="c">% 构建能控性矩阵 M = [B AB ...]</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_rank</span> <span class="p">=</span> <span class="n">rank</span><span class="p">(</span><span class="n">mo</span><span class="p">);</span>  <span class="c">% 找到矩阵的秩</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>若 <code>sys_order == sys_rank</code>，则矩阵满秩，则能控</p>
+<p><strong>观察能观性（状态观测器）</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">no</span> <span class="p">=</span> <span class="n">obsv</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">);</span>   <span class="c">% 构建能观性矩阵 N = [C; CA; ...]&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_rank</span> <span class="p">=</span> <span class="n">rank</span><span class="p">(</span><span class="n">no</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>设计全状态反馈控制器</strong></p>
+<p>经过对原状态空间进行全状态反馈的变换，可以得新状态空间表达式</p>
+<p>$$
+\dot{x} = (A - BK)x + Br
+$$</p>
+<p>（1）做法一：极点放置法</p>
+<p>适用于标准的一阶二阶系统（不适用于本例）</p>
+<p>①从 $\det(sI - (A - BK))$ 的行列式（矩阵的根）中找到闭环极点，根据阶数可获得几个可任意放置的极点（一阶可放一个，二阶可放两个）</p>
+<p>②先找到极点要放的位置，例如 $p_1 = -5 + i$，$p_2 = -5 - i$（举例），调用命令得到 $K$ 值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 开环传递函数（举例）</span>
+</span></span><span class="line"><span class="cl"><span class="n">J</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span> <span class="c">% 转子的转动惯量</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>  <span class="c">% 电机粘性摩擦常数</span>
+</span></span><span class="line"><span class="cl"><span class="n">K</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span> <span class="c">% 电动势常数、电机转矩常数</span>
+</span></span><span class="line"><span class="cl"><span class="n">R</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>    <span class="c">% 电阻</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span> <span class="p">=</span> <span class="mf">0.5</span><span class="p">;</span>  <span class="c">% 电感</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 状态方程</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span><span class="o">/</span><span class="n">J</span><span class="p">,</span>    <span class="n">K</span><span class="o">/</span><span class="n">J</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">K</span><span class="o">/</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="n">R</span><span class="o">/</span><span class="n">L</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mi">1</span><span class="o">/</span><span class="n">L</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">motor_ss</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 放极点，求 Kc</span>
+</span></span><span class="line"><span class="cl"><span class="n">p1</span> <span class="p">=</span> <span class="o">-</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span><span class="nb">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="p">=</span> <span class="o">-</span><span class="mi">5</span> <span class="o">-</span> <span class="mi">1</span><span class="nb">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Kc</span> <span class="p">=</span> <span class="n">place</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>③ $K_c = [13.0100, -1.0000]$，将 $K$ 带回新状态方程，看输出响应波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">motor_ss</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">motor_ss_new</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Kc</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">motor_ss_new</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;状态控制器的输出响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>④通常来说，放置极点不可能一次成功，一般都需要引入预补偿器 $N_{\text{bar}}$，目的是缩放输入，抬高稳定值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Nbar</span> <span class="p">=</span> <span class="n">rscale</span><span class="p">(</span><span class="n">motor_ss</span><span class="p">,</span> <span class="n">Kc</span><span class="p">);</span> <span class="c">% 利用原状态方程算 Nbar</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.01</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">motor_ss_new</span> <span class="o">*</span> <span class="n">Nbar</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span> <span class="c">% 将新状态方程乘以 Nbar</span>
+</span></span><span class="line"><span class="cl"><span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;状态控制器 + 预补偿器的输出响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em>注意：<code>rscale</code> 函数（查找比例因子以消除稳态误差函数）内容可以在 MATLAB 官方帮助中找到，复制粘贴到 MATLAB 当前目录中</em></p>
+<p>（2）做法二：使用 LQR（线性二次调节器）来生成最佳增益矩阵 $K$（适用本例）</p>
+<p>①若要使用 LQR，需要定义两个参数：状态成本加权矩阵 $Q$ 和控制权重矩阵 $R$，为图简单，选择 $R = 1$，$Q = p \cdot C^T \cdot C$</p>
+<p>②LQR 参数全了，接下来得到反馈控制矩阵 $K$，先令加权因子 $p = 2$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 状态空间方程</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.313</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="o">-</span><span class="mf">0.0139</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.426</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mf">0.232</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mf">0.0203</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">pitch_ss</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 设计 LQR</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Q</span> <span class="p">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">C</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">R</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="p">=</span> <span class="n">lqr</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>③可得 $K = [-0.5034, 52.8645, 1.4142]$，根据此 $K$ 得到新状态方程，且查看输出响应</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 新状态方程</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 查看输出响应</span>
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;LQR 下的闭环阶跃响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>④如果输出波形响应太慢，则增大 LQR 里的加权因子 $p$ 值（本例将加权因子增大到 $p = 50$），这样可以得到更大的 $K$，加快系统响应，但是与此同时也会降低稳态值。如果输出波形稳态值过小，稳态误差过大，则再调节 LQR 也没救了，需要再同样引入预补偿器 $N_{\text{bar}}$</p>
+<p>⑤同样使用 <code>rscale</code>（查找比例因子以消除稳态误差函数）来得到 $N_{\text{bar}}$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Nbar</span> <span class="p">=</span> <span class="n">rscale</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">K</span><span class="p">);</span> <span class="c">% 在 LQR 的基础上继续做，因此 K 为之前由 LQR 得到的 K</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑥得到 $N_{\text{bar}}$ 看看输出波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 带 LQR + Nbar 的新状态空间方程</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Nbar</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span> <span class="c">% 也可以同做法一，先求得 sys_cl_new，再乘以 Nbar，是一样的</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">),</span> <span class="n">grid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;LQR + Nbar 下的闭环阶跃响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>预补偿器 $N_{\text{bar}}$</strong></p>
+<p>由于上述两种做法都可能用到 $N_{\text{bar}}$，因此做一些补充</p>
+<ul>
+<li>添加的预补偿器 $N_{\text{bar}}$ 并不位于反馈回路，这就意味着如果有未知干扰，预补偿器对此部分的偏差无法消除</li>
+<li>换句话说，预补偿器的作用就是将输入放大或者缩小，导致了输出稳态值的提升，但是稳态误差说到底还是没真正被消除。根本原因就是 $N_{\text{bar}}$ 不在反馈回路，它不能真正改变输出的波形，也就是说不会真正减小稳态误差</li>
+<li>有一种方法是将预补偿器与积分控制相结合，既可以缩放输出波形，又可以一定程度减小稳态误差</li>
+</ul>
+<h3 id="4pid">4.PID<a hidden class="anchor" aria-hidden="true" href="#4pid">#</a></h3>
+<p>PID 传递函数：</p>
+<p>$$
+C(s) = K_p + \frac{K_i}{s} + K_d s
+$$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 打开控制系统设计器</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="p">=</span> <span class="n">tf</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">P_pitch</span> <span class="p">=</span> <span class="p">(</span><span class="mf">1.151</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="mf">0.1774</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mf">0.739</span><span class="o">*</span><span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mf">0.921</span><span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">controlSystemDesigner</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>左上角→调节方法→PID 调节→选择鲁棒响应时间/经典设计公式</p>
+<ul>
+<li>鲁棒响应时间就是自动谐调 PID 参数，可以为所有类型的 PID 调节参数，可用于设计稳定、不稳定、积分的系统</li>
+<li>经典设计公式算法需要稳定的或带有积分的设备，无法调整导数滤波器，但是会有很多的公式方法</li>
+</ul>
+<p>此例选择鲁棒响应时间算法→设计模式时域表示→参数调调调→设计成功</p>
+<h3 id="5数字控制器">5.数字控制器<a hidden class="anchor" aria-hidden="true" href="#5数字控制器">#</a></h3>
+<p>（1）做法一：状态方程 + LQR</p>
+<p>①先得到离散状态空间方程，使用 <code>c2d</code> 命令将连续时间模型→离散时间模型，<code>c2d</code> 需要三个参数：系统模型 + 采样时间 + 保持电路的类型（通常用零阶保持器 <code>zoh</code>）</p>
+<p>②采样时间：采样频率至少比闭环 Bode 图的带宽频率（闭环截止频率）（不是开环截止频率）大 30 倍。根据闭环波特图可得，带宽频率为 2 rad/sec，因此得到 0.01s 的采样时间</p>
+<p>③使用 <code>c2d</code> 命令，可以得到原离散状态空间模型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.313</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="o">-</span><span class="mf">0.0139</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.426</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span><span class="p">,</span> <span class="mf">56.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mf">0.232</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mf">0.0203</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_ss</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Ts</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_d</span> <span class="p">=</span> <span class="n">c2d</span><span class="p">(</span><span class="n">sys_ss</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="s">&#39;zoh&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>④验证能控性</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">co</span> <span class="p">=</span> <span class="n">ctrb</span><span class="p">(</span><span class="n">sys_d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Controllability</span> <span class="p">=</span> <span class="n">rank</span><span class="p">(</span><span class="n">co</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑤离散全状态反馈控制系统，得到新离散状态空间方程</p>
+<p>$$
+x[k + 1] = (A - B K) x[k] + B N_{\text{bar}} r[k]
+$$</p>
+<p>⑥依旧利用 LQR，不过是离散版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="n">sys_d</span><span class="p">.</span><span class="n">A</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="n">sys_d</span><span class="p">.</span><span class="n">B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="n">sys_d</span><span class="p">.</span><span class="n">C</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">D</span> <span class="p">=</span> <span class="n">sys_d</span><span class="p">.</span><span class="n">D</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="p">=</span> <span class="mi">50</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Q</span> <span class="p">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">C</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">R</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="p">=</span> <span class="n">dlqr</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑦得到 $K$，就可以得到离散状态空间方程了，且看看输出波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">time</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">Ts</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">theta_des</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">time</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Ts</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="p">=</span> <span class="n">lsim</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">,</span> <span class="n">theta_des</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 画图</span>
+</span></span><span class="line"><span class="cl"><span class="n">stairs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;DLQR 下的闭环阶跃响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑧可能仍需要添加预补偿器 $N_{\text{bar}}$，但是离散版本不可以用 <code>rscale</code> 自动求了，需要手动调调改改，最后选定 $N_{\text{bar}} = 6.95$。重新得离散状态空间方程 + 输出波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Nbar</span> <span class="p">=</span> <span class="mf">6.95</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">ss</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Nbar</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Ts</span><span class="p">);</span> <span class="c">% 多乘了 Nbar</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="p">=</span> <span class="n">lsim</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">,</span> <span class="n">theta_des</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 画图</span>
+</span></span><span class="line"><span class="cl"><span class="n">stairs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;DLQR 下的闭环阶跃响应&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（2）做法二：传递函数 + 根轨迹</p>
+<p>①将连续传函转换成离散传函</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Ts</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">dp_pitch</span> <span class="p">=</span> <span class="n">c2d</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="s">&#39;zoh&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">zpk</span><span class="p">(</span><span class="n">dp_pitch</span><span class="p">);</span> <span class="c">% 变成因式分解形式，更容易看零极点</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>②利用 <code>zgrid</code> 命令找到离散的可接受符合要求的根轨迹区域，然后在该区域里找增益 $K$。而使用 <code>zgrid</code> 命令需要两个参数：自然频率 $W_n$ + 阻尼比 $\zeta$。</p>
+<p>假设上升时间为 5 秒，超调量为 $10%$，因此固有频率大于 0.36，阻尼比大于 0.6。但由于 <code>zgrid</code> 命令的固有频率单位是 rad/sample，因此换算成 0.0072 rad/sample</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Wn</span> <span class="p">=</span> <span class="mf">0.0072</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">zeta</span> <span class="p">=</span> <span class="mf">0.6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 画根轨迹图</span>
+</span></span><span class="line"><span class="cl"><span class="n">rlocus</span><span class="p">(</span><span class="n">dp_pitch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">zgrid</span><span class="p">(</span><span class="n">zeta</span><span class="p">,</span> <span class="n">Wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="mf">0.97</span> <span class="mi">1</span> <span class="o">-</span><span class="mf">0.05</span> <span class="mf">0.05</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>后面步骤与代码同根轨迹法</p>
+<p>③选极点 → 得 $K_p$ 值 → 画闭环输出波形 → 不满意 → 乘上超前/滞后补偿器 → 重新选极点 → 得新 $K_p$ 值 → $K_p$ × 超前/滞后补偿器 × 原离散开环传递函数 → 得闭环传递函数 → 画闭环输出波形</p>
+<p>（3）做法三：传递函数 + PID + 根轨迹</p>
+<p>①将连续传函转换成离散传函</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">Ts</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">dp_pitch</span> <span class="p">=</span> <span class="n">c2d</span><span class="p">(</span><span class="n">P_pitch</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="s">&#39;zoh&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">zpk</span><span class="p">(</span><span class="n">dp_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>②把连续 PID 转换成离散 PID</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 离散 PID</span>
+</span></span><span class="line"><span class="cl"><span class="n">Kp</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Ki</span> <span class="p">=</span> <span class="mi">200</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Kd</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">C</span> <span class="p">=</span> <span class="n">Kp</span> <span class="o">+</span> <span class="n">Ki</span><span class="o">/</span><span class="n">s</span> <span class="o">+</span> <span class="n">Kd</span><span class="o">*</span><span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">dC</span> <span class="p">=</span> <span class="n">c2d</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="s">&#39;tustin&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>③用离散 PID 去控制离散传递函数，看看输出响应波形</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">dC</span> <span class="o">*</span> <span class="n">dp_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="p">=</span> <span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>  <span class="c">% 12 的意思是时间范围</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 画图</span>
+</span></span><span class="line"><span class="cl"><span class="n">stairs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x2</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果发现输出响应不稳定，但该 PID 参数在连续域可以得到很好的调节结果（在离散域就调节不好），需要进根轨迹找原因</p>
+<p>④看看离散系统 + 离散 PID 的根轨迹</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 不稳定，看看根轨迹</span>
+</span></span><span class="line"><span class="cl"><span class="n">rlocus</span><span class="p">(</span><span class="n">dC</span> <span class="o">*</span> <span class="n">dp_pitch</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span> <span class="mf">1.5</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;离散系统带 PID 的根轨迹&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑤经过很复杂的、我不会的分析后发现，PID 控制器有个我们不想要的极点，因此就需要改变 PID 控制器。因此给离散 PID 增加了一个 $-0.82$ 的极点（随便举例）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 给离散 PID 再增加一个极点</span>
+</span></span><span class="line"><span class="cl"><span class="n">z</span> <span class="p">=</span> <span class="n">tf</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">Ts</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">dC_new</span> <span class="p">=</span> <span class="n">dC</span> <span class="o">/</span> <span class="p">(</span><span class="n">z</span> <span class="o">+</span> <span class="mf">0.82</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 看看新根轨迹</span>
+</span></span><span class="line"><span class="cl"><span class="n">rlocus</span><span class="p">(</span><span class="n">dC_new</span> <span class="o">*</span> <span class="n">dp_pitch</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑥在新根轨迹上找个极点，看看对应的 $K$ 值。此时得到 $K$ 值</p>
+<p>⑦在此 $K$ 值下 + 新离散 PID + 原离散开环传递函数的输出波形如何？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">sys_cl</span> <span class="p">=</span> <span class="n">feedback</span><span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">dC_new</span> <span class="o">*</span> <span class="n">dp_pitch</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c">% 其中 K 值为上一步选择极点得到的值</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">x3</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="p">=</span> <span class="n">step</span><span class="p">(</span><span class="n">sys_cl</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>   <span class="c">% 8 的意思是时间范围</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c">% 画输出波形图</span>
+</span></span><span class="line"><span class="cl"><span class="n">stairs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;离散域下开传函 + PID + 根轨迹&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⑧如果不行就重新选 $K$，一直达到设计要求</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>随机信号反卷积</span>
+  </a>
+  <a class="next" href="http://zehua.eu/zh/posts/probability_cn/%E9%A3%9E%E6%9C%BA%E4%BF%AF%E4%BB%B0%E7%B3%BB%E7%BB%9F/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>飞机俯仰控制系统</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+
+<div class="post-password"></div>
+  
+</div>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <br>
+    <span id="busuanzi_container_page_pv" style='display:none'>
+        一共有<span id="busuanzi_value_page_pv"></span>人来过这里
+    </span>
+    · <span id="last_change">
+        最后更新于2024年11月28日
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
