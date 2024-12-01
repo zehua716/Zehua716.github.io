@@ -546,8 +546,16 @@ $$
 $$
 解上述方程，得到最小值：
 $$
+\hat{x} =\left( |\Lambda_H|^2 + \frac{\mu'}{2} |\Lambda_D|^2 \right)^{-1} \Lambda_H^* \hat{y} + \frac{\mu'}{2} \Lambda_D^* \hat{\alpha}
+$$
+如果我们不严谨一点，只注重美观，我们可以写成如下形式
+$$
 \hat{x} = \frac{\Lambda_H^* \hat{y} + \frac{\mu'}{2} \Lambda_D^* \hat{\alpha}}{|\Lambda_H|^2 + \frac{\mu'}{2} |\Lambda_D|^2}
 $$
+
+因为$\Lambda_H$ 和 $\Lambda_D$ 是矩阵所以这么写多少有点问题，写逆严谨一点。
+
+
 
 {{< alert class="info" >}}
 **扩展:**

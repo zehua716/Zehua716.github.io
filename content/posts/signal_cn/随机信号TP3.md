@@ -4,7 +4,7 @@ title: "随机信号反卷积"
 date: "2023-11-30T16:25:17+01:00"
 lastmod: "2024-11-15T17:12:35+08:00"
 lang: "zh"
-draft: false
+draft: true
 summary: "使用维纳反卷积技术，重建受噪声和测量误差影响的信号。"
 description: "第二次实验内容"
 tags: ["信号处理","反问题", "Matlab"]

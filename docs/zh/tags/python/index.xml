@@ -19,7 +19,7 @@
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</guid>
-      <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 完成</description>
+      <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 实现</description>
     </item>
   </channel>
 </rss>

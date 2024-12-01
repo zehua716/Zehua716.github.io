@@ -4,7 +4,7 @@ title: "反问题 TP2"
 date: "2024-11-05T16:25:17+01:00"
 lastmod: "2024-11-06T17:12:35+08:00"
 lang: "zh"
-draft: false
+draft: true
 summary: "继续扩展反问题中的Wiener-Hunt方法，主要关注于超参数的自动调节。通过贝叶斯解释，介绍了误差分布与信号分布的建模，详细阐述了马尔可夫链蒙特卡洛（MCMC）方法中的Gibbs采样算法"
 description: "第二次实验内容"
 tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
@@ -751,3 +751,117 @@ function SampleImage = RNDGauss(MoyGauss,Covariance)
 
 在 Matlab 实践中，我们使用和上次内容相同的数据集，最后结果理论上应该相似。因为我们做出的改进只是自动调整正则化参数。我们之前介绍了算法步骤，并且详细解释了涉及两个超参数 $\gamma_e$ 和 $\gamma_x$ 的条件分布采样，以及图像 $x$ 的条件分布采样，所以这里直接给代码。
 
+```matlab
+clear all
+close all
+clc
+
+%% Load Data
+Data1 = load('DataOne.mat');
+Data2 = load('DataTwo.mat');
+
+%% Parameters Set the size of the image to 256 x 256, and generate the normalized frequency axis Nu.
+Long = 256;
+Nu = linspace(-0.5, 0.5, Long);
+
+%% Implement Gibbs Sampling for Data1
+% Initializations
+num_iterations = 500; % Number of Gibbs sampling iterations
+burn_in = 100; % Number of burn-in iterations
+
+% Initialize x^{[0]} = y    Set the initial image x as the observed data y. This corresponds to the initialization step in Algorithm .
+x = Data1.Data;
+
+% Initialize gamma_e and gamma_x ===> hyperparameters。
+gamma_e = 1;
+gamma_x = 1;
+
+% Precompute Fourier transforms
+TF_Data = MyFFT2(Data1.Data);
+TF_H = MyFFT2RI(Data1.IR, Long);
+
+% Regularization operator Pi = D^t D
+% D is the difference operator
+Dh = [0 0 0; 0 -1 1; 0 0 0]; % Horizontal difference
+Dv = [0 0 0; 0 -1 0; 0 1 0]; % Vertical difference
+
+% Compute their Fourier transforms
+TF_Dh = MyFFT2RI(Dh, Long);
+TF_Dv = MyFFT2RI(Dv, Long);
+
+% Compute |D|^2 = |Dh|^2 + |Dv|^2   计算正则化项在频域中的平方模 对应|x|_\Pi^2 = x^T \Pi x = |D x|^2
+abs_Dh_squared = abs(TF_Dh).^2;
+abs_Dv_squared = abs(TF_Dv).^2;
+abs_D_squared = abs_Dh_squared + abs_Dv_squared;
+
+% Prepare to store samples
+samples_x = zeros(Long, Long, num_iterations - burn_in);
+samples_gamma_e = zeros(1, num_iterations - burn_in);
+samples_gamma_x = zeros(1, num_iterations - burn_in);
+
+% Number of pixels N
+N = Long * Long;
+
+for k = 1:num_iterations
+    % Step (a): Sample gamma_e^{[k]}
+    % Compute residual 计算残差 : y - H x^{[k-1]}
+    residual = Data1.Data - real(MyIFFT2(TF_H .* MyFFT2(x)));  % e = y - H x
+
+    beta_e = sum(residual(:).^2) / 2; %\beta = |y - H x|^2 / 2
+    alpha_e = N / 2;  % 问题5和公式(35)：\alpha = N/2     
+
+    gamma_e = RNDGamma(alpha_e, beta_e); % 从伽马分布中采样 gamma_e，对应于算法表1中的步骤 (a)
+    
+    % Step (b): Sample gamma_x^{[k]}
+    % Compute regularization term: || x^{[k-1]} ||_Pi^2
+    % This is || D x ||^2
+    Dx = imfilter(x, Dh, 'circular', 'conv');
+    Dy = imfilter(x, Dv, 'circular', 'conv');
+    reg_term = sum(Dx(:).^2 + Dy(:).^2);
+    beta_x = reg_term / 2;
+    alpha_x = N / 2;
+    gamma_x = RNDGamma(alpha_x, beta_x);
+    
+    % Step (c): Sample x^{[k]}
+    % Compute the mean and covariance in the frequency domain
+    denom = gamma_e * abs(TF_H).^2 + gamma_x * abs_D_squared;
+    TF_mu = (gamma_e * conj(TF_H) .* TF_Data) ./ denom;
+    Covariance = 1 ./ denom;
+    % Sample x in frequency domain
+    SampleImage = RNDGauss(TF_mu, Covariance);
+    % Transform back to spatial domain
+    x = real(MyIFFT2(SampleImage));
+    
+    % Store samples after burn-in
+    if k > burn_in
+        samples_x(:, :, k - burn_in) = x;
+        samples_gamma_e(k - burn_in) = gamma_e;
+        samples_gamma_x(k - burn_in) = gamma_x;
+    end
+end
+
+% Compute posterior mean estimate
+x_mean = mean(samples_x, 3);
+
+% Display the results
+figure;
+subplot(1,3,1)
+imagesc(Data1.Data);
+colormap('gray');
+axis('square','off')
+title('Observed Image - Data1');
+
+subplot(1,3,2)
+imagesc(x_mean);
+colormap('gray');
+axis('square','off')
+title('Reconstructed Image - Data1');
+
+subplot(1,3,3)
+imagesc(Data1.TrueImage);
+colormap('gray');
+axis('square','off')
+title('True Image - Data1');
+```
+
+![TP1_1](/img/Problem_inverse/TP2/1.png)

@@ -75,19 +75,5 @@ $$
       <guid>http://zehua.eu/zh/posts/machinelearning_cn/vae/</guid>
       <description>VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。</description>
     </item>
-    <item>
-      <title>反问题 TP2</title>
-      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp2/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp2/</guid>
-      <description>第二次实验内容</description>
-    </item>
-    <item>
-      <title>随机信号与噪音（理论部分）</title>
-      <link>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</link>
-      <pubDate>Wed, 20 Dec 2023 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</guid>
-      <description>主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用</description>
-    </item>
   </channel>
 </rss>

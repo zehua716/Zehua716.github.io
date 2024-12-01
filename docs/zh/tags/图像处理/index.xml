@@ -22,13 +22,6 @@
       <description>对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像</description>
     </item>
     <item>
-      <title>傅里叶综合</title>
-      <link>http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</link>
-      <pubDate>Mon, 11 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</guid>
-      <description>傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。</description>
-    </item>
-    <item>
       <title>反问题 TP1</title>
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98tp1/</link>
       <pubDate>Thu, 07 Nov 2024 16:25:17 +0100</pubDate>
@@ -40,7 +33,7 @@
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</guid>
-      <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 完成</description>
+      <description>包含图像合成、线性滤波、颜色分割和几何变换四个部分，是图像处理的基础内容，利用 Python 实现</description>
     </item>
     <item>
       <title>3D重建理论</title>
@@ -48,13 +41,6 @@
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</guid>
       <description>课程笔记，仅个人学习复习使用</description>
-    </item>
-    <item>
-      <title>卡尔曼滤波</title>
-      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
-      <pubDate>Sun, 05 May 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
-      <description>图像恢复中去卷积问题</description>
     </item>
   </channel>
 </rss>

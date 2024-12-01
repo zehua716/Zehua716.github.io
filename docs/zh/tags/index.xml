@@ -17,7 +17,7 @@
     <item>
       <title>Collection</title>
       <link>http://zehua.eu/zh/tags/collection/</link>
-      <pubDate>Thu, 28 Nov 2024 16:25:17 +0100</pubDate>
+      <pubDate>Fri, 29 Nov 2024 10:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/tags/collection/</guid>
       <description></description>
     </item>
@@ -57,41 +57,6 @@
       <description></description>
     </item>
     <item>
-      <title>Optimisation</title>
-      <link>http://zehua.eu/zh/tags/optimisation/</link>
-      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/optimisation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>反问题</title>
-      <link>http://zehua.eu/zh/tags/%E5%8F%8D%E9%97%AE%E9%A2%98/</link>
-      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E5%8F%8D%E9%97%AE%E9%A2%98/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>正则化</title>
-      <link>http://zehua.eu/zh/tags/%E6%AD%A3%E5%88%99%E5%8C%96/</link>
-      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E6%AD%A3%E5%88%99%E5%8C%96/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>滤波器设计</title>
-      <link>http://zehua.eu/zh/tags/%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</link>
-      <pubDate>Tue, 19 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>傅里叶变换</title>
-      <link>http://zehua.eu/zh/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/</link>
-      <pubDate>Mon, 11 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Python</title>
       <link>http://zehua.eu/zh/tags/python/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
@@ -99,38 +64,10 @@
       <description></description>
     </item>
     <item>
-      <title>贝叶斯方法</title>
-      <link>http://zehua.eu/zh/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>计算机视觉</title>
       <link>http://zehua.eu/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>卡尔曼滤波</title>
-      <link>http://zehua.eu/zh/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
-      <pubDate>Mon, 06 May 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>随机过程</title>
-      <link>http://zehua.eu/zh/tags/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/</link>
-      <pubDate>Wed, 20 Dec 2023 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Matlab</title>
-      <link>http://zehua.eu/zh/tags/matlab/</link>
-      <pubDate>Thu, 30 Nov 2023 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/zh/tags/matlab/</guid>
       <description></description>
     </item>
     <item>
