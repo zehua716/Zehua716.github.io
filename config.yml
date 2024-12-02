@@ -98,11 +98,11 @@ languages:
         imageTitle: ProfileMode image
         # imageWidth: 120
         # imageHeight: 120
-        subtitle: " 信号处理 |  概率统计 |  机器学习 |  控制系统"
+        subtitle: " "
         buttons:
           - name:   信号处理
             url: posts/signal_cn
-          - name:   概率统计
+          - name:   控制系统
             url: posts/probability_cn  
           - name:   机器学习
             url: posts/machinelearning_cn
@@ -130,7 +130,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
-  ShowRssButtonInSectionTermList: true
+  ShowRssButtonInSectionTermList: false
   ShowAllPagesInArchive: true
   ShowPageNums: true
   ShowToc: true
