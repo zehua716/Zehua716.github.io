@@ -8,7 +8,7 @@ body {
 
 .main {
     margin-left: calc(var(--toc-width) + var(--gap));
-    max-width: calc(100% - var(--toc-width) - var(--gap) - 300px);
+    max-width: calc(100% - var(--toc-width) - var(--gap) - 330px);
     padding: var(--gap);
     position: relative;
     flex: 1;

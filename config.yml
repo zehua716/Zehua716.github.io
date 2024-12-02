@@ -69,6 +69,8 @@ languages:
     weight: 2
     title: 主页
     contentDir: "content"
+    languageCode: "zh-cn" # 默认语言为中文
+    hasCJKLanguage: true # 自动检测内容中的中文/日文/韩文
     menu:
       main:
         - name: 时间轴
@@ -135,6 +137,7 @@ params:
   ShowPageNums: true
   ShowToc: true
   Tocopen: true
+
   # comments: false
   images: ["images/papermod-cover.png"]
 

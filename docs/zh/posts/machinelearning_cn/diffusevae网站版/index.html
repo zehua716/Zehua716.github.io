@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>论文阅读 - DiffuseVAE 详解 | 主页</title>
+<meta name="keywords" content="机器学习, 生成模型, 统计分析">
+<meta name="description" content="DiffuseVAE
+背景问题：
+
+扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。
+VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。
+
+因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。">
+<meta name="author" content="zehua">
+<link rel="canonical" href="http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.ee21873c327aa7fc241123060ddbab930c94142d0d52b8a4c9e8f756a6b57911.css" integrity="sha256-7iGHPDJ6p/wkESMGDdurkwyUFC0NUrikyej3Vqa1eRE=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="论文阅读 - DiffuseVAE 详解" />
+<meta property="og:description" content="DiffuseVAE
+背景问题：
+
+扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。
+VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。
+
+因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-27T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-27T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta name="twitter:title" content="论文阅读 - DiffuseVAE 详解"/>
+<meta name="twitter:description" content="DiffuseVAE
+背景问题：
+
+扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。
+VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。
+
+因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://zehua.eu/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "机器学习",
+      "item": "http://zehua.eu/zh/posts/machinelearning_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "论文阅读 - DiffuseVAE 详解",
+      "item": "http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "论文阅读 - DiffuseVAE 详解",
+  "name": "论文阅读 - DiffuseVAE 详解",
+  "description": "DiffuseVAE 背景问题： 扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。 VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。 因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。\n",
+  "keywords": [
+    "机器学习", "生成模型", "统计分析"
+  ],
+  "articleBody": "DiffuseVAE 背景问题： 扩散模型：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。 VAE：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。 因此提出了 DiffuseVAE，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。\nVAE和扩散模型的优缺点 VAE 的特点：\n显式似然生成模型：以概率分布的方式描述数据生成过程。 低维潜在表示：通过学习隐空间表示，可以捕捉数据的结构和特征。 灵活性：适用于多种任务，包括： 解耦表示学习（分离数据中的不同特征）。 半监督学习（结合少量有标注数据进行学习）。 异常检测（识别偏离正常分布的样本）。 VAE 的局限性：\n模糊的生成样本：生成图像往往缺乏高频细节和清晰度。 结构复杂性：最近的一些改进（如层次化潜在结构）尽管提高了生成质量，但增加了模型复杂度（需要大规模的潜在代码层次化结构）。 与GAN的差距：相比隐式生成模型（如GAN），VAE在样本质量上仍显逊色，特别是在视觉感知方面。 扩散模型（DDPM）的优势和局限性：\n生成质量高：在多个图像合成任务中表现优异，甚至在某些基准上超越了GANs。 高昂的计算成本：生成样本时需要多次迭代的逐步采样过程，计算开销大，生成速度慢。 缺乏低维潜在表示：无法像VAE那样学习和利用低维潜在空间，这限制了其在某些下游任务（如表示解耦、异常检测、可控生成）中的应用。 VAE和DDPM复习回顾 变分自编码器 (VAE ) VAE 是一种利用深度神经网络进行变分推断的生成模型，使用编码器将数据 $x$ 映射到潜在空间表示 $z$，再通过解码器从 $z$ 重建 $x$。它通过最大化数据对数似然 $\\log p(x)$ 来学习模型，但由于直接计算对数似然通常不可行，VAE 使用 证据下界（ELBO） 来近似优化。\nVAE 的损失函数（ELBO）定义如下： $$ \\mathcal{L}(\\theta, \\phi) = \\underbrace{\\mathbb{E}{q\\phi(z|x)}[\\log p_\\theta(x|z)]}{\\text{重建误差}} - \\underbrace{D{KL}[q_\\phi(z|x) | p(z)]}_{\\text{KL 散度正则化}} $$ 为了使模型的优化过程可微分，VAE 引入了重参数化技巧，将采样过程从随机变量 $z$ 中分离。例如，将随机变量 $z$ 表示为 $z = \\mu + \\sigma \\cdot \\epsilon$，其中 $\\epsilon$ 是从标准正态分布采样的噪声。默认先验分布 $p(z)$ 通常设为标准高斯分布，但可以扩展到更复杂的分布（如混合分布或归一化流）以提升模型的表达能力。\n更详细内容请看 VAE\nDDPM DDPM 是一种基于潜变量的生成模型， 利用正向过程将数据逐步加噪到高斯分布，再通过逆向过程从噪声中逐步还原数据。包含两个过程：\n正向加噪过程 通过一个固定的高斯马尔可夫链，逐步对数据 $x_0$ 加噪，使其最终接近各向同性高斯分布。正向过程的核心是逐步破坏数据结构，每一步的加噪过程使用高斯分布： $$ q(x_{1:T}|x_0) = \\prod_{t=1}^{T} q(x_t|x_{t-1}) $$ 这意味着当前状态 $x_t$ 仅依赖于前一个状态 $x_{t-1}$，整个加噪过程的联合分布可以通过各步的条件分布相乘得到，每一步的加噪过程由高斯分布建模： $$ q(x_t|x_{t-1}) = \\mathcal{N}(\\sqrt{1-\\beta_t}x_{t-1}, \\beta_t\\mathbf{I}) $$\n其中 $\\beta_t$ 是噪声调度参数，决定每一步加噪的程度。 通过数学推导，可以从原始数据 $x_0$ 直接生成第 $t$ 步数据： $$ q(x_t|x_0) = \\mathcal{N}(\\sqrt{\\bar{\\alpha}_t}x_0, (1-\\bar{\\alpha}_t)\\mathbf{I}) $$\n其中 $\\bar{\\alpha}t = \\prod{i=1}^t (1-\\beta_i)$ 是累积衰减系数。 正向过程是固定的，不需要学习，最终会将数据 $x_0$ 转化为接近高斯分布的 $x_T$。\n逆向去噪过程 逆向过程试图逐步还原数据，采用可学习的高斯马尔可夫链： $$ p_\\theta(x_{t-1}|x_t) = \\mathcal{N}(\\mu_\\theta(x_t, t), \\Sigma_\\theta(x_t, t)) $$\n其中均值 $\\mu_\\theta$ 和协方差 $\\Sigma_\\theta$ 是通过神经网络学习的。 采样时，先从 $p(x_T)$（通常选为各向同性高斯分布）中采样一个噪声向量，再运行逆向过程逐步去噪，生成最终样本 $x_0$。\n噪声调度参数 $\\beta_t$ 是正向加噪过程的核心，影响生成样本的质量和采样速度。可以是固定值，也可以通过优化学习得到。整个模型通过变分推断优化，目标是最小化正向过程和逆向过程的分布差异。\nDDPM 主要优势是生成样本质量高，但缺点是采样速度较慢（需要多次迭代）。这是许多扩散模型后续改进的基础，例如提高采样效率的 DDIM。\nDiffuseVAE: VAE与扩散模型的结合 提出的 DiffuseVAE 将 VAE 和 DDPM 结合，使生成过程既拥有 VAE 提供的低维潜在空间，又有 DDPM 生成高质量细节的能力。框架中通过两阶段建模，先用 VAE 生成粗略样本，再用 DDPM 细化。通过两阶段建模解决了 VAE 样本模糊和 DDPM 缺乏低维表示的问题。\n算法框架： 第一阶段：利用标准 VAE 对任意条件信号 $y$ 进行建模，生成低维潜在表示。 第二阶段：使用条件 DDPM 对训练数据 $x$ 进行建模，条件是 $y$ 和 VAE 生成的低维潜在代码。 该框架可归纳为生成器-细化器框架\n生成器：第一阶段通过 VAE 对训练数据 $x$ 拟合，生成重构样本 $\\hat{x}$。 细化器：第二阶段通过条件 DDPM 对 VAE 的重构样本 $\\hat{x}$ 进行细化建模，从而生成更高质量的样本。 DiffuseVAE 的低维潜在空间能够捕捉生成样本的全局特征(内容、形状或结构)，这就意味着用户可以通过修改这个潜在空间中的变量来直接影响生成样本的主要特性。并且 DiffuseVAE 在速度和质量之间取得了更好的平衡。例如，仅需 10 步采样就能生成质量合理的样本，比传统 DDPM 的效率更高，且生成效果优于相同采样次数的其他方法（如 DDIM）。DiffuseVAE 经过预训练后，对条件信号中的不同噪声类型表现出较好的泛化能力，证明其框架不仅适合特定场景，还能应对多种不确定性条件。\n训练目标 首先，我们需要描述 DiffuseVAE 的联合分布，它包括以下几个元素：\n$x_0$：我们想生成的高分辨率图像； $y$：通过 VAE 建模的辅助条件信号； $z$：与 $y$ 相关联的潜在表示； $x_{1:T}$：扩散模型学习到的 $T$ 个加噪表示。 联合分布可以分解为： $$ p(x_{0:T}, y, z) = p(z)p_\\theta(y|z)p_\\phi(x_{0:T}|y, z) $$\n$p(z)$ 是潜在变量的先验分布，通常设为标准高斯分布；\n$p_\\theta(y|z)$ 表示在潜在变量 $z$ 下生成条件信号 $y$ 的概率，这是由 VAE 的解码器学习到的；\n$p_\\phi(x_{0:T}|y, z)$ 是扩散模型的逆向去噪过程，用来从条件信号 $y$ 和潜在表示 $z$ 逐步恢复数据。\n后验分布 接下来，我们需要讨论后验分布，也就是在给定 $y$ 和 $x_0$ 的情况下推断 $z$ 和 $x_{1:T}$ 的分布： $$ p(x_{1:T}, z|y, x_0) $$ 这个后验分布在解析上是不可计算的，因此我们用一个近似分布 $q(x_{1:T}, z|y, x_0)$ 来替代： $$ q(x_{1:T}, z|y, x_0) = q_\\psi(z|y, x_0)q(x_{1:T}|y, z, x_0) $$\n$q_\\psi(z|y, x_0)$ 是 VAE 的识别网络，它负责从 $y$ 和 $x_0$ 中推断潜在变量 $z$\n$q(x_{1:T}|y, z, x_0)$ 是扩散模型的正向过程，通过固定的加噪机制从 $x_0$ 生成 $x_{1:T}$。\n因此我们将复杂的后验分布分解成了两部分：一部分由 VAE 处理（$z$ 的推断），另一部分由扩散模型处理（$x_{1:T}$ 的生成）。\n数据对数似然 我们的最终目标是最大化数据 $(x_0, y)$ 的对数似然： $$ \\log p(x_0, y) = \\log \\int p(x_{0:T}, y, z) dx_{1:T} dz $$ 这表示，我们需要对联合分布 $p(x_{0:T}, y, z)$ 进行积分，边缘化掉 $x_{1:T}$ 和 $z$。但是，这个积分在实际中是非常困难的，无法直接计算。\n证据下界（ELBO） 为了优化数据的对数似然， 引入了证据下界（ELBO）来近似它： $$ \\begin{aligned} \\log p(x_0, y) \\geq \u0026 \\underbrace{\\mathbb{E}{q\\psi(z|y,x_0)} \\big[ p_\\theta(y|z) \\big] - \\mathcal{D}{KL} \\big(q\\psi(z|y,x_0) | p(z)\\big)}{\\mathcal{L}{\\text{VAE}}}\n\\mathbb{E}{z \\sim q(z|y,x_0)} \\left[\\underbrace{ \\mathbb{E}{q(x_{1:T}|y,z,x_0)} \\left[ \\frac{p_\\phi(x_{0:T}|y,z)}{q(x_{1:T}|y,z,x_0)} \\right] }{\\mathcal{L}{\\text{DDPM}}}\\right] \\end{aligned} $$ 前半部分 $$ \\underbrace{\\mathbb{E}{q\\psi(z|y,x_0)} \\big[ p_\\theta(y|z) \\big] - \\mathcal{D}{KL} \\big(q\\psi(z|y,x_0) | p(z)\\big)}{\\mathcal{L}{\\text{VAE}}} $$\n$\\mathbb{E}{q\\psi(z|y, x_0)}[\\log p_\\theta(y|z)]$：衡量 VAE 解码器在条件 $z$ 下生成信号 $y$ 的准确性；\n$-D_{KL}(q_\\psi(z|y, x_0) || p(z))$：通过 KL 散度，约束 VAE 的后验分布与先验分布 $p(z)$ 保持一致；\n$\\mathcal{L}_{VAE}$：是 VAE 自身的重构损失，确保从 $z$ 和 $y$ 能生成逼真的样本。\n后半部分 $$ \\mathbb{E}{z \\sim q(z|y,x_0)} \\left[\\underbrace{ \\mathbb{E}{q(x_{1:T}|y,z,x_0)} \\left[ \\frac{p_\\phi(x_{0:T}|y,z)}{q(x_{1:T}|y,z,x_0)} \\right] }{\\mathcal{L}{\\text{DDPM}}}\\right] $$\n这个公式看起来复杂，但本质上就是衡量逆向去噪分布 $p_\\phi$ 和正向加噪分布 $q$ 的匹配程度：\n内层期望：通过对数似然比 $\\log \\frac{p_\\phi}{q}$ 衡量逆向过程和正向过程的分布差异； 外层期望：考虑不同的潜在表示 $z$，确保扩散模型对各种潜在空间的情况都能处理得很好。 总的来说，DiffuseVAE 的训练目标通过联合分布、后验分布近似以及 ELBO 分解，将 VAE 和扩散模型的损失函数结合起来。这个设计不仅让模型能够生成高质量的样本，还利用了低维潜在空间，提升了生成的控制性和效率。训练过程中，VAE 负责潜在表示的学习，扩散模型负责生成过程的细节还原，两者相辅相成。\n简化设计 条件信号 $y$ 的简化 在原始 DiffuseVAE 的设计中，$y$ 是一个辅助信号，用于增强模型的灵活性。但这里做了一个重要简化，假设 $y = x_0$，也就是说，条件信号直接等于目标图像本身。\n为什么这样做？\n$y$ 和 $x_0$ 之间有一个确定性的映射关系，这样设计简化了模型的条件化处理。 在实际中，这意味着我们不需要在扩散过程的逆向阶段（去噪阶段）对 $y$ 进行额外条件化。 因此，公式中的 $p_\\phi(x_{0:T}|y, z)$ 简化为 $p_\\phi(x_{0:T}|z)$，减少了计算复杂度。 条件信号 $z$ 的简化 潜在表示 $z$ 是通过 VAE 的编码器从数据 $x_0$ 中推导出来的。然而，为了进一步简化，我们不直接对潜在代码 $z$ 进行条件化，相反，将扩散模型的条件信号设为 VAE 重构的 $x_0$（即 $\\hat{x}_0$），这样由于 $\\hat{x}_0$ 是 $z$ 的一个确定性函数，因此它包含了 $z$ 所需的信息，同时减少了额外的复杂依赖。\n这一设计让模型的第二阶段更加直观：扩散模型的目标是进一步细化 VAE 重构的结果，而不是直接使用潜在空间的表示。\n两阶段训练 为了简化训练过程，我们采用了顺序的两阶段训练方法：\n第一阶段：使用 VAE 对原始数据 $x_0$ 建模，优化 VAE 的损失函数 $\\mathcal{L}_{VAE}$，完成对数据 $x_0$ 的潜在表示 $z$ 的学习，并训练解码器生成重构 $\\hat{x}_0$。 第二阶段：固定 VAE 的编码器和解码器（即冻结参数 $\\theta$ 和 $\\psi$），优化扩散模型的损失函数 $\\mathcal{L}_{DDPM}$，用扩散模型对 VAE 重构的结果 $\\hat{x}_0$ 进行细化建模，生成最终的高质量样本。 换句话说，本质就是固定一个模型，训练另一个，VAE 提供一个快速生成全局结构的初步结果，而 DDPM 专注于细化这些结果，从而结合两者的优势。\n总结一下这三点简化：\n条件信号 $y$ 被简化为目标数据 $x_0$；\n第二阶段扩散模型的输入是 VAE 重构结果 $\\hat{x}_0$；\n使用顺序的两阶段训练方式，固定一个，训练另一个。\n从这里我们可以看出，理论很美好，实践很困难啊!\nVAE 参数化的选择 选择最基本的标准 VAE，即一个带有单一随机层的简单模型，当然也可以扩展到更复杂的 VAE 变种(多个随机层和更复杂的结构)，那么为什么原文没有使用更复杂的 VAE 变种呢？这样的效果不是更好吗？因为多阶段 VAE 的复杂结构可能导致潜在表示变得更难以解释，从而无法再有效利用低维潜在空间进行直接控制，要解决这个问题那就得继续研究了\nDDPM参数化 条件扩散模型两种设计公式 第一种简化假设： 正向过程的条件独立性：\n假设正向加噪过程与 VAE 重构的结果 $\\hat{x}0$ 和潜在表示 $z$ 是条件独立的，即： $$ q(x{1:T}|x_0, z) \\approx q(x_{1:T}|x_0) $$ 这意味着正向加噪的每一步都仅基于原始数据 $x_0$ 进行，而不需要额外依赖 $z$ 或 $\\hat{x}_0$ 的信息。这样的独立性假设简化了正向过程的设计和计算。\n逆向过程的依赖性：\n假设逆向去噪过程中，仅依赖 VAE 的重构结果 $\\hat{x}0$，而不是直接依赖潜在表示 $z$，即： $$ p(x{0:T}|z) \\approx p(x_{0:T}|\\hat{x}_0) $$ 这表明扩散模型的逆向过程会通过 VAE 提供的重构结果来指导数据还原，而无需直接操作潜在变量 $z$。\n在实际实现中，扩散模型在每个时间步 $t$ 的逆向过程会将 VAE 的重构结果 $\\hat{x}0$ 与当前时间步 $t$ 的逆过程表示 $x_t$ 拼接在一起，生成用于计算下一步 $x{t-1}$ 的输入。这种拼接方法结合了 VAE 提供的全局信息和扩散模型逐步还原的细节，使得模型能够在保留低维表示的同时，逐步提升生成质量。\n第二种简化假设： 正向过程的依赖性：\n在公式1中，正向过程假设与 $z$ 和 $\\hat{x}0$ 条件独立。而在公式2中，正向过程被设计为显式依赖于 VAE 重构 $\\hat{x}0$： $$ q(x{1:T}|x_0, z) \\approx q(x{1:T}|\\hat{x}_0, x_0) $$ 这意味着在每一步加噪过程中，模型会直接结合 $x_0$ 和 $\\hat{x}_0$ 的信息，从而让正向过程更加灵活。\n逆向过程的依赖性：\n和公式1一样，公式2的逆向过程依然假设仅依赖于 VAE 重构： $$ p(x_{0:T}|z) \\approx p(x_{0:T}|\\hat{x}_0) $$\n正向过程的具体设计 在第二种假设中，正向过程的每一步都显式包含了 VAE 重构 $\\hat{x}_0$ 的信息：\n第一步 $t = 1$ 的加噪： $$ q(x_1|x_0, \\hat{x}_0) = \\mathcal{N}(\\sqrt{1-\\beta_1}x_0 + \\hat{x}_0, \\beta_1 \\mathbf{I}) $$ 这一步的设计中，$\\sqrt{1-\\beta_1}x_0$ 保留了原始数据 $x_0$ 的主要信息，而 $\\hat{x}_0$ 为正向过程提供了额外的全局结构信息。\n后续时间步 $t \u003e 1$ 的加噪： $$ q(x_t|x_{t-1}, \\hat{x}0) = \\mathcal{N}(\\sqrt{1-\\beta_t}x{t-1} + (1-\\sqrt{1-\\beta_t})\\hat{x}0, \\beta_t \\mathbf{I}) $$ 在每个时间步中，$x_t$ 的生成不仅依赖于前一时间步 $x{t-1}$，还结合了 $\\hat{x}_0$ 的全局信息，即 $x_t$ 由原始数据 $x_0$ 和 VAE 重构 $\\hat{x}_0$ 的加权和决定的。\n$\\sqrt{1-\\beta_t}x_{t-1}$ 是来自前一时间步的逐步加噪结果； $(1-\\sqrt{1-\\beta_t})\\hat{x}_0$ 是从 VAE 重构注入的额外信息，用于确保每一步都与 $\\hat{x}_0$ 保持一致。 正向条件边缘分布 在这种设计下，可以证明，正向过程的条件边缘分布为： $$ q(x_t|x_0, \\hat{x}_0) = \\mathcal{N}(\\sqrt{\\bar{\\alpha}_t}x_0 + \\hat{x}_0, (1-\\bar{\\alpha}_t)\\mathbf{I}) $$\n这里的 $\\bar{\\alpha}_t$ 是正向过程的累积噪声调度系数： $$ \\bar{\\alpha}t = \\prod{i=1}^t (1-\\beta_i) $$\n当时间步 $t = T$ 且 $\\bar{\\alpha}_T \\approx 0$（通过合理的噪声调度 $\\beta_t$ 实现），正向过程的输出 $x_T$ 的分布接近： $$ q(x_T|x_0, \\hat{x}_0) \\approx \\mathcal{N}(\\hat{x}_0, \\mathbf{I}) $$ 这意味着最终的 $x_T$ 是以 $\\hat{x}_0$ 为均值、单位方差的高斯分布。也就是说，在正向过程中，VAE 重构 $\\hat{x}_0$ 成为了加噪数据的核心信息中心。在逆向过程中，其目标是从高斯分布 $\\mathcal{N}(\\hat{x}_0, \\mathbf{I})$ 逐步还原到高质量样本。在这种设计中，$\\hat{x}_0$ 的作用非常重要，因为它不仅提供了全局信息，还成为整个分布的基准。\n",
+  "wordCount" : "5072",
+  "inLanguage": "zh",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-27T16:25:17+01:00",
+  "dateModified": "2024-11-27T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://zehua.eu/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://zehua.eu/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://zehua.eu/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/machinelearning_cn/">机器学习</a></div>
+    <h1 class="post-title entry-hint-parent">
+      论文阅读 - DiffuseVAE 详解
+    </h1>
+    <div class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2024-11-27 16:25:17 +0100 CET'>11月27日, 2024</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共5072字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>zehua</span></span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#diffusevae" aria-label="DiffuseVAE">DiffuseVAE</a><ul>
+                            
+                    <li>
+                        <a href="#%e8%83%8c%e6%99%af%e9%97%ae%e9%a2%98" aria-label="背景问题："><strong>背景问题</strong>：</a></li>
+                    <li>
+                        <a href="#vae%e5%92%8c%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9" aria-label="VAE和扩散模型的优缺点"><strong>VAE和扩散模型的优缺点</strong></a></li>
+                    <li>
+                        <a href="#vae%e5%92%8cddpm%e5%a4%8d%e4%b9%a0%e5%9b%9e%e9%a1%be" aria-label="VAE和DDPM复习回顾"><strong>VAE和DDPM复习回顾</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e5%8f%98%e5%88%86%e8%87%aa%e7%bc%96%e7%a0%81%e5%99%a8-vae-" aria-label="变分自编码器 (VAE )"><strong>变分自编码器 (VAE )</strong></a></li>
+                    <li>
+                        <a href="#ddpm" aria-label="DDPM"><strong>DDPM</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e6%ad%a3%e5%90%91%e5%8a%a0%e5%99%aa%e8%bf%87%e7%a8%8b" aria-label="正向加噪过程"><strong>正向加噪过程</strong></a></li>
+                    <li>
+                        <a href="#%e9%80%86%e5%90%91%e5%8e%bb%e5%99%aa%e8%bf%87%e7%a8%8b" aria-label="逆向去噪过程"><strong>逆向去噪过程</strong></a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#diffusevae-vae%e4%b8%8e%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e7%9a%84%e7%bb%93%e5%90%88" aria-label="DiffuseVAE: VAE与扩散模型的结合"><strong>DiffuseVAE: VAE与扩散模型的结合</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e7%ae%97%e6%b3%95%e6%a1%86%e6%9e%b6" aria-label="算法框架："><strong>算法框架</strong>：</a></li>
+                    <li>
+                        <a href="#%e8%ae%ad%e7%bb%83%e7%9b%ae%e6%a0%87" aria-label="训练目标"><strong>训练目标</strong></a></li>
+                    <li>
+                        <a href="#%e5%90%8e%e9%aa%8c%e5%88%86%e5%b8%83" aria-label="后验分布"><strong>后验分布</strong></a></li>
+                    <li>
+                        <a href="#%e6%95%b0%e6%8d%ae%e5%af%b9%e6%95%b0%e4%bc%bc%e7%84%b6" aria-label="数据对数似然"><strong>数据对数似然</strong></a></li>
+                    <li>
+                        <a href="#%e8%af%81%e6%8d%ae%e4%b8%8b%e7%95%8celbo" aria-label="证据下界（ELBO）"><strong>证据下界（ELBO）</strong></a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e5%89%8d%e5%8d%8a%e9%83%a8%e5%88%86" aria-label="前半部分">前半部分</a></li>
+                    <li>
+                        <a href="#%e5%90%8e%e5%8d%8a%e9%83%a8%e5%88%86" aria-label="后半部分">后半部分</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e7%ae%80%e5%8c%96%e8%ae%be%e8%ae%a1" aria-label="简化设计"><strong>简化设计</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e6%9d%a1%e4%bb%b6%e4%bf%a1%e5%8f%b7-y-%e7%9a%84%e7%ae%80%e5%8c%96" aria-label="条件信号 $y$ 的简化"><strong>条件信号 $y$ 的简化</strong></a></li>
+                    <li>
+                        <a href="#%e6%9d%a1%e4%bb%b6%e4%bf%a1%e5%8f%b7-z-%e7%9a%84%e7%ae%80%e5%8c%96" aria-label="条件信号 $z$ 的简化"><strong>条件信号 $z$ 的简化</strong></a></li>
+                    <li>
+                        <a href="#%e4%b8%a4%e9%98%b6%e6%ae%b5%e8%ae%ad%e7%bb%83" aria-label="两阶段训练"><strong>两阶段训练</strong></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#vae-%e5%8f%82%e6%95%b0%e5%8c%96%e7%9a%84%e9%80%89%e6%8b%a9" aria-label="VAE 参数化的选择"><strong>VAE 参数化的选择</strong></a></li>
+                    <li>
+                        <a href="#ddpm%e5%8f%82%e6%95%b0%e5%8c%96-%e6%9d%a1%e4%bb%b6%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e4%b8%a4%e7%a7%8d%e8%ae%be%e8%ae%a1%e5%85%ac%e5%bc%8f" aria-label="DDPM参数化 条件扩散模型两种设计公式"><strong>DDPM参数化 条件扩散模型两种设计公式</strong></a><ul>
+                            
+                    <li>
+                        <a href="#%e7%ac%ac%e4%b8%80%e7%a7%8d%e7%ae%80%e5%8c%96%e5%81%87%e8%ae%be" aria-label="第一种简化假设：">第一种简化假设：</a></li>
+                    <li>
+                        <a href="#%e7%ac%ac%e4%ba%8c%e7%a7%8d%e7%ae%80%e5%8c%96%e5%81%87%e8%ae%be" aria-label="第二种简化假设：">第二种简化假设：</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e6%ad%a3%e5%90%91%e8%bf%87%e7%a8%8b%e7%9a%84%e5%85%b7%e4%bd%93%e8%ae%be%e8%ae%a1" aria-label="正向过程的具体设计"><strong>正向过程的具体设计</strong></a></li>
+                    <li>
+                        <a href="#%e6%ad%a3%e5%90%91%e6%9d%a1%e4%bb%b6%e8%be%b9%e7%bc%98%e5%88%86%e5%b8%83" aria-label="正向条件边缘分布"><strong>正向条件边缘分布</strong></a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h1 id="diffusevae">DiffuseVAE<a hidden class="anchor" aria-hidden="true" href="#diffusevae">#</a></h1>
+<h2 id="背景问题"><strong>背景问题</strong>：<a hidden class="anchor" aria-hidden="true" href="#背景问题">#</a></h2>
+<ul>
+<li><strong>扩散模型</strong>：生成质量高，但存在两个缺点：① 缺乏低维、可解释的潜在空间；② 生成速度较慢。</li>
+<li><strong>VAE</strong>：具有低维潜在空间，可以解释和操控生成，但生成图像质量较差。</li>
+</ul>
+<p>因此提出了 <strong>DiffuseVAE</strong>，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。</p>
+<h2 id="vae和扩散模型的优缺点"><strong>VAE和扩散模型的优缺点</strong><a hidden class="anchor" aria-hidden="true" href="#vae和扩散模型的优缺点">#</a></h2>
+<ul>
+<li>
+<p><strong>VAE 的特点</strong>：</p>
+<ul>
+<li><strong>显式似然生成模型</strong>：以概率分布的方式描述数据生成过程。</li>
+<li><strong>低维潜在表示</strong>：通过学习隐空间表示，可以捕捉数据的结构和特征。</li>
+<li><strong>灵活性</strong>：适用于多种任务，包括：
+<ul>
+<li>解耦表示学习（分离数据中的不同特征）。</li>
+<li>半监督学习（结合少量有标注数据进行学习）。</li>
+<li>异常检测（识别偏离正常分布的样本）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>VAE 的局限性</strong>：</p>
+<ul>
+<li><strong>模糊的生成样本</strong>：生成图像往往缺乏高频细节和清晰度。</li>
+<li><strong>结构复杂性</strong>：最近的一些改进（如层次化潜在结构）尽管提高了生成质量，但增加了模型复杂度（需要大规模的潜在代码层次化结构）。</li>
+<li><strong>与GAN的差距</strong>：相比隐式生成模型（如GAN），VAE在样本质量上仍显逊色，特别是在视觉感知方面。</li>
+</ul>
+</li>
+<li>
+<p><strong>扩散模型（DDPM）的优势和局限性</strong>：</p>
+<ul>
+<li><strong>生成质量高</strong>：在多个图像合成任务中表现优异，甚至在某些基准上超越了GANs。</li>
+<li><strong>高昂的计算成本</strong>：生成样本时需要多次迭代的逐步采样过程，计算开销大，生成速度慢。</li>
+<li><strong>缺乏低维潜在表示</strong>：无法像VAE那样学习和利用低维潜在空间，这限制了其在某些下游任务（如表示解耦、异常检测、可控生成）中的应用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="vae和ddpm复习回顾"><strong>VAE和DDPM复习回顾</strong><a hidden class="anchor" aria-hidden="true" href="#vae和ddpm复习回顾">#</a></h2>
+<h3 id="变分自编码器-vae-"><strong>变分自编码器 (VAE )</strong><a hidden class="anchor" aria-hidden="true" href="#变分自编码器-vae-">#</a></h3>
+<p>VAE  是一种利用深度神经网络进行变分推断的生成模型，使用编码器将数据 $x$ 映射到潜在空间表示 $z$，再通过解码器从 $z$ 重建 $x$。它通过最大化数据对数似然 $\log p(x)$ 来学习模型，但由于直接计算对数似然通常不可行，VAE 使用 <strong>证据下界（ELBO）</strong> 来近似优化。</p>
+<p>VAE 的损失函数（ELBO）定义如下：
+$$
+\mathcal{L}(\theta, \phi) = \underbrace{\mathbb{E}<em>{q</em>\phi(z|x)}[\log p_\theta(x|z)]}<em>{\text{重建误差}} - \underbrace{D</em>{KL}[q_\phi(z|x) | p(z)]}_{\text{KL 散度正则化}}
+$$
+为了使模型的优化过程可微分，VAE 引入了重参数化技巧，将采样过程从随机变量 $z$ 中分离。例如，将随机变量 $z$ 表示为 $z = \mu + \sigma \cdot \epsilon$，其中 $\epsilon$ 是从标准正态分布采样的噪声。默认先验分布 $p(z)$ 通常设为标准高斯分布，但可以扩展到更复杂的分布（如混合分布或归一化流）以提升模型的表达能力。</p>
+<p>更详细内容请看 <a href="https://zehua.eu/zh/posts/machinelearning_cn/vae/">VAE</a></p>
+<h3 id="ddpm"><strong>DDPM</strong><a hidden class="anchor" aria-hidden="true" href="#ddpm">#</a></h3>
+<p>DDPM 是一种基于潜变量的生成模型， 利用正向过程将数据逐步加噪到高斯分布，再通过逆向过程从噪声中逐步还原数据。包含两个过程：</p>
+<h4 id="正向加噪过程"><strong>正向加噪过程</strong><a hidden class="anchor" aria-hidden="true" href="#正向加噪过程">#</a></h4>
+<p>通过一个固定的高斯马尔可夫链，逐步对数据 $x_0$ 加噪，使其最终接近各向同性高斯分布。正向过程的核心是逐步破坏数据结构，每一步的加噪过程使用高斯分布：
+$$
+q(x_{1:T}|x_0) = \prod_{t=1}^{T} q(x_t|x_{t-1})
+$$
+这意味着当前状态 $x_t$ 仅依赖于前一个状态 $x_{t-1}$，整个加噪过程的联合分布可以通过各步的条件分布相乘得到，每一步的加噪过程由高斯分布建模：
+$$
+q(x_t|x_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}x_{t-1}, \beta_t\mathbf{I})
+$$</p>
+<ul>
+<li>其中 $\beta_t$ 是噪声调度参数，决定每一步加噪的程度。</li>
+</ul>
+<p>通过数学推导，可以从原始数据 $x_0$ 直接生成第 $t$ 步数据：
+$$
+q(x_t|x_0) = \mathcal{N}(\sqrt{\bar{\alpha}_t}x_0, (1-\bar{\alpha}_t)\mathbf{I})
+$$</p>
+<ul>
+<li>其中 $\bar{\alpha}<em>t = \prod</em>{i=1}^t (1-\beta_i)$ 是累积衰减系数。</li>
+</ul>
+<p>正向过程是固定的，不需要学习，最终会将数据 $x_0$ 转化为接近高斯分布的 $x_T$。</p>
+<h4 id="逆向去噪过程"><strong>逆向去噪过程</strong><a hidden class="anchor" aria-hidden="true" href="#逆向去噪过程">#</a></h4>
+<p>逆向过程试图逐步还原数据，采用可学习的高斯马尔可夫链：
+$$
+p_\theta(x_{t-1}|x_t) = \mathcal{N}(\mu_\theta(x_t, t), \Sigma_\theta(x_t, t))
+$$</p>
+<ul>
+<li>其中均值 $\mu_\theta$ 和协方差 $\Sigma_\theta$ 是通过神经网络学习的。</li>
+</ul>
+<p>采样时，先从 $p(x_T)$（通常选为各向同性高斯分布）中采样一个噪声向量，再运行逆向过程逐步去噪，生成最终样本 $x_0$。</p>
+<p>噪声调度参数 $\beta_t$ 是正向加噪过程的核心，影响生成样本的质量和采样速度。可以是固定值，也可以通过优化学习得到。整个模型通过变分推断优化，目标是最小化正向过程和逆向过程的分布差异。</p>
+<p>DDPM 主要优势是生成样本质量高，但缺点是采样速度较慢（需要多次迭代）。这是许多扩散模型后续改进的基础，例如提高采样效率的 DDIM。</p>
+<h2 id="diffusevae-vae与扩散模型的结合"><strong>DiffuseVAE: VAE与扩散模型的结合</strong><a hidden class="anchor" aria-hidden="true" href="#diffusevae-vae与扩散模型的结合">#</a></h2>
+<p>提出的 <strong>DiffuseVAE</strong> 将 VAE 和 DDPM 结合，使生成过程既拥有 VAE 提供的低维潜在空间，又有 DDPM 生成高质量细节的能力。框架中通过两阶段建模，先用 VAE 生成粗略样本，再用 DDPM 细化。通过两阶段建模解决了 VAE 样本模糊和 DDPM 缺乏低维表示的问题。</p>
+<h3 id="算法框架"><strong>算法框架</strong>：<a hidden class="anchor" aria-hidden="true" href="#算法框架">#</a></h3>
+<ul>
+<li><strong>第一阶段</strong>：利用标准 VAE 对任意条件信号 $y$ 进行建模，生成低维潜在表示。</li>
+<li><strong>第二阶段</strong>：使用条件 DDPM 对训练数据 $x$ 进行建模，条件是 $y$ 和 VAE 生成的低维潜在代码。</li>
+</ul>
+<p>该框架可归纳为生成器-细化器框架</p>
+<ul>
+<li><strong>生成器</strong>：第一阶段通过 VAE 对训练数据 $x$ 拟合，生成重构样本 $\hat{x}$。</li>
+<li><strong>细化器</strong>：第二阶段通过条件 DDPM 对 VAE 的重构样本 $\hat{x}$ 进行细化建模，从而生成更高质量的样本。</li>
+</ul>
+<p>DiffuseVAE 的低维潜在空间能够捕捉生成样本的全局特征(内容、形状或结构)，这就意味着用户可以通过修改这个潜在空间中的变量来直接影响生成样本的主要特性。并且 DiffuseVAE 在速度和质量之间取得了更好的平衡。例如，仅需 10 步采样就能生成质量合理的样本，比传统 DDPM 的效率更高，且生成效果优于相同采样次数的其他方法（如 DDIM）。DiffuseVAE 经过预训练后，对条件信号中的不同噪声类型表现出较好的泛化能力，证明其框架不仅适合特定场景，还能应对多种不确定性条件。</p>
+<h3 id="heading"><a hidden class="anchor" aria-hidden="true" href="#heading">#</a></h3>
+<h3 id="训练目标"><strong>训练目标</strong><a hidden class="anchor" aria-hidden="true" href="#训练目标">#</a></h3>
+<p>首先，我们需要描述 DiffuseVAE 的<strong>联合分布</strong>，它包括以下几个元素：</p>
+<ul>
+<li>$x_0$：我们想生成的高分辨率图像；</li>
+<li>$y$：通过 VAE 建模的辅助条件信号；</li>
+<li>$z$：与 $y$ 相关联的潜在表示；</li>
+<li>$x_{1:T}$：扩散模型学习到的 $T$ 个加噪表示。</li>
+</ul>
+<p>联合分布可以分解为：
+$$
+p(x_{0:T}, y, z) = p(z)p_\theta(y|z)p_\phi(x_{0:T}|y, z)
+$$</p>
+<ul>
+<li>
+<p><strong>$p(z)$</strong> 是潜在变量的先验分布，通常设为标准高斯分布；</p>
+</li>
+<li>
+<p><strong>$p_\theta(y|z)$</strong> 表示在潜在变量 $z$ 下生成条件信号 $y$ 的概率，这是由 VAE 的解码器学习到的；</p>
+</li>
+<li>
+<p><strong>$p_\phi(x_{0:T}|y, z)$</strong> 是扩散模型的逆向去噪过程，用来从条件信号 $y$ 和潜在表示 $z$ 逐步恢复数据。</p>
+</li>
+</ul>
+<h3 id="后验分布"><strong>后验分布</strong><a hidden class="anchor" aria-hidden="true" href="#后验分布">#</a></h3>
+<p>接下来，我们需要讨论后验分布，也就是在给定 $y$ 和 $x_0$ 的情况下推断 $z$ 和 $x_{1:T}$ 的分布：
+$$
+p(x_{1:T}, z|y, x_0)
+$$
+这个后验分布在解析上是不可计算的，因此我们用一个近似分布 $q(x_{1:T}, z|y, x_0)$ 来替代：
+$$
+q(x_{1:T}, z|y, x_0) = q_\psi(z|y, x_0)q(x_{1:T}|y, z, x_0)
+$$</p>
+<ul>
+<li>
+<p>$q_\psi(z|y, x_0)$ 是 VAE 的识别网络，它负责从 $y$ 和 $x_0$ 中推断潜在变量 $z$</p>
+</li>
+<li>
+<p>$q(x_{1:T}|y, z, x_0)$ 是扩散模型的正向过程，通过固定的加噪机制从 $x_0$ 生成 $x_{1:T}$。</p>
+</li>
+</ul>
+<p>因此我们将复杂的后验分布分解成了两部分：一部分由 VAE 处理（$z$ 的推断），另一部分由扩散模型处理（$x_{1:T}$ 的生成）。</p>
+<h3 id="数据对数似然"><strong>数据对数似然</strong><a hidden class="anchor" aria-hidden="true" href="#数据对数似然">#</a></h3>
+<p>我们的最终目标是最大化数据 $(x_0, y)$ 的对数似然：
+$$
+\log p(x_0, y) = \log \int p(x_{0:T}, y, z) dx_{1:T} dz
+$$
+这表示，我们需要对联合分布 $p(x_{0:T}, y, z)$ 进行积分，边缘化掉 $x_{1:T}$ 和 $z$。但是，这个积分在实际中是非常困难的，无法直接计算。</p>
+<h3 id="证据下界elbo"><strong>证据下界（ELBO）</strong><a hidden class="anchor" aria-hidden="true" href="#证据下界elbo">#</a></h3>
+<p>为了优化数据的对数似然，  引入了证据下界（ELBO）来近似它：
+$$
+\begin{aligned}
+\log p(x_0, y) \geq &amp; \underbrace{\mathbb{E}<em>{q</em>\psi(z|y,x_0)} \big[ p_\theta(y|z) \big] - \mathcal{D}<em>{KL} \big(q</em>\psi(z|y,x_0) | p(z)\big)}<em>{\mathcal{L}</em>{\text{VAE}}}</p>
+<ul>
+<li>\mathbb{E}<em>{z \sim q(z|y,x_0)} \left[\underbrace{ \mathbb{E}</em>{q(x_{1:T}|y,z,x_0)} \left[ \frac{p_\phi(x_{0:T}|y,z)}{q(x_{1:T}|y,z,x_0)} \right] }<em>{\mathcal{L}</em>{\text{DDPM}}}\right]
+\end{aligned}
+$$</li>
+</ul>
+<h5 id="前半部分">前半部分<a hidden class="anchor" aria-hidden="true" href="#前半部分">#</a></h5>
+<p>$$
+\underbrace{\mathbb{E}<em>{q</em>\psi(z|y,x_0)} \big[ p_\theta(y|z) \big] - \mathcal{D}<em>{KL} \big(q</em>\psi(z|y,x_0) | p(z)\big)}<em>{\mathcal{L}</em>{\text{VAE}}}
+$$</p>
+<ul>
+<li>
+<p><strong>$\mathbb{E}<em>{q</em>\psi(z|y, x_0)}[\log p_\theta(y|z)]$</strong>：衡量 VAE 解码器在条件 $z$ 下生成信号 $y$ 的准确性；</p>
+</li>
+<li>
+<p><strong>$-D_{KL}(q_\psi(z|y, x_0) || p(z))$</strong>：通过 KL 散度，约束 VAE 的后验分布与先验分布 $p(z)$ 保持一致；</p>
+</li>
+<li>
+<p><strong>$\mathcal{L}_{VAE}$</strong>：是 VAE 自身的重构损失，确保从 $z$ 和 $y$ 能生成逼真的样本。</p>
+</li>
+</ul>
+<h5 id="后半部分">后半部分<a hidden class="anchor" aria-hidden="true" href="#后半部分">#</a></h5>
+<p>$$
+\mathbb{E}<em>{z \sim q(z|y,x_0)} \left[\underbrace{ \mathbb{E}</em>{q(x_{1:T}|y,z,x_0)} \left[ \frac{p_\phi(x_{0:T}|y,z)}{q(x_{1:T}|y,z,x_0)} \right] }<em>{\mathcal{L}</em>{\text{DDPM}}}\right]
+$$</p>
+<p>这个公式看起来复杂，但本质上就是衡量逆向去噪分布 $p_\phi$ 和正向加噪分布 $q$ 的匹配程度：</p>
+<ul>
+<li><strong>内层期望</strong>：通过对数似然比 $\log \frac{p_\phi}{q}$ 衡量逆向过程和正向过程的分布差异；</li>
+<li><strong>外层期望</strong>：考虑不同的潜在表示 $z$，确保扩散模型对各种潜在空间的情况都能处理得很好。</li>
+</ul>
+<p>总的来说，DiffuseVAE 的训练目标通过联合分布、后验分布近似以及 ELBO 分解，将 VAE 和扩散模型的损失函数结合起来。这个设计不仅让模型能够生成高质量的样本，还利用了低维潜在空间，提升了生成的控制性和效率。训练过程中，VAE 负责潜在表示的学习，扩散模型负责生成过程的细节还原，两者相辅相成。</p>
+<h3 id="简化设计"><strong>简化设计</strong><a hidden class="anchor" aria-hidden="true" href="#简化设计">#</a></h3>
+<h4 id="条件信号-y-的简化"><strong>条件信号 $y$ 的简化</strong><a hidden class="anchor" aria-hidden="true" href="#条件信号-y-的简化">#</a></h4>
+<p>在原始 DiffuseVAE 的设计中，$y$ 是一个辅助信号，用于增强模型的灵活性。但这里做了一个重要简化，<strong>假设 $y = x_0$</strong>，也就是说，条件信号直接等于目标图像本身。</p>
+<p>为什么这样做？</p>
+<ul>
+<li>$y$ 和 $x_0$ 之间有一个确定性的映射关系，这样设计简化了模型的条件化处理。</li>
+<li>在实际中，这意味着我们不需要在扩散过程的逆向阶段（去噪阶段）对 $y$ 进行额外条件化。</li>
+<li>因此，公式中的 $p_\phi(x_{0:T}|y, z)$ 简化为 $p_\phi(x_{0:T}|z)$，减少了计算复杂度。</li>
+</ul>
+<h4 id="条件信号-z-的简化"><strong>条件信号 $z$ 的简化</strong><a hidden class="anchor" aria-hidden="true" href="#条件信号-z-的简化">#</a></h4>
+<p>潜在表示 $z$ 是通过 VAE 的编码器从数据 $x_0$ 中推导出来的。然而，为了进一步简化，我们<strong>不直接对潜在代码 $z$ 进行条件化</strong>，相反，<strong>将扩散模型的条件信号设为 VAE 重构的 $x_0$</strong>（即 $\hat{x}_0$），这样由于 $\hat{x}_0$ 是 $z$ 的一个确定性函数，因此它包含了 $z$ 所需的信息，同时减少了额外的复杂依赖。</p>
+<p>这一设计让模型的第二阶段更加直观：扩散模型的目标是进一步细化 VAE 重构的结果，而不是直接使用潜在空间的表示。</p>
+<h4 id="两阶段训练"><strong>两阶段训练</strong><a hidden class="anchor" aria-hidden="true" href="#两阶段训练">#</a></h4>
+<p>为了简化训练过程，我们采用了顺序的两阶段训练方法：</p>
+<ol>
+<li><strong>第一阶段</strong>：使用 VAE 对原始数据 $x_0$ 建模，优化 VAE 的损失函数 $\mathcal{L}_{VAE}$，完成对数据 $x_0$ 的潜在表示 $z$ 的学习，并训练解码器生成重构 $\hat{x}_0$。</li>
+<li><strong>第二阶段</strong>：固定 VAE 的编码器和解码器（即冻结参数 $\theta$ 和 $\psi$），优化扩散模型的损失函数 $\mathcal{L}_{DDPM}$，用扩散模型对 VAE 重构的结果 $\hat{x}_0$ 进行细化建模，生成最终的高质量样本。</li>
+</ol>
+<p>换句话说，本质就是固定一个模型，训练另一个，VAE 提供一个快速生成全局结构的初步结果，而 DDPM 专注于细化这些结果，从而结合两者的优势。</p>
+<p>总结一下这三点简化：</p>
+<ul>
+<li>
+<p>条件信号 $y$ 被简化为目标数据 $x_0$；</p>
+</li>
+<li>
+<p>第二阶段扩散模型的输入是 VAE 重构结果 $\hat{x}_0$；</p>
+</li>
+<li>
+<p>使用顺序的两阶段训练方式，固定一个，训练另一个。</p>
+</li>
+</ul>
+<p>从这里我们可以看出，理论很美好，实践很困难啊!</p>
+<h3 id="vae-参数化的选择"><strong>VAE 参数化的选择</strong><a hidden class="anchor" aria-hidden="true" href="#vae-参数化的选择">#</a></h3>
+<p>选择最基本的标准 VAE，即一个带有单一随机层的简单模型，当然也可以扩展到更复杂的 VAE 变种(多个随机层和更复杂的结构)，那么为什么原文没有使用更复杂的 VAE 变种呢？这样的效果不是更好吗？因为多阶段 VAE 的复杂结构可能导致潜在表示变得更难以解释，从而无法再有效利用低维潜在空间进行直接控制，要解决这个问题那就得继续研究了</p>
+<h3 id="ddpm参数化-条件扩散模型两种设计公式"><strong>DDPM参数化 条件扩散模型两种设计公式</strong><a hidden class="anchor" aria-hidden="true" href="#ddpm参数化-条件扩散模型两种设计公式">#</a></h3>
+<h4 id="第一种简化假设">第一种简化假设：<a hidden class="anchor" aria-hidden="true" href="#第一种简化假设">#</a></h4>
+<ol>
+<li>
+<p><strong>正向过程的条件独立性</strong>：</p>
+<p>假设正向加噪过程与 VAE 重构的结果 $\hat{x}<em>0$ 和潜在表示 $z$ 是条件独立的，即：
+$$
+q(x</em>{1:T}|x_0, z) \approx q(x_{1:T}|x_0)
+$$
+这意味着正向加噪的每一步都仅基于原始数据 $x_0$ 进行，而不需要额外依赖 $z$ 或 $\hat{x}_0$ 的信息。这样的独立性假设简化了正向过程的设计和计算。</p>
+</li>
+<li>
+<p><strong>逆向过程的依赖性</strong>：</p>
+<p>假设逆向去噪过程中，仅依赖 VAE 的重构结果 $\hat{x}<em>0$，而不是直接依赖潜在表示 $z$，即：
+$$
+p(x</em>{0:T}|z) \approx p(x_{0:T}|\hat{x}_0)
+$$
+这表明扩散模型的逆向过程会通过 VAE 提供的重构结果来指导数据还原，而无需直接操作潜在变量 $z$。</p>
+</li>
+</ol>
+<p>在实际实现中，扩散模型在每个时间步 $t$ 的逆向过程会将 VAE 的重构结果 $\hat{x}<em>0$ 与当前时间步 $t$ 的逆过程表示 $x_t$ 拼接在一起，生成用于计算下一步 $x</em>{t-1}$ 的输入。这种拼接方法结合了 VAE 提供的全局信息和扩散模型逐步还原的细节，使得模型能够在保留低维表示的同时，逐步提升生成质量。</p>
+<h4 id="第二种简化假设">第二种简化假设：<a hidden class="anchor" aria-hidden="true" href="#第二种简化假设">#</a></h4>
+<ol>
+<li>
+<p><strong>正向过程的依赖性</strong>：</p>
+<p>在公式1中，正向过程假设与 $z$ 和 $\hat{x}<em>0$ 条件独立。而在公式2中，正向过程被设计为显式依赖于 VAE 重构 $\hat{x}<em>0$：
+$$
+q(x</em>{1:T}|x_0, z) \approx q(x</em>{1:T}|\hat{x}_0, x_0)
+$$
+这意味着在每一步加噪过程中，模型会直接结合 $x_0$ 和 $\hat{x}_0$ 的信息，从而让正向过程更加灵活。</p>
+</li>
+<li>
+<p><strong>逆向过程的依赖性</strong>：</p>
+<p>和公式1一样，公式2的逆向过程依然假设仅依赖于 VAE 重构：
+$$
+p(x_{0:T}|z) \approx p(x_{0:T}|\hat{x}_0)
+$$</p>
+</li>
+</ol>
+<h3 id="正向过程的具体设计"><strong>正向过程的具体设计</strong><a hidden class="anchor" aria-hidden="true" href="#正向过程的具体设计">#</a></h3>
+<p>在第二种假设中，正向过程的每一步都显式包含了 VAE 重构 $\hat{x}_0$ 的信息：</p>
+<ol>
+<li>
+<p><strong>第一步 $t = 1$ 的加噪</strong>：
+$$
+q(x_1|x_0, \hat{x}_0) = \mathcal{N}(\sqrt{1-\beta_1}x_0 + \hat{x}_0, \beta_1 \mathbf{I})
+$$
+这一步的设计中，$\sqrt{1-\beta_1}x_0$ 保留了原始数据 $x_0$ 的主要信息，而 $\hat{x}_0$ 为正向过程提供了额外的全局结构信息。</p>
+</li>
+<li>
+<p><strong>后续时间步 $t &gt; 1$ 的加噪</strong>：
+$$
+q(x_t|x_{t-1}, \hat{x}<em>0) = \mathcal{N}(\sqrt{1-\beta_t}x</em>{t-1} + (1-\sqrt{1-\beta_t})\hat{x}<em>0, \beta_t \mathbf{I})
+$$
+在每个时间步中，$x_t$ 的生成不仅依赖于前一时间步 $x</em>{t-1}$，还结合了 $\hat{x}_0$ 的全局信息，即 $x_t$ 由原始数据 $x_0$ 和 VAE 重构 $\hat{x}_0$ 的加权和决定的。</p>
+<ul>
+<li>$\sqrt{1-\beta_t}x_{t-1}$ 是来自前一时间步的逐步加噪结果；</li>
+<li>$(1-\sqrt{1-\beta_t})\hat{x}_0$ 是从 VAE 重构注入的额外信息，用于确保每一步都与 $\hat{x}_0$ 保持一致。</li>
+</ul>
+</li>
+</ol>
+<h3 id="正向条件边缘分布"><strong>正向条件边缘分布</strong><a hidden class="anchor" aria-hidden="true" href="#正向条件边缘分布">#</a></h3>
+<p>在这种设计下，可以证明，正向过程的条件边缘分布为：
+$$
+q(x_t|x_0, \hat{x}_0) = \mathcal{N}(\sqrt{\bar{\alpha}_t}x_0 + \hat{x}_0, (1-\bar{\alpha}_t)\mathbf{I})
+$$</p>
+<ul>
+<li>这里的 $\bar{\alpha}_t$ 是正向过程的累积噪声调度系数：</li>
+</ul>
+<p>$$
+\bar{\alpha}<em>t = \prod</em>{i=1}^t (1-\beta_i)
+$$</p>
+<p>当时间步 $t = T$ 且 $\bar{\alpha}_T \approx 0$（通过合理的噪声调度 $\beta_t$ 实现），正向过程的输出 $x_T$ 的分布接近：
+$$
+q(x_T|x_0, \hat{x}_0) \approx \mathcal{N}(\hat{x}_0, \mathbf{I})
+$$
+这意味着最终的 $x_T$ 是以 $\hat{x}_0$ 为均值、单位方差的高斯分布。也就是说，在正向过程中，VAE 重构 $\hat{x}_0$ 成为了加噪数据的核心信息中心。在逆向过程中，其目标是从高斯分布 $\mathcal{N}(\hat{x}_0, \mathbf{I})$ 逐步还原到高质量样本。在这种设计中，$\hat{x}_0$ 的作用非常重要，因为它不仅提供了全局信息，还成为整个分布的基准。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>反问题 TP3</span>
+  </a>
+  <a class="next" href="http://zehua.eu/zh/posts/machinelearning_cn/vae/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>变分自编码器VAE</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+
+<div class="post-password"></div>
+  
+</div>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <br>
+    <span id="busuanzi_container_page_pv" style='display:none'>
+        一共有<span id="busuanzi_value_page_pv"></span>人来过这里
+    </span>
+    · <span id="last_change">
+        最后更新于2024年11月28日
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

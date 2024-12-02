@@ -14,7 +14,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/posts/"
                 />
   </url><url>
@@ -27,7 +27,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/tags/"
                 />
   </url><url>
@@ -43,7 +43,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/"
                 />
   </url><url>
@@ -86,7 +86,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/search/"
                 />
   </url><url>
@@ -125,7 +125,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/about/"
                 />
   </url><url>
@@ -137,7 +137,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/categories/"
                 />
   </url><url>
@@ -149,7 +149,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh"
+                hreflang="zh-cn"
                 href="http://zehua.eu/zh/archives/"
                 />
   </url>

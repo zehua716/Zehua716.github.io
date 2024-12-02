@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>反问题 TP3 | 主页</title>
+<meta name="keywords" content="信号处理, 图像处理">
+<meta name="description" content="对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像">
+<meta name="author" content="Zehua">
+<link rel="canonical" href="http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.ee21873c327aa7fc241123060ddbab930c94142d0d52b8a4c9e8f756a6b57911.css" integrity="sha256-7iGHPDJ6p/wkESMGDdurkwyUFC0NUrikyej3Vqa1eRE=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://zehua.eu/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://zehua.eu/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://zehua.eu/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://zehua.eu/apple-touch-icon.png">
+<link rel="mask-icon" href="http://zehua.eu/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true }
+            ],
+            
+            throwOnError: false
+        });
+    }); 
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="反问题 TP3" />
+<meta property="og:description" content="对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/" />
+<meta property="og:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-28T16:25:17+01:00" />
+<meta property="article:modified_time" content="2024-11-28T17:12:35+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://zehua.eu/images/papermod-cover.png" />
+<meta name="twitter:title" content="反问题 TP3"/>
+<meta name="twitter:description" content="对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://zehua.eu/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "信号处理",
+      "item": "http://zehua.eu/zh/posts/signal_cn/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "反问题 TP3",
+      "item": "http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "反问题 TP3",
+  "name": "反问题 TP3",
+  "description": "对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像",
+  "keywords": [
+    "信号处理", "图像处理"
+  ],
+  "articleBody": "凸正则化与轮廓感知图像恢复 之前的工作已经涉及维纳-亨特方法，本次实验则提出 Huber正则化方法，也叫做 半二次（Half-Quadratic）正则化方法\n1. Wiener - hunt方法回顾 我们使用以下数学模型来描述获取过程：\n$$ y = Hx + e $$\n其中，向量 $y$ 表示观察到的数据（模糊图像），向量 $x$ 表示未知的真实图像（清晰图像），$H$ 是卷积矩阵，$e$ 是表示测量和建模误差的向量。\n为了对去卷积问题进行正则化，我们需要引入图像二维空间的附加信息，最简单的方法是 使用相邻像素灰度差，并将其作为惩罚。因此带惩罚的准则形式如下：\n$$ J_Q(x) = |y - Hx|^2 + \\mu \\sum_{p \\sim q} \\varphi_Q(x_p - x_q) \\tag{1} $$\n其中势函数 $\\varphi_Q(\\delta) = \\delta^2$ 我们可以将其中相邻像素差 $x_p - x_q$ 重写为差分矩阵的形式 $D$ ：\n$$ J_Q(x) = |y - Hx|^2 + \\mu |Dx|^2 $$\n该准则的最小化值就是我们要的重构的图像 $\\hat{x}_Q$ ：\n$$ \\hat{x}_Q = \\arg \\min_x J_Q(x) $$\n经过一通处理，我们找到最小值：\n$$ \\hat{x}_Q = (H^tH + \\mu D^tD)^{-1} H^t y $$\n之前讲过这个求逆玩不了，因此引入循环近似方法，在傅里叶基下对循环矩阵进行对角化。这样可以以较低的计算成本计算解，即Wiener - hunt 解法。可见，这种循环近似的思想在高维矩阵求逆的情况下非常好用，我们同样接下来也会用这个技巧。\n给定适当选择的 $\\mu$ 值，我们可以看到明显的去卷积效果。然而，分辨率和恢复锐利边缘的能力有限，不能很好地处理恢复图像中的灰度突变。本次实践作业的目的是克服这一限制。\n2.凸正则化 2.1 Huber势函数 为了进一步提高分辨率并具有更好的边缘保护特性，我们重新考虑势函数 ϕ，例如：\n$$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2 \u0026 \\text{如果 } |\\delta| \\leq T \\ 2T|\\delta| - T^2 \u0026 \\text{如果 } |\\delta| \\geq T \\end{cases} $$ 这被称为Huber势函数。它在阈值 T 之前具有二次行为，而在阈值 T 之后呈现线性行为\n对于$\\varphi_H$ 的导数（蓝线）： $$ \\text{一阶导数} \\ \\varphi_H'(\\delta) \\ ： \\left\\{ \\begin{aligned} \u0026 \\text{当} \\ |\\delta| \\leq T \\ \\text{时，} \\ \\varphi_H'(\\delta) = 2\\delta \\ \\\\ \u0026 \\text{当} \\ |\\delta| \\geq T \\ \\text{时，} \\ \\varphi_H'(\\delta) = 2T \\cdot \\text{sign}(\\delta) \\ \\\\ \\end{aligned} \\right. $$ $$ \\text{二阶导数} \\ \\varphi_H''(\\delta) \\ ： \\left\\{ \\begin{aligned} \u0026 \\text{当} \\ |\\delta| \\leq T \\ \\text{时，} \\ \\varphi_H''(\\delta) = 2 \\ \\\\ \u0026 \\text{当} \\ |\\delta| \\geq T \\ \\text{时，} \\ \\varphi_H''(\\delta) = 0 \\ \\text{（线性部分没有二阶导数）} \\ \\\\ \\end{aligned} \\right. $$ 对于 $\\varphi_Q(\\delta) = \\delta^2$ 的导数（红线）： $$ \\text{一阶导数} \\ \\varphi_Q’(\\delta) = 2\\delta $$\n$$ \\text{二阶导数} \\ \\varphi_Q’’(\\delta) = 2 $$\n从Huber势函数 $\\varphi_H$ 开始，我们定义了一个与（1）中给出的准则相似的新准则:\n$$ J_H(x) = |y - Hx|^2 + \\mu \\sum_{p \\sim q} \\varphi_H(x_p - x_q) \\tag{2} $$\n上述新准则的最小化解就是新恢复的图像 $\\hat{x}_H$ :\n$$ \\hat{x}_H = \\arg \\min_x J_H(x) $$\n那么新的势函数 $\\varphi_H$ 与之前的势函数 $\\varphi_Q$ 相比其优势在哪里呢？ 新的势函数 $\\varphi_H$ 能够更好地保护边缘，因为它在大于某个阈值 $T$ 时呈现线性增长，而不是像 $\\varphi_Q(\\delta) = \\delta^2$ 这样呈现二次增长，即当梯度较大（边缘）时，平方后惩罚项迅速增加，导致算法倾向于减小这些梯度。线性增长比二次增长更加平缓，可以降低梯度增加的速度，防止边缘被过度平滑，利于保护边缘信息。\n重新回到之前新势函数的定义: $$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2 \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T|\\delta| - T^2 \u0026 \\text{如果 } |\\delta| \\geq T \\end{cases} $$\n其中阈值 $T$ 决定了势函数 $\\varphi_H(\\delta)$ 何时从二次增长切换为线性增长 如果像素之间的差异 $|\\delta|$ 超过了阈值 $T$，意味着应该是图像中的边缘部分 。此时，$\\varphi_H(\\delta)$ 将从二次惩罚转为线性惩罚 ，对 边缘 施加的惩罚就更小，从而更好地保留图像中明显的特征和细节 当像素差异较小时 ($|\\delta| \u003c T$)，$\\varphi_H(\\delta)$ 的行为与传统的二次势函数 $\\varphi_Q(\\delta) = \\delta^2$ 相同 我们注意，所选择的 $\\varphi_H$ 函数是凸的，我们推断整个准则 $J_H$ 也是凸的，因此它有一个唯一的最小值。我们下面也可以推导证明这一点。\n由于算法的原因，我们引入了一个额外的参数 $\\alpha$，一个严格正的实数。惩罚项乘以并除以 $\\alpha$，并令 $\\mu^{\\prime} = \\mu / \\alpha$ ，整个公式是不变的: $$ J_H(x) = |y - Hx|^2 + \\mu^{\\prime} \\sum_{p \\sim q} \\alpha \\varphi_H(x_p - x_q) \\tag{3} $$\n$\\alpha$ 的值影响了梯度下降中每一步的更新幅度，较小的 $\\alpha$ 保守，较大的 $\\alpha$ 可能振荡\n通过调整 $\\alpha$，可以间接控制 $\\mu’$ 的大小（后续），进而改变数据项和正则化项的平衡\n2.2 优化 下面计算新准则 $J_H$ 的最小值，与二次准则（1） $J_Q$ 不同，我们无法直接通过解析式求解最小值，但可以通过数值迭代算法来计算其唯一最小化值。然后，我们要引入辅助变量，这样才能够在傅里叶基下利用 Wiener - Hunt 解法高效地进行计算。\n2.2.1 扩展准则与辅助变量 为了在循环近似下重复使用二次情况（ Wiener - Hunt 解）的结果，我们引入了一组新的变量，称为辅助变量。更具体地说，我们为每对相邻像素 $(p, q)$ 引入一个变量 $a_{pq}$，并将所有这些新变量收集到向量 $a$ 中。\n我们对准则（3）进行了扩展，原准则（3）形式如下: $$ J_H(x) = |y - Hx|^2 + \\mu^{\\prime} \\sum_{p \\sim q} \\alpha \\varphi_H(x_p - x_q) \\tag{3} $$ 我们构造一个函数， $\\alpha \\varphi(\\delta)$ ，其定义为\n$$ \\alpha \\varphi(\\delta) = \\inf_a \\left[ \\frac{1}{2}(\\delta - a)^2 + \\tilde{\\zeta}_\\alpha(a) \\right] $$ 那么，$\\alpha \\varphi_H(x_p - x_q) $ 为:\n$$ \\alpha \\varphi_H(x_p - x_q) = \\inf_{a_{pq}} \\left[ \\frac{1}{2} \\left( (x_p - x_q) - a_{pq} \\right)^2 + \\tilde{\\zeta}_\\alpha(a_{pq}) \\right] $$ 所以新准则（4）形式如下:\n$$ \\tilde{J}_H(x, a) = \\|y - Hx\\|^2 + \\mu' \\left[ \\sum_{p \\sim q} \\frac{1}{2} \\left( (x_p - x_q) - a_{pq} \\right)^2 + \\tilde{\\zeta}_\\alpha(a_{pq}) \\right] \\tag{4} $$ 这是关于未知图像 $x$ 和辅助变量 $a$ 的函数。它分为三部分：\n最小二乘项 $|y - Hx|^2$\n涉及像素差异和辅助变量的二次项 $\\left( (x_p - x_q) - a_{pq} \\right)^2$\n仅涉及辅助变量的函数项 $\\tilde{\\zeta}_\\alpha$ ，我们称它为辅助函数项\n构建的关键是通过最小化扩展准则 $\\tilde{J}_H(x, a)$ 来最小化原始准则 $J_H(x)$，即：\n$$ \\min_x \\left\\{ \\min_a \\tilde{J}_H(x, a) \\right\\} \\Rightarrow \\min_x J_H(x) $$ 我们现在已经搞定了最小二乘项，像素差异项可以用差分矩阵然后循环近似搞定，现在唯一棘手的东西就是这个 $\\tilde{\\zeta} _\\alpha$ ， 因此如何设计 $\\tilde{\\zeta} _\\alpha$ 对于上述思想的成立至关重要，我们需要用到凸对偶性和 Legendre-Fenchel Transform理论，结论是它证明了 $\\tilde{\\zeta} _\\alpha$ 也是Huber函数。\n回顾 Huber函数 的定义: $$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2 \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T|\\delta| - T^2 \u0026 \\text{如果 } |\\delta| \\geq T \\end{cases} $$ $\\tilde{\\zeta} _\\alpha$ 表达式:\n$$ \\tilde{\\zeta}_\\alpha(a) = \\alpha \\begin{cases} \\frac{1}{1 - 2\\alpha} a^2 \u0026 \\text{如果 } |a| \\leq (1 - 2\\alpha)T \\\\ 2T|a| - (1 - 2\\alpha)T^2 \u0026 \\text{如果 } |a| \\geq (1 - 2\\alpha)T \\end{cases} $$ 证明\n我们需要证明： $$ \\tilde{\\zeta}_\\alpha(a) = \\alpha \\begin{cases} \\frac{1}{1 - 2\\alpha} a^2, \u0026 \\text{如果 } |a| \\leq (1 - 2\\alpha)T \\\\ 2T|a| - (1 - 2\\alpha)T^2, \u0026 \\text{如果 } |a| \u003e (1 - 2\\alpha)T \\end{cases} $$ 我们需要满足：\n$\\tilde{\\zeta}_\\alpha(a)$ 是 $\\alpha \\varphi_H(\\delta)$ 的凸对偶形式。\n给定 $\\alpha \\varphi_H(\\delta)$ 的表达式，利用凸对偶和 Legendre-Fenchel Transform理论推出 $\\tilde{\\zeta}_\\alpha(a)$。\nHuber函数 $\\varphi_H(\\delta)$ 定义如下： $$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2, \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T|\\delta| - T^2, \u0026 \\text{如果 } |\\delta| \u003e T \\end{cases} $$ 扩展后乘以 $\\alpha$： $$ \\alpha \\varphi_H(\\delta) = \\begin{cases} \\alpha \\delta^2, \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2\\alpha T|\\delta| - \\alpha T^2, \u0026 \\text{如果 } |\\delta| \u003e T \\end{cases} $$ 利用定义：\n$$ \\alpha \\varphi_H(\\delta) = \\inf_a \\left[ \\frac{1}{2}(\\delta - a)^2 + \\tilde{\\zeta}_\\alpha(a) \\right] $$ 等价于寻找满足以下关系的 $\\tilde{\\zeta}_\\alpha(a)$：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\sup_\\delta \\left[ \\alpha \\varphi_H(\\delta) - \\frac{1}{2}(\\delta - a)^2 \\right] $$ 这就是 Legendre-Fenchel Transform。\n根据 $\\alpha \\varphi_H(\\delta)$ 的分段定义，我们需要分别考虑 $|\\delta| \\leq T$ 和 $|\\delta| \u003e T$ 两种情况。\n情况 1：$|\\delta| \\leq T$ $$ \\alpha \\varphi_H(\\delta) = \\alpha \\delta^2 $$\n需要求解：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\sup_\\delta \\left[ \\alpha \\delta^2 - \\frac{1}{2}(\\delta - a)^2 \\right] $$ 展开括号：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\alpha \\delta^2 - \\frac{1}{2}(\\delta^2 - 2a\\delta + a^2) = \\left(\\alpha - \\frac{1}{2}\\right)\\delta^2 + a\\delta - \\frac{1}{2}a^2 $$ 导数为零求极值： $$ \\frac{\\partial}{\\partial \\delta} \\left[\\tilde{\\zeta}_\\alpha(a) \\right]=\\frac{\\partial}{\\partial \\delta} \\left[\\left(\\alpha - \\frac{1}{2}\\right)\\delta^2 + a\\delta - \\frac{1}{2}a^2\\right] = 2\\left(\\alpha - \\frac{1}{2}\\right)\\delta + a = 0 $$ 解得：\n$$ \\delta^* = -\\frac{a}{2\\left(\\alpha - \\frac{1}{2}\\right)} $$ 验证取值范围：\n当 $|a| \\leq (1 - 2\\alpha)T$，$\\delta^*$ 落在 $[-T, T]$ 内，因此没问题。 *将 $\\delta^ $ 代入原表达式：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\left(\\alpha - \\frac{1}{2}\\right)\\delta{^*}^2 + a\\delta{^*} - \\frac{1}{2}a^2 = \\left(\\alpha - \\frac{1}{2}\\right)\\left(-\\frac{a}{2\\left(\\alpha - \\frac{1}{2}\\right)}\\right)^2 + a\\left(-\\frac{a}{2\\left(\\alpha - \\frac{1}{2}\\right)}\\right) - \\frac{1}{2}a^2 $$ 化简为：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\frac{\\alpha}{1 - 2\\alpha}a^2 $$\n情况 2：$|\\delta| \u003e T$ $$ \\alpha \\varphi_H(\\delta) = 2\\alpha T|\\delta| - \\alpha T^2 $$ 需要求解：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\sup_\\delta \\left[ 2\\alpha T|\\delta| - \\alpha T^2 - \\frac{1}{2}(\\delta - a)^2 \\right] $$ 令 $g(\\delta)=2\\alpha T|\\delta| - \\alpha T^2 - \\frac{1}{2}(\\delta - a)^2$，对 $g(\\delta)$ 求导数： $$ \\frac{\\partial g(\\delta)}{\\partial \\delta} = \\begin{cases} 2\\alpha T - (\\delta - a), \u0026 \\delta \u003e 0 \\ -2\\alpha T - (\\delta - a), \u0026 \\delta \u003c 0 \\end{cases} $$ 当 $\\delta \u003e 0$ 时： $$ 2\\alpha T - (\\delta - a) = 0 \\implies \\delta^* = a + 2\\alpha T $$ 当 $\\delta \u003c 0$ 时： $$ -2\\alpha T - (\\delta - a) = 0 \\implies \\delta^* = a - 2\\alpha T $$ 将 $\\delta^*$ 代入并考虑边界条件，最终得到： $$ \\tilde{\\zeta}_\\alpha(a) = 2T|a| - (1 - 2\\alpha)T^2 $$\n将两种情况的结果合并，得到 $\\tilde{\\zeta}_\\alpha(a)$ 的最终表达式：\n$$ \\tilde{\\zeta}_\\alpha(a) = \\alpha \\begin{cases} \\frac{1}{1 - 2\\alpha} a^2, \u0026 \\text{如果 } |a| \\leq (1 - 2\\alpha)T \\\\ 2T|a| - (1 - 2\\alpha)T^2, \u0026 \\text{如果 } |a| \u003e (1 - 2\\alpha)T \\end{cases} $$ 证明完毕\n参数 $\\alpha \\in \\left(0, \\frac{1}{2}\\right)$ ，在此范围能够对算法进行精细调整，它只影响优化算法性质例如收敛速度，和我们最终结果无关。\n2.2.2 求最小值 我们重新回到准则 (3)，新准则的提出有一个重要思想:\n$$ \\min_x \\left\\{ \\min_a \\tilde{J}_H(x, a) \\right\\} \\Rightarrow \\min_x J_H(x) $$ 表明我们可以通过 $x$ 和 $a$ 的联合最小化 $\\tilde{J}_H(x, a)$ 来得到 $J_H(x)$ 的最小化值：\n$$ \\hat{x}_H = \\arg \\min_x J_H(x) = \\arg \\min_x \\left\\{ \\min_a \\tilde{J}_H(x, a) \\right\\} $$ 从编程的角度来看，我们将通过迭代两步过程来计算 $\\tilde{J}_H(x, a)$ 关于 $x$ 和 $a$ 的联合最小化，直到收敛：\n$$ (\\tilde{x}_H, \\tilde{a}_H) = \\arg \\min_{x, a} \\tilde{J}_H(x, a) $$ 其中，$\\tilde{x}_H$ 就是我们想要的 $J_H(x)$ 的最小化值 $\\hat{x}_H $\n为了计算这个联合最小化解，我们将通过迭代两步过程来实现 $\\tilde{J}_H(x, a)$ 关于 $x$ 和 $a$ 的联合最小化，直到收敛：\n​\t① 对于固定的 $a$，最小化 $\\tilde{J}_H(x, a)$ 来更新 $x$，这将得到 $\\bar{x}(a) = \\arg \\min_x \\tilde{J}_H(x, a)$\n​\t② 对于固定的 $x$，最小化 $\\tilde{J}_H(x, a)$ 来更新 $a$，这将得到 $\\bar{a}(x) = \\arg \\min_a \\tilde{J}_H(x, a)$\n通过这样的迭代过程，我们可以找到最终的最优解 $\\hat{x}_H = \\tilde{x}_H$，即最优的图像恢复结果。迭代的本质是分步优化，在每一步中只优化一个变量 ($x$ 或 $a$)，这比直接联合优化两个变量要简单得多。\n现在我们给出步骤 ① 的显式解，并通过循环近似高效地计算它。\n在固定 $\\alpha$ 的情况下，最小化扩展准则 $\\tilde{J}_H(x, \\alpha)$ 关于 $x$：\n$$ \\tilde{J}_H(x, \\alpha) = \\|y - Hx\\|^2 + \\mu' \\left[ \\frac{1}{2} \\sum_{p \\sim q} \\left( (x_p - x_q) - a_{pq} \\right)^2 + \\zeta_{\\alpha}(a_{pq}) \\right] $$ 由于 $\\zeta _{\\alpha}(a _{pq})$ 不包含 $x$，在对 $x$ 进行最小化时，可以暂时忽略该项。因此，目标函数关于 $x$ 可写为：\n$$ \\tilde{J}_H(x, a) = \\|y - Hx\\|^2 + \\mu' \\sum_{p \\sim q} \\frac{1}{2} \\left( (x_p - x_q) - a_{pq} \\right)^2 $$ 我们引入差分算子 $D$，将所有像素对的项表示为范数形式： $$ \\tilde{J}_H(x, a) = |y - Hx|^2 + \\mu’ \\frac{1}{2} |Dx - a|^2 $$ 为求解最优 $x$，我们对准则关于 $x$ 求导并令其为零，即 $$ \\frac{\\partial}{\\partial x} \\tilde{J} _H(x, a) = 0 $$ 得到: $$ -2H^T(y - Hx) + \\mu’ D^T(Dx - a) = 0 $$ 整理得到： $$ \\left(H^T H + \\frac{\\mu’}{2} D^T D\\right)x = H^T y + \\frac{\\mu’}{2} D^T a $$\n$$ x =\\left(H^T H + \\frac{\\mu’}{2} D^T D\\right)^{-1}\\left(H^T y + \\frac{\\mu’}{2} D^T a\\right) $$\n同样的问题，很难通过直接矩阵计算来得到解析解，因此将卷积矩阵 H 和差分算子 D 近似为循环矩阵，可以在频域中同时对角化。\n2.2.3 近似循环矩阵的对角化 循环矩阵可以通过离散傅里叶变换（DFT）进行对角化： $$ \\tilde{H} = F^{\\dagger} \\Lambda_H F \\\\ \\tilde{D} = F^{\\dagger} \\Lambda_D F\\ $$ 其中：\n$F$ 是离散傅里叶变换矩阵，$F^{\\dagger}$ 是其共轭转置。 $\\Lambda_H$ 和 $\\Lambda_D$ 是对角矩阵，其对角元素为对应循环矩阵的特征值。 回到之前的最优解公式: $$ \\left(H^T H + \\frac{\\mu’}{2} D^T D\\right)x = H^T y + \\frac{\\mu’}{2} D^T \\alpha $$ $H$ 和 $D$ 被替换为 $\\tilde{H}$ 和 $\\tilde{D}$，于是： $$ \\left( \\tilde{H}^T \\tilde{H} + \\frac{\\mu’}{2} \\tilde{D}^T \\tilde{D} \\right) x = \\tilde{H}^T y + \\frac{\\mu’}{2} \\tilde{D}^T \\alpha $$ 循环矩阵的转置等于其共轭转置，即 $\\tilde{H}^T = \\tilde{H}^\\dagger$，同理 $\\tilde{D}^T = \\tilde{D}^\\dagger$。\n将方程两边左乘 $F$，并利用 $F F^\\dagger = I$ 的性质，有： $$ \\left(F \\tilde{H}^\\dagger \\tilde{H} F^\\dagger \\right) \\hat{x} + \\frac{\\mu’}{2} \\left(F \\tilde{D}^\\dagger \\tilde{D} F^\\dagger \\right) \\hat{x} = F \\tilde{H}^\\dagger y + \\frac{\\mu’}{2} F \\tilde{D}^\\dagger \\alpha $$\n其中 $\\hat{x} = Fx$ 由于 $F \\tilde{H}^\\dagger \\tilde{H} F^\\dagger = |\\Lambda_H|^2$，$F \\tilde{D}^\\dagger \\tilde{D} F^\\dagger = |\\Lambda_D|^2$\n并且 $F \\tilde{H}^\\dagger y =F \\tilde{H}^\\dagger F^\\dagger F y = \\Lambda_H^* \\hat{y}$，$F \\tilde{D}^\\dagger \\alpha = F \\tilde{D}^\\dagger F^\\dagger F \\alpha= \\Lambda_D^* \\hat{\\alpha}$\n因此，频域中的方程变为： $$ \\left( |\\Lambda_H|^2 + \\frac{\\mu’}{2} |\\Lambda_D|^2 \\right) \\hat{x} = \\Lambda_H^* \\hat{y} + \\frac{\\mu’}{2} \\Lambda_D^* \\hat{\\alpha} $$ 解上述方程，得到最小值： $$ \\hat{x} =\\left( |\\Lambda_H|^2 + \\frac{\\mu’}{2} |\\Lambda_D|^2 \\right)^{-1} \\Lambda_H^* \\hat{y} + \\frac{\\mu’}{2} \\Lambda_D^* \\hat{\\alpha} $$ 如果我们不严谨一点，只注重美观，我们可以写成如下形式 $$ \\hat{x} = \\frac{\\Lambda_H^* \\hat{y} + \\frac{\\mu’}{2} \\Lambda_D^* \\hat{\\alpha}}{|\\Lambda_H|^2 + \\frac{\\mu’}{2} |\\Lambda_D|^2} $$\n因为$\\Lambda_H$ 和 $\\Lambda_D$ 是矩阵所以这么写多少有点问题，写逆严谨一点。\n扩展:\n如果我们进一步更细一点，在二维图像中，差分算子 $D$ 包括水平和垂直方向的梯度：\n$$ Dx = \\begin{bmatrix} D_h x \\\\ D_v x\\ \\end{bmatrix} $$ 对应的傅里叶变换为： $$ \\Lambda_D = \\begin{bmatrix} \\Lambda_{D_h} \\\\ \\Lambda_{D_v}\\ \\end{bmatrix} $$ 将差分算子的水平和垂直分量代入，得到：\n$$ \\hat{x} = \\frac{\\Lambda_H^* \\hat{y} + \\frac{\\mu'}{2} \\left( \\Lambda_{D_h}^* \\hat{a}_h + \\Lambda_{D_v}^* \\hat{a}_v \\right)}{|\\Lambda_H|^2 + \\frac{\\mu'}{2} \\left( |\\Lambda_{D_h}|^2 + |\\Lambda_{D_v}|^2 \\right)} $$ 其中 $\\hat{a}_h, \\hat{a}_v$ 分别是辅助变量 $a$ 在水平方向和垂直方向上的傅里叶变换。 计算完 $\\hat{x}$ 后，通过逆傅里叶变换得到空间域的 $x$： $$ x = F^\\dagger \\hat{x} $$\n当 $a = 0$ 时，问题退化为经典的维纳-亨特去卷积问题。此时，辅助变量 $a$ 的正则化效应消失，算法只剩下标准的二次型最小化问题。\n$$ \\tilde{J}_H(x, 0) = |y - Hx|^2 + \\mu |Dx|^2 $$\n虽然能简单地得到去卷积解，但无法利用半二次方法的优势来更好地处理边缘。\n则频域解变为： $$ \\hat{x} = \\frac{\\Lambda_H^* \\hat{y} }{|\\Lambda_H|^2 + \\frac{\\mu’}{2} |\\Lambda_D|^2} $$ 或者表达成: $$ \\hat{x} = \\frac{\\Lambda_H^* \\hat{y}}{|\\Lambda_H|^2 + \\frac{\\mu’}{2} \\left( |\\Lambda_{D_h}|^2 + |\\Lambda_{D_v}|^2 \\right)} $$\n接下来我们着重处理步骤 ② ，我们可以独立并行更新每个 $a_{pq}$ ，为什么？\n在扩展准则 $\\tilde{J} _H(x, \\alpha)$ 中，涉及辅助变量 $a _{pq}$ 的部分为：\n$$ \\tilde{J}_H(x, a) = \\|y - Hx\\|^2 + \\mu' \\sum_{p \\sim q} \\left( \\frac{1}{2} \\left( (x_p - x_q) - a_{pq} \\right)^2 + \\zeta_\\alpha(a_{pq}) \\right) $$ 每个 $a_{pq}$ 仅与对应的像素差异 $(x_p - x_q)$ 和自身相关，而与其他像素对无关。因此，每个 $a_{pq}$ 的更新是相互独立的，只需考虑对应的像素对，这使得我们可以并行更新所有的辅助变量 $a_{pq}$，而不需要等待其他像素对的计算结果，从而提高计算效率。\n接下来我们看辅助变量 $a_{pq}$ 的两种设计方式，作为像素间差异 $\\delta_{pq} = x_p - x_q$ 的函数\n通过上述公式推导： $$ a_{pq} = \\begin{cases} \\delta_{pq} - 2\\alpha T \u0026 \\text{如果 } \\delta_{pq} \\geq T \\\\ (1 - 2\\alpha) \\delta_{pq} \u0026 \\text{如果 } |\\delta_{pq}| \\leq T \\\\ \\delta_{pq} + 2\\alpha T \u0026 \\text{如果 } \\delta_{pq} \\leq -T \\end{cases} $$\n课堂讲义中期望的解：\n$$ a_{pq} = \\delta_{pq} - \\alpha \\varphi'_H(\\delta_{pq}) $$ 其中 $\\varphi’_H(\\delta)$ 是 Huber 势函数的导数： $$ \\varphi’_H(\\delta) = \\begin{cases} 2\\delta \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T \\cdot \\text{sign}(\\delta) \u0026 \\text{如果 } |\\delta| \u003e T \\end{cases} $$\n两者是相同的。在实现时可以直接使用第二种方式。\n证明两种设计方案是相同的\n情况 1：\n当 $\\delta_{pq} \\geq T$ 时，\n$$ \\varphi'_H(\\delta_{pq}) = 2T $$ 将其代入方法 2 的公式：\n$$ a_{pq} = \\delta_{pq} - \\alpha \\cdot 2T = \\delta_{pq} - 2\\alpha T $$\n情况 2：\n当 $-T \\leq \\delta_{pq} \\leq T$ 时，\n$$ \\varphi'_H(\\delta_{pq}) = 2\\delta_{pq} $$ 将其代入方法 2 的公式：\n$$ a_{pq} = \\delta_{pq} - \\alpha \\cdot 2\\delta_{pq} = (1 - 2\\alpha)\\delta_{pq} $$\n情况 3：\n当 $\\delta_{pq} \\leq -T$ 时，\n$$ \\varphi'_H(\\delta_{pq}) = -2T $$ 将其代入方法 2 的公式：\n$$ a_{pq} = \\delta_{pq} - \\alpha \\cdot (-2T) = \\delta_{pq} + 2\\alpha T $$\n这与方法 1 中的公式完全一致，证明完毕。\n这种半二次方法的优点在于，步骤①和②都是显式的，而直接最小化 $J_H(x)$ 则不是。该算法也可以以下列形式给出。\n下面我们给出这种半二次算法的迭代更新步骤，我么 可见其步骤步骤①和②都是显式的，比直接最小化 $J_H(x)$ 方便的多:\n初始化 $a^{[0]} = 0$\n对于 $k = 1, 2, \\dots$ 重复如下 1、2 步骤：\n$$ \\begin{cases} ① \\ \\text{更新 } x :\\ \\ x^{[k]} = \\arg \\min_x \\tilde{J}_H(x, a^{[k-1]}) = \\dots \\\\ ② \\ \\text{更新 } a :\\ \\ a^{[k]} = \\arg \\min_a \\tilde{J}_H(x^{[k]}, a) = \\dots \\end{cases} $$\n我们将结果与使用维纳-亨特方法得到的结果进行比较\n对比结果：\nWiener-Hunt 方法：采用二次正则化，倾向于全局平滑， 导致边缘模糊。 Huber 正则化方法：在平滑区域与二次正则化效果相似，但在边缘处惩罚减小，保留边缘细节。 参数 $\\mu$ 的影响：\n较大的$\\mu$：正则化项权重增加，无噪声，图像更平滑，细节丢失。 较小的$\\mu$ ：正则化项权重减小，有噪声，但边缘和细节保留更好。 参数 $T$ 的影响：\n较大的$T$：边缘保护减弱，无噪声，图像更平滑，细节丢失。 较小的$T$ ：更多的像素差异被视为边缘，有噪声，但边缘和细节保留更好。 因此我们要调整 $\\mu$ 和 $T$ 来找到一个平衡点\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 clear all; close all; clc; % ---------------------------- % Step 1: 加载数据 % ---------------------------- Data = load('DataTwo.mat'); ObservedImage = Data.Data; TrueImage = Data.TrueImage; IR = Data.IR; % 获取图像尺寸 [M, N] = size(ObservedImage); Long = max(M, N); % 取最大维度 % ---------------------------- % Step 2: 定义参数 % ---------------------------- mu_huber = 0.12; % Huber 正则化的参数 mu_wiener_hunt = 0.01; % Wiener-Hunt 方法的参数 T = 0.9; % Huber 函数的阈值参数 alpha = 0.4; % 辅助变量更新中的参数，0 \u003c alpha \u003c 0.5 epsilon = 1e-4; % 收敛阈值 max_iter = 100; % 最大迭代次数 % ---------------------------- % Step 3: 生成频率轴并预处理 % ---------------------------- TF_ObservedImage = MyFFT2(ObservedImage); TF_IR = MyFFT2RI(IR, Long); % ---------------------------- % Step 4: 定义正则化滤波器（差分算子） % ---------------------------- D_C = [0 0 0; 0 -1 1; 0 0 0]; D_R = D_C'; FT_D_C = MyFFT2RI(D_C, Long); FT_D_R = MyFFT2RI(D_R, Long); abs_DC_squared = abs(FT_D_C).^2; abs_DR_squared = abs(FT_D_R).^2; abs_D_squared = abs_DC_squared + abs_DR_squared; Lambda_DC = FT_D_C; Lambda_DR = FT_D_R; % ---------------------------- % Step 5: 初始化辅助变量 % ---------------------------- a_L = zeros(M, N); % 左侧（水平）方向的辅助变量 a_R = zeros(M, N); % 右侧（垂直）方向的辅助变量 x_prev = zeros(M, N); % 初始化 x 的前一轮结果用于收敛判断 k = 0; % 初始化迭代计数器 % ---------------------------- % Step 6: 主循环 - Huber 正则化优化 % ---------------------------- while k \u003c max_iter k = k + 1; disp(['Iteration: ', num2str(k)]); % -------------------- % Step 6a: 更新 x % -------------------- TF_a_L = MyFFT2(a_L); TF_a_R = MyFFT2(a_R); Numerator = conj(TF_IR) .* TF_ObservedImage + (mu_huber * alpha / 2) * (conj(Lambda_DC) .* TF_a_L + conj(Lambda_DR) .* TF_a_R); Denominator = abs(TF_IR).^2 + (mu_huber * alpha / 2) * (abs_DC_squared + abs_DR_squared); Denominator(Denominator == 0) = 1e-8; TF_x = Numerator ./ Denominator; x = MyIFFT2(TF_x); % -------------------- % Step 6b: 更新辅助变量 a % -------------------- delta_L = MyIFFT2(FT_D_C .* TF_x); delta_R = MyIFFT2(FT_D_R .* TF_x); phi_prime_L = huber_derivative(delta_L, T); phi_prime_R = huber_derivative(delta_R, T); a_L = delta_L - alpha * phi_prime_L; a_R = delta_R - alpha * phi_prime_R; % -------------------- % Step 6c: 收敛判断 % -------------------- dx = norm(x - x_prev, 'fro') / (norm(x_prev, 'fro') + eps); if dx \u003c epsilon disp('Algorithm converged.'); break; end x_prev = x; end % ---------------------------- % Step 7: 使用 Wiener-Hunt 方法恢复图像 % ---------------------------- x_wh = deconvolve_image(ObservedImage, IR, mu_wiener_hunt); % ---------------------------- % Step 8: 计算真实图像与重建图像的差值指标（MSE 和 PSNR） % ---------------------------- mse_wh = mean((TrueImage(:) - x_wh(:)).^2); mse_huber = mean((TrueImage(:) - x(:)).^2); psnr_wh = psnr_custom(x_wh, TrueImage); psnr_huber = psnr_custom(x, TrueImage); % ---------------------------- % Step 9: 显示结果 % ---------------------------- figure; subplot(2,2,1); imagesc(ObservedImage); colormap('gray'); axis off; title('Observed Image'); subplot(2,2,2); imagesc(TrueImage); colormap('gray'); axis off; title('True Image'); subplot(2,2,3); imagesc(x_wh); colormap('gray'); axis off; title('Reconstructed Image (Wiener-Hunt)'); subplot(2,2,4); imagesc(x); colormap('gray'); axis off; title('Reconstructed Image (Huber Regularization)'); % ---------------------------- % Step 10: 显示 MSE 和 PSNR 作为差异指标 % ---------------------------- % figure; % bar_handle = bar([mse_wh, psnr_wh; mse_huber, psnr_huber]', 'grouped'); % set(gca, 'XTickLabel', {'Wiener-Hunt', 'Huber Regularization'}); % legend({'MSE', 'PSNR'}, 'Location', 'best'); % ylabel('Value'); % title('Difference Metrics Between Reconstructed and True Images'); % ylim([0, max([mse_wh, mse_huber, psnr_wh, psnr_huber]) * 1.1]); fprintf('Difference Metrics:\\n'); fprintf('-------------------\\n'); fprintf('Wiener-Hunt Method (mu = %.2f):\\n', mu_wiener_hunt); fprintf('MSE: %.6f\\n', mse_wh); fprintf('PSNR: %.2f dB\\n', psnr_wh); fprintf('\\n'); fprintf('Huber Regularization Method (mu = %.2f):\\n', mu_huber); fprintf('MSE: %.6f\\n', mse_huber); fprintf('PSNR: %.2f dB\\n', psnr_huber); 1 2 3 4 5 6 7 % Huber 函数的一阶导数 function phi_prime = huber_derivative(delta, T) phi_prime = zeros(size(delta)); mask = abs(delta) \u003c= T; phi_prime(mask) = 2 * delta(mask); phi_prime(~mask) = 2 * T * sign(delta(~mask)); end 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 % 自定义 PSNR 计算函数 function psnr_val = psnr_custom(img1, img2) img1 = double(img1); img2 = double(img2); mse = mean((img1(:) - img2(:)).^2); if mse == 0 psnr_val = Inf; return; end max_pixel = max(img1(:)); psnr_val = 10 * log10((max_pixel^2) / mse); end 进一步分析: 使用线变量的解释 我们对之前的理论进行新解释（不是新方案）。这是对准则 (3) 及其最小化解 的另一种解释。它利用了线变量，可以揭示重建图像中的不连续性。为此，我们再次引入一个全新的扩展准则 (5) :\n$$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu \\sum_{p \\sim q} \\ell_{pq}(x_p - x_q)^2 + \\sum_{p \\sim q} \\bar{\\zeta}(\\ell_{pq}) $$ 线变量 $ \\ell _{pq} \\in [0,1]$ 是未观测到的，它们被引入到相邻像素之间，以打破或削弱像素间的相互作用\n对比准则 (1) $$ J_Q(x) = |y - Hx|^2 + \\mu \\sum_{p \\sim q} \\varphi_Q(x_p - x_q) \\tag{1} $$ 对比准则 (3) $$ J_H(x) = |y - Hx|^2 + \\mu^{\\prime} \\sum_{p \\sim q} \\alpha \\varphi_H(x_p - x_q) \\tag{3} $$\n对比准则 (4)\n$$ \\tilde{J}_H(x, a) = \\|y - Hx\\|^2 + \\mu' \\left[ \\sum_{p \\sim q} \\frac{1}{2} \\left( (x_p - x_q) - a_{pq} \\right)^2 + \\tilde{\\zeta}_\\alpha(a_{pq}) \\right] \\tag{4} $$ 这个形式重点在于线变量 $\\ell _{pq}$，在正则化项 $\\mu \\sum _{p \\sim q} \\ell _{pq}(x _p - x _q)^2$ 中 $\\ell _{pq}$可以调节像素相互作用强度 ，也就是每对相邻像素 p 和 q 之间的平滑程度。\n当 $\\ell_{pq} $ 较大时， 表示对 $(x_p - x_q)^2$ 的惩罚较强，即倾向于平滑作用强，图像噪声少，细节少。尤其是当 $\\ell_{pq} = 1$ ，任何像素之间的差异都会被平滑，图像完全丢失细节 当 $\\ell_{pq} $ 较小时， 表示对 $(x_p - x_q)^2$ 的惩罚较弱，倾向于保留边缘细节。尤其是当 $\\ell_{pq}=0$ ，完全没有平滑作用，图像会充满噪声。 这个 作用和 $\\alpha$ 差不多，但是最重要的是后面的 $\\sum_{p \\sim q} \\bar{\\zeta}(\\ell_{pq})$ ，它是一个对线变量 $\\ell_{pq}$ 的正则化项，用于控制调节 $\\ell_{pq}$ 的取值范围，其函数形式给出:\n$\\bar{\\zeta}$ 函数可以通过凸对偶框架构造出来。直接给出的结果如下： $$ \\bar{\\zeta}(\\ell) = s^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$ 其中，$s = T$ 是Huber函数的阈值参数\n证明\n我们需要从扩展准则和凸对偶性的角度出发，利用 Legendre-Fenchel Transform 理论来推导出 $\\bar{\\zeta}(\\ell)$ 的表达式。\n扩展准则 (5) :\n$$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu \\sum_{p \\sim q} \\ell_{pq}(x_p - x_q)^2 + \\sum_{p \\sim q} \\bar{\\zeta}(\\ell_{pq}) \\\\ $$ $$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu\\sum_{p \\sim q} \\left[ \\ell_{pq}(x_p - x_q)^2 + \\bar{\\zeta}(\\ell_{pq}) \\right] $$ 考虑每对相邻像素 $(p, q)$，我们假设势函数公式为: $$ \\varphi_H(\\delta) = \\min_{\\ell \\in [0,1]} \\left[ \\ell \\delta^2 + \\bar{\\zeta}(\\ell) \\right] $$\n其中，$\\delta = x_p - x_q$ 是像素间的灰度差异 对比准则 (2) $$ J_H(x) = |y - Hx|^2 + \\mu \\sum_{p \\sim q} \\varphi_H(x_p - x_q) \\tag{2} $$ 可见，将势函数带进入，就可以得到准则 (5) ，我们继续对势函数动手: $$ \\varphi_H(\\delta) = \\min_{\\ell \\in [0,1]} \\left[ \\ell \\delta^2 + \\bar{\\zeta}(\\ell) \\right] $$ 我们调一下位置，可得: $$ \\bar{\\zeta}(\\ell) = \\sup_{\\delta} \\left[ \\varphi_H(\\delta) - \\ell \\delta^2 \\right] $$ 根据勒让德-芬切尔变换的定义，对于凸函数 $f(\\delta)$，其凸对偶函数 $f^ *(\\ell)$ 定义为：\n$$ f^*(\\ell) = \\sup_{\\delta} \\left[ f(\\delta) - \\ell \\delta^2 \\right] $$ 从这里我们就可以明白，为什么势函数的形式如上了，它是随着 勒让德-芬切尔变换 公式而构造来的。下面我们继续计算 $\\bar{\\zeta}(\\ell)$\n根据Huber势函数的定义：\n$$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2, \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T|\\delta| - T^2, \u0026 \\text{如果 } |\\delta| \u003e T \\end{cases} $$\n我们将其带入到 $\\bar{\\zeta}(\\ell) = \\sup_{\\delta} \\left[ \\varphi_H(\\delta) - \\ell \\delta^2 \\right]$ 当中，要分情况讨论\n情况 1：$|\\delta| \\leq T$ $$ \\varphi_H(\\delta) = \\delta^2 $$\n因此，\n$$ \\bar{\\zeta}(\\ell) = \\sup_{|\\delta| \\leq T} \\left[ \\delta^2 - \\ell \\delta^2 \\right] = \\sup_{|\\delta| \\leq T} \\left[ (1 - \\ell) \\delta^2 \\right] = (1 - \\ell) T^2 $$\n情况 2：$|\\delta| \u003e T$ $$ \\varphi_H(\\delta) = 2T|\\delta| - T^2 $$\n因此，\n$$ \\bar{\\zeta}(\\ell) = \\sup_{|\\delta| \u003e T} \\left[ 2T|\\delta| - T^2 - \\ell \\delta^2 \\right] $$\n为了找到最大值，我们对 $\\delta \u003e T$ 和 $\\delta \u003c -T$ 分别进行分析。\n子情况 2.1：$\\delta \u003e T$\n设 $\\delta \u003e T$，则：\n$$ \\varphi_H(\\delta) - \\ell \\delta^2 = 2T\\delta - T^2 - \\ell \\delta^2 $$\n对 $\\delta$ 求导并设为零以找到极值点：\n$$ \\frac{d}{d\\delta} (2T\\delta - \\ell \\delta^2 - T^2) = 2T - 2\\ell \\delta = 0 \\implies \\delta^* = \\frac{T}{\\ell} $$\n验证 $\\delta^* \u003e T$ 是否成立：\n$$ \\frac{T}{\\ell} \u003e T \\implies \\frac{1}{\\ell} \u003e 1 \\implies \\ell \u003c 1 $$\n这在 $\\ell \\in [0,1)$ 时成立。\n将 $\\delta^* = \\frac{T}{\\ell}$ 代入表达式：\n$$ 2T \\cdot \\frac{T}{\\ell} - T^2 - \\ell \\left( \\frac{T}{\\ell} \\right)^2 = \\frac{2T^2}{\\ell} - T^2 - \\frac{\\ell T^2}{\\ell^2} = \\frac{2T^2}{\\ell} - T^2 - \\frac{T^2}{\\ell} = \\frac{T^2}{\\ell} - T^2 = T^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$\n子情况 2.2：$\\delta \u003c -T$\n由于对称性，结果与子情况 2.1 相同：\n$$ \\varphi_H(\\delta) - \\ell \\delta^2 = 2T|\\delta| - T^2 - \\ell \\delta^2 = 2T(-\\delta) - T^2 - \\ell \\delta^2 \\quad (\\text{因为 } \\delta \u003c -T) $$\n通过类似的步骤可得：\n$$ \\bar{\\zeta}(\\ell) = T^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$\n综上情况所述:\n情况 1：$\\bar{\\zeta}(\\ell) = (1 - \\ell) T^2$ 情况 2：$\\bar{\\zeta}(\\ell) = T^2 \\left( \\frac{1}{\\ell} - 1 \\right)$ 为了确定 $\\bar{\\zeta}(\\ell)$，我们取这两者中的最大值：\n$$ \\bar{\\zeta}(\\ell) = \\max \\left\\{ (1 - \\ell) T^2, \\ T^2 \\left( \\frac{1}{\\ell} - 1 \\right) \\right\\} $$ 观察到，对于 $\\ell \\in (0,1)$：\n$$ T^2 \\left( \\frac{1}{\\ell} - 1 \\right) \\geq (1 - \\ell) T^2 $$\n因为：\n$$ \\frac{1}{\\ell} - 1 \\geq 1 - \\ell \\quad \\text{对于所有} \\ \\ell \\in (0,1) $$\n因此，\n$$ \\bar{\\zeta}(\\ell) = T^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$\n如果我们设定 $s = T$，则：\n$$ \\bar{\\zeta}(\\ell) = s^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$\n证明完毕\n这一结果表明，$\\bar{\\zeta}(\\ell)$ 是通过凸对偶性和勒让德-芬切尔变换从原始的Huber正则化函数导出的，它有效地将线变量 $\\ell$ 与正则化项关联起来。\n如果没有 $\\bar{\\zeta}$ ，优化过程会自由的选择 $\\ell_{pq}$ 值，而不注重于像素差异，这会导致极端的 $\\ell_{pq}$ 值（接近 0 或 1）。在后续算法步骤中会清楚这一点。\n我们下面会推导这个新准则 (5) 和初始准则 (1) 的关系。\n首先，我们需要再引入一个关于 $\\ell$ 的函数，记作 $\\psi_\\delta(\\ell)$，其参数为 $\\delta$：\n$$ \\psi_\\delta(\\ell) = \\ell \\delta^2 + \\bar{\\zeta}(\\ell) $$\n通过最小化 $\\psi_\\delta(\\ell)$ 关于 $\\ell$，我们可以得到 $\\varphi_H(\\delta)$，即：\n$$ \\varphi_H(\\delta) = \\min_\\ell \\psi_\\delta(\\ell) $$\n接下来我们给出证明\n证明\n回顾定义 $\\zeta(\\ell)$ 和 $\\psi_\\delta(\\ell)$： $$ \\bar{\\zeta}(\\ell) = s^2 \\left( \\frac{1}{\\ell} - 1 \\right) $$\n$$ \\psi_\\delta(\\ell) = \\ell \\delta^2 + \\zeta(\\ell) $$\n求 $\\psi_\\delta(\\ell)$ 关于 $\\ell$ 的导数并令其为零： $$ \\frac{\\partial \\psi_\\delta(\\ell)}{\\partial \\ell} = \\delta^2 - \\frac{s^2}{\\ell^2}= 0 $$\n$$ \\delta^2 - \\frac{s^2}{(\\ell^*)^2} = 0 \\implies (\\ell^*)^2 = \\frac{s^2}{\\delta^2} \\implies \\ell^* = \\frac{s}{|\\delta|} $$ 考虑 $\\ell^*$ 的取值范围：\n当 $|\\delta| \\leq s$ 时： $$ \\ell^* \\geq 1, \\quad \\text{但} \\quad \\ell \\leq 1, \\quad \\text{因此取} \\quad \\ell^* = 1 $$\n当 $|\\delta| \u003e s$ 时： $$ \\ell^* \u003c 1 \\implies \\ell^* \\in (0, 1) $$ 综合起来: $$ \\ell^* = \\frac{s}{|\\delta|} \\in (0, 1] $$\n将 $\\ell^* $ 代回去计算最小值 $\\varphi_H(\\delta)$：\n当 $|\\delta| \\leq s$： $$ \\varphi_H(\\delta) = \\psi_\\delta(1) = \\delta^2 + s^2 (1 - 1) = \\delta^2 $$\n当 $|\\delta| \u003e s$： $$ \\varphi_H(\\delta) = \\psi_\\delta\\left(\\frac{s}{|\\delta|}\\right) = \\frac{s}{|\\delta|} \\delta^2 + s^2 \\left( \\frac{|\\delta|}{s} - 1 \\right) = 2s|\\delta| - s^2 $$\n$$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2 \u0026 \\text{如果 } |\\delta| \\leq s \\\\ 2s|\\delta| - s^2 \u0026 \\text{如果 } |\\delta| \\geq s \\end{cases} $$\n对比初始Huber 势函数表达式 $$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2 \u0026 \\text{如果 } |\\delta| \\leq T \\\\ 2T|\\delta| - T^2 \u0026 \\text{如果 } |\\delta| \\geq T \\end{cases} $$\n一摸一样啊，因此，证明了： $$ \\varphi_H(\\delta) = \\min \\psi_\\delta(\\ell) $$\n下面我们会证明，准则 (5) 如何通过最小化最小化辅助变量 $\\ell$ 来得到准则 (2) ，即: $$ J_H(x) = \\min_\\ell \\bar{J}_H(x, \\ell) $$\n证明\n首先，回顾两个准则的定义：\n初始准则(2)： $$ J_H(x) = |y - Hx|^2 + \\mu \\sum_{p \\sim q} \\varphi_H(x_p - x_q) $$\n扩展准则 (5)：\n$$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu \\left[ \\sum_{p \\sim q} \\ell_{pq}(x_p - x_q)^2 + \\sum_{p \\sim q} \\zeta(\\ell_{pq}) \\right] $$ 步骤：\n固定 $x$，对 $\\bar{J}_H(x, \\ell)$ 关于 $\\ell$ 进行最小化：\n① 对于给定的 $x$，$\\bar{J}_H(x, \\ell)$ 关于 $\\ell$ 的部分可以拆分为像素对 $(p, q)$ 的独立项：\n$$ \\sum_{p \\sim q} \\left[ \\ell_{pq}(x_p - x_q)^2 + \\zeta(\\ell_{pq}) \\right] $$ 因此，我们可以分别最小化每个像素对 $(p, q)$ 的项： $$ \\psi_{pq}(\\ell_{pq}) = \\ell_{pq}(x_p - x_q)^2 + \\zeta(\\ell_{pq}) $$\n②对 $\\psi_{pq}(\\ell_{pq})$ 关于 $\\ell_{pq}$ 求最小值：\n求导并令导数为零： $$ \\frac{\\partial \\psi_{pq}}{\\partial \\ell_{pq}} = (x_p - x_q)^2 + \\zeta’(\\ell_{pq}) = 0 $$ 解方程得到最优 $\\ell_{pq}$： $$ \\zeta’(\\ell_{pq}) = -(x_p - x_q)^2 $$ ③利用 $\\zeta(\\ell)$ 的具体形式求解 $\\ell_{pq}$：\n已知辅助函数 $\\zeta(\\ell)$ 定义为： $$ \\zeta(\\ell) = s^2 \\left( \\frac{1}{\\ell} - 1 \\right), \\quad \\ell \\in (0, 1] $$ 因此，其导数为： $$ \\zeta’(\\ell) = -\\frac{s^2}{\\ell^2} $$ 将其代入前的等式： $$ \\zeta’(\\ell_{pq}) =-\\frac{s^2}{\\ell_{pq}^2} = -(x_p - x_q)^2 $$ 整理得到： $$ \\ell_{pq}^2 = \\frac{s^2}{(x_p - x_q)^2} $$ 因为 $\\ell_{pq} \u003e 0$，所以： $$ \\ell_{pq}^* = \\frac{s}{|x_p - x_q|} $$\n需要注意 $\\ell_{pq} \\leq 1$，因此当 $|x_p - x_q| \\leq s$ 时，$\\ell_{pq} \\geq 1$，但由于 $\\ell_{pq} \\leq 1$，所以取 $\\ell_{pq} = 1$。\n最终，最优 $\\ell_{pq}$ 为： $$ \\ell_{pq}^* = \\begin{cases} \\quad 1 \u0026 \\text{如果 } |x_p - x_q| \\leq s \\ \\frac{s}{|x_p - x_q|} \u0026 \\text{如果 } |x_p - x_q| \u003e s \\end{cases} $$\n④ 将最优 $\\ell_{pq}^ *$ 代入 $\\psi_{pq}(\\ell_{pq})$ 计算最小值：\n当 $|x_p - x_q| \\leq s$ 时： $$ \\psi_{pq}(1) = 1 \\cdot (x_p - x_q)^2 + \\zeta(1) = (x_p - x_q)^2 + s^2(1 - 1) = (x_p - x_q)^2 $$\n当 $|x_p - x_q| \u003e s$ 时： $$ \\begin{aligned} \\psi_{pq} \\left( \\frac{s}{|x_p - x_q|} \\right) \u0026= \\frac{s}{|x_p - x_q|}(x_p - x_q)^2 + s^2 \\left( \\frac{|x_p - x_q|}{s} - 1 \\right) \\ \u0026= 2s|x_p - x_q| - s^2 \\end{aligned} $$\n结合起来: $$ \\psi_{pq} \\left( \\ell_{pq}^* \\right) = \\begin{cases} (x_p - x_q)^2 \u0026 \\text{如果 } |x_p - x_q| \\leq s \\ 2s|x_p - x_q| - s^2 \u0026 \\text{如果 } |x_p - x_q| \u003e s \\end{cases} $$\n可见，最小化后的 $\\psi_{pq}(\\ell_{pq}^*)$ 即为 Huber 势函数 $\\varphi_H(x_p - x_q)$，回顾 Huber 势函数定义: $$ \\varphi_H(\\delta) = \\begin{cases} \\delta^2, \u0026 \\text{如果 } |\\delta| \\leq s \\ 2s|\\delta| - s^2, \u0026 \\text{如果 } |\\delta| \u003e s \\end{cases} $$ 可见两个表达式一摸一样，我们可以说: $$ \\varphi_H(\\delta) = \\varphi_H(x_p - x_q) = \\min_{\\ell_{pq}} \\psi_{pq}(\\ell_{pq}) $$\n⑤ 将结果代入扩展准则，得到初始准则：\n$$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu \\left[ \\sum_{p \\sim q} \\ell_{pq}(x_p - x_q)^2 + \\sum_{p \\sim q} \\zeta(\\ell_{pq}) \\right] $$ $$ \\bar{J}_H(x, \\ell) = \\|y - Hx\\|^2 + \\mu \\min_{\\ell_{pq}} \\psi_{pq}(\\ell_{pq}) $$ $$ \\bar{J}_H(x, \\ell^*) = \\|y - Hx\\|^2 + \\mu \\sum_{p \\sim q} \\varphi_H(x_p - x_q) $$ 这就是初始准则 $J_H(x)$ 的形式，因此我们可以说，通过对准则 (5) $\\bar{J}_H(x, \\ell)$ 关于 $\\ell$ 进行最小化，我们得到了：\n$$ J_H(x) = \\min_\\ell \\bar{J}_H(x, \\ell) $$\n证明完毕\n接下来我们 绘制与解 $\\hat{x}_H$ 对应的线条 ，线条 ($\\hat{\\ell}$) 可以直观地看作是图像的边缘检测结果。通过对 $\\ell$ 进行最小化，在恢复图像的过程中可以识别并标记图像中的边缘位置。\n步骤：\n① 计算梯度： 计算图像 $\\hat{x} _H$ 的梯度 $\\delta _{pq} = x _p - x _q$，用于评估相邻像素间的差异。\n② 线条的表示： 根据辅助变量 $\\ell _{pq}$，通过以下公式计算每对相邻像素之间的相互作用：\n$$ \\hat{\\ell}_{pq} = \\frac{s}{|\\delta_{pq}|} $$ 较小的 $\\ell _{pq}$ 表示强烈的不连续性（即图像边缘）。\n③ 生成线条图像： 将计算出的 $\\hat{\\ell}$ 映射到新的图像矩阵中。生成的图像可以是一个二值图像（黑白）或灰度图像，用以突出显示恢复图像中的边缘。\n1 2 3 4 5 % ---------------------------- % Step 10: 绘制边缘检测结果 % ---------------------------- % 调用自定义的 plot_edges 函数 plot_edges(x, T,FT_D_C,FT_D_R,TF_x); 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 function plot_edges(x_hat, s,FT_D_C,FT_D_R,TF_x) % 计算水平和垂直梯度 delta_h = MyIFFT2(FT_D_C .* TF_x); % 右侧方向（垂直） delta_v = MyIFFT2(FT_D_R .* TF_x); % 计算辅助变量 l_h 和 l_v l_h = s ./ (abs(delta_h) + eps); % 加 eps 避免除以零 l_v = s ./ (abs(delta_v) + eps); % 设定 l 的上限为 1 l_h(l_h \u003e 1) = 1; l_v(l_v \u003e 1) = 1; % 合并水平和垂直边缘 edges = sqrt(l_h.^2 + l_v.^2); % 归一化边缘图像 edges = edges / max(edges(:)); % 显示边缘图像 figure; imagesc(edges); colormap('gray'); axis off; title('Edge Map from Huber Regularization'); end ",
+  "wordCount" : "10002",
+  "inLanguage": "zh",
+  "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2024-11-28T16:25:17+01:00",
+  "dateModified": "2024-11-28T17:12:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Zehua"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "主页",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://zehua.eu/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://zehua.eu/zh/" accesskey="h" title="主页 (Alt + H)">主页</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://zehua.eu/" title="English"
+                            aria-label="English">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://zehua.eu/zh/posts/" title="列表">
+                    <span>列表</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/about/" title="版权说明">
+                    <span>版权说明</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://zehua.eu/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://zehua.eu/zh/">主页</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/">Posts</a>&nbsp;»&nbsp;<a href="http://zehua.eu/zh/posts/signal_cn/">信号处理</a></div>
+    <h1 class="post-title entry-hint-parent">
+      反问题 TP3
+    </h1>
+    <div class="post-meta">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2024-11-28 16:25:17 +0100 CET'>11月28日, 2024</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共10002字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e5%87%b8%e6%ad%a3%e5%88%99%e5%8c%96%e4%b8%8e%e8%bd%ae%e5%bb%93%e6%84%9f%e7%9f%a5%e5%9b%be%e5%83%8f%e6%81%a2%e5%a4%8d" aria-label="凸正则化与轮廓感知图像恢复">凸正则化与轮廓感知图像恢复</a><ul>
+                            
+                    <li>
+                        <a href="#1-wiener---hunt%e6%96%b9%e6%b3%95%e5%9b%9e%e9%a1%be" aria-label="1. Wiener - hunt方法回顾">1. Wiener - hunt方法回顾</a></li>
+                    <li>
+                        <a href="#2%e5%87%b8%e6%ad%a3%e5%88%99%e5%8c%96" aria-label="2.凸正则化">2.凸正则化</a><ul>
+                            
+                    <li>
+                        <a href="#21-huber%e5%8a%bf%e5%87%bd%e6%95%b0" aria-label="2.1 Huber势函数">2.1 Huber势函数</a></li>
+                    <li>
+                        <a href="#22-%e4%bc%98%e5%8c%96" aria-label="2.2 优化">2.2 优化</a><ul>
+                            
+                    <li>
+                        <a href="#221-%e6%89%a9%e5%b1%95%e5%87%86%e5%88%99%e4%b8%8e%e8%be%85%e5%8a%a9%e5%8f%98%e9%87%8f" aria-label="2.2.1 扩展准则与辅助变量">2.2.1 扩展准则与辅助变量</a></li>
+                    <li>
+                        <a href="#222-%e6%b1%82%e6%9c%80%e5%b0%8f%e5%80%bc" aria-label="2.2.2 求最小值">2.2.2 求最小值</a></li>
+                    <li>
+                        <a href="#223-%e8%bf%91%e4%bc%bc%e5%be%aa%e7%8e%af%e7%9f%a9%e9%98%b5%e7%9a%84%e5%af%b9%e8%a7%92%e5%8c%96" aria-label="2.2.3 近似循环矩阵的对角化">2.2.3 近似循环矩阵的对角化</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e8%bf%9b%e4%b8%80%e6%ad%a5%e5%88%86%e6%9e%90-%e4%bd%bf%e7%94%a8%e7%ba%bf%e5%8f%98%e9%87%8f%e7%9a%84%e8%a7%a3%e9%87%8a" aria-label="进一步分析: 使用线变量的解释">进一步分析: 使用线变量的解释</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h1 id="凸正则化与轮廓感知图像恢复">凸正则化与轮廓感知图像恢复<a hidden class="anchor" aria-hidden="true" href="#凸正则化与轮廓感知图像恢复">#</a></h1>
+<p>之前的工作已经涉及维纳-亨特方法，本次实验则提出 <strong>Huber正则化方法</strong>，也叫做 <strong>半二次（Half-Quadratic）正则化方法</strong></p>
+<h2 id="1-wiener---hunt方法回顾">1. Wiener - hunt方法回顾<a hidden class="anchor" aria-hidden="true" href="#1-wiener---hunt方法回顾">#</a></h2>
+<p>我们使用以下数学模型来描述获取过程：</p>
+<p>$$
+y = Hx + e
+$$</p>
+<p>其中，向量 $y$ 表示观察到的数据（模糊图像），向量 $x$ 表示未知的真实图像（清晰图像），$H$ 是卷积矩阵，$e$ 是表示测量和建模误差的向量。</p>
+<p>为了对去卷积问题进行正则化，我们需要引入图像二维空间的附加信息，最简单的方法是 使用相邻像素灰度差，并将其作为惩罚。因此带惩罚的准则形式如下：</p>
+<p>$$
+J_Q(x) = |y - Hx|^2 + \mu \sum_{p \sim q} \varphi_Q(x_p - x_q) \tag{1}
+$$</p>
+<ul>
+<li>其中势函数  $\varphi_Q(\delta) = \delta^2$</li>
+</ul>
+<p>我们可以将其中相邻像素差 $x_p - x_q$ 重写为差分矩阵的形式 $D$ ：<br>
+$$
+J_Q(x) = |y - Hx|^2 + \mu |Dx|^2
+$$</p>
+<p>该准则的最小化值就是我们要的重构的图像 $\hat{x}_Q$ ：<br>
+$$
+\hat{x}_Q = \arg \min_x J_Q(x)
+$$</p>
+<p>经过一通处理，我们找到最小值：<br>
+$$
+\hat{x}_Q = (H^tH + \mu D^tD)^{-1} H^t y
+$$</p>
+<p>之前讲过这个求逆玩不了，因此引入循环近似方法，在傅里叶基下对循环矩阵进行对角化。这样可以以较低的计算成本计算解，即Wiener - hunt 解法。可见，这种循环近似的思想在高维矩阵求逆的情况下非常好用，我们同样接下来也会用这个技巧。</p>
+<p>给定适当选择的 $\mu$ 值，我们可以看到明显的去卷积效果。然而，分辨率和恢复锐利边缘的能力有限，不能很好地处理恢复图像中的灰度突变。本次实践作业的目的是克服这一限制。</p>
+<h2 id="2凸正则化">2.凸正则化<a hidden class="anchor" aria-hidden="true" href="#2凸正则化">#</a></h2>
+<h3 id="21-huber势函数">2.1 Huber势函数<a hidden class="anchor" aria-hidden="true" href="#21-huber势函数">#</a></h3>
+<p>为了进一步提高分辨率并具有更好的边缘保护特性，我们重新考虑势函数 ϕ，例如：</p>
+<p>$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2 &amp; \text{如果 } |\delta| \leq T \
+2T|\delta| - T^2 &amp; \text{如果 } |\delta| \geq T
+\end{cases}
+$$
+这被称为Huber势函数。它在阈值 T 之前具有二次行为，而在阈值 T 之后呈现线性行为</p>
+<ul>
+<li>对于$\varphi_H$ 的导数（蓝线）：</li>
+</ul>
+<div>
+$$
+\text{一阶导数} \ \varphi_H'(\delta) \ ：
+\left\{
+\begin{aligned}
+& \text{当} \ |\delta| \leq T \ \text{时，} \ \varphi_H'(\delta) = 2\delta \ \\
+& \text{当} \ |\delta| \geq T \ \text{时，} \ \varphi_H'(\delta) = 2T \cdot \text{sign}(\delta) \ \\
+\end{aligned}
+\right.
+$$
+</div>
+<div>
+$$
+\text{二阶导数} \ \varphi_H''(\delta) \ ：
+\left\{
+\begin{aligned}
+& \text{当} \ |\delta| \leq T \ \text{时，} \ \varphi_H''(\delta) = 2 \ \\
+& \text{当} \ |\delta| \geq T \ \text{时，} \ \varphi_H''(\delta) = 0 \ \text{（线性部分没有二阶导数）} \ \\
+\end{aligned}
+\right.
+$$
+</div>
+<ul>
+<li>对于 $\varphi_Q(\delta) = \delta^2$ 的导数（红线）：</li>
+</ul>
+<p>$$
+\text{一阶导数} \ \varphi_Q&rsquo;(\delta) = 2\delta
+$$</p>
+<p>$$
+\text{二阶导数} \ \varphi_Q&rsquo;&rsquo;(\delta) = 2
+$$</p>
+<img src="/img/Problem_inverse/TP3/5.png" alt="1" style="width:50%;">
+<img src="/img/Problem_inverse/TP3/6.png" alt="1" style="width:50%;">
+<img src="/img/Problem_inverse/TP3/7.png" alt="1" style="width:50%;">
+<p>从Huber势函数 $\varphi_H$ 开始，我们定义了一个与（1）中给出的准则相似的新准则:</p>
+<p>$$
+J_H(x) = |y - Hx|^2 + \mu \sum_{p \sim q} \varphi_H(x_p - x_q) \tag{2}
+$$</p>
+<p>上述新准则的最小化解就是新恢复的图像 $\hat{x}_H$ :</p>
+<p>$$
+\hat{x}_H = \arg \min_x J_H(x)
+$$</p>
+
+<span class="color-text"style="background-color: #FFFF00;">
+    <text>那么新的势函数 $\varphi_H$ 与之前的势函数 $\varphi_Q$ 相比其优势在哪里呢？</text>
+</span>
+
+<p>新的势函数 $\varphi_H$ 能够更好地保护边缘，因为它在大于某个阈值 $T$ 时呈现线性增长，而不是像 $\varphi_Q(\delta) = \delta^2$ 这样呈现二次增长，即当梯度较大（边缘）时，平方后惩罚项迅速增加，导致算法倾向于减小这些梯度。线性增长比二次增长更加平缓，可以降低梯度增加的速度，防止边缘被过度平滑，利于保护边缘信息。</p>
+<p>重新回到之前新势函数的定义:
+$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2 &amp; \text{如果 } |\delta| \leq T \\
+2T|\delta| - T^2 &amp; \text{如果 } |\delta| \geq T
+\end{cases}
+$$</p>
+<ul>
+<li>其中阈值 $T$ 决定了势函数 $\varphi_H(\delta)$ 何时从二次增长切换为线性增长</li>
+</ul>
+<ol>
+<li>如果像素之间的差异 $|\delta|$ 超过了阈值 $T$，意味着应该是图像中的边缘部分 。此时，$\varphi_H(\delta)$ 将从二次惩罚转为线性惩罚 ，对 边缘 施加的惩罚就更小，从而更好地保留图像中明显的特征和细节</li>
+<li>当像素差异较小时 ($|\delta| &lt; T$)，$\varphi_H(\delta)$ 的行为与传统的二次势函数 $\varphi_Q(\delta) = \delta^2$ 相同</li>
+</ol>
+<p>我们注意，所选择的 $\varphi_H$ 函数是凸的，我们推断整个准则 $J_H$ 也是凸的，因此它有一个唯一的最小值。我们下面也可以推导证明这一点。</p>
+<p>由于算法的原因，我们引入了一个额外的参数 $\alpha$，一个严格正的实数。惩罚项乘以并除以 $\alpha$，并令 $\mu^{\prime} = \mu / \alpha$ ，整个公式是不变的:
+$$
+J_H(x) = |y - Hx|^2 + \mu^{\prime} \sum_{p \sim q} \alpha \varphi_H(x_p - x_q) \tag{3}
+$$</p>
+<ul>
+<li>
+<p>$\alpha$ 的值影响了梯度下降中每一步的更新幅度，较小的 $\alpha$ 保守，较大的 $\alpha$ 可能振荡</p>
+</li>
+<li>
+<p>通过调整 $\alpha$，可以间接控制 $\mu’$ 的大小（后续），进而改变数据项和正则化项的平衡</p>
+</li>
+</ul>
+<h3 id="22-优化">2.2 优化<a hidden class="anchor" aria-hidden="true" href="#22-优化">#</a></h3>
+<p>下面计算新准则 $J_H$ 的最小值，与二次准则（1） $J_Q$ 不同，我们无法直接通过解析式求解最小值，但可以通过数值迭代算法来计算其唯一最小化值。然后，我们要引入辅助变量，这样才能够在傅里叶基下利用 <strong>Wiener - Hunt 解法</strong>高效地进行计算。</p>
+<h4 id="221-扩展准则与辅助变量">2.2.1 扩展准则与辅助变量<a hidden class="anchor" aria-hidden="true" href="#221-扩展准则与辅助变量">#</a></h4>
+<p>为了在循环近似下重复使用二次情况（ Wiener - Hunt 解）的结果，我们引入了一组新的变量，称为辅助变量。更具体地说，我们为每对相邻像素 $(p, q)$ 引入一个变量 $a_{pq}$，并将所有这些新变量收集到向量 $a$ 中。</p>
+<p>我们对准则（3）进行了扩展，原准则（3）形式如下:
+$$
+J_H(x) = |y - Hx|^2 + \mu^{\prime} \sum_{p \sim q} \alpha \varphi_H(x_p - x_q) \tag{3}
+$$
+我们构造一个函数， $\alpha \varphi(\delta)$ ，其定义为</p>
+<div>
+$$
+\alpha \varphi(\delta) = \inf_a \left[ \frac{1}{2}(\delta - a)^2 + \tilde{\zeta}_\alpha(a) \right]
+$$
+</div>
+<p>那么，$\alpha \varphi_H(x_p - x_q) $ 为:</p>
+<div>
+$$
+\alpha \varphi_H(x_p - x_q)  = \inf_{a_{pq}} \left[ \frac{1}{2} \left( (x_p - x_q) - a_{pq} \right)^2 + \tilde{\zeta}_\alpha(a_{pq})  \right]
+$$
+</div>
+<p>所以新准则（4）形式如下:</p>
+<div>
+$$
+\tilde{J}_H(x, a) = \|y - Hx\|^2 + \mu' \left[ \sum_{p \sim q} \frac{1}{2} \left( (x_p - x_q) - a_{pq} \right)^2 + \tilde{\zeta}_\alpha(a_{pq}) \right] \tag{4}
+$$
+</div>
+<p>这是关于未知图像 $x$ 和辅助变量 $a$ 的函数。它分为三部分：</p>
+<ul>
+<li>
+<p>最小二乘项  $|y - Hx|^2$</p>
+</li>
+<li>
+<p>涉及像素差异和辅助变量的二次项  $\left( (x_p - x_q) - a_{pq} \right)^2$</p>
+</li>
+<li>
+<p>仅涉及辅助变量的函数项  $\tilde{\zeta}_\alpha$ ，我们称它为辅助函数项</p>
+</li>
+</ul>
+<p>构建的关键是通过最小化扩展准则 $\tilde{J}_H(x, a)$ 来最小化原始准则 $J_H(x)$，即：</p>
+<div>
+$$
+\min_x \left\{ \min_a \tilde{J}_H(x, a) \right\} \Rightarrow   \min_x J_H(x)
+$$
+</div>
+<p>我们现在已经搞定了最小二乘项，像素差异项可以用差分矩阵然后循环近似搞定，现在唯一棘手的东西就是这个  $\tilde{\zeta} _\alpha$ ，  因此如何设计  $\tilde{\zeta} _\alpha$ 对于上述思想的成立至关重要，我们需要用到凸对偶性和 Legendre-Fenchel Transform理论，结论是它证明了 $\tilde{\zeta} _\alpha$ 也是Huber函数。</p>
+<p>回顾 <strong>Huber函数</strong> 的定义:
+$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2 &amp; \text{如果 } |\delta| \leq T \\
+2T|\delta| - T^2 &amp; \text{如果 } |\delta| \geq T
+\end{cases}
+$$
+$\tilde{\zeta} _\alpha$ 表达式:</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \alpha 
+\begin{cases}
+\frac{1}{1 - 2\alpha} a^2 & \text{如果 } |a| \leq (1 - 2\alpha)T \\
+2T|a| - (1 - 2\alpha)T^2 & \text{如果 } |a| \geq (1 - 2\alpha)T
+\end{cases}
+$$
+</div>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong></p>
+<p>我们需要证明：
+$$
+\tilde{\zeta}_\alpha(a) = \alpha
+\begin{cases}
+\frac{1}{1 - 2\alpha} a^2, &amp; \text{如果 } |a| \leq (1 - 2\alpha)T \\
+2T|a| - (1 - 2\alpha)T^2, &amp; \text{如果 } |a| &gt; (1 - 2\alpha)T
+\end{cases}
+$$
+我们需要满足：</p>
+<ul>
+<li>
+<p>$\tilde{\zeta}_\alpha(a)$ 是 $\alpha \varphi_H(\delta)$ 的凸对偶形式。</p>
+</li>
+<li>
+<p>给定 $\alpha \varphi_H(\delta)$ 的表达式，利用凸对偶和 Legendre-Fenchel Transform理论推出 $\tilde{\zeta}_\alpha(a)$。</p>
+</li>
+</ul>
+<p>Huber函数 $\varphi_H(\delta)$ 定义如下：
+$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2, &amp; \text{如果 } |\delta| \leq T \\
+2T|\delta| - T^2, &amp; \text{如果 } |\delta| &gt; T
+\end{cases}
+$$
+扩展后乘以 $\alpha$：
+$$
+\alpha \varphi_H(\delta) =
+\begin{cases}
+\alpha \delta^2, &amp; \text{如果 } |\delta| \leq T \\
+2\alpha T|\delta| - \alpha T^2, &amp; \text{如果 } |\delta| &gt; T
+\end{cases}
+$$
+利用定义：</p>
+<div>
+$$
+\alpha \varphi_H(\delta) = \inf_a \left[ \frac{1}{2}(\delta - a)^2 + \tilde{\zeta}_\alpha(a) \right]
+$$
+</div>
+<p>等价于寻找满足以下关系的 $\tilde{\zeta}_\alpha(a)$：</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \sup_\delta \left[ \alpha \varphi_H(\delta) - \frac{1}{2}(\delta - a)^2 \right]
+$$
+</div>
+<p>这就是 Legendre-Fenchel Transform。</p>
+<p>根据 $\alpha \varphi_H(\delta)$ 的分段定义，我们需要分别考虑 $|\delta| \leq T$ 和 $|\delta| &gt; T$ 两种情况。</p>
+<p><strong>情况 1：$|\delta| \leq T$</strong>
+$$
+\alpha \varphi_H(\delta) = \alpha \delta^2
+$$</p>
+<p>需要求解：</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \sup_\delta \left[ \alpha \delta^2 - \frac{1}{2}(\delta - a)^2 \right]
+$$
+</div>
+<p>展开括号：</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \alpha \delta^2 - \frac{1}{2}(\delta^2 - 2a\delta + a^2) 
+= \left(\alpha - \frac{1}{2}\right)\delta^2 + a\delta - \frac{1}{2}a^2
+$$
+</div>
+<p><strong>导数为零求极值</strong>：
+$$
+\frac{\partial}{\partial \delta} \left[\tilde{\zeta}_\alpha(a)  \right]=\frac{\partial}{\partial \delta} \left[\left(\alpha - \frac{1}{2}\right)\delta^2 + a\delta - \frac{1}{2}a^2\right] = 2\left(\alpha - \frac{1}{2}\right)\delta + a = 0
+$$
+解得：</p>
+<p>$$
+\delta^* = -\frac{a}{2\left(\alpha - \frac{1}{2}\right)}
+$$
+<strong>验证取值范围</strong>：</p>
+<ul>
+<li>当 $|a| \leq (1 - 2\alpha)T$，$\delta^*$ 落在 $[-T, T]$ 内，因此没问题。</li>
+</ul>
+<p>*<em>将 $\delta^ <em>$ 代入原表达式</em></em>：</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \left(\alpha - \frac{1}{2}\right)\delta{^*}^2 + a\delta{^*} - \frac{1}{2}a^2 
+= \left(\alpha - \frac{1}{2}\right)\left(-\frac{a}{2\left(\alpha - \frac{1}{2}\right)}\right)^2 + a\left(-\frac{a}{2\left(\alpha - \frac{1}{2}\right)}\right) - \frac{1}{2}a^2
+$$
+</div>
+<p>化简为：</p>
+<p>$$
+\tilde{\zeta}_\alpha(a) = \frac{\alpha}{1 - 2\alpha}a^2
+$$</p>
+<p><strong>情况 2：$|\delta| &gt; T$</strong>
+$$
+\alpha \varphi_H(\delta) = 2\alpha T|\delta| - \alpha T^2
+$$
+需要求解：</p>
+<div>
+$$
+\tilde{\zeta}_\alpha(a) = \sup_\delta \left[ 2\alpha T|\delta| - \alpha T^2 - \frac{1}{2}(\delta - a)^2 \right]
+$$
+</div>
+<p>令 $g(\delta)=2\alpha T|\delta| - \alpha T^2 - \frac{1}{2}(\delta - a)^2$，对 $g(\delta)$ 求导数：
+$$
+\frac{\partial g(\delta)}{\partial \delta} =
+\begin{cases}
+2\alpha T - (\delta - a), &amp; \delta &gt; 0 \
+-2\alpha T - (\delta - a), &amp; \delta &lt; 0
+\end{cases}
+$$
+当 $\delta &gt; 0$ 时：
+$$
+2\alpha T - (\delta - a) = 0 \implies \delta^* = a + 2\alpha T
+$$
+当 $\delta &lt; 0$ 时：
+$$
+-2\alpha T - (\delta - a) = 0 \implies \delta^* = a - 2\alpha T
+$$
+将 $\delta^*$ 代入并考虑边界条件，最终得到：
+$$
+\tilde{\zeta}_\alpha(a) = 2T|a| - (1 - 2\alpha)T^2
+$$</p>
+<p>将两种情况的结果合并，得到 $\tilde{\zeta}_\alpha(a)$ 的最终表达式：</p>
+<p>$$
+\tilde{\zeta}_\alpha(a) = \alpha
+\begin{cases}
+\frac{1}{1 - 2\alpha} a^2, &amp; \text{如果 } |a| \leq (1 - 2\alpha)T  \\
+2T|a| - (1 - 2\alpha)T^2, &amp; \text{如果 } |a| &gt; (1 - 2\alpha)T
+\end{cases}
+$$
+证明完毕</p>
+</text></div>
+
+<p>参数 $\alpha \in \left(0, \frac{1}{2}\right)$ ，在此范围能够对算法进行精细调整，它只影响优化算法性质例如收敛速度，和我们最终结果无关。</p>
+<h4 id="222-求最小值">2.2.2 求最小值<a hidden class="anchor" aria-hidden="true" href="#222-求最小值">#</a></h4>
+<p>我们重新回到准则 (3)，新准则的提出有一个重要思想:</p>
+<div>
+$$
+\min_x \left\{ \min_a \tilde{J}_H(x, a) \right\} \Rightarrow \min_x J_H(x)
+$$
+</div>
+<p>表明我们可以通过 $x$ 和 $a$ 的联合最小化 $\tilde{J}_H(x, a)$ 来得到 $J_H(x)$ 的最小化值：</p>
+<div>
+$$
+\hat{x}_H = \arg \min_x J_H(x) = \arg \min_x \left\{ \min_a \tilde{J}_H(x, a) \right\}
+$$
+</div>
+<p>从编程的角度来看，我们将通过迭代两步过程来计算 $\tilde{J}_H(x, a)$ 关于 $x$ 和 $a$ 的联合最小化，直到收敛：</p>
+<div>
+$$
+(\tilde{x}_H, \tilde{a}_H) = \arg \min_{x, a} \tilde{J}_H(x, a)
+$$
+</div>
+<p>其中，$\tilde{x}_H$  就是我们想要的 $J_H(x)$ 的最小化值  $\hat{x}_H $</p>
+<p>为了计算这个联合最小化解，我们将通过迭代两步过程来实现 $\tilde{J}_H(x, a)$ 关于 $x$ 和 $a$ 的联合最小化，直到收敛：</p>
+<p>​	① 对于固定的 $a$，最小化 $\tilde{J}_H(x, a)$ 来更新 $x$，这将得到 $\bar{x}(a) = \arg \min_x \tilde{J}_H(x, a)$</p>
+<p>​	② 对于固定的 $x$，最小化 $\tilde{J}_H(x, a)$ 来更新 $a$，这将得到 $\bar{a}(x) = \arg \min_a \tilde{J}_H(x, a)$</p>
+<p>通过这样的迭代过程，我们可以找到最终的最优解 $\hat{x}_H = \tilde{x}_H$，即最优的图像恢复结果。迭代的本质是分步优化，在每一步中只优化一个变量 ($x$ 或 $a$)，这比直接联合优化两个变量要简单得多。</p>
+<p>现在我们给出步骤 ① 的显式解，并通过循环近似高效地计算它。</p>
+<p>在固定 $\alpha$ 的情况下，最小化扩展准则 $\tilde{J}_H(x, \alpha)$ 关于 $x$：</p>
+<div>
+$$
+\tilde{J}_H(x, \alpha) = \|y - Hx\|^2 + \mu' \left[ \frac{1}{2} \sum_{p \sim q} \left( (x_p - x_q) - a_{pq} \right)^2 + \zeta_{\alpha}(a_{pq}) \right]
+$$
+</div>
+<p>由于 $\zeta _{\alpha}(a _{pq})$ 不包含 $x$，在对 $x$ 进行最小化时，可以暂时忽略该项。因此，目标函数关于 $x$ 可写为：</p>
+<div>
+$$
+\tilde{J}_H(x, a) = \|y - Hx\|^2 + \mu' \sum_{p \sim q} \frac{1}{2} \left( (x_p - x_q) - a_{pq} \right)^2
+$$
+</div>
+<p>我们引入差分算子 $D$，将所有像素对的项表示为范数形式：
+$$
+\tilde{J}_H(x, a) = |y - Hx|^2 + \mu&rsquo; \frac{1}{2} |Dx - a|^2
+$$
+为求解最优 $x$，我们对准则关于 $x$ 求导并令其为零，即
+$$
+\frac{\partial}{\partial x} \tilde{J} _H(x, a) = 0
+$$
+得到:
+$$
+-2H^T(y - Hx) + \mu&rsquo; D^T(Dx - a) = 0
+$$
+整理得到：
+$$
+\left(H^T H + \frac{\mu&rsquo;}{2} D^T D\right)x = H^T y + \frac{\mu&rsquo;}{2} D^T a
+$$</p>
+<p>$$
+x =\left(H^T H + \frac{\mu&rsquo;}{2} D^T D\right)^{-1}\left(H^T y + \frac{\mu&rsquo;}{2} D^T a\right)
+$$</p>
+<p>同样的问题，很难通过直接矩阵计算来得到解析解，因此将卷积矩阵 H 和差分算子 D 近似为循环矩阵，可以在频域中同时对角化。</p>
+<h4 id="223-近似循环矩阵的对角化">2.2.3 近似循环矩阵的对角化<a hidden class="anchor" aria-hidden="true" href="#223-近似循环矩阵的对角化">#</a></h4>
+<p>循环矩阵可以通过离散傅里叶变换（DFT）进行对角化：
+$$
+\tilde{H} = F^{\dagger} \Lambda_H F \\
+\tilde{D} = F^{\dagger} \Lambda_D F\
+$$
+其中：</p>
+<ul>
+<li>$F$ 是离散傅里叶变换矩阵，$F^{\dagger}$ 是其共轭转置。</li>
+<li>$\Lambda_H$ 和 $\Lambda_D$ 是对角矩阵，其对角元素为对应循环矩阵的特征值。</li>
+</ul>
+<p>回到之前的最优解公式:
+$$
+\left(H^T H + \frac{\mu&rsquo;}{2} D^T D\right)x = H^T y + \frac{\mu&rsquo;}{2} D^T \alpha
+$$
+$H$ 和 $D$ 被替换为 $\tilde{H}$ 和 $\tilde{D}$，于是：
+$$
+\left( \tilde{H}^T \tilde{H} + \frac{\mu&rsquo;}{2} \tilde{D}^T \tilde{D} \right) x = \tilde{H}^T y + \frac{\mu&rsquo;}{2} \tilde{D}^T \alpha
+$$
+循环矩阵的转置等于其共轭转置，即 $\tilde{H}^T = \tilde{H}^\dagger$，同理 $\tilde{D}^T = \tilde{D}^\dagger$。</p>
+<p>将方程两边左乘 $F$，并利用 $F F^\dagger = I$ 的性质，有：
+$$
+\left(F \tilde{H}^\dagger \tilde{H} F^\dagger \right) \hat{x} + \frac{\mu&rsquo;}{2} \left(F \tilde{D}^\dagger \tilde{D} F^\dagger \right) \hat{x} = F \tilde{H}^\dagger y + \frac{\mu&rsquo;}{2} F \tilde{D}^\dagger \alpha
+$$</p>
+<ul>
+<li>其中 $\hat{x} = Fx$</li>
+</ul>
+<p>由于 $F \tilde{H}^\dagger \tilde{H} F^\dagger = |\Lambda_H|^2$，$F \tilde{D}^\dagger \tilde{D} F^\dagger = |\Lambda_D|^2$</p>
+<p>并且 $F \tilde{H}^\dagger y =F \tilde{H}^\dagger F^\dagger F y = \Lambda_H^* \hat{y}$，$F \tilde{D}^\dagger \alpha = F \tilde{D}^\dagger  F^\dagger F \alpha= \Lambda_D^* \hat{\alpha}$</p>
+<p>因此，频域中的方程变为：
+$$
+\left( |\Lambda_H|^2 + \frac{\mu&rsquo;}{2} |\Lambda_D|^2 \right) \hat{x} = \Lambda_H^* \hat{y} + \frac{\mu&rsquo;}{2} \Lambda_D^* \hat{\alpha}
+$$
+解上述方程，得到最小值：
+$$
+\hat{x} =\left( |\Lambda_H|^2 + \frac{\mu&rsquo;}{2} |\Lambda_D|^2 \right)^{-1} \Lambda_H^* \hat{y} + \frac{\mu&rsquo;}{2} \Lambda_D^* \hat{\alpha}
+$$
+如果我们不严谨一点，只注重美观，我们可以写成如下形式
+$$
+\hat{x} = \frac{\Lambda_H^* \hat{y} + \frac{\mu&rsquo;}{2} \Lambda_D^* \hat{\alpha}}{|\Lambda_H|^2 + \frac{\mu&rsquo;}{2} |\Lambda_D|^2}
+$$</p>
+<p>因为$\Lambda_H$ 和 $\Lambda_D$ 是矩阵所以这么写多少有点问题，写逆严谨一点。</p>
+<div
+    class="alert alert-info"    role="alert"><text><p><strong>扩展:</strong></p>
+<p>如果我们进一步更细一点，在二维图像中，差分算子 $D$ 包括水平和垂直方向的梯度：</p>
+<p>$$
+Dx = \begin{bmatrix} D_h x \\ D_v x\ \end{bmatrix}
+$$
+对应的傅里叶变换为：
+$$
+\Lambda_D = \begin{bmatrix} \Lambda_{D_h} \\ \Lambda_{D_v}\ \end{bmatrix}
+$$
+将差分算子的水平和垂直分量代入，得到：</p>
+<div>
+$$
+\hat{x} = \frac{\Lambda_H^* \hat{y} + \frac{\mu'}{2} \left( \Lambda_{D_h}^* \hat{a}_h + \Lambda_{D_v}^* \hat{a}_v \right)}{|\Lambda_H|^2 + \frac{\mu'}{2} \left( |\Lambda_{D_h}|^2 + |\Lambda_{D_v}|^2 \right)}
+$$
+</div>
+<ul>
+<li>其中 $\hat{a}_h, \hat{a}_v$ 分别是辅助变量 $a$ 在水平方向和垂直方向上的傅里叶变换。</li>
+</ul>
+</text></div>
+
+<p>计算完 $\hat{x}$ 后，通过逆傅里叶变换得到空间域的 $x$：
+$$
+x = F^\dagger \hat{x}
+$$</p>
+<div
+    class="alert alert-info"    role="alert"><text><p>当 $a = 0$ 时，问题退化为经典的维纳-亨特去卷积问题。此时，辅助变量 $a$ 的正则化效应消失，算法只剩下标准的二次型最小化问题。</p>
+<p>$$
+\tilde{J}_H(x, 0) = |y - Hx|^2 + \mu |Dx|^2
+$$</p>
+<p>虽然能简单地得到去卷积解，但无法利用半二次方法的优势来更好地处理边缘。</p>
+<p>则频域解变为：
+$$
+\hat{x} = \frac{\Lambda_H^* \hat{y} }{|\Lambda_H|^2 + \frac{\mu&rsquo;}{2} |\Lambda_D|^2}
+$$
+或者表达成:
+$$
+\hat{x} = \frac{\Lambda_H^* \hat{y}}{|\Lambda_H|^2 + \frac{\mu&rsquo;}{2} \left( |\Lambda_{D_h}|^2 + |\Lambda_{D_v}|^2 \right)}
+$$</p>
+</text></div>
+
+<p>接下来我们着重处理步骤 ② ，我们可以独立并行更新每个 $a_{pq}$ ，为什么？</p>
+<p>在扩展准则 $\tilde{J} _H(x, \alpha)$ 中，涉及辅助变量 $a _{pq}$ 的部分为：</p>
+<div>
+$$
+\tilde{J}_H(x, a) = \|y - Hx\|^2 + \mu' \sum_{p \sim q} \left( \frac{1}{2} \left( (x_p - x_q) - a_{pq} \right)^2 + \zeta_\alpha(a_{pq}) \right)
+$$
+</div>
+<p>每个 $a_{pq}$ 仅与对应的像素差异 $(x_p - x_q)$ 和自身相关，而与其他像素对无关。因此，每个 $a_{pq}$ 的更新是相互独立的，只需考虑对应的像素对，这使得我们可以并行更新所有的辅助变量 $a_{pq}$，而不需要等待其他像素对的计算结果，从而提高计算效率。</p>
+<p>接下来我们看辅助变量 $a_{pq}$ 的两种设计方式，作为像素间差异 $\delta_{pq} = x_p - x_q$ 的函数</p>
+<ol>
+<li>
+<p><strong>通过上述公式推导：</strong>
+$$
+a_{pq} =
+\begin{cases}
+\delta_{pq} - 2\alpha T &amp; \text{如果 } \delta_{pq} \geq T \\
+(1 - 2\alpha) \delta_{pq} &amp; \text{如果 } |\delta_{pq}| \leq T \\
+\delta_{pq} + 2\alpha T &amp; \text{如果 } \delta_{pq} \leq -T
+\end{cases}
+$$</p>
+</li>
+<li>
+<p><strong>课堂讲义中期望的解：</strong></p>
+<div>
+$$
+a_{pq} = \delta_{pq} - \alpha \varphi'_H(\delta_{pq})
+$$
+</div>
+<ul>
+<li>其中 $\varphi&rsquo;_H(\delta)$ 是 Huber 势函数的导数：</li>
+</ul>
+</li>
+</ol>
+<p>$$
+\varphi&rsquo;_H(\delta) =
+\begin{cases}
+2\delta &amp; \text{如果 } |\delta| \leq T \\
+2T \cdot \text{sign}(\delta) &amp; \text{如果 } |\delta| &gt; T
+\end{cases}
+$$</p>
+<p>两者是相同的。在实现时可以直接使用第二种方式。</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明两种设计方案是相同的</strong></p>
+<p><strong>情况 1：</strong></p>
+<p>当 $\delta_{pq} \geq T$ 时，</p>
+<div>
+$$
+\varphi'_H(\delta_{pq}) = 2T
+$$
+</div>
+<p>将其代入方法 2 的公式：</p>
+<p>$$
+a_{pq} = \delta_{pq} - \alpha \cdot 2T = \delta_{pq} - 2\alpha T
+$$</p>
+<p><strong>情况 2：</strong></p>
+<p>当 $-T \leq \delta_{pq} \leq T$ 时，</p>
+<div>
+$$
+\varphi'_H(\delta_{pq}) = 2\delta_{pq}
+$$
+</div>
+<p>将其代入方法 2 的公式：</p>
+<p>$$
+a_{pq} = \delta_{pq} - \alpha \cdot 2\delta_{pq} = (1 - 2\alpha)\delta_{pq}
+$$</p>
+<p><strong>情况 3：</strong></p>
+<p>当 $\delta_{pq} \leq -T$ 时，</p>
+<div>
+$$
+\varphi'_H(\delta_{pq}) = -2T
+$$
+</div>
+<p>将其代入方法 2 的公式：</p>
+<p>$$
+a_{pq} = \delta_{pq} - \alpha \cdot (-2T) = \delta_{pq} + 2\alpha T
+$$</p>
+<p>这与方法 1 中的公式完全一致，证明完毕。</p>
+</text></div>
+
+<p>这种半二次方法的优点在于，步骤①和②都是显式的，而直接最小化 $J_H(x)$ 则不是。该算法也可以以下列形式给出。</p>
+<p>下面我们给出这种半二次算法的迭代更新步骤，我么 可见其步骤步骤①和②都是显式的，比直接最小化 $J_H(x)$ 方便的多:</p>
+<ol>
+<li>
+<p><strong>初始化</strong> $a^{[0]} = 0$</p>
+</li>
+<li>
+<p><strong>对于</strong> $k = 1, 2, \dots$ <strong>重复如下 1、2 步骤</strong>：</p>
+</li>
+</ol>
+<p>$$
+\begin{cases}
+① \ \text{更新 } x :\ \ x^{[k]} = \arg \min_x \tilde{J}_H(x, a^{[k-1]}) = \dots \\
+② \ \text{更新 } a :\ \ a^{[k]} = \arg \min_a \tilde{J}_H(x^{[k]}, a) = \dots
+\end{cases}
+$$</p>
+<p>我们将结果与使用维纳-亨特方法得到的结果进行比较</p>
+<p><strong>对比结果：</strong></p>
+<ul>
+<li><strong>Wiener-Hunt 方法</strong>：采用二次正则化，倾向于全局平滑， 导致边缘模糊。</li>
+<li><strong>Huber 正则化方法</strong>：在平滑区域与二次正则化效果相似，但在边缘处惩罚减小，保留边缘细节。</li>
+</ul>
+<p><strong>参数  $\mu$  的影响：</strong></p>
+<ul>
+<li><strong>较大的</strong>$\mu$：正则化项权重增加，无噪声，图像更平滑，细节丢失。</li>
+<li><strong>较小的</strong>$\mu$ ：正则化项权重减小，有噪声，但边缘和细节保留更好。</li>
+</ul>
+<p><strong>参数 $T$  的影响：</strong></p>
+<ul>
+<li><strong>较大的</strong>$T$：边缘保护减弱，无噪声，图像更平滑，细节丢失。</li>
+<li><strong>较小的</strong>$T$ ：更多的像素差异被视为边缘，有噪声，但边缘和细节保留更好。</li>
+</ul>
+<p>因此我们要调整  $\mu$  和  $T$ 来找到一个平衡点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">clear</span> <span class="n">all</span><span class="p">;</span> <span class="n">close</span> <span class="n">all</span><span class="p">;</span> <span class="n">clc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 1: 加载数据</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">Data</span> <span class="p">=</span> <span class="n">load</span><span class="p">(</span><span class="s">&#39;DataTwo.mat&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ObservedImage</span> <span class="p">=</span> <span class="n">Data</span><span class="p">.</span><span class="n">Data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">TrueImage</span> <span class="p">=</span> <span class="n">Data</span><span class="p">.</span><span class="n">TrueImage</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">IR</span> <span class="p">=</span> <span class="n">Data</span><span class="p">.</span><span class="n">IR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% 获取图像尺寸</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">ObservedImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Long</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>  <span class="c">% 取最大维度</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 2: 定义参数</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">mu_huber</span> <span class="p">=</span> <span class="mf">0.12</span><span class="p">;</span>        <span class="c">% Huber 正则化的参数</span>
+</span></span><span class="line"><span class="cl"><span class="n">mu_wiener_hunt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span> <span class="c">% Wiener-Hunt 方法的参数</span>
+</span></span><span class="line"><span class="cl"><span class="n">T</span> <span class="p">=</span> <span class="mf">0.9</span><span class="p">;</span>               <span class="c">% Huber 函数的阈值参数</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha</span> <span class="p">=</span> <span class="mf">0.4</span><span class="p">;</span>           <span class="c">% 辅助变量更新中的参数，0 &lt; alpha &lt; 0.5</span>
+</span></span><span class="line"><span class="cl"><span class="n">epsilon</span> <span class="p">=</span> <span class="mf">1e-4</span><span class="p">;</span>        <span class="c">% 收敛阈值</span>
+</span></span><span class="line"><span class="cl"><span class="n">max_iter</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>        <span class="c">% 最大迭代次数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 3: 生成频率轴并预处理</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">TF_ObservedImage</span> <span class="p">=</span> <span class="n">MyFFT2</span><span class="p">(</span><span class="n">ObservedImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">TF_IR</span> <span class="p">=</span> <span class="n">MyFFT2RI</span><span class="p">(</span><span class="n">IR</span><span class="p">,</span> <span class="n">Long</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 4: 定义正则化滤波器（差分算子）</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">D_C</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">D_R</span> <span class="p">=</span> <span class="n">D_C</span><span class="o">&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">FT_D_C</span> <span class="p">=</span> <span class="n">MyFFT2RI</span><span class="p">(</span><span class="n">D_C</span><span class="p">,</span> <span class="n">Long</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">FT_D_R</span> <span class="p">=</span> <span class="n">MyFFT2RI</span><span class="p">(</span><span class="n">D_R</span><span class="p">,</span> <span class="n">Long</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">abs_DC_squared</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">FT_D_C</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">abs_DR_squared</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">FT_D_R</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">abs_D_squared</span> <span class="p">=</span> <span class="n">abs_DC_squared</span> <span class="o">+</span> <span class="n">abs_DR_squared</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Lambda_DC</span> <span class="p">=</span> <span class="n">FT_D_C</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Lambda_DR</span> <span class="p">=</span> <span class="n">FT_D_R</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 5: 初始化辅助变量</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">a_L</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>   <span class="c">% 左侧（水平）方向的辅助变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">a_R</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>   <span class="c">% 右侧（垂直）方向的辅助变量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x_prev</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="c">% 初始化 x 的前一轮结果用于收敛判断</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c">% 初始化迭代计数器</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 6: 主循环 - Huber 正则化优化</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">max_iter</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="p">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">disp</span><span class="p">([</span><span class="s">&#39;Iteration: &#39;</span><span class="p">,</span> <span class="n">num2str</span><span class="p">(</span><span class="n">k</span><span class="p">)]);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% Step 6a: 更新 x</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TF_a_L</span> <span class="p">=</span> <span class="n">MyFFT2</span><span class="p">(</span><span class="n">a_L</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TF_a_R</span> <span class="p">=</span> <span class="n">MyFFT2</span><span class="p">(</span><span class="n">a_R</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Numerator</span> <span class="p">=</span> <span class="nb">conj</span><span class="p">(</span><span class="n">TF_IR</span><span class="p">)</span> <span class="o">.*</span> <span class="n">TF_ObservedImage</span> <span class="o">+</span> <span class="p">(</span><span class="n">mu_huber</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">Lambda_DC</span><span class="p">)</span> <span class="o">.*</span> <span class="n">TF_a_L</span> <span class="o">+</span> <span class="nb">conj</span><span class="p">(</span><span class="n">Lambda_DR</span><span class="p">)</span> <span class="o">.*</span> <span class="n">TF_a_R</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Denominator</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">TF_IR</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">mu_huber</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">abs_DC_squared</span> <span class="o">+</span> <span class="n">abs_DR_squared</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Denominator</span><span class="p">(</span><span class="n">Denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">=</span> <span class="mf">1e-8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">TF_x</span> <span class="p">=</span> <span class="n">Numerator</span> <span class="o">./</span> <span class="n">Denominator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="p">=</span> <span class="n">MyIFFT2</span><span class="p">(</span><span class="n">TF_x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% Step 6b: 更新辅助变量 a</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="n">delta_L</span> <span class="p">=</span> <span class="n">MyIFFT2</span><span class="p">(</span><span class="n">FT_D_C</span> <span class="o">.*</span> <span class="n">TF_x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">delta_R</span> <span class="p">=</span> <span class="n">MyIFFT2</span><span class="p">(</span><span class="n">FT_D_R</span> <span class="o">.*</span> <span class="n">TF_x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">phi_prime_L</span> <span class="p">=</span> <span class="n">huber_derivative</span><span class="p">(</span><span class="n">delta_L</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phi_prime_R</span> <span class="p">=</span> <span class="n">huber_derivative</span><span class="p">(</span><span class="n">delta_R</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">a_L</span> <span class="p">=</span> <span class="n">delta_L</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">phi_prime_L</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a_R</span> <span class="p">=</span> <span class="n">delta_R</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">phi_prime_R</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% Step 6c: 收敛判断</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% --------------------</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_prev</span><span class="p">,</span> <span class="s">&#39;fro&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">x_prev</span><span class="p">,</span> <span class="s">&#39;fro&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">eps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">dx</span> <span class="o">&lt;</span> <span class="n">epsilon</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Algorithm converged.&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_prev</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 7: 使用 Wiener-Hunt 方法恢复图像</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_wh</span> <span class="p">=</span> <span class="n">deconvolve_image</span><span class="p">(</span><span class="n">ObservedImage</span><span class="p">,</span> <span class="n">IR</span><span class="p">,</span> <span class="n">mu_wiener_hunt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 8: 计算真实图像与重建图像的差值指标（MSE 和 PSNR）</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">mse_wh</span> <span class="p">=</span> <span class="n">mean</span><span class="p">((</span><span class="n">TrueImage</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">x_wh</span><span class="p">(:))</span><span class="o">.^</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">mse_huber</span> <span class="p">=</span> <span class="n">mean</span><span class="p">((</span><span class="n">TrueImage</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">x</span><span class="p">(:))</span><span class="o">.^</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">psnr_wh</span> <span class="p">=</span> <span class="n">psnr_custom</span><span class="p">(</span><span class="n">x_wh</span><span class="p">,</span> <span class="n">TrueImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">psnr_huber</span> <span class="p">=</span> <span class="n">psnr_custom</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TrueImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 9: 显示结果</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">figure</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">imagesc</span><span class="p">(</span><span class="n">ObservedImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">colormap</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;Observed Image&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">imagesc</span><span class="p">(</span><span class="n">TrueImage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">colormap</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;True Image&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">imagesc</span><span class="p">(</span><span class="n">x_wh</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">colormap</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;Reconstructed Image (Wiener-Hunt)&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">imagesc</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">colormap</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">axis</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">(</span><span class="s">&#39;Reconstructed Image (Huber Regularization)&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 10: 显示 MSE 和 PSNR 作为差异指标</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% figure;</span>
+</span></span><span class="line"><span class="cl"><span class="c">% bar_handle = bar([mse_wh, psnr_wh; mse_huber, psnr_huber]&#39;, &#39;grouped&#39;);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% set(gca, &#39;XTickLabel&#39;, {&#39;Wiener-Hunt&#39;, &#39;Huber Regularization&#39;});</span>
+</span></span><span class="line"><span class="cl"><span class="c">% legend({&#39;MSE&#39;, &#39;PSNR&#39;}, &#39;Location&#39;, &#39;best&#39;);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ylabel(&#39;Value&#39;);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% title(&#39;Difference Metrics Between Reconstructed and True Images&#39;);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ylim([0, max([mse_wh, mse_huber, psnr_wh, psnr_huber]) * 1.1]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Difference Metrics:\n&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;-------------------\n&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Wiener-Hunt Method (mu = %.2f):\n&#39;</span><span class="p">,</span> <span class="n">mu_wiener_hunt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;MSE: %.6f\n&#39;</span><span class="p">,</span> <span class="n">mse_wh</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;PSNR: %.2f dB\n&#39;</span><span class="p">,</span> <span class="n">psnr_wh</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;\n&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Huber Regularization Method (mu = %.2f):\n&#39;</span><span class="p">,</span> <span class="n">mu_huber</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;MSE: %.6f\n&#39;</span><span class="p">,</span> <span class="n">mse_huber</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;PSNR: %.2f dB\n&#39;</span><span class="p">,</span> <span class="n">psnr_huber</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% Huber 函数的一阶导数</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span><span class="w"> </span>phi_prime <span class="p">=</span><span class="w"> </span><span class="nf">huber_derivative</span><span class="p">(</span>delta, T<span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">phi_prime</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">delta</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mask</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">&lt;</span><span class="p">=</span> <span class="n">T</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phi_prime</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phi_prime</span><span class="p">(</span><span class="o">~</span><span class="n">mask</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="nb">sign</span><span class="p">(</span><span class="n">delta</span><span class="p">(</span><span class="o">~</span><span class="n">mask</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 自定义 PSNR 计算函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span><span class="w"> </span>psnr_val <span class="p">=</span><span class="w"> </span><span class="nf">psnr_custom</span><span class="p">(</span>img1, img2<span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">img1</span> <span class="p">=</span> <span class="n">double</span><span class="p">(</span><span class="n">img1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">img2</span> <span class="p">=</span> <span class="n">double</span><span class="p">(</span><span class="n">img2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">mse</span> <span class="p">=</span> <span class="n">mean</span><span class="p">((</span><span class="n">img1</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">img2</span><span class="p">(:))</span><span class="o">.^</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">mse</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="n">psnr_val</span> <span class="p">=</span> <span class="n">Inf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">max_pixel</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">img1</span><span class="p">(:));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">psnr_val</span> <span class="p">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="nb">log10</span><span class="p">((</span><span class="n">max_pixel</span>^<span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">mse</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="/img/Problem_inverse/TP3/1.png" alt="1" style="width:100%;">
+<img src="/img/Problem_inverse/TP3/2.png" alt="1" style="width:60%;">
+<img src="/img/Problem_inverse/TP3/3.png" alt="1" style="width:60%;">
+<h2 id="进一步分析-使用线变量的解释">进一步分析: 使用线变量的解释<a hidden class="anchor" aria-hidden="true" href="#进一步分析-使用线变量的解释">#</a></h2>
+<p>我们对之前的理论进行新解释（不是新方案）。这是对准则 (3) 及其最小化解 的另一种解释。它利用了线变量，可以揭示重建图像中的不连续性。为此，我们再次引入一个全新的扩展准则 (5) :</p>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu \sum_{p \sim q} \ell_{pq}(x_p - x_q)^2 + \sum_{p \sim q} \bar{\zeta}(\ell_{pq})
+$$
+</div>
+<p>线变量 $ \ell _{pq} \in [0,1]$ 是未观测到的，它们被引入到相邻像素之间，以打破或削弱像素间的相互作用</p>
+<p>对比准则 (1)
+$$
+J_Q(x) = |y - Hx|^2 + \mu \sum_{p \sim q} \varphi_Q(x_p - x_q) \tag{1}
+$$
+对比准则 (3)
+$$
+J_H(x) = |y - Hx|^2 + \mu^{\prime} \sum_{p \sim q} \alpha \varphi_H(x_p - x_q) \tag{3}
+$$</p>
+<p>对比准则 (4)</p>
+<div>
+$$
+\tilde{J}_H(x, a) = \|y - Hx\|^2 + \mu' \left[ \sum_{p \sim q} \frac{1}{2} \left( (x_p - x_q) - a_{pq} \right)^2 + \tilde{\zeta}_\alpha(a_{pq}) \right] \tag{4}
+$$
+</div>
+<p>这个形式重点在于线变量  $\ell _{pq}$，在正则化项 $\mu \sum _{p \sim q} \ell _{pq}(x _p - x _q)^2$ 中  $\ell _{pq}$可以<strong>调节像素相互作用强度</strong> ，也就是每对相邻像素 p 和 q 之间的平滑程度。</p>
+<ul>
+<li>当 $\ell_{pq} $ 较大时， 表示对 $(x_p - x_q)^2$ 的惩罚较强，即倾向于平滑作用强，图像噪声少，细节少。尤其是当 $\ell_{pq} = 1$ ，任何像素之间的差异都会被平滑，图像完全丢失细节</li>
+<li>当 $\ell_{pq} $ 较小时， 表示对 $(x_p - x_q)^2$ 的惩罚较弱，倾向于保留边缘细节。尤其是当 $\ell_{pq}=0$ ，完全没有平滑作用，图像会充满噪声。</li>
+</ul>
+<p>这个 作用和 $\alpha$ 差不多，但是最重要的是后面的 $\sum_{p \sim q} \bar{\zeta}(\ell_{pq})$ ，它是一个对线变量  $\ell_{pq}$ 的正则化项，用于控制调节  $\ell_{pq}$ 的取值范围，其函数形式给出:</p>
+<p>$\bar{\zeta}$ 函数可以通过凸对偶框架构造出来。直接给出的结果如下：
+$$
+\bar{\zeta}(\ell) = s^2 \left( \frac{1}{\ell} - 1 \right)
+$$
+其中，$s = T$ 是Huber函数的阈值参数</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong></p>
+<p>我们需要从扩展准则和凸对偶性的角度出发，利用 <strong>Legendre-Fenchel Transform</strong> 理论来推导出 $\bar{\zeta}(\ell)$ 的表达式。</p>
+<p>扩展准则 (5) :</p>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu \sum_{p \sim q} \ell_{pq}(x_p - x_q)^2 + \sum_{p \sim q} \bar{\zeta}(\ell_{pq}) \\
+$$
+</div>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu\sum_{p \sim q} \left[ \ell_{pq}(x_p - x_q)^2 + \bar{\zeta}(\ell_{pq}) \right]
+$$
+</div>
+<p>考虑每对相邻像素 $(p, q)$，我们假设势函数公式为:
+$$
+\varphi_H(\delta) = \min_{\ell \in [0,1]} \left[ \ell \delta^2 + \bar{\zeta}(\ell) \right]
+$$</p>
+<ul>
+<li>其中，$\delta = x_p - x_q$ 是像素间的灰度差异</li>
+</ul>
+<p>对比准则 (2)
+$$
+J_H(x) = |y - Hx|^2 + \mu \sum_{p \sim q} \varphi_H(x_p - x_q) \tag{2}
+$$
+可见，将势函数带进入，就可以得到准则 (5) ，我们继续对势函数动手:
+$$
+\varphi_H(\delta) = \min_{\ell \in [0,1]} \left[ \ell \delta^2 + \bar{\zeta}(\ell) \right]
+$$
+我们调一下位置，可得:
+$$
+\bar{\zeta}(\ell) = \sup_{\delta} \left[ \varphi_H(\delta) - \ell \delta^2 \right]
+$$
+根据<strong>勒让德-芬切尔变换</strong>的定义，对于凸函数 $f(\delta)$，其凸对偶函数 $f^ *(\ell)$ 定义为：</p>
+<div>
+$$
+f^*(\ell) = \sup_{\delta} \left[ f(\delta) - \ell \delta^2 \right]
+$$
+</div>
+<p>从这里我们就可以明白，为什么势函数的形式如上了，它是随着 <strong>勒让德-芬切尔变换</strong> 公式而构造来的。下面我们继续计算 $\bar{\zeta}(\ell)$</p>
+<p>根据Huber势函数的定义：</p>
+<p>$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2, &amp; \text{如果 } |\delta| \leq T \\
+2T|\delta| - T^2, &amp; \text{如果 } |\delta| &gt; T
+\end{cases}
+$$</p>
+<p>我们将其带入到 $\bar{\zeta}(\ell) = \sup_{\delta} \left[ \varphi_H(\delta) - \ell \delta^2 \right]$ 当中，要分情况讨论</p>
+<p><strong>情况 1：$|\delta| \leq T$</strong>
+$$
+\varphi_H(\delta) = \delta^2
+$$</p>
+<p>因此，</p>
+<p>$$
+\bar{\zeta}(\ell) = \sup_{|\delta| \leq T} \left[ \delta^2 - \ell \delta^2 \right] = \sup_{|\delta| \leq T} \left[ (1 - \ell) \delta^2 \right] = (1 - \ell) T^2
+$$</p>
+<p><strong>情况 2：$|\delta| &gt; T$</strong>
+$$
+\varphi_H(\delta) = 2T|\delta| - T^2
+$$</p>
+<p>因此，</p>
+<p>$$
+\bar{\zeta}(\ell) = \sup_{|\delta| &gt; T} \left[ 2T|\delta| - T^2 - \ell \delta^2 \right]
+$$</p>
+<p>为了找到最大值，我们对 $\delta &gt; T$ 和 $\delta &lt; -T$ 分别进行分析。</p>
+<ul>
+<li>
+<p><strong>子情况 2.1：$\delta &gt; T$</strong></p>
+<p>设 $\delta &gt; T$，则：</p>
+<p>$$
+\varphi_H(\delta) - \ell \delta^2 = 2T\delta - T^2 - \ell \delta^2
+$$</p>
+<p>对 $\delta$ 求导并设为零以找到极值点：</p>
+<p>$$
+\frac{d}{d\delta} (2T\delta - \ell \delta^2 - T^2) = 2T - 2\ell \delta = 0 \implies \delta^* = \frac{T}{\ell}
+$$</p>
+<p>验证 $\delta^* &gt; T$ 是否成立：</p>
+<p>$$
+\frac{T}{\ell} &gt; T \implies \frac{1}{\ell} &gt; 1 \implies \ell &lt; 1
+$$</p>
+<p>这在 $\ell \in [0,1)$ 时成立。</p>
+<p>将 $\delta^* = \frac{T}{\ell}$ 代入表达式：</p>
+<p>$$
+2T \cdot \frac{T}{\ell} - T^2 - \ell \left( \frac{T}{\ell} \right)^2 = \frac{2T^2}{\ell} - T^2 - \frac{\ell T^2}{\ell^2} = \frac{2T^2}{\ell} - T^2 - \frac{T^2}{\ell} = \frac{T^2}{\ell} - T^2 = T^2 \left( \frac{1}{\ell} - 1 \right)
+$$</p>
+</li>
+<li>
+<p><strong>子情况 2.2：$\delta &lt; -T$</strong></p>
+<p>由于对称性，结果与子情况 2.1 相同：</p>
+<p>$$
+\varphi_H(\delta) - \ell \delta^2 = 2T|\delta| - T^2 - \ell \delta^2 = 2T(-\delta) - T^2 - \ell \delta^2 \quad (\text{因为 } \delta &lt; -T)
+$$</p>
+<p>通过类似的步骤可得：</p>
+<p>$$
+\bar{\zeta}(\ell) = T^2 \left( \frac{1}{\ell} - 1 \right)
+$$</p>
+</li>
+</ul>
+<p>综上情况所述:</p>
+<ul>
+<li><strong>情况 1</strong>：$\bar{\zeta}(\ell) = (1 - \ell) T^2$</li>
+<li><strong>情况 2</strong>：$\bar{\zeta}(\ell) = T^2 \left( \frac{1}{\ell} - 1 \right)$</li>
+</ul>
+<p>为了确定 $\bar{\zeta}(\ell)$，我们取这两者中的最大值：</p>
+<div>
+$$
+\bar{\zeta}(\ell) = \max \left\{ (1 - \ell) T^2, \ T^2 \left( \frac{1}{\ell} - 1 \right) \right\}
+$$
+</div>
+<p>观察到，对于 $\ell \in (0,1)$：</p>
+<p>$$
+T^2 \left( \frac{1}{\ell} - 1 \right) \geq (1 - \ell) T^2
+$$</p>
+<p>因为：</p>
+<p>$$
+\frac{1}{\ell} - 1 \geq 1 - \ell \quad \text{对于所有} \ \ell \in (0,1)
+$$</p>
+<p>因此，</p>
+<p>$$
+\bar{\zeta}(\ell) = T^2 \left( \frac{1}{\ell} - 1 \right)
+$$</p>
+<p>如果我们设定 $s = T$，则：</p>
+<p>$$
+\bar{\zeta}(\ell) = s^2 \left( \frac{1}{\ell} - 1 \right)
+$$</p>
+<p>证明完毕</p>
+<p>这一结果表明，$\bar{\zeta}(\ell)$ 是通过凸对偶性和勒让德-芬切尔变换从原始的Huber正则化函数导出的，它有效地将线变量 $\ell$ 与正则化项关联起来。</p>
+</text></div>
+
+<p>如果没有 $\bar{\zeta}$ ，优化过程会自由的选择 $\ell_{pq}$ 值，而不注重于像素差异，这会导致极端的 $\ell_{pq}$ 值（接近 0 或 1）。在后续算法步骤中会清楚这一点。</p>
+<p>我们下面会推导这个新准则 (5) 和初始准则 (1) 的关系。</p>
+<p>首先，我们需要再引入一个关于 $\ell$ 的函数，记作 $\psi_\delta(\ell)$，其参数为 $\delta$：<br>
+$$
+\psi_\delta(\ell) = \ell \delta^2 + \bar{\zeta}(\ell)
+$$</p>
+<p>通过最小化 $\psi_\delta(\ell)$ 关于 $\ell$，我们可以得到 $\varphi_H(\delta)$，即：<br>
+$$
+\varphi_H(\delta) = \min_\ell \psi_\delta(\ell)
+$$</p>
+<p>接下来我们给出证明</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong></p>
+<p>回顾定义 $\zeta(\ell)$ 和 $\psi_\delta(\ell)$：
+$$
+\bar{\zeta}(\ell) = s^2 \left( \frac{1}{\ell} - 1 \right)
+$$</p>
+<p>$$
+\psi_\delta(\ell) = \ell \delta^2 + \zeta(\ell)
+$$</p>
+<p>求 $\psi_\delta(\ell)$ 关于 $\ell$ 的导数并令其为零：
+$$
+\frac{\partial \psi_\delta(\ell)}{\partial \ell} = \delta^2 - \frac{s^2}{\ell^2}= 0
+$$</p>
+<div>
+$$
+\delta^2 - \frac{s^2}{(\ell^*)^2} = 0 \implies (\ell^*)^2 = \frac{s^2}{\delta^2} \implies \ell^* = \frac{s}{|\delta|}
+$$
+</div>
+<p>考虑 $\ell^*$ 的取值范围：</p>
+<ul>
+<li>当 $|\delta| \leq s$ 时：</li>
+</ul>
+<p>$$
+\ell^* \geq 1, \quad \text{但} \quad \ell \leq 1, \quad \text{因此取} \quad \ell^* = 1
+$$</p>
+<ul>
+<li>当 $|\delta| &gt; s$ 时：
+$$
+\ell^* &lt; 1 \implies \ell^* \in (0, 1)
+$$</li>
+</ul>
+<p>综合起来:
+$$
+\ell^* = \frac{s}{|\delta|} \in (0, 1]
+$$</p>
+<p>将 $\ell^* $ 代回去计算最小值 $\varphi_H(\delta)$：</p>
+<ul>
+<li>当 $|\delta| \leq s$：</li>
+</ul>
+<p>$$
+\varphi_H(\delta) = \psi_\delta(1) = \delta^2 + s^2 (1 - 1) = \delta^2
+$$</p>
+<ul>
+<li>当 $|\delta| &gt; s$：</li>
+</ul>
+<p>$$
+\varphi_H(\delta) = \psi_\delta\left(\frac{s}{|\delta|}\right) = \frac{s}{|\delta|} \delta^2 + s^2 \left( \frac{|\delta|}{s} - 1 \right) = 2s|\delta| - s^2
+$$</p>
+<p>$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2 &amp; \text{如果 } |\delta| \leq s \\
+2s|\delta| - s^2 &amp; \text{如果 } |\delta| \geq s
+\end{cases}
+$$</p>
+<p>对比初始Huber 势函数表达式
+$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2 &amp; \text{如果 } |\delta| \leq T \\
+2T|\delta| - T^2 &amp; \text{如果 } |\delta| \geq T
+\end{cases}
+$$</p>
+<p>一摸一样啊，因此，证明了：
+$$
+\varphi_H(\delta) = \min \psi_\delta(\ell)
+$$</p>
+</text></div>
+
+<p>下面我们会证明，准则 (5) 如何通过最小化最小化辅助变量 $\ell$ 来得到准则 (2) ，即:
+$$
+J_H(x) = \min_\ell \bar{J}_H(x, \ell)
+$$</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong></p>
+<p>首先，回顾两个准则的定义：</p>
+<ul>
+<li>
+<p><strong>初始准则(2)</strong>：
+$$
+J_H(x) = |y - Hx|^2 + \mu \sum_{p \sim q} \varphi_H(x_p - x_q)
+$$</p>
+</li>
+<li>
+<p><strong>扩展准则 (5)</strong>：</p>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu \left[ \sum_{p \sim q} \ell_{pq}(x_p - x_q)^2 + \sum_{p \sim q} \zeta(\ell_{pq}) \right]
+$$
+</div>
+</li>
+</ul>
+<p><strong>步骤：</strong></p>
+<p><strong>固定 $x$，对 $\bar{J}_H(x, \ell)$ 关于 $\ell$ 进行最小化：</strong></p>
+<p>① 对于给定的 $x$，$\bar{J}_H(x, \ell)$ 关于 $\ell$ 的部分可以拆分为像素对 $(p, q)$ 的独立项：</p>
+<div>
+$$
+\sum_{p \sim q} \left[ \ell_{pq}(x_p - x_q)^2 + \zeta(\ell_{pq}) \right]
+$$
+</div>
+<p>因此，我们可以分别最小化每个像素对 $(p, q)$ 的项：
+$$
+\psi_{pq}(\ell_{pq}) = \ell_{pq}(x_p - x_q)^2 + \zeta(\ell_{pq})
+$$</p>
+<p>②对 $\psi_{pq}(\ell_{pq})$ 关于 $\ell_{pq}$ 求最小值：</p>
+<p>求导并令导数为零：
+$$
+\frac{\partial \psi_{pq}}{\partial \ell_{pq}} = (x_p - x_q)^2 + \zeta&rsquo;(\ell_{pq}) = 0
+$$
+解方程得到最优 $\ell_{pq}$：
+$$
+\zeta&rsquo;(\ell_{pq}) = -(x_p - x_q)^2
+$$
+③利用 $\zeta(\ell)$ 的具体形式求解 $\ell_{pq}$：</p>
+<p>已知辅助函数 $\zeta(\ell)$ 定义为：
+$$
+\zeta(\ell) = s^2 \left( \frac{1}{\ell} - 1 \right), \quad \ell \in (0, 1]
+$$
+因此，其导数为：
+$$
+\zeta&rsquo;(\ell) = -\frac{s^2}{\ell^2}
+$$
+将其代入前的等式：
+$$
+\zeta&rsquo;(\ell_{pq}) =-\frac{s^2}{\ell_{pq}^2} = -(x_p - x_q)^2
+$$
+整理得到：
+$$
+\ell_{pq}^2 = \frac{s^2}{(x_p - x_q)^2}
+$$
+因为 $\ell_{pq} &gt; 0$，所以：
+$$
+\ell_{pq}^* = \frac{s}{|x_p - x_q|}
+$$</p>
+<p>需要注意 $\ell_{pq} \leq 1$，因此当 $|x_p - x_q| \leq s$ 时，$\ell_{pq} \geq 1$，但由于 $\ell_{pq} \leq 1$，所以取 $\ell_{pq} = 1$。</p>
+<p>最终，最优 $\ell_{pq}$ 为：
+$$
+\ell_{pq}^* =
+\begin{cases}
+\quad 1 &amp; \text{如果 } |x_p - x_q| \leq s \
+\frac{s}{|x_p - x_q|} &amp; \text{如果 } |x_p - x_q| &gt; s
+\end{cases}
+$$</p>
+<p>④ 将最优 $\ell_{pq}^ *$ 代入 $\psi_{pq}(\ell_{pq})$ 计算最小值：</p>
+<ul>
+<li>当 $|x_p - x_q| \leq s$ 时：</li>
+</ul>
+<p>$$
+\psi_{pq}(1) = 1 \cdot (x_p - x_q)^2 + \zeta(1) = (x_p - x_q)^2 + s^2(1 - 1) = (x_p - x_q)^2
+$$</p>
+<ul>
+<li>当 $|x_p - x_q| &gt; s$ 时：</li>
+</ul>
+<p>$$
+\begin{aligned}
+\psi_{pq} \left( \frac{s}{|x_p - x_q|} \right)
+&amp;= \frac{s}{|x_p - x_q|}(x_p - x_q)^2 + s^2 \left( \frac{|x_p - x_q|}{s} - 1 \right) \
+&amp;= 2s|x_p - x_q| - s^2
+\end{aligned}
+$$</p>
+<p>结合起来:
+$$
+\psi_{pq} \left( \ell_{pq}^* \right) =
+\begin{cases}
+(x_p - x_q)^2 &amp; \text{如果 } |x_p - x_q| \leq s \
+2s|x_p - x_q| - s^2 &amp; \text{如果 } |x_p - x_q| &gt; s
+\end{cases}
+$$</p>
+<p>可见，最小化后的 $\psi_{pq}(\ell_{pq}^*)$ 即为 Huber 势函数 $\varphi_H(x_p - x_q)$，回顾 Huber 势函数定义:
+$$
+\varphi_H(\delta) =
+\begin{cases}
+\delta^2, &amp; \text{如果 } |\delta| \leq s \
+2s|\delta| - s^2, &amp; \text{如果 } |\delta| &gt; s
+\end{cases}
+$$
+可见两个表达式一摸一样，我们可以说:
+$$
+\varphi_H(\delta) = \varphi_H(x_p - x_q) = \min_{\ell_{pq}} \psi_{pq}(\ell_{pq})
+$$</p>
+<p>⑤ 将结果代入扩展准则，得到初始准则：</p>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu \left[ \sum_{p \sim q} \ell_{pq}(x_p - x_q)^2 + \sum_{p \sim q} \zeta(\ell_{pq}) \right]
+$$
+</div>
+<div>
+$$
+\bar{J}_H(x, \ell) = \|y - Hx\|^2 + \mu \min_{\ell_{pq}} \psi_{pq}(\ell_{pq})
+$$
+</div>
+<div>
+$$
+\bar{J}_H(x, \ell^*) = \|y - Hx\|^2 + \mu \sum_{p \sim q} \varphi_H(x_p - x_q)
+$$
+</div>
+<p>这就是初始准则 $J_H(x)$ 的形式，因此我们可以说，通过对准则 (5) $\bar{J}_H(x, \ell)$ 关于 $\ell$ 进行最小化，我们得到了：</p>
+<p>$$
+J_H(x) = \min_\ell \bar{J}_H(x, \ell)
+$$</p>
+<p>证明完毕</p>
+</text></div>
+
+<p>接下来我们 <strong>绘制与解 $\hat{x}_H$ 对应的线条</strong> ，线条 ($\hat{\ell}$) 可以直观地看作是图像的边缘检测结果。通过对 $\ell$ 进行最小化，在恢复图像的过程中可以识别并标记图像中的边缘位置。</p>
+<p><strong>步骤：</strong></p>
+<p>① <strong>计算梯度：</strong>
+计算图像 $\hat{x} _H$ 的梯度 $\delta _{pq} = x _p - x _q$，用于评估相邻像素间的差异。</p>
+<p>② <strong>线条的表示：</strong>
+根据辅助变量 $\ell _{pq}$，通过以下公式计算每对相邻像素之间的相互作用：</p>
+<div>
+$$
+\hat{\ell}_{pq} = \frac{s}{|\delta_{pq}|}
+$$
+</div>
+<p>较小的 $\ell _{pq}$ 表示强烈的不连续性（即图像边缘）。</p>
+<p>③ <strong>生成线条图像：</strong>
+将计算出的 $\hat{\ell}$ 映射到新的图像矩阵中。生成的图像可以是一个二值图像（黑白）或灰度图像，用以突出显示恢复图像中的边缘。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% Step 10: 绘制边缘检测结果</span>
+</span></span><span class="line"><span class="cl"><span class="c">% ----------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 调用自定义的 plot_edges 函数</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_edges</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span><span class="n">FT_D_C</span><span class="p">,</span><span class="n">FT_D_R</span><span class="p">,</span><span class="n">TF_x</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="k">function</span><span class="w"> </span><span class="nf">plot_edges</span><span class="p">(</span>x_hat, s,FT_D_C,FT_D_R,TF_x<span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">% 计算水平和垂直梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">delta_h</span> <span class="p">=</span> <span class="n">MyIFFT2</span><span class="p">(</span><span class="n">FT_D_C</span> <span class="o">.*</span> <span class="n">TF_x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c">% 右侧方向（垂直）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">delta_v</span> <span class="p">=</span> <span class="n">MyIFFT2</span><span class="p">(</span><span class="n">FT_D_R</span> <span class="o">.*</span> <span class="n">TF_x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% 计算辅助变量 l_h 和 l_v</span>
+</span></span><span class="line"><span class="cl">    <span class="n">l_h</span> <span class="p">=</span> <span class="n">s</span> <span class="o">./</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">delta_h</span><span class="p">)</span> <span class="o">+</span> <span class="nb">eps</span><span class="p">);</span> <span class="c">% 加 eps 避免除以零</span>
+</span></span><span class="line"><span class="cl">    <span class="n">l_v</span> <span class="p">=</span> <span class="n">s</span> <span class="o">./</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">delta_v</span><span class="p">)</span> <span class="o">+</span> <span class="nb">eps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% 设定 l 的上限为 1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">l_h</span><span class="p">(</span><span class="n">l_h</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">l_v</span><span class="p">(</span><span class="n">l_v</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% 合并水平和垂直边缘</span>
+</span></span><span class="line"><span class="cl">    <span class="n">edges</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">l_h</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">l_v</span><span class="o">.^</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% 归一化边缘图像</span>
+</span></span><span class="line"><span class="cl">    <span class="n">edges</span> <span class="p">=</span> <span class="n">edges</span> <span class="o">/</span> <span class="n">max</span><span class="p">(</span><span class="n">edges</span><span class="p">(:));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">% 显示边缘图像</span>
+</span></span><span class="line"><span class="cl">    <span class="n">figure</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">imagesc</span><span class="p">(</span><span class="n">edges</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">colormap</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">axis</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Edge Map from Huber Regularization&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="/img/Problem_inverse/TP3/4.png" alt="1" style="width:60%;">
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://zehua.eu/zh/posts/machinelearning_cn/diffusevae%E7%BD%91%E7%AB%99%E7%89%88/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>论文阅读 - DiffuseVAE 详解</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+
+<div class="post-password"></div>
+  
+  <script>
+(function(){
+          if (prompt('本内容涉及导师版权问题，请输入密码') != "123"){
+      alert('密码错误！');
+      if (history.length === 1) {
+        window.opener = null;
+        window.open('', '_self');
+        window.close();
+      } else {
+        history.back();
+      }
+    }
+})();
+  </script>
+  
+</div>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://github.com/adityatelange/hugo-PaperMod/graphs/contributors">PaperMod</a></span> · 
+
+
+    <span>
+        
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>  
+        
+    </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <br>
+    <span id="busuanzi_container_page_pv" style='display:none'>
+        一共有<span id="busuanzi_value_page_pv"></span>人来过这里
+    </span>
+    · <span id="last_change">
+        最后更新于2024年11月28日
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
