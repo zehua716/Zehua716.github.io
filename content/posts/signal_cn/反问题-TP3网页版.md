@@ -1,6 +1,6 @@
 ---
 title: "反问题 TP3"
-password: "123"
+#password: "123"
 # author: "Zehua"
 date: "2024-11-28T16:25:17+01:00"
 lastmod: "2024-11-28T17:12:35+08:00"
@@ -27,7 +27,7 @@ searchHidden: true
 
 之前的工作已经涉及维纳-亨特方法，本次实验则提出 **Huber正则化方法**，也叫做 **半二次（Half-Quadratic）正则化方法**
 
-## 1. Wiener - hunt方法回顾
+## Wiener - hunt方法回顾
 
 我们使用以下数学模型来描述获取过程：
 
@@ -67,7 +67,7 @@ $$
 
 
 
-## 2.凸正则化
+## 凸正则化
 
 ### 2.1 Huber势函数
 
@@ -76,7 +76,7 @@ $$
 $$
 \varphi_H(\delta) =
 \begin{cases}
-\delta^2 & \text{如果 } |\delta| \leq T \\
+\delta^2 & \text{如果 } |\delta| \leq T \\\\
 2T|\delta| - T^2 & \text{如果 } |\delta| \geq T
 \end{cases}
 $$
@@ -770,14 +770,12 @@ $$
 
 因此我们要调整  $\mu$  和  $T$ 来找到一个平衡点
 
-
-
-
-
-
-
 ```matlab
-clear all; close all; clc;
+clear all
+close all
+clc
+
+%% question 6a (从此开始)
 
 % ----------------------------
 % Step 1: 加载数据
@@ -787,19 +785,18 @@ ObservedImage = Data.Data;
 TrueImage = Data.TrueImage;
 IR = Data.IR;
 
-% 获取图像尺寸
 [M, N] = size(ObservedImage);
-Long = max(M, N);  % 取最大维度
+Long = max(M, N);  
+Nu = linspace(-0.5, 0.5, Long);
 
 % ----------------------------
 % Step 2: 定义参数
 % ----------------------------
-mu_huber = 0.12;        % Huber 正则化的参数
-mu_wiener_hunt = 0.01; % Wiener-Hunt 方法的参数
-T = 0.9;               % Huber 函数的阈值参数
-alpha = 0.4;           % 辅助变量更新中的参数，0 < alpha < 0.5
-epsilon = 1e-4;        % 收敛阈值
-max_iter = 100;        % 最大迭代次数
+mu_huber = 0.01;        % Huber 正则化的参数
+T = 1;                  % Huber 函数阈值
+alpha = 0.4;            % 辅助变量参数
+epsilon = 1e-4;         % 收敛阈值
+max_iter = 100;         % 最大迭代次数
 
 % ----------------------------
 % Step 3: 生成频率轴并预处理
@@ -810,68 +807,65 @@ TF_IR = MyFFT2RI(IR, Long);
 % ----------------------------
 % Step 4: 定义正则化滤波器（差分算子）
 % ----------------------------
-D_C = [0 0 0; 0 -1 1; 0 0 0];
-D_R = D_C';
+D_c = [0 0 0; 0 -1 1; 0 0 0]; % 水平方向差分
+D_r = D_c';                  % 垂直方向差分
 
-FT_D_C = MyFFT2RI(D_C, Long);
-FT_D_R = MyFFT2RI(D_R, Long);
+FT_D_c = MyFFT2RI(D_c, Long);
+FT_D_r = MyFFT2RI(D_r, Long);
 
-abs_DC_squared = abs(FT_D_C).^2;
-abs_DR_squared = abs(FT_D_R).^2;
-
-abs_D_squared = abs_DC_squared + abs_DR_squared;
-
-Lambda_DC = FT_D_C;
-Lambda_DR = FT_D_R;
+abs_Dc_squared = abs(FT_D_c).^2;
+abs_Dr_squared = abs(FT_D_r).^2;
 
 % ----------------------------
 % Step 5: 初始化辅助变量
 % ----------------------------
-a_L = zeros(M, N);   % 左侧（水平）方向的辅助变量
-a_R = zeros(M, N);   % 右侧（垂直）方向的辅助变量
+a_C = zeros(M, N);   % 水平方向的辅助变量
+a_R = zeros(M, N);   % 垂直方向的辅助变量
 
-x_prev = zeros(M, N); % 初始化 x 的前一轮结果用于收敛判断
+x = ObservedImage;  
+x_prev = x;
 
-k = 0; % 初始化迭代计数器
+k = 0;
+
+factor = mu_huber/(2*alpha);
 
 % ----------------------------
 % Step 6: 主循环 - Huber 正则化优化
 % ----------------------------
 while k < max_iter
     k = k + 1;
-    disp(['Iteration: ', num2str(k)]);
     
-    % --------------------
     % Step 6a: 更新 x
-    % --------------------
-    TF_a_L = MyFFT2(a_L);
+    TF_a_C = MyFFT2(a_C);
     TF_a_R = MyFFT2(a_R);
-    
-    Numerator = conj(TF_IR) .* TF_ObservedImage + (mu_huber * alpha / 2) * (conj(Lambda_DC) .* TF_a_L + conj(Lambda_DR) .* TF_a_R);
-    Denominator = abs(TF_IR).^2 + (mu_huber * alpha / 2) * (abs_DC_squared + abs_DR_squared);
-    
-    Denominator(Denominator == 0) = 1e-8;
-    
+
+    Numerator = conj(TF_IR).*TF_ObservedImage + factor*(conj(FT_D_c).*TF_a_C + conj(FT_D_r).*TF_a_R);
+    Denominator = abs(TF_IR).^2 + factor*(abs_Dc_squared + abs_Dr_squared);
+
+    Denominator( Denominator == 0 ) = 1e-12; % 防止除零
     TF_x = Numerator ./ Denominator;
-    
     x = MyIFFT2(TF_x);
+
+    % Step 6b: 更新 a
+    delta_C = MyIFFT2(FT_D_c .* TF_x);
+    delta_R = MyIFFT2(FT_D_r .* TF_x);
     
-    % --------------------
-    % Step 6b: 更新辅助变量 a
-    % --------------------
-    delta_L = MyIFFT2(FT_D_C .* TF_x);
-    delta_R = MyIFFT2(FT_D_R .* TF_x);
-    
-    phi_prime_L = huber_derivative(delta_L, T);
-    phi_prime_R = huber_derivative(delta_R, T);
-    
-    a_L = delta_L - alpha * phi_prime_L;
+    % huber_derivative inline
+    phi_prime_C = zeros(size(delta_C));
+    mask_C = abs(delta_C) <= T;
+    phi_prime_C(mask_C) = 2 * delta_C(mask_C);
+    phi_prime_C(~mask_C) = 2 * T * sign(delta_C(~mask_C));
+
+    phi_prime_R = zeros(size(delta_R));
+    mask_R = abs(delta_R) <= T;
+    phi_prime_R(mask_R) = 2 * delta_R(mask_R);
+    phi_prime_R(~mask_R) = 2 * T * sign(delta_R(~mask_R));
+
+    a_C = delta_C - alpha * phi_prime_C;
     a_R = delta_R - alpha * phi_prime_R;
-    
-    % --------------------
-    % Step 6c: 收敛判断
-    % --------------------
-    dx = norm(x - x_prev, 'fro') / (norm(x_prev, 'fro') + eps);
+
+    % 收敛判断
+    dx = norm(x - x_prev,'fro') / (norm(x_prev,'fro')+1e-12);
     if dx < epsilon
         disp('Algorithm converged.');
         break;
@@ -880,109 +874,97 @@ while k < max_iter
 end
 
 % ----------------------------
-% Step 7: 使用 Wiener-Hunt 方法恢复图像
+% Step 8: 计算指标（MSE 和 PSNR）
 % ----------------------------
-x_wh = deconvolve_image(ObservedImage, IR, mu_wiener_hunt);
-
-% ----------------------------
-% Step 8: 计算真实图像与重建图像的差值指标（MSE 和 PSNR）
-% ----------------------------
-mse_wh = mean((TrueImage(:) - x_wh(:)).^2);
 mse_huber = mean((TrueImage(:) - x(:)).^2);
 
-psnr_wh = psnr_custom(x_wh, TrueImage);
-psnr_huber = psnr_custom(x, TrueImage);
+% psnr_custom inline for x
+if mse_huber == 0
+    psnr_huber = Inf;
+else
+    max_pixel_huber = max(x(:));
+    psnr_huber = 10 * log10((max_pixel_huber^2) / mse_huber);
+end
+```
 
+```matlab
 % ----------------------------
 % Step 9: 显示结果
 % ----------------------------
 figure;
-subplot(2,2,1);
-imagesc(ObservedImage);
-colormap('gray');
-axis off;
-title('Observed Image');
-
-subplot(2,2,2);
-imagesc(TrueImage);
-colormap('gray');
-axis off;
-title('True Image');
-
-subplot(2,2,3);
-imagesc(x_wh);
-colormap('gray');
-axis off;
-title('Reconstructed Image (Wiener-Hunt)');
-
-subplot(2,2,4);
-imagesc(x);
-colormap('gray');
-axis off;
-title('Reconstructed Image (Huber Regularization)');
-
-% ----------------------------
-% Step 10: 显示 MSE 和 PSNR 作为差异指标
-% ----------------------------
-% figure;
-% bar_handle = bar([mse_wh, psnr_wh; mse_huber, psnr_huber]', 'grouped');
-% set(gca, 'XTickLabel', {'Wiener-Hunt', 'Huber Regularization'});
-% legend({'MSE', 'PSNR'}, 'Location', 'best');
-% ylabel('Value');
-% title('Difference Metrics Between Reconstructed and True Images');
-% ylim([0, max([mse_wh, mse_huber, psnr_wh, psnr_huber]) * 1.1]);
+subplot(1,3,1); imagesc(ObservedImage); colormap gray; axis off; title('Observed');
+subplot(1,3,2); imagesc(TrueImage); colormap gray; axis off; title('True');
+subplot(1,3,3); imagesc(x); colormap gray; axis off; title('Huber Reg');
 
 fprintf('Difference Metrics:\n');
 fprintf('-------------------\n');
-fprintf('Wiener-Hunt Method (mu = %.2f):\n', mu_wiener_hunt);
-fprintf('MSE: %.6f\n', mse_wh);
-fprintf('PSNR: %.2f dB\n', psnr_wh);
-fprintf('\n');
 fprintf('Huber Regularization Method (mu = %.2f):\n', mu_huber);
 fprintf('MSE: %.6f\n', mse_huber);
 fprintf('PSNR: %.2f dB\n', psnr_huber);
+
 ```
-
-```matlab
-% Huber 函数的一阶导数
-function phi_prime = huber_derivative(delta, T)
-    phi_prime = zeros(size(delta));
-    mask = abs(delta) <= T;
-    phi_prime(mask) = 2 * delta(mask);
-    phi_prime(~mask) = 2 * T * sign(delta(~mask));
-end
-```
-
-```matlab
-% 自定义 PSNR 计算函数
-function psnr_val = psnr_custom(img1, img2)
-    img1 = double(img1);
-    img2 = double(img2);
-    
-    mse = mean((img1(:) - img2(:)).^2);
-    
-    if mse == 0
-        psnr_val = Inf;
-        return;
-    end
-    
-    max_pixel = max(img1(:));
-    
-    psnr_val = 10 * log10((max_pixel^2) / mse);
-end
-```
-
-
 
 <img src="/img/Problem_inverse/TP3/1.png" alt="1" style="width:100%;">
 
-<img src="/img/Problem_inverse/TP3/2.png" alt="1" style="width:60%;">
+```matlab
+%% 计算各结果的MSE和PSNR 并对比
+load('x_first_method.mat','x_first_method');
+load('x_posterior_mean.mat','x_posterior_mean');
 
-<img src="/img/Problem_inverse/TP3/3.png" alt="1" style="width:60%;">
+% 计算各结果的MSE和PSNR
+mse_observed = mean((TrueImage(:) - ObservedImage(:)).^2);
+mse_wiener = mean((TrueImage(:) - x_first_method(:)).^2);
+mse_posterior = mean((TrueImage(:) - x_posterior_mean(:)).^2);
+mse_huber = mean((TrueImage(:) - x(:)).^2);
+
+psnr_observed = 10*log10(max(TrueImage(:))^2 / mse_observed);
+psnr_wiener = 10*log10(max(TrueImage(:))^2 / mse_wiener);
+psnr_posterior = 10*log10(max(TrueImage(:))^2 / mse_posterior);
+psnr_huber = 10*log10(max(TrueImage(:))^2 / mse_huber);
+
+figure('Name','最终对比展示','NumberTitle','off','Color','w');
+
+subplot(1,2,1);
+imagesc(ObservedImage); colormap gray; axis image off;
+title({['观测图像'], ...
+       ['MSE:' num2str(mse_observed,'%.4f') ', PSNR:' num2str(psnr_observed,'%.2f') 'dB']},...
+       'FontWeight','bold','FontSize',10);
+
+subplot(1,2,2);
+imagesc(TrueImage); colormap gray; axis image off;
+title('真实图像','FontWeight','bold','FontSize',12);
+
+figure('Name','最终对比展示','NumberTitle','off','Color','w');
+
+subplot(1,3,1);
+imagesc(abs(x_first_method)); colormap gray; axis image off;
+title({['Wiener-Hunt 恢复结果'], ...
+       ['MSE:' num2str(mse_wiener,'%.4f') ', PSNR:' num2str(psnr_wiener,'%.2f') 'dB']},...
+       'FontWeight','bold','FontSize',10);
+
+subplot(1,3,2);
+imagesc(abs(x_posterior_mean)); colormap gray; axis image off;
+title({['后验均值恢复结果'], ...
+       ['MSE:' num2str(mse_posterior,'%.4f') ', PSNR:' num2str(psnr_posterior,'%.2f') 'dB']},...
+       'FontWeight','bold','FontSize',10);
+
+subplot(1,3,3);
+imagesc(x); colormap gray; axis image off;
+title({['Huber恢复结果'], ...
+       ['MSE:' num2str(mse_huber,'%.4f') ', PSNR:' num2str(psnr_huber,'%.2f') 'dB']},...
+       'FontWeight','bold','FontSize',10);
+
+```
 
 
 
-## 进一步分析: 使用线变量的解释
+<img src="/img/Problem_inverse/TP3/3.png" alt="1" style="width:100%;">
+
+<img src="/img/Problem_inverse/TP3/11.png" alt="1" style="width:65%;">
+
+<img src="/img/Problem_inverse/TP3/12.png" alt="1" style="width:100%;">
+
+#  进一步分析: 使用线变量的解释
 
 我们对之前的理论进行新解释（不是新方案）。这是对准则 (3) 及其最小化解 的另一种解释。它利用了线变量，可以揭示重建图像中的不连续性。为此，我们再次引入一个全新的扩展准则 (5) :
 
@@ -1521,45 +1503,83 @@ $$
 
 ```matlab
 % ----------------------------
-% Step 10: 绘制边缘检测结果
+% Step 10: 使用 ImageRestoration 并绘制线条图像
+% ----------------------------
+mu = 1;
+T_for_lines = 1;
+
+[N_inline, M_inline] = size(ObservedImage);
+IR_padded_inline = MyFFT2RI(IR, N_inline);
+
+Dx_inline = [0, 0, 0; 0, -1, 1; 0, 0, 0]; 
+Dy_inline = [0, 0, 0; 0, -1, 0; 0, 1, 0]; 
+
+F_Dx_inline = MyFFT2RI(Dx_inline, N_inline);
+F_Dy_inline = MyFFT2RI(Dy_inline, N_inline);
+
+Reg_term_inline = abs(F_Dx_inline).^2 + abs(F_Dy_inline).^2;
+
+x_inline = ObservedImage;
+a_inline = zeros(N_inline, M_inline, 2);
+
+for k_inline = 1:max_iter
+    F_Data_inline = MyFFT2(ObservedImage);
+    Reg_a_x_inline = MyFFT2(a_inline(:,:,1)) .* F_Dx_inline + MyFFT2(a_inline(:,:,2)) .* F_Dy_inline;
+    Cov_x_inline = 1 ./ (abs(IR_padded_inline).^2 + mu * Reg_term_inline);
+    Mean_x_inline = Cov_x_inline .* (conj(IR_padded_inline) .* F_Data_inline + mu * Reg_a_x_inline);
+    x_inline = real(MyIFFT2(Mean_x_inline));
+
+    delta_x_h_inline = x_inline(:, [2:end, end]) - x_inline;
+    delta_x_v_inline = x_inline([2:end, end], :) - x_inline;
+
+    a_h_inline = delta_x_h_inline;
+    a_v_inline = delta_x_v_inline;
+
+    idx_h_large_inline = abs(delta_x_h_inline) > T_for_lines;
+    idx_h_small_inline = abs(delta_x_h_inline) <= T_for_lines;
+    a_h_inline(idx_h_large_inline) = delta_x_h_inline(idx_h_large_inline) - 2*alpha * T_for_lines .* sign(delta_x_h_inline(idx_h_large_inline));
+    a_h_inline(idx_h_small_inline) = (1 - 2 * alpha) * delta_x_h_inline(idx_h_small_inline);
+
+    idx_v_large_inline = abs(delta_x_v_inline) > T_for_lines;
+    idx_v_small_inline = abs(delta_x_v_inline) <= T_for_lines;
+    a_v_inline(idx_v_large_inline) = delta_x_v_inline(idx_v_large_inline) - 2*alpha * T_for_lines .* sign(delta_x_v_inline(idx_v_large_inline));
+    a_v_inline(idx_v_small_inline) = (1 - 2 * alpha) * delta_x_v_inline(idx_v_small_inline);
+
+    a_inline(:,:,1) = a_h_inline; 
+    a_inline(:,:,2) = a_v_inline; 
+end
+
+restored_image = x_inline;
+
+% ----------------------------
+% Step 11: 绘制边缘检测结果
 % ----------------------------
 % 调用自定义的 plot_edges 函数
-plot_edges(x, T,FT_D_C,FT_D_R,TF_x);
+threshold = 0.5;
+plot_edges(restored_image, threshold);
 ```
 
 ```matlab
-function plot_edges(x_hat, s,FT_D_C,FT_D_R,TF_x)
-    % 计算水平和垂直梯度
-    delta_h = MyIFFT2(FT_D_C .* TF_x);
-% 右侧方向（垂直）
-    delta_v = MyIFFT2(FT_D_R .* TF_x);
+function plot_edges(restored_image, threshold)
+    % 计算水平与垂直方向梯度差分
+    delta_x_h = restored_image(:, [2:end, end]) - restored_image;  % Horizontal differences
+    delta_x_v = restored_image([2:end, end], :) - restored_image;  % Vertical differences
     
-    % 计算辅助变量 l_h 和 l_v
-    l_h = s ./ (abs(delta_h) + eps); % 加 eps 避免除以零
-    l_v = s ./ (abs(delta_v) + eps);
+    % 计算梯度幅度
+    gradient_magnitude = sqrt(delta_x_h.^2 + delta_x_v.^2);
     
-    % 设定 l 的上限为 1
-    l_h(l_h > 1) = 1;
-    l_v(l_v > 1) = 1;
+    % 根据阈值生成二值图
+    lines = gradient_magnitude > threshold;
     
-    % 合并水平和垂直边缘
-    edges = sqrt(l_h.^2 + l_v.^2);
-    
-    % 归一化边缘图像
-    edges = edges / max(edges(:));
-    
-    % 显示边缘图像
+    % 显示二值图像，0为黑色，1为白色
     figure;
-    imagesc(edges);
-    colormap('gray');
-    axis off;
-    title('Edge Map from Huber Regularization');
+    imshow(lines);
+    title('Lines');
 end
+
 ```
 
-
-
-<img src="/img/Problem_inverse/TP3/4.png" alt="1" style="width:60%;">
+<img src="/img/Problem_inverse/TP3/2.png" alt="1" style="width:40%;">
 
 
 

@@ -12,7 +12,7 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Thu, 28 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="http://zehua.eu/zh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>反问题 TP3</title>
@@ -49,6 +49,13 @@
       <description>对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像</description>
     </item>
     <item>
+      <title>反问题 TP2</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp2/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp2/</guid>
+      <description>第二次实验内容</description>
+    </item>
+    <item>
       <title>图像基础处理</title>
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%AE%9E%E9%AA%8C/</link>
       <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
@@ -61,6 +68,20 @@
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/3d%E9%87%8D%E5%BB%BA%E7%90%86%E8%AE%BA/</guid>
       <description> 我并不擅长计算机视觉方向，因此下面内容只涉及一些基础理论知识。由于我的立体几何 3D空间想象能力非常垃圾，这种课程一直学不明白，因此我对它的兴趣也不大，因此我也没投入过多时间和精力来进一步研究或详细解释。原本每章内容后都有实例分析，包括代码和结果展示，但由于版权限制，我无法将这些内容直接搬运到这里。</description>
+    </item>
+    <item>
+      <title>应用随机梯度算法解决信道均衡问题</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%BA%94%E7%94%A8%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 08 Jun 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%BA%94%E7%94%A8%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1%E9%97%AE%E9%A2%98/</guid>
+      <description>特定情况下构建滤波器</description>
+    </item>
+    <item>
+      <title>通过维纳滤波器进行反卷积</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/</link>
+      <pubDate>Thu, 30 Nov 2023 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/</guid>
+      <description>使用维纳反卷积技术，重建受噪声和测量误差影响的信号。</description>
     </item>
     <item>
       <title>各类控制方法实现思路及代码</title>

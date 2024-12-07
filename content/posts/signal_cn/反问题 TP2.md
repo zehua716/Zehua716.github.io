@@ -4,7 +4,7 @@ title: "反问题 TP2"
 date: "2024-11-05T16:25:17+01:00"
 lastmod: "2024-11-06T17:12:35+08:00"
 lang: "zh"
-draft: true
+draft: false	
 summary: "继续扩展反问题中的Wiener-Hunt方法，主要关注于超参数的自动调节。通过贝叶斯解释，介绍了误差分布与信号分布的建模，详细阐述了马尔可夫链蒙特卡洛（MCMC）方法中的Gibbs采样算法"
 description: "第二次实验内容"
 tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
@@ -19,7 +19,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 ---
 
-# **Wiener-Hunt 方法：无监督方面**
+# Wiener-Hunt 方法：无监督方面
 
 
 
@@ -27,7 +27,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 
 
-## **1. 超参数与全后验分布**
+## 1. 超参数与全后验分布
 
 
 
@@ -35,7 +35,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 
 
-### **1.1 误差分布**
+### 1.1 误差分布
 
 
 
@@ -177,7 +177,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 
 
-### **1.2 感兴趣信号的分布**
+### 1.2 感兴趣信号的分布
 
 
 
@@ -381,7 +381,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 
 
-### **1.3 后验分布**
+### 1.3 后验分布
 
 
 
@@ -457,7 +457,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 
 
-### **1.4 扩展的后验分布**
+### 1.4 扩展的后验分布
 
 
 
@@ -533,7 +533,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 这汇总了所有关于感兴趣信号和超参数在数据视角下的可用信息：对于三重项 $x$, $\gamma_e$, $\gamma_x$，它量化了后验密度，即在给定观测数据下三重项的概率。感兴趣信号和超参数的估计器是从这个分布中构造出来的。我们可以查看后验分布的均值、中位数或众数。每种方法都有其优缺点。在接下来的内容中，我们将重点讨论均值。
 
-### **1.5 后验均值**
+### 1.5 后验均值
 
 考虑到后验分布（上面这个）的复杂性，获得均值的解析公式是不可行的。为了计算后验均值，有几种方法可用，在这里我们将重点关注随机采样技术。最终，它归结为对后验分布进行随机采样，然后取样本的经验均值，从而近似后验均值。
 
@@ -541,7 +541,7 @@ tags: ["信号处理","统计分析","反问题", "贝叶斯方法"]
 
 <div>$$\begin{aligned} &\bullet \, \text{Initialize } x^{[0]} = y \\ &\bullet \, \text{For } k = 1, 2, \dots \, \text{repeat} \\ &\quad \text{(a) \ sample } \gamma_e^{[k]} \text{ under } f(\gamma_e \mid \gamma_x^{[k-1]}, x^{[k-1]}, y) \\ &\quad \text{(b) \ sample } \gamma_x^{[k]} \text{ under } f(\gamma_x \mid \gamma_e^{[k]}, x^{[k-1]}, y) \\ &\quad \text{(c) \ sample } x^{[k]} \text{ under } f(x \mid \gamma_e^{[k]}, \gamma_x^{[k]}, y) \end{aligned}$$</div>
 
-#### **1.5.1 采样逆误差功率**
+#### 1.5.1 采样逆误差功率
 
 采样对应于步骤 (a) 的超参数 $\gamma_e$ 需要从条件后验分布 $f(\gamma_e | x, \gamma_x, y)$ 中采样。该分布由完整的联合分布 $f(x, y, \gamma_e, \gamma_x)$ 获得，如下所示：
 
@@ -607,7 +607,7 @@ function SamplePrecision = RNDGamma(Alpha,Beta)
 
 注意：计算参数 $\beta$ 涉及计算建模误差 $\| y - Hx \|^2$ 的范数。计算空间域中的范数通常成本较高，但是可以在傅里叶域中进行计算以降低成本。
 
-#### **1.5.2 采样感兴趣信号的逆功率**
+#### 1.5.2 采样感兴趣信号的逆功率
 
 现在我们将重点放在采样超参数 $\gamma_x$ 上，对应于表 1 中算法的步骤 (b)。
 
@@ -639,7 +639,7 @@ function SamplePrecision = RNDGamma(Alpha,Beta)
 
 注意：计算参数 $\beta$ 涉及计算建模误差 $\| y - Hx \|^2$ 的范数。计算空间域中的范数通常成本较高，但是可以在傅里叶域中进行计算以降低成本。
 
-### **1.6 采样感兴趣的物体**
+### 1.6 采样感兴趣的物体
 
 最后但同样重要的是，我们将处理对应于表 1 中算法步骤 (c) 的感兴趣物体 $x$ 的采样。这意味着采样条件后验分布 $f(x | \gamma_x, \gamma_e, y)$，其表达式已经推导出
 
@@ -747,7 +747,7 @@ function SampleImage = RNDGauss(MoyGauss,Covariance)
 	SampleImage = MoyGauss + BoutGauss .* sqrt(Covariance);
 ```
 
-## **2 实现**
+## 2 实现
 
 在 Matlab 实践中，我们使用和上次内容相同的数据集，最后结果理论上应该相似。因为我们做出的改进只是自动调整正则化参数。我们之前介绍了算法步骤，并且详细解释了涉及两个超参数 $\gamma_e$ 和 $\gamma_x$ 的条件分布采样，以及图像 $x$ 的条件分布采样，所以这里直接给代码。
 
@@ -756,112 +756,189 @@ clear all
 close all
 clc
 
-%% Load Data
-Data1 = load('DataOne.mat');
-Data2 = load('DataTwo.mat');
+%% 加载数据 (与TP1保持一致)
+Data1 = load('DataOne.mat'); % 包含Data, TrueImage, IR
+Data = Data1.Data;
+TrueImage = Data1.TrueImage;
+IR = Data1.IR;
+[M,N] = size(Data);
 
-%% Parameters Set the size of the image to 256 x 256, and generate the normalized frequency axis Nu.
-Long = 256;
-Nu = linspace(-0.5, 0.5, Long);
+%% 构建频域传递函数 (与TP1一致)
+Long = length(Data); % 假设Data为方阵
+H = MyFFT2RI(IR,Long);
 
-%% Implement Gibbs Sampling for Data1
-% Initializations
-num_iterations = 500; % Number of Gibbs sampling iterations
-burn_in = 100; % Number of burn-in iterations
+% 构建正则化滤波器频域 (Dh,Dv) 与 TP1中介绍的 D 矩阵类似
+Dh = [0 0 0;0 -1 1;0 0 0]; 
+Dv = [0 0 0;0 -1 0;0 1 0];
 
-% Initialize x^{[0]} = y    Set the initial image x as the observed data y. This corresponds to the initialization step in Algorithm .
-x = Data1.Data;
+F_Dh = MyFFT2RI(Dh, Long);
+F_Dv = MyFFT2RI(Dv, Long);
 
-% Initialize gamma_e and gamma_x ===> hyperparameters。
-gamma_e = 1;
-gamma_x = 1;
+abs_D_squared = abs(F_Dh).^2 + abs(F_Dv).^2;
 
-% Precompute Fourier transforms
-TF_Data = MyFFT2(Data1.Data);
-TF_H = MyFFT2RI(Data1.IR, Long);
+Y = MyFFT2(Data);
 
-% Regularization operator Pi = D^t D
-% D is the difference operator
-Dh = [0 0 0; 0 -1 1; 0 0 0]; % Horizontal difference
-Dv = [0 0 0; 0 -1 0; 0 1 0]; % Vertical difference
+%% 超参数先验 (无信息先验)
+alpha_e = 0; beta_e = 0; 
+alpha_x = 0; beta_x = 0;
 
-% Compute their Fourier transforms
-TF_Dh = MyFFT2RI(Dh, Long);
-TF_Dv = MyFFT2RI(Dv, Long);
+% 初始化参数
+x = Data;        % 初始化x为观测图像
+gamma_e = 1;     % 初始化误差精度参数
+gamma_x = 1;     % 初始化信号精度参数
 
-% Compute |D|^2 = |Dh|^2 + |Dv|^2   计算正则化项在频域中的平方模 对应|x|_\Pi^2 = x^T \Pi x = |D x|^2
-abs_Dh_squared = abs(TF_Dh).^2;
-abs_Dv_squared = abs(TF_Dv).^2;
-abs_D_squared = abs_Dh_squared + abs_Dv_squared;
+numIter = 500;   % MCMC迭代次数，可根据实际需要调整
+burnIn = 200;    % burn-in期长度
+X_samples = zeros(M,N,numIter);
+gamma_e_samples = zeros(numIter,1);
+gamma_x_samples = zeros(numIter,1);
 
-% Prepare to store samples
-samples_x = zeros(Long, Long, num_iterations - burn_in);
-samples_gamma_e = zeros(1, num_iterations - burn_in);
-samples_gamma_x = zeros(1, num_iterations - burn_in);
-
-% Number of pixels N
-N = Long * Long;
-
-for k = 1:num_iterations
-    % Step (a): Sample gamma_e^{[k]}
-    % Compute residual 计算残差 : y - H x^{[k-1]}
-    residual = Data1.Data - real(MyIFFT2(TF_H .* MyFFT2(x)));  % e = y - H x
-
-    beta_e = sum(residual(:).^2) / 2; %\beta = |y - H x|^2 / 2
-    alpha_e = N / 2;  % 问题5和公式(35)：\alpha = N/2     
-
-    gamma_e = RNDGamma(alpha_e, beta_e); % 从伽马分布中采样 gamma_e，对应于算法表1中的步骤 (a)
+%% MCMC (Gibbs) 迭代
+for k = 1:numIter
     
-    % Step (b): Sample gamma_x^{[k]}
-    % Compute regularization term: || x^{[k-1]} ||_Pi^2
-    % This is || D x ||^2
-    Dx = imfilter(x, Dh, 'circular', 'conv');
-    Dy = imfilter(x, Dv, 'circular', 'conv');
-    reg_term = sum(Dx(:).^2 + Dy(:).^2);
-    beta_x = reg_term / 2;
-    alpha_x = N / 2;
-    gamma_x = RNDGamma(alpha_x, beta_x);
+    % ---- (a) 更新gamma_e ----
+    % 残差计算：r = y - Hx
+    r = Data - MyIFFT2( H .* MyFFT2(x) );
+    norm_r2 = sum(abs(r(:)).^2);
+    alpha_e_post = alpha_e + (M*N)/2;
+    beta_e_post = beta_e + norm_r2/2;
+    % 使用自定义RNDGamma函数(请确保RNDGamma.m未修改)
+    gamma_e = RNDGamma(alpha_e_post, beta_e_post);
     
-    % Step (c): Sample x^{[k]}
-    % Compute the mean and covariance in the frequency domain
-    denom = gamma_e * abs(TF_H).^2 + gamma_x * abs_D_squared;
-    TF_mu = (gamma_e * conj(TF_H) .* TF_Data) ./ denom;
-    Covariance = 1 ./ denom;
-    % Sample x in frequency domain
-    SampleImage = RNDGauss(TF_mu, Covariance);
-    % Transform back to spatial domain
-    x = real(MyIFFT2(SampleImage));
+    % ---- (b) 更新gamma_x ----
+    % 计算 x^T Pi x 的值：在频域中为 sum(|X|^2 * |D|^2)
+    Xf = MyFFT2(x);
+    norm_x_Pi2 = sum(abs(Xf(:)).^2 .* abs_D_squared(:));
     
-    % Store samples after burn-in
-    if k > burn_in
-        samples_x(:, :, k - burn_in) = x;
-        samples_gamma_e(k - burn_in) = gamma_e;
-        samples_gamma_x(k - burn_in) = gamma_x;
-    end
+    alpha_x_post = alpha_x + (M*N)/2;
+    beta_x_post = beta_x + norm_x_Pi2/2;
+    % 使用自定义RNDGamma函数
+    gamma_x = RNDGamma(alpha_x_post, beta_x_post);
+    
+    % ---- (c) 更新x ----
+    % 协方差的对角阵(频域)：var_x_f = 1 / (gamma_e|H|^2 + gamma_x|D|^2)
+    denom = gamma_e*(abs(H).^2) + gamma_x*(abs_D_squared);
+    % 均值: MU_freq = (gamma_e * conj(H).*Y)./denom
+    MU_freq = (gamma_e * conj(H) .* Y) ./ denom;
+    
+    % 使用自定义RNDGauss函数进行高斯分布采样 (RNDGauss.m未修改)
+    % RNDGauss要求参数 (MoyGauss, Covariance)，此处 Covariance = var_x_f
+    X_f_new = RNDGauss(MU_freq, 1./denom);
+    
+    x = MyIFFT2(X_f_new);
+    
+    X_samples(:,:,k) = x;
+    gamma_e_samples(k) = gamma_e;
+    gamma_x_samples(k) = gamma_x;
 end
 
-% Compute posterior mean estimate
-x_mean = mean(samples_x, 3);
+%% 后验均值计算(去掉burn-in部分)
+x_posterior_mean = mean(X_samples(:,:,burnIn+1:end), 3);
 
-% Display the results
-figure;
-subplot(1,3,1)
-imagesc(Data1.Data);
-colormap('gray');
-axis('square','off')
-title('Observed Image - Data1');
+% 每次迭代计算与真实图像的MSE
+MSE_iterations = zeros(numIter,1);
+for i=1:numIter
+    MSE_iterations(i) = mean((X_samples(:,:,i)-TrueImage).^2,'all');
+end
 
-subplot(1,3,2)
-imagesc(x_mean);
-colormap('gray');
-axis('square','off')
-title('Reconstructed Image - Data1');
+% 找到MSE最小的迭代次序及对应MSE值
+[best_mse, best_iter] = min(MSE_iterations);
 
-subplot(1,3,3)
-imagesc(Data1.TrueImage);
-colormap('gray');
-axis('square','off')
-title('True Image - Data1');
+% 计算最终后验均值与真实图像的评价指标
+mse_val = mean((x_posterior_mean(:)-TrueImage(:)).^2);
+psnr_val = 10*log10(max(TrueImage(:))^2 / mse_val);
+
+%% 打印最优值信息
+fprintf('在所有迭代中，MSE最小值为 %.3e，对应迭代次数为 %d\n', best_mse, best_iter);
 ```
 
-![TP1_1](/img/Problem_inverse/TP2/1.png)
+
+
+
+
+```matlab
+%% 绘图
+figure('Name','结果','NumberTitle','off','Color','w');
+
+% 使用subplot将观测图像、真实图像、恢复图像对比展示（2行2列布局）
+subplot(1,3,1);
+imagesc(Data); colormap gray; axis image off;
+title('观测(模糊)图像','FontWeight','bold','FontSize',12);
+
+subplot(1,3,2);
+imagesc(TrueImage); colormap gray; axis image off;
+title('真实图像','FontWeight','bold','FontSize',12);
+
+subplot(1,3,3);
+imagesc(abs(x_posterior_mean)); colormap gray; axis image off;
+title({['恢复图像(后验均值)'],...
+       ['MSE: ' num2str(mse_val, '%.3e') ', PSNR: ' num2str(psnr_val,'%.2f') ' dB']}, ...
+      'FontWeight','bold','FontSize',12);
+```
+
+![TP1_1](/img/Problem_inverse/TP2/6.png)
+
+```matlab
+
+
+% 显示水平中心线处的像素值对比
+figure('Name','截面对比','NumberTitle','off','Color','w');
+mid_row = round(M/2);
+plot(TrueImage(mid_row,:),'r-','LineWidth',2); hold on;
+plot(x_posterior_mean(mid_row,:),'b--','LineWidth',2);
+legend('真实图像','恢复图像','Location','best','FontSize',12);
+xlabel('像素索引','FontWeight','bold','FontSize',12);
+ylabel('像素值','FontWeight','bold','FontSize',12);
+title('水平中心线像素截面比较','FontWeight','bold','FontSize',12);
+grid on;
+```
+
+<img src="/img/Problem_inverse/TP2/3.png" alt="TP1_1" style="width:90%;" />
+
+```matlab
+% 显示超参数迭代收敛情况
+figure('Name','超参数收敛情况','NumberTitle','off','Color','w');
+subplot(2,1,1);
+plot(gamma_e_samples,'LineWidth',1.5);
+xlabel('迭代次数','FontWeight','bold','FontSize',12); 
+ylabel('\gamma_e','FontWeight','bold','FontSize',12);
+title('\gamma_e 的迭代变化','FontWeight','bold','FontSize',12); grid on;
+
+subplot(2,1,2);
+plot(gamma_x_samples,'LineWidth',1.5,'Color','m');
+xlabel('迭代次数','FontWeight','bold','FontSize',12); 
+ylabel('\gamma_x','FontWeight','bold','FontSize',12);
+title('\gamma_x 的迭代变化','FontWeight','bold','FontSize',12); grid on;
+```
+
+<img src="/img/Problem_inverse/TP2/4.png" alt="TP1_1" style="width:90%;" />
+
+```matlab
+%% 对比展示：观测图像 vs 第一份结果 vs 本次恢复后验均值 vs 真实图像
+load('x_first_method.mat','x_first_method');
+
+figure('Name','最终对比展示','NumberTitle','off','Color','w');
+
+subplot(1,4,1);
+imagesc(Data); colormap gray; axis image off;
+title('观测图像','FontWeight','bold','FontSize',12);
+
+subplot(1,4,2);
+% 假设 x_first_method 是从第一份内容中得到的恢复图像结果变量 
+% 请在运行此代码前确保 x_first_method 已经在工作区中存在
+imagesc(abs(x_first_method)); colormap gray; axis image off;
+title('Wiener - Hunt 恢复结果','FontWeight','bold','FontSize',12);
+
+subplot(1,4,3);
+imagesc(abs(x_posterior_mean)); colormap gray; axis image off;
+title('后验均值恢复结果','FontWeight','bold','FontSize',12);
+
+subplot(1,4,4);
+imagesc(TrueImage); colormap gray; axis image off;
+title('真实图像','FontWeight','bold','FontSize',12);
+```
+
+![TP1_1](/img/Problem_inverse/TP2/final1.png)
+
+
+

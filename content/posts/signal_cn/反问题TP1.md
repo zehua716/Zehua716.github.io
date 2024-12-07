@@ -1,9 +1,9 @@
 ---
 title: "反问题 TP1"
-password: "123"
+#password: "123"
 # author: "Zehua"
 date: "2024-11-07T16:25:17+01:00"
-lastmod: "2024-11-25T17:12:35+08:00"
+lastmod: "2024-12-04T17:12:35+08:00"
 lang: "zh"
 draft: false
 summary: "对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像"
@@ -21,11 +21,13 @@ searchHidden: true
 
 
 
-# **图像反卷积：Wiener-Hunt 方法**
+# 图像反卷积：Wiener-Hunt 方法
 
-主要针对图像去模糊问题，即从模糊(带噪)图像中恢复清晰图像。这属于逆问题的范畴，一半出现在处理真实测量系统时。由于每个测量系统（如温度计、CCD相机、光谱仪等）都受到基础物理学的限制，比如有限精度、有限动态范围、非零响应时间等。这意味着测得的量或多或少都有扭曲。因此这部分是对感兴趣物理量的某种扭曲程度的度量。
+主要针对图像去模糊问题，即从模糊(带噪)图像中恢复清晰图像。这属于逆问题的范畴，一半出现在处理真实测量系统时。由于每个测量系统（如温度计、CCD相机、光谱仪等）都受到基础物理学的限制，比如有限精度、有限动态范围、非零响应时间等。这意味着测得的量
 
-大多数情况下，测量系统直接给出的测量数据通常具有足够的精度和鲁棒性。但是，也存在测量结果不准确的情况。为了解决精度问题，或者说至少部分地优化它，已经开发了特殊的信号和图像处理技术。在接下来的内容中，我们将通过一个简单的例子来展示此类方法。
+或多或少都有扭曲。
+
+大多数情况下，测量系统直接给出的测量数据通常具有足够的精度和鲁棒性。但是，也存在测量结果不准确的情况。为了解决精度问题，或者说至少部分地优化它，有特殊的信号和图像处理技术。在接下来的内容中，我们将通过一个简单的例子来展示此类方法。
 
 我们有一张未聚焦的图像(即真实图像)，这种情况下，点的图像实际上会是一个斑点。而捕获的图像是由真实图像中每个斑点的叠加结果，因此捕获的图像将会因为模糊而受损。我们现在尝试用一个数学模型来描述这种输入输出关系，最简单模型是线性不变滤波器，即卷积。
 
@@ -60,11 +62,11 @@ $$
 
 我们先介绍其理论部分，包括其损失函数及其最小化器。此外，提出了一种基于循环近似的方法，以实现矩阵求逆的快速数值计算。
 
-## **1. 一维反卷积**
+## 1. 一维反卷积
 
 为了简化理论概念，我们先讨论在一维情况下的信号反卷积。这种简化情况允许对反卷积问题的分析更加深入，同时更容易掌握概念和思路。随后再引入二维情况，并将其视为一维情况的扩展。Matlab 实现部分仅涉及二维情况。
 
-### **1.1 一维建模**
+### 1.1 一维建模
 
 在一维情况下，(1) 中给出的观测模型变为：
 
@@ -125,6 +127,7 @@ $$
 
 $$
 H = \begin{bmatrix}
+h_0 & \cdots & h_{-P} & \cdots & 0 & 0 & 0 & 0 & \cdots \\\\
 h_P & \cdots & h_0 & \cdots & h_{-P} & 0 & 0 & 0 & \cdots \\\\
 0 & h_P & \cdots & h_0 & \cdots & h_{-P} & 0 & 0 & \cdots \\\\
 0 & 0 & h_P & \cdots & h_0 & \cdots & h_{-P} & 0 & \cdots \\\\
@@ -150,11 +153,24 @@ h_2 & h_1 & h_0 & \cdots & 0 & 0 & 0 \\\\
 \end{bmatrix}
 $$
 
+- 例如，对于 $N = 5$  和 $P = 3$ ，模糊矩阵$\mathbf{H}$ 的大小是 $5 \times 5$，并且 $ P = 3 $ 表示核的支持范围是从 $ -3 $ 到 $3 $。矩阵的具体结构为：
+
+$$
+\mathbf{H} =
+\begin{bmatrix}
+h_0 & h_{-1} & h_{-2} & h_{-3} & 0 \\\\
+h_1 & h_0 & h_{-1} & h_{-2} & h_{-3} \\\\
+h_2 & h_1 & h_0 & h_{-1} & h_{-2} \\\\
+h_3 & h_2 & h_1 & h_0 & h_{-1} \\\\
+0 & h_3 & h_2 & h_1 & h_0
+\end{bmatrix}_{5 \times 5}
+$$
+
 
 
 因此，信号反卷积问题可以重新表述为: 在已知观测信号 $\mathbf{y}$ 并知道卷积矩阵 $H$ 的情况下，估计向量 $\mathbf{x}$
 
-### **1.2 带惩罚的最小二乘法**
+### 1.2 带惩罚的最小二乘法
 
 提出的重建策略 (损失函数) 是一种带惩罚的最小二乘法。它包含两个部分：
 
@@ -168,23 +184,27 @@ $$
 
 
 $$
-J_{\text{PLS}}(x) = | y - Hx |^2 + \mu | Dx |^2 = (y - Hx)^t (y - Hx) + \mu x^t D^t D x
+J_{\text{PLS}}(x) = \| y - Hx \|^2 + \mu \| Dx \|^2 = (y - Hx)^t (y - Hx) + \mu x^t D^t D x
 $$
 
 
 其中，$D$ 是阶数为 1，大小为 $(N - 1) \times N$ 的差分矩阵，定义如下：
 
-
-$$
+<div>$$
 D = \begin{bmatrix}
-\cdots & -1 & 1 & 0 & 0 & \cdots \\\\
-\cdots & 0 & -1 & 1 & 0 & \cdots \\\\
-\cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\\\
-\cdots & 0 & 0 & -1 & 1 & \cdots\\\\
+-1 & 1 & 0 & 0 & \cdots & \cdots & 0 \\
+0 & -1 & 1 & 0 & \cdots & \cdots & 0 \\
+0 & 0 & -1 & 1 & \cdots & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & -1 & 1
 \end{bmatrix}
-$$
+$$</div>
 
- 差分矩阵约束了相邻元素的差值，使得图像解更为平滑，同时还可以避免过拟合问题。
+
+
+- 一阶差分算子所描述的是图像像素之间的局部差异或梯度，一个好的图像通常在局部变化上是平滑连续的，出现突变 （边框）时，像素值的相邻差值将会较大。通过对相邻像素的差分约束，可以获得更平滑但仍能保留边缘信息的重建结果。
+
+- 与此同时，一阶差分算子和二维差分滤波器在傅里叶域有对应的频率特征，可通过基本的线性运算（如FFT）高效计算，简单易实现。
 
 
 带惩罚的最小二乘准则的最小化器为：
@@ -202,7 +222,7 @@ $$
 
 我们已知损失准则为:
 $$
-J_{\text{PLS}}(x) = | y - Hx |^2 + \mu | Dx |^2 = (y - Hx)^t (y - Hx) + \mu x^t D^t D x
+J_{\text{PLS}}(x) = \| y - Hx \|^2 + \mu \| Dx \|^2 = (y - Hx)^t (y - Hx) + \mu x^t D^t D x
 $$
 继续展开：
 
@@ -227,7 +247,7 @@ $$
 
 
 
-在特定情况下 $\mu = 0$ 时准则和最小化器的结果表达式变为 $J_{\text{PLS}}(x) = |y - Hx|^2$
+在特定情况下 $\mu = 0$ 时准则和最小化器的结果表达式变为 $J_{\text{PLS}}(x) = \|y - Hx\|^2$
 
 
 
@@ -238,12 +258,23 @@ $$
 \hat{x} = (H^T H)^{-1} H^T y
 $$
 
-
 此时准则变为经典的最小二乘问题，没有正则化项，也就是说，模型仅考虑最小化观测值与预测值之间的误差，而不会惩罚解的复杂度或平滑性。其解是经典的 **最小二乘解**。但是注意，这里并不是说去掉正则化项就变成 **标准维纳滤波器** 的形式了，因为   **Wiener-Hunt** 用的是最小二乘解(去掉正则化项后) $J_{LS}(x) = \| \mathbf{y} - \mathbf{H} \mathbf{x} \|^2$ ，而维纳滤波器用的是 最小化均方误差 $J_{MSE}(x) = \mathbb{E} \big[ \| \mathbf{x} - \mathbf{x}_{\text{true}} \|^2 \big]$ ，关注的是统计关系。
 
 
 
-#### **1.2.1 循环近似**
+思考问题，如果不加这个 $\mu$ 会怎么样？即 $\mu =1 $ 会怎么样？
+
+
+
+
+
+
+
+
+
+
+
+#### 1.2.1 循环近似
 
 回到反卷积后的原始信号的恢复公式:
 $$
@@ -264,7 +295,7 @@ $$
 这种近似有两个前提条件:
 
 - 信号或图像是周期循环不结束的，换句话说，信号是首尾相连的环状结构
-- 矩阵具有 Toeplitz 结构，所有对角线元素相同。
+- 矩阵具有 Toeplitz 结构，所有对角线元素相同。 
 
 
 
@@ -272,31 +303,70 @@ $$
 $$
 \mathbf{H} =
 \begin{bmatrix}
-h_1 & 0 & 0 & 0 \\\\
-h_2 & h_1 & 0 & 0 \\\\
-h_3 & h_2 & h_1 & 0 \\\\
-0 & h_3 & h_2 & h_1
-\end{bmatrix}
+h_0 & h_{-1} & h_{-2} & h_{-3} & 0 \\\\
+h_1 & h_0 & h_{-1} & h_{-2} & h_{-3} \\\\
+h_2 & h_1 & h_0 & h_{-1} & h_{-2} \\\\
+h_3 & h_2 & h_1 & h_0 & h_{-1} \\\\
+0 & h_3 & h_2 & h_1 & h_0
+\end{bmatrix}_{5 \times 5}\quad
 $$
-将矩阵的“非循环”部分补齐，使其具有循环特性。我们需要将矩阵的右上角和左下角部分填充为一个“循环”模式。
+<div>$$
+\quad \quad D = \begin{bmatrix}
+-1 & 1 & 0 & 0 & \cdots & \cdots & 0 \\
+0 & -1 & 1 & 0 & \cdots & \cdots & 0 \\
+0 & 0 & -1 & 1 & \cdots & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & -1 & 1 \\
+\end{bmatrix}_{(N-1) \times N}\quad
+$$</div>
 
-近似循环矩阵为：
-$$
-\tilde{\mathbf{H}} =
+
+
+将矩阵的“非循环”部分补齐，使其具有循环特性。我们需要将矩阵的右上角和左下角部分填充为一个“循环”模式。在具体的这个实例中，我们使用模5重索引方法，基于序列的循环性（周期性）假设序列 ${h_k}$ 在索引上是按照长度为5的周期重复的，因此:
+
+$$h_{-1}\text{取模5后： } -1 \mod 5 = 4 \text{，因此 } h_{-1} = h_4$$
+
+$$h_{-2}\text{取模5后： } -2 \mod 5 = 3 \text{，因此 } h_{-2} = h_3$$
+
+$$h_{-3}\text{取模5后： } -3 \mod 5 = 2 \text{，因此 } h_{-3} = h_2$$
+
+$H$ 的循环矩阵为：
+
+<div>$$
+\mathbf{\mathbf{H}} =
 \begin{bmatrix}
-h_1 & h_3 & h_2 & h_3 \\\\
-h_2 & h_1 & h_3 & h_2 \\\\
-h_3 & h_2 & h_1 & h_3 \\\\
-h_3 & h_3 & h_2 & h_1
+h_0 & h_4 & h_3 & h_2 & h_1 \\
+h_1 & h_0 & h_4 & h_3 & h_2 \\
+h_2 & h_1 & h_0 & h_4 & h_3 \\
+h_3 & h_2 & h_1 & h_0 & h_4 \\
+h_4 & h_3 & h_2 & h_1 & h_0
 \end{bmatrix}
+$$</div>
+
+$D$ 的近似循环矩阵为:
+<div>$$
+\tilde{\mathbf{D}}=
+\begin{bmatrix}
+-1 & 1 & 0 & 0 & \cdots & \cdots & 0 \\
+0 & -1 & 1 & 0 & \cdots & \cdots & 0 \\
+0 & 0 & -1 & 1 & \cdots & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & -1 & 1 \\
+1 & 0 & 0 & 0 & \cdots & 0 & -1
+\end{bmatrix}_{N \times N}
+$$</div>
+
+
+
+
+
+得到的循环卷积矩阵 $\tilde{H}$ 和 $\tilde{D}$ 在傅里叶基下可以轻松对角化：
+
+
 $$
-
-
-循环卷积矩阵 $\tilde{H}$ 和 $\tilde{D}$ 在傅里叶基下可以轻松对角化：
-
-
-$$
-\tilde{H} = F^T \Lambda_h F \quad \text{和} \quad \tilde{D} = F^T \Lambda_d F
+\tilde{H} = F^{\dagger} \Lambda_h F
+\quad\text{和}\quad
+\tilde{D} = F^{\dagger} \Lambda_d F
 $$
 
 
@@ -360,7 +430,7 @@ FT_x = 1 ./ (abs(Lambda_H).^2 + mu * (abs(Lambda_dC).^2 + abs(Lambda_dR).^2)).* 
 
 
 
-补充知识: $\tilde{H}$ 是一个实矩阵，因此其复共轭等于它本身，$\tilde{H} = \tilde{H}^T$ 。$\tilde{D}$ 同理
+补充知识: $\tilde{H}$ 是一个实矩阵，因此其复共轭等于它本身（无虚部），$H = \overline{H}$ 。$\tilde{D}$ 同理
 
 
 
@@ -376,29 +446,22 @@ $$
 
 
 
-其中: $\tilde{H} = F^T \Lambda_h F$ 且 $\tilde{D} = F^T \Lambda_d F$ 将其带入上述公式，得:
+其中: $\tilde{H} = F^\dagger \Lambda_h F$ 且 $\tilde{D} = F^\dagger \Lambda_d F$ 将其带入上述公式，得:
 
 
 
 
 $$
-\hat{x} = ((F^{T}\Lambda_{h}F)^{T}(F^{T}\Lambda_{h}F) + \mu (F^{T}\Lambda_{d}F)^{T}(F^{T}\Lambda_{d}F))^{-1}(F^{T}\Lambda_{h}F)^{T}y
+\hat{x} = ((F^{\dagger}\Lambda_{h}F)^{T}(F^{\dagger}\Lambda_{h}F) + \mu (F^{\dagger}\Lambda_{d}F)^{T}(F^{\dagger}\Lambda_{d}F))^{-1}(F^{\dagger}\Lambda_{h}F)^{T}y
 $$
 
 
 
+因为傅里叶矩阵 $F$ 是一个正交矩阵，具有 $F F^{\dagger} = I$ 的性质，即 $F^{\dagger} = F^{-1}$ 。这里请注意，$F$ 是复值DFT矩阵，是酉矩阵，  $F^\dagger$ 表示共轭转置，并非简单的转置
 
-因为傅里叶矩阵 $F$ 是一个正交矩阵，具有 $F F^{T} = I$ 的性质，即 $F^{T} = F^{-1}$
-
-
-
-并且我们有 $(F^{T}\Lambda_{h}F)^{T} = F^{T}\Lambda_{h}^{T}F$ 以及 $(F^{T}\Lambda_{d}F)^{T} = F^{T}\Lambda_{d}^{T}F$
-
-
+并且我们有 $(F^{\dagger}\Lambda_{h}F)^{T} = F^{\dagger}\Lambda_{h}^{T}F$ 以及 $(F^{\dagger}\Lambda_{d}F)^{T} = F^{\dagger}\Lambda_{d}^{T}F$
 
 所以:
-
-
 
 令 $\quad \overset{\circ}{\hat{x}} = F \hat{x}, \quad \overset{\circ}{y} = F y$
 
@@ -584,11 +647,11 @@ $$
 
 {{< /alert >}}
 
-## **2 实现**
+## 2 实现
 
 
 
-### **2.1 二维方法**
+### 2.1 二维方法
 
 
 
@@ -610,7 +673,7 @@ $$
 
 
 
-### **2.2 观测图像**
+### 2.2 观测图像
 
 
 
@@ -685,6 +748,61 @@ FFT_Data2 = MyFFT2(Data2.Data);
 Mag_Data1 = abs(FFT_Data1)
 Mag_Data2 = abs(FFT_Data2)
 ```
+
+```matlab
+%% MyFFT2
+function Frequentiel = MyFFT2(Spatial)	
+    % MyFFT2
+    % 对二维空间域数据 Spatial 进行 2D FFT，并对结果进行 fftshift 和归一化处理。
+    %
+    % 输入参数：
+    %   Spatial : 二维时域(或空间域)数据矩阵
+    %
+    % 输出参数：
+    %   Frequentiel : 已经经过 fftshift 和归一化的二维频域数据矩阵
+
+    Frequentiel = fftshift( fft2(Spatial) ) / length(Spatial);
+end
+
+
+%% MyFFT2RI
+function Frequentiel = MyFFT2RI(Spatial, Long)	
+    % MyFFT2RI
+    % 对输入的二维数据 Spatial 进行补零扩展至尺寸 Long x Long，以便在频域处理时
+    % 保持良好的居中对齐。补零后对数据进行 fftshift、2D FFT 再 fftshift。
+    %
+    % 输入参数：
+    %   Spatial : 原始二维数据矩阵
+    %   Long    : 补零后的目标矩阵尺寸(长宽相等)
+    %
+    % 输出参数：
+    %   Frequentiel : 已补零扩展并居中对齐的二维频域数据矩阵
+
+    Taille = length(Spatial);
+    Ou = 1 + Long/2 - (Taille-1)/2 : 1 + Long/2 + (Taille-1)/2;
+    SpatialComplet = zeros(Long, Long);
+    SpatialComplet(Ou, Ou) = Spatial;
+
+    Frequentiel = fftshift( fft2( fftshift(SpatialComplet) ) );
+end
+
+
+%% MyIFFT2
+function Spatial = MyIFFT2(Frequentiel)
+    % MyIFFT2
+    % 对二维频域数据执行逆FFT操作并进行 fftshift 和归一化，以还原回空间/时域信号。
+    %
+    % 输入参数：
+    %   Frequentiel : 二维频域数据矩阵(已 fftshift)
+    %
+    % 输出参数：
+    %   Spatial : 逆变换并归一化后的二维时域(空间域)数据矩阵
+
+    Spatial = ifft2( fftshift(Frequentiel) ) * length(Frequentiel);
+end
+```
+
+
 
 ```matlab
 % Display magnitude spectra in linear scales
@@ -851,7 +969,7 @@ grid on;
 
 
 
-### **2.3 Implementation**
+### 2.3 Implementation
 
 我们将在二维情况下实现反卷积，并使用带有二次惩罚项的最小二乘法，同时使用循环近似进行最小化，在前面已经进行过了总结。
 

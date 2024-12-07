@@ -12,7 +12,7 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Thu, 28 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="http://zehua.eu/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Collection</title>
@@ -64,10 +64,38 @@
       <description></description>
     </item>
     <item>
+      <title>贝叶斯方法</title>
+      <link>http://zehua.eu/zh/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>反问题</title>
+      <link>http://zehua.eu/zh/tags/%E5%8F%8D%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/tags/%E5%8F%8D%E9%97%AE%E9%A2%98/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>计算机视觉</title>
       <link>http://zehua.eu/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
       <pubDate>Mon, 21 Oct 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>滤波器设计</title>
+      <link>http://zehua.eu/zh/tags/%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Sat, 08 Jun 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/tags/%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Matlab</title>
+      <link>http://zehua.eu/zh/tags/matlab/</link>
+      <pubDate>Thu, 30 Nov 2023 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/tags/matlab/</guid>
       <description></description>
     </item>
     <item>
