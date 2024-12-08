@@ -12,7 +12,7 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Wed, 04 Dec 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Dec 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="http://zehua.eu/zh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>反问题 TP3</title>
@@ -35,11 +35,25 @@
 &lt;p&gt;因此提出了 &lt;strong&gt;DiffuseVAE&lt;/strong&gt;，将VAE嵌入到扩散模型框架中，并设计了新的条件参数化方法，使扩散模型能够利用VAE推导的低维潜在编码。在标准基准（如 CIFAR-10 和 CelebA-64）上，生成质量优于大多数基于 VAE 的方法，并与最先进模型接近，并独特地保留了对低维潜在空间的访问能力，这是其他模型没有的。&lt;/p&gt;</description>
     </item>
     <item>
+      <title>勒让德变换与半二次优化方法</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</link>
+      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</guid>
+      <description>勒让德变换将一个函数映射为其凸共轭函数，广泛用于优化理论中。将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。</description>
+    </item>
+    <item>
       <title>变分自编码器VAE</title>
       <link>http://zehua.eu/zh/posts/machinelearning_cn/vae/</link>
       <pubDate>Wed, 20 Nov 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/machinelearning_cn/vae/</guid>
       <description>VAE是一种生成式模型，其核心思想就是概率密度估计问题，属于无监督学习。</description>
+    </item>
+    <item>
+      <title>傅里叶综合</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</link>
+      <pubDate>Mon, 11 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BB%BC%E5%90%88/</guid>
+      <description>傅里叶综合（Fourier Synthesis）是重建医学成像的关键方法，但因观测数据的不完整性和噪音问题而成为 ill-posed problem。因此介绍了病态问题的原因、观测频率不均对重建的影响，以及提出正则化方法和经验估计提高重建精度。</description>
     </item>
     <item>
       <title>反问题 TP1</title>
@@ -75,6 +89,27 @@
       <pubDate>Sat, 08 Jun 2024 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/%E5%BA%94%E7%94%A8%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1%E9%97%AE%E9%A2%98/</guid>
       <description>特定情况下构建滤波器</description>
+    </item>
+    <item>
+      <title>无约束优化</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 05 Jun 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</guid>
+      <description>部分代码和结果是和Darwin Wang Cheou 共同完成的</description>
+    </item>
+    <item>
+      <title>卡尔曼滤波 - 非偏线性正交估计器</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+      <pubDate>Sun, 05 May 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
+      <description>利用非偏线性正交估计器（卡尔曼滤波框架的一种线性最小方差无偏估计方法）来处理多种测量数据，并通过对状态的先验分布和测量不确定性进行融合，从而得到参数和状态（目标的位置）的最佳线性无偏估计及其误差协方差矩阵。</description>
+    </item>
+    <item>
+      <title>随机信号与噪音（理论部分）</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</link>
+      <pubDate>Wed, 20 Dec 2023 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</guid>
+      <description>主要介绍随机信号及其统计特性，包括协方差函数与功率谱密度，最后简单介绍维纳滤波器在信号处理中的应用</description>
     </item>
     <item>
       <title>通过维纳滤波器进行反卷积</title>

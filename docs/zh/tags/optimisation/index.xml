@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Optimisation on 主页</title>
+    <link>http://zehua.eu/zh/tags/optimisation/</link>
+    <description>Recent content in Optimisation on 主页</description>
+    <image>
+      <title>主页</title>
+      <url>http://zehua.eu/images/papermod-cover.png</url>
+      <link>http://zehua.eu/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>zh-cn</language>
+    <copyright>PaperMod</copyright>
+    <lastBuildDate>Sun, 08 Dec 2024 17:12:35 +0800</lastBuildDate>
+    <atom:link href="http://zehua.eu/zh/tags/optimisation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>勒让德变换与半二次优化方法</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</link>
+      <pubDate>Fri, 22 Nov 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8B%92%E8%AE%A9%E5%BE%B7%E5%8F%98%E6%8D%A2/</guid>
+      <description>勒让德变换将一个函数映射为其凸共轭函数，广泛用于优化理论中。将其与半二次优化方法结合，推导了正则化分解和辅助变量的更新策略。</description>
+    </item>
+    <item>
+      <title>无约束优化</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 05 Jun 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/</guid>
+      <description>部分代码和结果是和Darwin Wang Cheou 共同完成的</description>
+    </item>
+  </channel>
+</rss>

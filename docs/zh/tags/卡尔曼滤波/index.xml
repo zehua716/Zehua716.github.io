@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>卡尔曼滤波 on 主页</title>
+    <link>http://zehua.eu/zh/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+    <description>Recent content in 卡尔曼滤波 on 主页</description>
+    <image>
+      <title>主页</title>
+      <url>http://zehua.eu/images/papermod-cover.png</url>
+      <link>http://zehua.eu/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.136.5</generator>
+    <language>zh-cn</language>
+    <copyright>PaperMod</copyright>
+    <lastBuildDate>Sun, 08 Dec 2024 17:12:35 +0800</lastBuildDate>
+    <atom:link href="http://zehua.eu/zh/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>卡尔曼滤波 - 非偏线性正交估计器</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+      <pubDate>Sun, 05 May 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
+      <description>利用非偏线性正交估计器（卡尔曼滤波框架的一种线性最小方差无偏估计方法）来处理多种测量数据，并通过对状态的先验分布和测量不确定性进行融合，从而得到参数和状态（目标的位置）的最佳线性无偏估计及其误差协方差矩阵。</description>
+    </item>
+  </channel>
+</rss>
