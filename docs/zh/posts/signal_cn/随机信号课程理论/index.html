@@ -134,8 +134,8 @@
   "keywords": [
     "信号处理", "随机过程", "统计分析", "滤波器设计"
   ],
-  "articleBody": "随机变量 概率密度 $f_x$ 的性质为\n$$ \\begin{aligned} \u0026 \\quad \\int_{\\mathbb{R}} f_x(x) , dx = 1 \\ \u0026 \\quad f_x(x) \\geq 0 \\quad \\forall , x \\in \\mathbb{R} \\end{aligned} $$\n概率的计算：\n$$P\\left\\{ x \\in [m, M] \\right\\} = \\int_{m}^{M} f_x(x) \\, dx$$ 数学期望的计算：\n$$ \\begin{aligned} \u0026 \\quad E(x) = \\int_{\\mathbb{R}} x \\cdot f_x(x) , dx \\ \u0026 \\quad E(\\varphi(x)) = \\int_{\\mathbb{R}} \\varphi(x) \\cdot f_x(x) , dx \\end{aligned} $$\n所谓期望，就是积分面积的一半（并非正中心）\n方差 $\\sigma_x = \\text{Var}[X] = E\\left( (X - E[X])^2 \\right) = \\text{标准差} $ $v_x^2$\n均方根误差：\n$$ \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2} $$\n即所有测量值与实际值的平方差再除总数\nCouple de variable $f_{x,y}(x,y)$ 性质\n$$ \\begin{aligned} \u0026 \\quad \\iint_{\\mathbb{R} \\times \\mathbb{R}} f_{x,y}(x,y) , dx , dy = 1 \\ \u0026 \\quad \\quad \\quad \\quad f_{x,y}(x,y) \\geq 0 \\end{aligned} $$\n高斯分布：\n$$ f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{1}{2} \\left( \\frac{x-\\mu}{\\sigma} \\right)^2} $$\n$$ f_{xy}(x, y) = \\frac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1 - \\rho_{xy}^2}} e^{-\\frac{1}{2(1 - \\rho_{xy}^2)} \\left[ \\left( \\frac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\frac{y - \\mu_y}{\\sigma_y} \\right)^2 - 2\\rho_{xy} \\left( \\frac{x - \\mu_x}{\\sigma_x} \\right) \\left( \\frac{y - \\mu_y}{\\sigma_y} \\right) \\right]} $$\n联合概率密度函数：\n$$ \\iint_{-\\infty}^{\\infty} f_{X,Y}(x, y) , dx , dy = 1 $$\n边缘概率密度函数：\n$$ f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x, y) , dy $$\n条件概率密度函数：\n$$ f_{X|Y}(x|y) = \\frac{f_{X,Y}(x, y)}{f_Y(y)} $$\n协方差：\n$$ \\text{Cov}(X, Y) = E\\left[(X - E[X])(Y - E[Y])\\right] $$\n相关系数：\n$$ \\rho_{X,Y} = \\frac{\\text{Cov}(X, Y)}{\\sqrt{\\text{Var}(X)} \\cdot \\sqrt{\\text{Var}(Y)}} $$\n随机变量对的特性：\n线性特性 $$ \\quad E \\left[ \\alpha \\varphi(x) + \\beta \\psi(x) \\right] = \\alpha E[\\varphi(x)] + \\beta E[\\psi(x)] $$\n常数特性 $$ \\quad E[\\alpha] = \\alpha $$\n期望与方差 $$ \\quad E[Y] = E[ax + b] = aE[x] + b $$\n$$ \\text{Var}[Y] = E\\left[(Y - E[Y])^2\\right] = E\\left[a^2 (x - E[x])^2\\right] = a^2 E\\left[(x - m)^2\\right] $$\n$$ P\\left[ x_m \\leq x \\leq x_M, \\ y_m \\leq y \\leq y_M \\right] = \\int_{x_m}^{x_M} \\int_{y_m}^{y_M} f_{x,y}(x, y) , dx , dy $$\n前面提到了条件概率密度：\n$$ f_{x|y=y_0}(x | y_0) = \\frac{f_{xy}(x, y_0)}{f_y(y_0)} $$\n对其进行左右积分：\n$$ \\int_{\\mathbb{R}} f_{x|y=y_0}(x | y_0) , dx = \\frac{\\int_{x} f_{xy}(x, y_0) , dx}{\\int_{x} f_{y}(y_0) , dx} = \\frac{\\int_{x} f_{xy}(x, y_0) , dx}{f_y(y_0)} = \\frac{F_y(y)}{f_y(y_0)} $$\n可见条件概率密度的积分等于边缘概率密度除以概率密度\n$x$ 和 $y$ 独立条件：\n$$ \\begin{cases} f_{y|x}(y|x) = f_y(y) \\ f_{x|y}(x|y) = f_x(x) \\end{cases} $$\n即条件概率等于单独发生的概率\n协方差性质：\n$$ \\text{Cov}[x, x] = \\text{Var}[x] \\\\ \\text{Cov}[y, y] = \\text{Var}[y] $$\n$$ \\text{Cov}[\\alpha x, y] = E \\left[ (\\alpha x - E[\\alpha x])(y - E[y]) \\right] = \\alpha \\text{Cov}[x, y] $$\n$$ \\text{Cov}[\\alpha x, \\beta y] = E \\left[ (\\alpha x - E[\\alpha x])(\\beta y - E[\\beta y]) \\right] = \\alpha \\beta \\text{Cov}[x, y] $$\n$$ \\text{Cov}[x, y]= E\\left[(x - E[x])(y - E[y])\\right]=E[xy] - E[x]E[y] $$\n可见，在独立情况下（$E[xy] = E[x]E[y]$），协方差 $=0$\n相关性\n$$\\rho_{xy} = \\text{cor}[x, y]= \\dfrac{\\text{Cov}[x, y]}{\\sqrt{\\text{Var}[x] \\cdot \\text{Var}[y]}} = \\dfrac{E\\left[(x - E[x])(y - E[y])\\right]}{\\sqrt{E\\left[(x - E[x])^2\\right] E\\left[(y - E[y])^2\\right]}}$$\n相关性特性: $$ \\text{cor}(x, y) = \\begin{cases} 1 \u0026 \\text{if } y = x \\\\ -1 \u0026 \\text{if } y = -x \\end{cases} $$\n$$ \\text{cor}[\\alpha x, y] = \\text{cor}[x, y] \\quad \\text{当} \\ \\alpha \u003e 0 $$\n因为：\n$$ \\dfrac{\\text{Cov}[\\alpha x, y]}{\\sqrt{\\text{Var}[\\alpha x] \\text{Var}[y]}} = \\dfrac{\\alpha \\text{Cov}[x, y]}{\\sqrt{\\alpha^2 \\text{Var}[x]} \\sqrt{\\text{Var}[y]}} $$\n$$ \\text{cor}[x, y] = 0 \\to \\text{cov}[x, y] = 0 \\to E[xy] = E[x]E[y] $$\n​\t不相关 $\\to$ 独立 ，这个说法不对，必须在联合概率密度满足高斯分布的情况下，才可以成立\n那么独立 可以推出 不相关吗？\n独立就代表了：\n$$ f_{xy}(x, y) = f_x(x) \\cdot f_y(y) \\implies E(xy) = E(x) \\cdot E(y) $$\n$$ E(xy) = \\int_x \\int_y x y f_{xy}(x, y) , dx , dy = \\int_x x f_x(x) , dx \\int_y y f_y(y) , dy = E(x) \\cdot E(y) $$\n可见成立。即只有服从高斯分布的联合概率密度才可以由不相关 $\\to$ 独立\n证明：\n若 $\\text{Cov}(x, y) = 0 \\implies \\rho_{xy} = 0$\n$$ f_{xy}(x, y) = \\dfrac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1 - \\rho_{xy}^2}} e^{-\\dfrac{1}{2(1 - \\rho_{xy}^2)} \\left[ \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right)^2 - 2\\rho_{xy} \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right) \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right) \\right]} $$\n当 $\\rho_{xy} = 0$，则：\n$$ f_{xy}(x, y) = \\dfrac{1}{2\\pi \\sigma_x \\sigma_y} e^{-\\dfrac{1}{2} \\left( \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right)^2 \\right)} = f_x(x) \\cdot f_y(y) = \\text{独立} $$\n随机向量 我们有：\n$$ |\\vec{u}|^2 = \\vec{u} \\cdot \\vec{u} \\ \\vec{u} \\cdot \\vec{v} = |\\vec{u}| |\\vec{v}| \\cdot \\cos(\\theta) $$\n向量 $\\mathbf{x}$ 表示为：\n$$ \\mathbf{x} = \\begin{bmatrix} x_1 \\ x_2 \\ \\vdots \\ x_n \\end{bmatrix} $$\n满足以下性质：\n$f_x \\geq 0$，对所有 $x_1, x_2, \\dots, x_n \\in \\mathbb{R}$。\n$\\int_{x_1} \\int_{x_2} \\dots \\int_{x_n} f_x(x_1, \\dots, x_n) , dx_1 , dx_2 \\dots dx_n = 1$\n概率计算为：\n$$P \\left\\{ \\begin{aligned} x_1 \u0026\\in [m_1, M_1] \\\\ x_2 \u0026\\in [m_2, M_2] \\\\ \u0026\\vdots \\\\ x_n \u0026\\in [m_n, M_n] \\end{aligned} \\right\\} = \\int_{m_1}^{M_1} \\int_{m_2}^{M_2} \\dots \\int_{m_n}^{M_n} f_x(x_1, \\dots, x_n) \\, dx_1 \\, dx_2 \\dots dx_n$$ 一阶矩（moment d’ordre 1）：\n$$ m_x = E[x] = \\begin{bmatrix} E[x_1] \\\\ E[x_2] \\\\ \\vdots \\\\ E[x_n] \\end{bmatrix} \\quad $$\n其中：\n$$ E[x_n] = \\int x_n \\cdot f_{x_n}(x_n) , dx_n $$\n二阶矩（moment d’ordre 2），协方差矩阵（Cov）\n$$ C_x = E\\left[ (x - m_x)(x - m_x)^T \\right] $$\n其中：\n$$ x - m_x = \\begin{bmatrix} x_1 \\\\ x _2 \\\\ \\vdots \\\\ x_n \\end{bmatrix}\\quad - \\begin{bmatrix} E[x_1] \\\\ E[x_2] \\\\ \\vdots \\\\ E[x_n] \\end{bmatrix} = \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n] \\end{bmatrix} $$\n$$f(y \\mid x, \\gamma_e) = (2\\pi)^{-N/2} \\gamma_e^{N/2} \\exp\\left( -\\frac{\\gamma_e \\|y - Hx\\|^2}{2} \\right)$$ 且：\n$$ (x - m_x)^T = \\begin{bmatrix} x_1 - E[x_1] \u0026 x_2 - E[x_2] \u0026 \\dots \u0026 x_n - E[x_n] \\end{bmatrix} $$\n因此：\n$$ C_x = E \\left[ \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n] \\\\ \\end{bmatrix} \\quad \\begin{bmatrix} x_1 - E[x_1] \u0026 x_2 - E[x_2] \u0026 \\dots \u0026 x_n - E[x_n] \\quad \\end{bmatrix} \\right] $$\n所以：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 \\text{Cov}(x_1, x_2) \u0026 \\dots \u0026 \\text{Cov}(x_1, x_n) \\\\ \\text{Cov}(x_2, x_1) \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 \\text{Cov}(x_2, x_n) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ \\text{Cov}(x_n, x_1) \u0026 \\text{Cov}(x_n, x_2) \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix}\\quad $$\n特殊情况：独立 $\\to$ 无相关性\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n协方差矩阵 $C_x$ 的性质：\n$C_x$ 是对称的，$C_x = C_x^T$\n$C_x$ 是一个正定矩阵，即行列式 $\\text{Det}(C_x) \\geq 0$\n所有特征值是正的\n迹（trace）：$\\text{Tr}(C_x) \\geq 0$\n证明 $ C_x = C_x^T $ $$ C_x^T = E\\left[(x - m_x)(x - m_x)^T\\right]^T = E\\left[(x - m_x)(x - m_x)^T\\right] = C_x \\quad \\text{（对称性证明）} $$ 证明 $C_x$ 是一个正定矩阵 $$ u^T C_x u = u^T E\\left[ (x - m_x)(x - m_x)^T \\right] u \\ = E\\left[ u^T (x - m_x)(x - m_x)^T u \\right] \\ = E\\left[ \\left( u^T (x - m_x) \\right)^2 \\right] \\geq 0 $$ 若 $Y = A x + B$，则：\n$$ C_y = E\\left[ (y - E[y])(y - E[y])^T \\right] = E\\left[ A(x - m_x)(x - m_x)^T A^T \\right] \\\\ = A E\\left[ (x - m_x)(x - m_x)^T \\right] A^T = A C_x A^T $$\n接下来我们证明当 $x_n$（随机向量）互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。\n高斯向量公式：\n$$ f_x(x) = \\left(2\\pi\\right)^{-\\frac{N}{2}} \\cdot \\left[\\det(C_x)\\right]^{-\\frac{1}{2}} \\exp\\left( -\\frac{1}{2} \\left(x - m_x\\right)^T \\cdot C_x^{-1} \\cdot \\left(x - m_x\\right) \\right) $$\n如果 $X_n$ 是不相关的：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n因此：\n$$ \\det(C_x) = \\prod_{n=1}^{N} \\gamma_n = \\gamma_1 \\cdot \\gamma_2 \\cdot \\gamma_3 \\cdot \\dots \\cdot \\gamma_n $$\n因此：\n$$ C_x^{-1} = \\begin{pmatrix} \\frac{1}{\\gamma_1} \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 \\frac{1}{\\gamma_2} \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\frac{1}{\\gamma_n} \\end{pmatrix} $$\n由上述结果计算：\n$$\\exp\\left( - \\frac{1}{2} \\left( \\mathbf{x} - \\mathbf{m}_x \\right)^{T} C_x^{-1} \\left( \\mathbf{x} - \\mathbf{m}_x \\right) \\right) = \\exp\\left( - \\frac{1}{2} \\left( \\frac{(x_1 - m_{x_1})^2}{\\gamma_1} + \\frac{(x_2 - m_{x_2})^2}{\\gamma_2} + \\cdots + \\frac{(x_n - m_{x_n})^2}{\\gamma_n} \\right) \\right)$$ 因此：\n$$ f_x(x) = (2\\pi)^{-\\frac{N}{2}} \\cdot \\left( \\prod_{n=1}^{N} \\gamma_n \\right)^{-\\frac{1}{2}} \\cdot \\exp\\left( -\\frac{1}{2} \\sum_{n=1}^{N} \\frac{(x_n - m_{x_n})^2}{\\gamma_n} \\right) $$\n举例：\n$$ 假设 \\begin{cases} f_{x_1}(x_1) = (2\\pi)^{-\\frac{1}{2}} \\gamma_1^{-\\frac{1}{2}} \\cdot \\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_1 - m_{x_1})^2}{\\gamma_1} \\right) \\\\ f_{x_2}(x_2) = (2\\pi)^{-\\frac{1}{2}} \\gamma_2^{-\\frac{1}{2}} \\cdot\\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_2 - m_{x_2})^2}{\\gamma_2} \\right) \u0026 \\end{cases} $$\n$$ f_{x_1, x_2}(x_1, x_2) = f_{x_1}(x_1) \\cdot f_{x_2}(x_2) $$\n结论：当向量 $x_n$ 互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。\n随机信号 一阶稳态：均值与时间 $n$ 无关\n$$ m_x(n) = \\mathbb{E}[X_n] $$\n二阶稳态：$r_x(n, p)$ 不依赖于 $n$\n$$ r_x(n, p) = \\text{Cov}(X_n, X_{n+p}) = \\mathbb{E} \\left[ \\left( X_n - \\mathbb{E}(X_n) \\right) \\left( X_{n+p} - \\mathbb{E}(X_{n+p}) \\right) \\right] $$\n举例：$x_n = \\alpha \\cdot e^{j \\left[ 2\\pi v \\cdot n + \\phi \\right]}$，其中只有 $\\phi$ 是均匀随机数。\n计算均值： $$ m_x(n) = \\mathbb{E}[x_n] = \\mathbb{E} \\left[ \\alpha \\cdot e^{j \\left( 2\\pi v \\cdot n + \\phi \\right)} \\right] = \\alpha \\cdot e^{j 2\\pi v n} \\cdot \\mathbb{E} \\left[ e^{j \\phi} \\right] $$\n由于 $\\phi$ 在 $[-\\pi, \\pi]$ 上均匀分布，且 $\\mathbb{E} \\left[ e^{j \\phi} \\right] = 0$，所以：\n$$ m_x(n) = 0 $$\n因此与 $n$ 无关，满足一阶稳态。\n计算协方差函数： $$ r_x(n, p) = \\mathbb{E}[x_n x_{n+p}^*] = \\alpha^2 \\cdot e^{j 2\\pi v p} $$\n因此与 $n$ 无关，满足二阶稳态。\n协方差函数的特性（在一二阶稳态的情况下）：\n$r_x(-p) = r_x(p)$\n证明: $$ r_x(-p) = \\mathbb{E}[x_n, x_{n-p}] = \\mathbb{E}\\left[ (x_n - m_x)(x_{n-p} - m_x) \\right] = \\mathbb{E}\\left[ (x_{n-p} - m_x)(x_n - m_x) \\right] = r_x(p) $$ $\\text{Cov}[X_n, X_m] = \\gamma(n - m) = \\gamma(m - n)$\n$r_x(0) = \\mathbb{E}\\left( (x_n - m_x)^2 \\right) = \\text{Var}(x_n)$\n$\\gamma_x(p) \\leq \\gamma_x(0)$，即在 $0$ 处取得最大值\n功率谱密度及其性质：\n定义：\n$$ S_x(v) = \\text{TF} \\left[ r_x(p) \\right] = \\sum_{k \\in \\mathbb{Z}} r_x(k) e^{-j2\\pi vk}, \\quad v \\in \\mathbb{R} $$\n反变换：\n$$ r_x(p) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) e^{j 2 \\pi \\nu p} d\\nu = \\text{TFI} \\left[ S_x(\\nu) \\right] $$\n其中 $k$ 为离散时间，$v$ 为连续频率，$p$ 为离散时间差。\n注意积分周期可以从 $0$ 到 $1$，只要周期为 $1$ 即可。\n性质：\n$S_x(\\nu+1) = S_x(\\nu)$，即周期为 $1$ 因为： $$ e^{-j2\\pi(\\nu+1)k} = e^{-j2\\pi\\nu k} \\cdot e^{-j2\\pi k} = e^{-j2\\pi\\nu k} \\cdot 1 $$\n$S_x(\\nu) \\in \\mathbb{R}$ 且 $S_x(\\nu) \\geq 0$\n功率和： $$ \\text{Var}(X_n) = r_x(0) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) d\\nu $$\n即全部功率之和等于在频率为 $0$ 的协方差函数。同时，更改积分范围即可得到某区间内的概率。 例子（延续前面的例子）：\n$$ x_n = \\alpha \\cdot e^{j \\left[ 2\\pi \\nu_0 n + \\phi \\right]} $$\n因此： $$ \\begin{cases} m_x = 0 \u0026 \\\\ \\gamma_x(p) = \\alpha^2 \\cdot e^{j \\left( 2\\pi \\nu_0 p \\right)} \u0026 \\\\ S_x(\\nu) = \\alpha^2 \\cdot \\delta (\\nu - \\nu_0) \u0026 \\\\ \\end{cases} $$\n证明：\n应用性质：\n$$ \\int f_x(x) \\cdot \\delta(x - x_0) dx = f_x(x_0) $$\n白噪声在两个不同时间点上无相关性，即 $\\text{Cov} = 0$。\n$$ 白噪声 \\begin{cases} \u0026 E[B _n] = 0 \\\\ \u0026 S_x(\\nu) = \\text{constante} = \\gamma_0 \\\\ \u0026 \\gamma_x(p) = \\gamma_0 \\cdot \\delta_p \\end{cases} $$\n可得: $$ r_x(p) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) e^{j 2 \\pi \\nu p} d\\nu = \\alpha^2 \\cdot e^{j 2\\pi \\nu_0 p} $$\n随机信号滤波 线性时不变系统（SLI）等价于卷积系统：\n$$ y_n = x_n * h_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) $$\n计算输出均值： $$ m_y(n) = \\mathbb{E}[y_n] = \\sum_{k \\in \\mathbb{Z}} h(k) \\cdot \\mathbb{E}[x(n-k)] = \\sum_{k \\in \\mathbb{Z}} h(k) \\cdot m_x = h(0) \\cdot m_x $$\n因此：\n如果 $m_x = 0$，那么 $m_y = 0$\n如果频率增益 $h(0) = 0$，那么输出信号也是中心化的\n如果频率增益 $h(0) = 1$，那么 $m_y = m_x$\n计算协方差： $$ r_y(n, p) = \\text{Cov}(y_n, y_{n+p}) = \\mathbb{E} \\left[ \\left( y_n - \\mathbb{E}(y_n) \\right) \\left( y_{n+p} - \\mathbb{E}(y_{n+p}) \\right) \\right] $$\n预计算：\n$$ y_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) \\ y_{n+p} = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot x(n+p-e) $$\n因此：\n$$ (y_n - m_y) = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\left[ x(n-k) - m_x \\right] \\ (y_{n+p} - m_y) = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot \\left[ x(n+p-e) - m_x \\right] $$\n计算协方差：\n$$ \\begin{align} \\mathbb{E}\\left[(y_n - m_y)(y_{n+p} - m_y)\\right] \u0026= \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot \\mathbb{E}\\left[ (x_{n-k} - m_x)(x_{n+p-e} - m_x) \\right] \\ \u0026= \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\tilde{r}_x(p+k) \\end{align} $$\n其中：\n$$\\mathbb{E} \\left[ (X_{n-k} - m_x)(X_{n+p-e} - m_x) \\right] = r_x(p+k-e) \\\\ \\tilde{r}_x(p+k) = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot r_x(p+k-e)$$ 继续化简：\n$$ \\mathbb{E}\\left[(y_n - m_y)(y_{n+p} - m_y)\\right] = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot \\tilde{r}_x(p+k) $$\n令：\n$$ \\bar{h}(k) = h(-k) $$\n则：\n$$\\sum_{k=-\\infty}^{+\\infty} \\bar{h}(-k) \\cdot \\tilde{r}_x(p+k) = \\sum_{q=-\\infty}^{+\\infty} \\bar{h}(q) \\cdot \\tilde{r}_x(p-q) = \\tilde{\\tilde{r}}_x(p)$$ 综上所述：\n$$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) \\\\ S_y(\\nu) = H(\\nu)^* \\cdot H(\\nu) \\cdot S_x(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) \\\\ \\end{cases} $$\n维纳滤波器（Filtrage de Wiener），用于在有噪音的环境中恢复信号。\n基于最小化输出误差的均方误差（MSE）。\n现在模型变为带噪音：\n$$ y_n = x_n * h_n + b_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) + b_n $$\n因此：\n$$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) + r_b, \\\\ S_y(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) + S_b(\\nu) \\end{cases} $$\n估计误差：\n$$ e_n = \\mathbb{E}\\left[ (\\hat{x}_n - x_n)^2 \\right] $$\n其中 $\\hat{x}_n = y_n * g_n$，即对输出进行滤波再次卷积得到新的输出向量。\n$g_n$ 是脉冲响应，$G(\\nu)$ 是频率响应。\n我们现在致力于求解维纳滤波器的频率响应方程：\n$$\\frac{d}{d g_{k_0}} e_n = \\frac{d}{d g_{k_0}} \\mathbb{E}[(\\hat{x}_n - x_n)^2] = 2 \\mathbb{E} \\left[ y_{n-k_0} \\left( \\hat{x}_n - x_n \\right) \\right]$$ 其中：\n$$\\frac{d\\hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$ 计算：\n$$ \\mathbb{E} \\left[ y_{n-k_0} \\cdot x_n \\right] = \\bar{h} * r_x(k_0) $$\n$$ \\mathbb{E}[y_{n-k_0} \\cdot \\hat{x}_n] = g * r_y(k_0) $$\n因此：\n$$ \\frac{d}{d g_{k_0}} e_n = 2 \\left( g * r_y(k_0) - \\bar{h} * r_x(k_0) \\right) $$\n令偏导数为零，得到最优滤波器公式：\n$$ g * r_y(k_0) = \\bar{h} * r_x(k_0) $$\n在频域：\n$$ G(\\nu) S_y(\\nu) = H(\\nu)^* S_x(\\nu) $$\n解得：\n$$ G(\\nu) = \\frac{H(\\nu)^* S_x(\\nu)}{|H(\\nu)|^2 S_x(\\nu) + S_b(\\nu)} $$\n两种情况：\n无噪音（当 $\\gamma_B = 0$，$S_B = 0$） $$ G(\\nu) = \\frac{1}{H(\\nu)} $$\n即 $H$ 的逆。\n无滤波器（直通，但有噪声，即 $H(\\nu) = 1$） $$ G(\\nu) = \\frac{S_x(\\nu)}{S_x(\\nu) + S_b(\\nu)} = \\frac{1}{1 + \\frac{S_b(\\nu)}{S_x(\\nu)}} $$\n经验估计器 假设 $\\hat{\\theta}$ 为估计值，评判标准为最小均方误差（MSE）：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\hat{\\theta})^2] $$\n展开：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}) + \\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}))^2] + \\mathbb{E}[(\\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] $$\n假设偏差 $B = \\theta - E[\\hat{\\theta}]$，即真实值减去估计的期望值。\n因此：\n$$ \\varepsilon = B^2 + \\text{Var}(\\hat{\\theta}) $$\n",
-  "wordCount" : "3400",
+  "articleBody": "一维随机变量 概率密度函数的性质 对随机变量 $X$ 来说，其概率密度函数 $f_x(x)$ 满足： $$ \\int_{-\\infty}^{\\infty} f_x(x),dx = 1, \\quad f_x(x) \\geq 0 ,, \\forall x \\in \\mathbb{R} $$\n即 $f_x(x)$ 是非负函数，其积分总和为 1。\n概率的计算 若需计算事件 ${X \\in [m,M]}$ 的概率，有：\n$$P\\left\\{ x \\in [m, M] \\right\\} = \\int_{m}^{M} f_x(x) \\, dx$$ 数学期望 对随机变量 $X$ ，其期望为： $$ E(X) = \\int_{-\\infty}^{\\infty} x f_x(x) , dx $$\n对任意函数 $\\varphi(X)$ 的期望： $$ E(\\varphi(X)) = \\int_{-\\infty}^{\\infty} \\varphi(x) f_x(x) , dx $$ 期望是加权平均值（加权由概率密度给出）\n方差与标准差 方差定义为： $$ \\sigma_x^2 = \\mathrm{Var}[X] = E[(X - E[X])^2] $$ 标准差为方差的平方根： $$ \\sigma_x = \\sqrt{\\mathrm{Var}[X]} $$ 方差和标准差度量随机变量取值围绕其期望的离散程度。分布越分散，方差和标准差越大。\n均方根误差 (RMSE) 在数据拟合、预测或信号处理领域，用均方根误差来衡量预测值 $\\hat{y}_i$ 与真实值 $y_i$ 之间的偏差：\n$$\\text{RMSE} = \\sqrt{\\frac{1}{n}\\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2}$$ RMSE 体现了预测误差的平均幅度，值越小说明预测越接近真实值。在信号与控制领域，RMSE 常用于评价模型的估计精度或滤波效果。 代码示例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 % 生成一维高斯随机变量 N = 10^6; % 样本数 mu = 2; % 均值 sigma = 3;% 标准差 X = mu + sigma*randn(N,1); % 验证期望与方差 est_mu = mean(X); est_var = var(X); fprintf('理论均值 = %.2f, 实际估计均值 = %.2f\\n', mu, est_mu); fprintf('理论方差 = %.2f, 实际估计方差 = %.2f\\n', sigma^2, est_var); % 验证概率计算：P(X in [m,M]) m = 0; M = 5; p_est = mean(X\u003e=m \u0026 X\u003c=M); fprintf('P(X in [%.1f, %.1f])的模拟值为: %.4f\\n', m, M, p_est); 1 2 RMSE = sqrt(mean((y - hat_y).^2)); % 假设有预测值hat_y与真实值y fprintf('RMSE = %.4f\\n', RMSE); 两维随机变量 联合概率密度函数 对两个随机变量 $X, Y$ 而言，其联合概率密度函数 $f_{X,Y}(x,y)$ 满足： $$ \\iint_{\\mathbb{R} \\times \\mathbb{R}} f_{X,Y}(x,y),dx,dy = 1,\\quad f_{X,Y}(x,y) \\geq 0 $$\n这里 $f_{X,Y}(x,y)$ 对所有 $x, y \\in \\mathbb{R}$ 非负，并通过对整个二维平面的积分为 1 来保证这是一个有效的概率密度函数。\n在一维情况下，概率密度函数 $f_X(x)$ 表示 $X$ 在点 $x$ 的密度。 在二维情况下，联合概率密度函数 $f_{X,Y}(x,y)$ 则表示 $X,Y$ 同时在点 $(x,y)$ 附近出现的“概率密度”。由于是密度值，对它进行二维积分才能得到相应的概率。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 clear; clc; close all; %% 定义符号变量与参数 syms x y real %---------------------------- % 一维高斯参数 mu_x = 0; % E[X] sigma_x = 1; % Var(X)=sigma_x^2 % 二维高斯分布参数 mu_y = 2; % E[Y] sigma_y = 1.5; % Var(Y)=sigma_y^2 rho_xy = 0.3; % 相关系数rho_{xy}, 范围(-1,1) %---------------------------- 一维高斯分布 对于一维正态（高斯）分布 $X \\sim \\mathcal{N}(\\mu, \\sigma^2)$ ，其概率密度函数为： $$ f_X(x) = \\frac{1}{\\sqrt{2\\pi}\\sigma} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2} $$\n1 2 3 4 5 6 %% 一维高斯分布pdf定义 fX = (1/(sqrt(2*pi)*sigma_x))*exp(-((x - mu_x)^2)/(2*sigma_x^2)); % 验证归一化: ∫ fX(x) dx = 1 int_fX = int(fX, x, -inf, inf); disp(['一维高斯分布积分验证（应为1）：', char(vpa(simplify(int_fX),10))]); 二维高斯分布 若 $X,Y$ 联合呈正态分布 $\\mathcal{N}(\\mu_x, \\mu_y, \\sigma_x^2, \\sigma_y^2, \\rho_{xy}) $，其联合概率密度函数为： $$ f_{X,Y}(x,y) = \\frac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1-\\rho_{xy}^2}} \\exp\\left(-\\frac{1}{2(1-\\rho_{xy}^2)}\\left[\\left(\\frac{x-\\mu_x}{\\sigma_x}\\right)^2 + \\left(\\frac{y-\\mu_y}{\\sigma_y}\\right)^2 - 2\\rho_{xy}\\left(\\frac{x-\\mu_x}{\\sigma_x}\\right)\\left(\\frac{y-\\mu_y}{\\sigma_y}\\right)\\right]\\right) $$\n$\\rho_{xy}$ 为 $X,Y$ 的相关系数（取值范围在 $-1$ 至 $1$ 之间）。当 $\\rho_{xy}=0$ 时，两变量在统计意义上不相关。 1 2 3 4 5 6 7 8 %% 二维高斯分布pdf定义 fXY = (1/(2*pi*sigma_x*sigma_y*sqrt(1-rho_xy^2))) * ... exp(-1/(2*(1-rho_xy^2)) * ( ((x - mu_x)/sigma_x)^2 + ((y - mu_y)/sigma_y)^2 ... - 2*rho_xy*((x - mu_x)/sigma_x)*((y - mu_y)/sigma_y) ) ); % 验证二维高斯分布归一化: ∫∫ f_{X,Y}(x,y) dx dy = 1 int_fXY = int(int(fXY, x, -inf, inf), y, -inf, inf); disp(['二维高斯分布积分验证（应为1）：', char(vpa(simplify(int_fXY),10))]); 边缘概率密度函数 给定联合概率密度函数 $f_{X,Y}(x,y)$ ，对于 $X$ 的边缘分布由联合分布对 $y$ 积分得到： $$ f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x, y) , dy $$\n同理，对 $x$ 积分可得 $f_Y(y)$ : $$ f_Y(y) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x,y),dx. $$ 边缘分布描述单个变量的分布情况，是由联合分布“合并”掉另一维度获得的。\n1 2 3 4 5 6 7 8 9 %% 边缘分布计算 fX_from_joint = int(fXY, y, -inf, inf); % 对y积分得到fX fY_from_joint = int(fXY, x, -inf, inf); % 对x积分得到fY % 验证fX_from_joint归一化 disp(['X的边缘分布归一化验证（应为1）：', char(vpa(simplify(int(fX_from_joint, x, -inf, inf)),10))]); % 验证fY_from_joint归一化 disp(['Y的边缘分布归一化验证（应为1）：', char(vpa(simplify(int(fY_from_joint, y, -inf, inf)),10))]); 条件概率密度函数 在给定 $Y=y$ 条件下， $X$ 的条件概率密度函数定义为： $$ f_{X|Y}(x|y) = \\frac{f_{X,Y}(x, y)}{f_Y(y)} $$\n前提是 $f_Y(y)\u003e0$ 条件分布则描述在知道一个变量取值的前提下，另一个变量的分布特性，从而反映随机变量之间的条件依赖关系。\n重要性质: 对于给定条件 $Y=y_0$ 的条件概率密度函数 $f_{X|Y}(x|y_0)$，在 $x$ 上的积分必为 1\n证明:\n将该条件密度对 $x$ 从 $-\\infty$ 到 $\\infty$ 积分时，有： $$ \\int_{-\\infty}^{\\infty} f_{X|Y}(x|y_0) dx = \\frac{\\int_{-\\infty}^{\\infty} f_{X,Y}(x,y_0) dx}{f_Y(y_0)} = \\frac{f_Y(y_0)}{f_Y(y_0)} = 1 $$ 这和条件概率密度函数的基本性质一致：条件概率密度作为一个 PDF，对所条件的自变量进行积分必为1。\n1 2 3 4 5 6 %% 条件概率分布验证 % f_{X|Y}(x|y) = f_{X,Y}(x,y)/f_Y(y) y0 = 2; fX_given_Y = simplify(fXY / subs(fY_from_joint, y, y0)); int_fX_given_Y = int(subs(fX_given_Y, y, y0), x, -inf, inf); disp(['条件分布 在x上的积分（应为1）：', char(vpa(simplify(int_fX_given_Y),10))]); 协方差 对于随机变量 $X,Y$ ，协方差定义为： $$ \\text{Cov}(X, Y) = E\\left[(X - E[X])(Y - E[Y])\\right] $$\n相关系数 相关系数是协方差的归一化版本，其定义为： $$ \\rho_{X,Y} = \\frac{\\text{Cov}(X, Y)}{\\sqrt{\\text{Var}(X)} \\cdot \\sqrt{\\text{Var}(Y)}} $$\n$\\rho_{X,Y}$ 在 $-1$ 和 $1$ 之间。 $\\rho_{X,Y}=1$ 表示完美正线性相关， $\\rho_{X,Y}=-1$ 表示完美负线性相关， $\\rho_{X,Y}=0$ 表示无线性相关性。 1 2 3 4 5 6 7 8 9 10 11 12 %% 协方差与相关系数计算验证 % E[X]=mu_x, E[Y]=mu_y, Cov(X,Y)=rho_xy*sigma_x*sigma_y % E[XY] = E[X]E[Y] + Cov(X,Y) E_X = mu_x; E_Y = mu_y; Cov_XY = rho_xy*sigma_x*sigma_y; E_XY = E_X*E_Y + Cov_XY; calc_rho = Cov_XY/(sigma_x*sigma_y); disp(['理论计算的协方差Cov(X,Y)=', num2str(Cov_XY)]); disp(['由协方差计算得到的rho_{X,Y}=', num2str(calc_rho), '，与设定的rho_xy = ', num2str(rho_xy), ' 对比']); 随机变量对的特性 线性特性\n对任意实常数 $\\alpha, \\beta$ 与随机变量函数 $\\varphi(x)$ 和 $\\psi(x)$ 有：\n$$ \\quad E \\left[ \\alpha \\varphi(x) + \\beta \\psi(x) \\right] = \\alpha E[\\varphi(x)] + \\beta E[\\psi(x)] $$\n常数特性 $$ \\quad E[\\alpha] = \\alpha $$\n期望与方差\n若 $Y = aX + b$ ，其中 $a,b$ 为常数，则有： $$ \\quad E[Y] = E[ax + b] = aE[x] + b $$ 方差对加法不敏感（仅对乘法敏感），有：\n$$ \\text{Var}[Y] = E[(Y - E[Y])^2] = E[a^2(X - E[X])^2] = a^2 \\text{Var}[X] $$\n二维概率的计算 对于二维随机变量 $X,Y$ ，任意矩形区域 $[x_m,x_M]\\times[y_m,y_M]$ 上的概率为：\n$$ P[x_m \\leq X \\leq x_M, ; y_m \\leq Y \\leq y_M] = \\int_{x_m}^{x_M}\\int_{y_m}^{y_M} f_{X,Y}(x, y),dy,dx $$\n1 2 3 4 5 6 %% 二维概率区域积分 % P[x_m\u003c=X\u003c=x_M, y_m\u003c=Y\u003c=y_M] = ∫_{x_m}^{x_M}∫_{y_m}^{y_M} fXY dx dy x_m = -1; x_M = 1; y_m = 1; y_M = 3; region_prob = vpa(int(int(fXY, y, y_m, y_M), x, x_m, x_M),10); disp(['给定区域下的概率：', char(vpa(region_prob, 10))]); 独立性条件 若 $X,Y$ 独立，则： $$ f_{X,Y}(x,y) = f_X(x)f_Y(y) $$ 由此可推得：\n$$ \\begin{cases} f_{y|x}(y|x) = f_y(y) \\\\ f_{x|y}(x|y) = f_x(x)\\ \\end{cases} $$\n条件概率等于单独发生的概率，即在独立条件下，另一随机变量的已知并不改变某一随机变量的分布特征。\n1 2 3 4 5 6 7 8 9 10 %% 独立性验证 % 当rho_xy=0时，fXY应能分解为fX*fY if abs(rho_xy) \u003c 1e-12 fXY_factorized = simplify(fX_from_joint * fY_from_joint); diff_expr = simplify(fXY - fXY_factorized); disp('rho_xy=0时，fXY与fX*fY的差值应为0：'); disp(diff_expr); else disp('rho_xy不为0，故X与Y不独立，此时fXY不等于fX*fY。'); end 协方差： $$ \\text{Cov}[X,Y] = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y] $$ 其中:\n$\\text{Cov}[X,X] = \\text{Var}[X]$，$\\text{Cov}[Y,Y] = \\text{Var}[Y]$\n对常数因子有线性性：\n$$ \\text{Cov}[\\alpha X, Y] = \\alpha \\text{Cov}[X,Y], \\quad \\text{Cov}[\\alpha X, \\beta Y] = \\alpha \\beta \\text{Cov}[X,Y] $$\n在独立条件下，有 $E[XY] = E[X]E[Y]$ ，故 $\\text{Cov}[X,Y]=0$ 。但 $\\text{Cov}[X,Y]=0$ 不一定代表独立，只能代表不线性相关（零相关）。独立是更强的条件。但是特殊情况下：若 $X,Y$ 联合服从二元高斯分布，则不相关 ( $\\rho_{X,Y}=0$ ) 即可以推出独立。这是高斯分布下的特殊性质。当 $\\rho_{X,Y}=0$ 时，二元高斯分布的联合密度函数因子化为单独的 $X$ 与 $Y$ 密度函数之积，即： $$ f_{X,Y}(x,y) = f_X(x)f_Y(y) $$ 因此，对于高斯分布： $$ \\rho_{X,Y}=0 \\iff \\text{Cov}[X,Y]=0 \\implies X,Y \\text{ 独立。} $$\n对于非高斯分布，不相关不保证独立，但独立却一定能保证不相关，因为独立必然导致 $E[XY] = E[X]E[Y]$ 。\n证明: 不相关不一定意味着独立\n证明思路：通过给出一个反例，展示存在不相关但不独立的随机变量。\n设随机变量 $X$ 满足：\n$$ P(X=1)=\\tfrac{1}{2}, \\quad P(X=-1)=\\tfrac{1}{2}. $$ 则 $E[X]=0$ 且 $X$ 对称分布。定义随机变量 $Y=X^2$ ，则无论 $X=1$ 还是 $X=-1$ ，有 $Y=1$ 。因此 $Y$ 是一个退化随机变量，恒为1。\n计算协方差：\n$$ E[XY] = E[X \\cdot X^2] = E[X^3] = E[X] = 0, $$ 且\n$$ E[X]=0, \\quad E[Y]=E[X^2]=1. $$\n所以：\n$$ \\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 0 - 0\\cdot1 = 0. $$\n此时 $X,Y$ 不相关。但 $Y=X^2$ 表明 $Y$ 完全由 $X$ 决定，二者并非独立。如果 $X,Y$ 独立，那么 $Y$ 的取值不应随 $X$ 的变化而定。然而这里 $Y$ 始终是 $X$ 的函数， $Y=1$ 对 $X$ 的取值有完全的依赖性。\n由此举例可见，不相关并不蕴含独立。\n1 2 3 4 5 6 7 8 9 %% 不相关但不独立的反例 % X: P(X=1)=0.5, P(X=-1)=0.5 =\u003e E[X]=0 % Y=X^2 =\u003e Y=1总是恒定 =\u003e E[Y]=1 % E[XY]=E[X]=0, Cov(X,Y)=0, 但Y由X决定，不独立 E_X_example = 0; E_Y_example = 1; E_XY_example = E_X_example; Cov_XY_example = E_XY_example - E_X_example*E_Y_example; disp(['反例中Cov(X,Y)=', num2str(Cov_XY_example), ' -\u003e Cov=0但X,Y不独立。']); 证明： 高斯分布的联合概率密度情况下，可以由不相关 $\\to$ 独立\n若 $\\text{Cov}(x, y) = 0 \\implies \\rho_{xy} = 0$\n$$ f_{xy}(x, y) = \\dfrac{1}{2\\pi \\sigma_x \\sigma_y \\sqrt{1 - \\rho_{xy}^2}} e^{-\\dfrac{1}{2(1 - \\rho_{xy}^2)} \\left[ \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right)^2 + \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right)^2 - 2\\rho_{xy} \\left( \\dfrac{x - \\mu_x}{\\sigma_x} \\right) \\left( \\dfrac{y - \\mu_y}{\\sigma_y} \\right) \\right]} $$\n当 $\\rho_{xy}=0$ 时，上式中 $-2\\rho_{xy}(\\cdots)$ 项消失，化简为：\n$$ f_{X,Y}(x,y) = \\frac{1}{2\\pi \\sigma_x \\sigma_y}\\exp\\left(-\\frac{1}{2}\\left(\\frac{x-\\mu_x}{\\sigma_x}\\right)^2\\right)\\exp\\left(-\\frac{1}{2}\\left(\\frac{y-\\mu_y}{\\sigma_y}\\right)^2\\right) $$\n注意该表达式可分解为：\n$$f_{X,Y}(x,y) = \\underbrace{\\frac{1}{\\sqrt{2\\pi}\\sigma_x}e^{-\\frac{(x-\\mu_x)^2}{2\\sigma_x^2}}}_{f_X(x)} \\cdot \\underbrace{\\frac{1}{\\sqrt{2\\pi}\\sigma_y}e^{-\\frac{(y-\\mu_y)^2}{2\\sigma_y^2}}}_{f_Y(y)}$$ 因此： $$ f_{X,Y}(x,y) = f_X(x)f_Y(y) $$\n这表明 $X,Y$ 是独立的。\n证明: 若 $X,Y$ 独立，则 $\\text{Cov}(X,Y)=0$ （不相关）\n若 $X,Y$ 独立，则其联合概率密度函数满足： $$ f_{X,Y}(x,y) = f_X(x)f_Y(y). $$\n计算 $E[XY]$ ： $$ E[XY] = \\iint xy f_{X,Y}(x,y),dx,dy = \\iint xy f_X(x)f_Y(y),dx,dy $$\n由于可分离积分： $$ E[XY] = \\left(\\int x f_X(x),dx\\right)\\left(\\int y f_Y(y),dy\\right) = E[X]E[Y] $$\n协方差定义为： $$ \\text{Cov}(X,Y) = E[XY] - E[X]E[Y] $$\n代入 $E[XY]=E[X]E[Y]$ 得： $$ \\text{Cov}(X,Y) = E[X]E[Y] - E[X]E[Y] = 0 $$\n由此可见，独立必然导致不相关。\n随机向量 给定一个 $n$ 维随机向量 $\\mathbf{x} = [x_1, x_2, \\dots, x_n]^T$，其联合概率密度函数为 $f_x(x_1, x_2, \\dots, x_n)$。该函数满足：\n$$ f_x(x_1, x_2, \\dots, x_n) \\geq 0, \\quad \\forall x_1, x_2, \\dots, x_n \\in \\mathbb{R} $$\n$$ \\int_{-\\infty}^{\\infty} \\dots \\int_{-\\infty}^{\\infty} f_x(x_1, \\dots, x_n) , dx_1 \\dots dx_n = 1 $$\n对于任意超矩形区域 $[m_1,M_1]\\times[m_2,M_2]\\times\\dots\\times[m_n,M_n]$ 上的概率为：\n$$ P{x_1 \\in [m_1,M_1], x_2 \\in [m_2,M_2], \\dots, x_n \\in [m_n,M_n]} = \\int_{m_1}^{M_1} \\int_{m_2}^{M_2} \\dots \\int_{m_n}^{M_n} f_x(x_1,\\dots,x_n) , dx_1 \\dots dx_n $$\n一阶矩与二阶矩 一阶矩（期望向量） $$ m_x = E[\\mathbf{x}] = \\begin{bmatrix} E[x_1] \\\\ E[x_2] \\\\ \\vdots \\\\ E[x_n] \\end{bmatrix} \\quad $$\n其中：\n$$ E[x_n] = \\int_{-\\infty}^{\\infty} x_n \\cdot f_{x_n}(x_n) , dx_n $$\n这里 $f_{x_n}(x_n)$ 是 $x_n$ 的边缘分布。\n二阶矩（协方差矩阵）\n定义随机向量 $\\mathbf{x}$ 的协方差矩阵 $C_x$ 为： $$ C_x = E[(\\mathbf{x} - m_x)(\\mathbf{x} - m_x)^T] $$\n将 $\\mathbf{x}-m_x$ 展开：\n$$ \\mathbf{x}-m_x = \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n]\\ \\end{bmatrix} $$\n因此：\n$$ C_x = E \\left[ \\begin{bmatrix} x_1 - E[x_1] \\\\ x_2 - E[x_2] \\\\ \\vdots \\\\ x_n - E[x_n] \\\\ \\end{bmatrix} \\quad \\begin{bmatrix} x_1 - E[x_1] \u0026 x_2 - E[x_2] \u0026 \\dots \u0026 x_n - E[x_n] \\quad \\end{bmatrix} \\right] $$\n所以：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 \\text{Cov}(x_1, x_2) \u0026 \\dots \u0026 \\text{Cov}(x_1, x_n) \\\\ \\text{Cov}(x_2, x_1) \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 \\text{Cov}(x_2, x_n) \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ \\text{Cov}(x_n, x_1) \u0026 \\text{Cov}(x_n, x_2) \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix}\\quad $$\n若 $\\mathbf{x}$ 的分量相互独立，则对任意 $i \\neq j$，$\\text{Cov}(x_i, x_j) = 0$，协方差矩阵为对角阵：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 clear; clc; close all; %% 定义符号变量与参数 syms x1 x2 real %---------------------------- % 定义2维高斯分布参数 % 均值向量 m_x = [mu_x1; mu_x2] mu_x1 = 0; mu_x2 = 2; m_x = [mu_x1; mu_x2]; % 协方差矩阵 C_x sigma_x1 = 1; sigma_x2 = 1.5; rho_x1x2 = 0.3; % 相关系数 C_x = [sigma_x1^2, rho_x1x2*sigma_x1*sigma_x2; rho_x1x2*sigma_x1*sigma_x2, sigma_x2^2]; 协方差矩阵 $C_x$ 的性质\n对称性：$C_x = C_x^T$\n证明： $$ C_x^T = \\left( E[(\\mathbf{x}-m_x)(\\mathbf{x}-m_x)^T] \\right)^T = E[((\\mathbf{x}-m_x)(\\mathbf{x}-m_x)^T)^T] = E[(\\mathbf{x}-m_x)(\\mathbf{x}-m_x)^T] = C_x $$\n1 2 3 4 5 6 7 8 % 验证C_x为对称 eigVals = eig(C_x); % 定义用于显示的字符串 stateStr = {'不对称','对称'}; % 使用issymmetric判断并通过索引选择相应的字符串 disp(['协方差矩阵C_x=', mat2str(C_x), ' -\u003e C_x=', stateStr{issymmetric(C_x)+1}]); 正定性：$C_x$ 是一个半正定矩阵\n证明： 对任意向量 $u$： $$ u^T C_x u = u^T E[(\\mathbf{x}-m_x)(\\mathbf{x}-m_x)^T] u = E[u^T(\\mathbf{x}-m_x)(\\mathbf{x}-m_x)^T u] = E[(u^T(\\mathbf{x}-m_x))^2] \\geq 0 $$\n若无退化（方差均大于0），则 $C_x$ 正定。\n1 2 % 验证C_x 半正定 disp(['C_x的特征值(应非负)=', mat2str(eigVals,4)]); 所有特征值非负，迹为方差和，必然 $\\text{Tr}(C_x) \\geq 0$。\n线性变换下的协方差\n若 $Y = A x + B$，则：\n$$ C_y = E[(Y - E[Y])(Y - E[Y])^T] = A E[(X - E[X])(X - E[X])^T] A^T = A C_x A^T $$\n1 2 3 4 5 6 7 8 9 %% 线性变换下的协方差 % 若Y = A X + B，则 C_y = A C_x A^T A = [2 1; -1 3]; B = [1;0]; C_y = A*C_x*A'; disp('线性变换后Y的协方差矩阵:'); disp(C_y); disp('C_y的特征值(应\u003e=0)：'); disp(eig(C_y)); 不相关与独立 不相关 (Uncorrelated)：若 $\\text{Cov}(x_i, x_j)=0$ 对所有 $i\\neq j$ 成立，则称 $x_i$ 与 $x_j$ 不相关。但不相关不保证独立。\n独立 (Independent)：若满足 $$ f_{x_1,\\dots,x_n}(x_1,\\dots,x_n) = \\prod_{i=1}^n f_{x_i}(x_i), $$ 则称 $x_1,\\dots,x_n$ 独立。\n重要结论：一般情况下，不相关 $\\not\\to$ 独立。但对于高斯（正态）分布，在不相关条件下可以推出独立。\n证明：\n对于多维高斯随机向量 $\\mathbf{x}$，其概率密度函数为：\n$$ f_x(\\mathbf{x}) = (2\\pi)^{-N/2} [\\det(C_x)]^{-1/2} \\exp\\left(-\\frac{1}{2}(\\mathbf{x}-m_x)^T C_x^{-1} (\\mathbf{x}-m_x)\\right) $$\n1 2 3 4 5 6 % 定义二维高斯联合pdf f_{X}(x1,x2) x = [x1; x2]; C_x_inv = inv(C_x); det_Cx = det(C_x); fX = (1/(2*pi*sqrt(det_Cx))) * ... exp(-1/2 * (x - m_x).' * C_x_inv * (x - m_x)); 当各分量不相关时，$C_x$ 为对角矩阵：\n$$ C_x = \\begin{bmatrix} \\text{Var}(x_1) \u0026 0 \u0026 \\dots \u0026 0 \\\\\\ 0 \u0026 \\text{Var}(x_2) \u0026 \\dots \u0026 0 \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ 0 \u0026 0 \u0026 \\dots \u0026 \\text{Var}(x_n) \\end{bmatrix} $$\n于是：\n$$ C_x^{-1} = \\text{diag}\\left(\\frac{1}{\\gamma_1}, \\frac{1}{\\gamma_2}, \\dots, \\frac{1}{\\gamma_n}\\right) $$\n带入指数项中：\n$$ \\exp\\left(-\\frac{1}{2}(\\mathbf{x}-m_x)^T C_x^{-1} (\\mathbf{x}-m_x)\\right) = \\exp\\left(-\\frac{1}{2}\\sum_{i=1}^n \\frac{(x_i - m_{x_i})^2}{\\gamma_i}\\right) $$\n密度函数分解为各分量的高斯密度乘积：\n$$ f_x(\\mathbf{x}) = \\prod_{i=1}^n \\left( (2\\pi)^{-1/2} \\gamma_i^{-1/2} \\exp\\left(-\\frac{(x_i - m_{x_i})^2}{2\\gamma_i}\\right) \\right) = \\prod_{i=1}^n f_{x_i}(x_i) $$\n举例：\n$$ 假设 \\begin{cases} f_{x_1}(x_1) = (2\\pi)^{-\\frac{1}{2}} \\gamma_1^{-\\frac{1}{2}} \\cdot \\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_1 - m_{x_1})^2}{\\gamma_1} \\right) \\\\ f_{x_2}(x_2) = (2\\pi)^{-\\frac{1}{2}} \\gamma_2^{-\\frac{1}{2}} \\cdot\\exp\\left( -\\frac{1}{2} \\cdot \\frac{(x_2 - m_{x_2})^2}{\\gamma_2} \\right) \u0026 \\end{cases} $$\n$$ f_{x_1, x_2}(x_1, x_2) = f_{x_1}(x_1) \\cdot f_{x_2}(x_2) $$\n结论：高斯向量在不相关条件下的联合分布可分解为独立分布的乘积，即此时 $x_i$ 相互独立。\n随机信号 设有离散时间随机过程(信号) ${X_n}$。从统计特性角度，若满足以下条件则称其为平稳（stationary）：\n一阶稳态：均值不随时间变化\n$$ m_x(n) = \\mathbb{E}[X_n] = m_x $$\n二阶稳态：协方差 $ r_x(n, p)$ 仅与时间差有关，不随绝对时间点 $n$ 变化 $$ r_x(n, p) = \\text{Cov}(X_n, X_{n+p}) = \\mathbb{E} \\left[ \\left( X_n - \\mathbb{E}(X_n) \\right) \\left( X_{n+p} - \\mathbb{E}(X_{n+p}) \\right) \\right] $$\n若该函数仅依赖于时间差 $p$，即对所有 $n$： $$ r_x(n, p) = r_x(p) $$\n实例分析 给定一个随机信号： $$ x_n = \\alpha \\cdot e^{j\\left(2\\pi v n + \\phi\\right)} $$ 其中 $\\phi$ 在区间 $[-\\pi, \\pi]$ 上均匀分布且独立于 $n$\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 clear; close all; clc; %% 部分1：验证 x_n = alpha * exp(j(2*pi*nu0*n + phi)) 的特性 % 参数设置 N = 100000; % 信号长度 alpha = 1; % 幅值 nu0 = 0.1; % 信号频率(归一化频率) % 产生 phi 均匀分布于[-pi, pi] phi = (rand(1)*2*pi - pi); % 产生信号 x_n n = (0:N-1); NumTrials = 1000; % 多次重复试验以计算期望 X_all = zeros(NumTrials, N); for trial = 1:NumTrials phi_rand = (rand(1)*2*pi - pi); X_all(trial,:) = alpha * exp(1j*(2*pi*nu0*n + phi_rand)); end 计算均值： $$ m_x(n) = \\mathbb{E}[x_n] = \\mathbb{E} \\left[ \\alpha \\cdot e^{j \\left( 2\\pi v \\cdot n + \\phi \\right)} \\right] = \\alpha \\cdot e^{j 2\\pi v n} \\cdot \\mathbb{E} \\left[ e^{j \\phi} \\right] $$\n由于 $\\phi$ 在 $[-\\pi, \\pi]$ 上均匀分布，且 $\\mathbb{E} \\left[ e^{j \\phi} \\right] = 0$，计算期望：\n$$ \\mathbb{E}[e^{j\\phi}] = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} e^{j\\phi} d\\phi = 0, $$\n因此： $$ m_x(n) = 0 $$ 因此与 $n$ 无关，满足一阶稳态。\n1 2 3 % 计算均值 (对试验数和时间长度求平均) m_x_est = mean(mean(X_all,2)); disp(['估计的均值 m_x = ', num2str(m_x_est)]); 计算协方差函数： $$ r_x(n, p) = \\mathbb{E}[x_n x_{n+p}^*] $$\n将定义代入： $$ x_n x_{n+p}^* = \\alpha e^{j(2\\pi v n + \\phi)} \\cdot \\alpha e^{-j(2\\pi v (n+p) + \\phi)} $$ 化简： $$ x_n x_{n+p}^* = \\alpha^2 e^{j2\\pi v n + j\\phi}e^{-j2\\pi v n - j2\\pi v p - j\\phi} = \\alpha^2 e^{-j2\\pi v p} $$ 注意这里因为 $x_{n+p}$ 与 $x_n$ 中的 $\\phi$ 相同，对 $\\phi$ 的期望不会产生消去效应（实际上 $\\phi$ 出现在 $x_n$ 和 $x_{n+p}$ 中会相互抵消），故求期望时： $$ r_x(n,p) = \\mathbb{E}[x_n x_{n+p}^*] = \\alpha^2 e^{-j2\\pi v p} $$ 该函数不依赖于 $n$，只依赖于 $p$，满足二阶稳态。\n协方差函数的特性（在一二阶稳态的情况下） 对称性： $$ r_x(-p) = r_x(p) $$ 证明： $$ r_x(-p) = \\mathbb{E}[(X_n - m_x)(X_{n-p} - m_x)] $$ 更换索引 $n \\to n-p$，不影响统计特性： $$ r_x(-p) = \\mathbb{E}[(X_{n-p} - m_x)(X_n - m_x)] = r_x(p) $$\n移位不变性： $$ \\text{Cov}[X_n, X_m] = \\gamma(n-m) = \\gamma(m-n) $$ 因为二阶稳态要求协方差仅依赖于时间差 $(m-n)$。\n方差和协方差的关系： $$ r_x(0) = \\mathbb{E}[(X_n - m_x)^2] = \\text{Var}(X_n) $$\n最大值性质： $$ \\gamma_x(p) \\leq \\gamma_x(0) $$ 即在 $p=0$ 处取得最大值。这直观上表明，一个信号与其自身的重合（无延迟）协方差最大。\n功率谱密度 (PSD) 功率谱密度 $S_x(\\nu)$ 是协方差函数 $r_x(p)$ 的离散时间傅里叶变换（DTFT）：\n$$ S_x(\\nu) = \\text{TF}[r_x(p)] = \\sum_{k=-\\infty}^{\\infty} r_x(k) e^{-j2\\pi \\nu k}, \\quad v \\in \\mathbb{R} $$\n反变换：\n$$ r_x(p) = \\int_{-\\frac{1}{2}}^{\\frac{1}{2}} S_x(\\nu) e^{j 2 \\pi \\nu p} d\\nu = \\text{TFI} \\left[ S_x(\\nu) \\right] $$\n性质：\n$S_x(\\nu)$ 是 $1$ 周期的周期函数：\n因为: $$ e^{-j2\\pi(\\nu+1)k} = e^{-j2\\pi\\nu k} \\cdot e^{-j2\\pi k} = e^{-j2\\pi\\nu k} \\cdot 1 $$ 对任意整数 $k$ 都成立，所以 $S_x(\\nu+1)=S_x(\\nu)$。\n$S_x(\\nu)$ 是实且非负的： $$ S_x(\\nu) \\geq 0 $$\n频域积分等于时域协方差在零点的值，即方差：\n$$ r_x(0) = \\text{Var}(X_n) = \\int_{-1/2}^{1/2} S_x(\\nu) d\\nu. $$\n这表明在频域对功率谱密度积分，得到时域零延迟协方差（方差）。\n例子继续说明 对于之前定义的 $x_n = \\alpha e^{j(2\\pi \\nu_0 n + \\phi)}$，我们已知：\n$$ m_x=0 $$\n$$ \\gamma_x(p)=\\alpha^2 e^{j2\\pi\\nu_0 p} $$\n将其作傅里叶变换可以得到功率谱密度 $S_x(\\nu)$。对一个纯正弦信号加上相位的情形，这类似一个单频分量，因此 $S_x(\\nu)$ 将在 $\\nu=\\nu_0$ 处表现为一个冲激函数 $\\delta(\\nu-\\nu_0)$： $$ S_x(\\nu)=\\alpha^2 \\delta(\\nu-\\nu_0) $$ 这意味着该随机信号在频域上集中于一个频率点 $\\nu_0$，所有功率都在此单一频点上。\n白噪声示例 对白噪声信号 ${B_n}$ 而言：\n$E[B_n]=0$ 在两个不同时间点不相关，即 $\\text{Cov}(B_n,B_m)=0$ 当 $n \\neq m$ 对于 $n=m$ 时，$\\text{Var}(B_n)=\\gamma_0$（某个常量） 故协方差函数（自相关函数）： $$ r_{B}(p) = \\gamma_0 \\cdot \\delta_p $$ 对功率谱密度进行反变换： $$ r_B(p) = \\int_{-1/2}^{1/2} S_B(\\nu) e^{j2\\pi\\nu p} d\\nu $$\n若 $S_B(\\nu)$ 是常量（即白噪声频谱平坦）： $$ S_B(\\nu)=\\gamma_0 $$ 则： $$ r_B(p)=\\gamma_0 \\int_{-1/2}^{1/2} e^{j2\\pi\\nu p} d\\nu $$\n当 $p=0$： $$ r_B(0)=\\gamma_0 \\int_{-1/2}^{1/2} d\\nu = \\gamma_0 $$\n当 $p \\neq 0$ 时，该积分为一个复指数函数在对称区间上的积分，其结果为零。这恰好与 $\\delta_p$ 的定义一致（只有在 $p=0$ 时非零）。\n随机信号滤波 考虑一个输入为随机信号 $x_n$，输出为 $y_n$ 的线性时不变(LTI)系统。该系统可以用卷积描述：\n$$ y_n = x_n * h_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) $$\n其中 $h_n$ 为系统脉冲响应。 输出协方差的推导 去均值的输出过程表示\n给定输出信号：\n$$ y_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k), $$\n输出去掉均值 $m_y$ 后为：\n$$ (y_n - m_y) = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot [x(n-k) - m_x]. $$\n同理，对于延迟 $p$ 个点的输出：\n$$ (y_{n+p} - m_y) = \\sum_{e=-\\infty}^{+\\infty} h(e) \\cdot [x(n+p-e) - m_x]. $$\n这两式说明输出减去均值后的值仍是由输入减去其均值的值通过相同的脉冲响应 $h(\\cdot)$ 线性叠加得到的。\n协方差定义与代入\n输出的协方差定义为：\n$$ r_y(p) = \\mathbb{E}[(y_n - m_y)(y_{n+p}-m_y)] $$\n代入前面去均值的表达式：\n$$ \\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)] = \\mathbb{E}\\left[\\left(\\sum_{k} h(k)[x(n-k)-m_x]\\right)\\left(\\sum_{e} h(e)[x(n+p-e)-m_x]\\right)\\right] $$\n由于期望是线性算子，可以先将 $h(k)$ 和 $h(e)$ 提出来，再对 $x(\\cdot)-m_x$ 的乘积项求期望：\n$$ = \\sum_{k=-\\infty}^{+\\infty} \\sum_{e=-\\infty}^{+\\infty} h(k)h(e) \\mathbb{E}[(x_{n-k}-m_x)(x_{n+p-e}-m_x)] $$\n利用输入协方差函数 $r_x(\\cdot)$\n定义输入信号的协方差函数：\n$$ r_x(\\tau) = \\mathbb{E}[(x_{n}-m_x)(x_{n+\\tau}-m_x)] $$\n根据这一定义：\n$$ \\mathbb{E}[(x_{n-k}-m_x)(x_{n+p-e}-m_x)] = r_x(p+k-e) $$\n将此结果代入上式：\n$$ \\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)] = \\sum_{k=-\\infty}^{+\\infty} \\sum_{e=-\\infty}^{+\\infty} h(k)h(e)r_x(p+k-e) $$\n定义中间函数 $\\tilde{r}_x(p+k)$\n给出了一个中间定义：\n$$ \\tilde{r}x(p+k) = \\sum{e=-\\infty}^{+\\infty} h(e) \\cdot r_x(p+k-e) $$\n这相当于将 $r_x(\\cdot)$ 与 $h(\\cdot)$ 进行一次卷积得到的中间结果。这一步是为了简化表达。\n于是有：\n$$ \\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)] = \\sum_{k=-\\infty}^{+\\infty} h(k)\\tilde{r}_x(p+k) $$\n定义 $\\bar{h}(k) = h(-k)$ 并进一步化简\n通过定义 $\\bar{h}(k)=h(-k)$，对求和指标进行变换，就能将表达式写成多次卷积的形式：\n$$\\sum_{k=-\\infty}^{+\\infty} h(k)\\tilde{r}_x(p+k) = \\sum_{k=-\\infty}^{+\\infty} \\bar{h}(-k) \\tilde{r}_x(p+k)$$ 通过索引替换 $q=-k$（或其他方式），最终可以将其表示为：\n$$\\tilde{\\tilde{r}}_x(p) = \\sum_{q=-\\infty}^{\\infty} \\bar{h}(q)\\tilde{r}_x(p-q)$$ 这再次呈现出卷积的形式。实际上，这个结果显示 $r_y(p)$ 可以用 $h(\\cdot)$、$\\bar{h}(\\cdot)$ 和 $r_x(\\cdot)$ 的多重卷积来表示：\n$$ r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) $$\n频域表示 在频域表示中，卷积在时域对应频域的乘法关系。已知 $S_x(\\nu)$ 是输入的功率谱密度，$H(\\nu)$ 是系统频率响应，则输出功率谱密度为：\n$$ S_y(\\nu) = |H(\\nu)|^2 S_x(\\nu). $$\n这里的等式：\n$$ S_y(\\nu) = H(\\nu)^* \\cdot H(\\nu) \\cdot S_x(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) $$\n与时域结果 $r_y(p) = \\bar{h} * h * \\tilde{r}_x(p)$ 相吻合，因为卷积在时域转化为频域相应函数的乘积。\n综上所述 $$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) \\\\ S_y(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) \\ \\end{cases} $$\n这就是维纳滤波器（Filtrage de Wiener），用于在有噪音的环境中恢复信号。\n维纳滤波器 (Wiener Filter) 维纳滤波器的基本目标是在有噪声的环境中，从观测到的输出信号 $y_n$ 中尽可能恢复原始信号 $x_n$。通过构建一个滤波器 $g_n$ 对输出进行处理，希望得到的估计 $\\hat{x}_n$ 与真实 $x_n$ 之间的均方误差 (MSE) 最小。\n给定带噪模型：\n$$ y_n = x_n * h_n + b_n = \\sum_{k=-\\infty}^{+\\infty} h(k) \\cdot x(n-k) + b_n $$\n这里，$h_n$ 是已知系统的脉冲响应，$b_n$ 是加性噪声。由该模型可知，当没有噪声时 ($b_n=0$)，$y_n$ 只是 $x_n$ 经过系统的线性时不变变换。\n相应协方差与功率谱密度的结果为：\n$$ \\begin{cases} r_y(p) = \\bar{h} * h * \\tilde{r}_x(p) + r_b \\\\ S_y(\\nu) = |H(\\nu)|^2 \\cdot S_x(\\nu) + S_b(\\nu) \\end{cases} $$\n这里的 $r_y(p)$ 和 $S_y(\\nu)$ 是输出信号 $y_n$ 的协方差函数与功率谱密度。$S_x(\\nu)$ 和 $S_b(\\nu)$ 分别是输入信号与噪声的功率谱密度，$H(\\nu)$ 是系统的频率响应。\n求解维纳滤波器 定义估计误差的均方值 (MSE)：\n$$ e_n = \\mathbb{E}\\left[ (\\hat{x}_n - x_n)^2 \\right] $$\n其中 $\\hat{x}_n = y_n * g_n$ 表示我们在输出 $y_n$ 上再施加一个滤波器 $g_n$ 得到的估计量；$g_n$ 是我们需要求解的滤波器脉冲响应。\n关键想法：通过调整 $g_n$，使得 $e_n$ 最小。为了求最优 $g_n$，对 $e_n$ 关于 $g_{k_0}$（$g_n$ 的第 $k_0$ 个参数）的偏导数设为零。这个过程相当于最小化 MSE 的变分条件。\n求导步骤是：\n$$ \\frac{d}{d g_{k_0}} e_n = \\frac{d}{d g_{k_0}} \\mathbb{E}[(\\hat{x}_n - x_n)^2]. $$\n通过链式法则和线性算子特性，可得：\n$$ \\frac{d}{d g_{k_0}} e_n = 2 \\mathbb{E} \\left[ y_{n-k_0}(\\hat{x}_n - x_n) \\right]. $$\n其中使用了中间结果：\n$$\\frac{d \\hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$ 这意味着当改变滤波器 $g_{k_0}$ 的某个系数时，对估计误差的影响与输出信号的取值 $y_{n-k_0}$ 成正比。\n计算期望项与条件方程 计算：\n$$ \\mathbb{E} \\left[ y_{n-k_0} \\cdot x_n \\right] = \\bar{h} * r_x(k_0) $$\n这一步体现了输出信号与输入信号之间的相关性。当没有噪声时，$y_n$ 与 $x_n$ 的关联由 $h_n$ 和 $r_x$ 决定。\n这里的卷积形式 $\\bar{h} * r_x(k_0)$ 说明：为了得到输出与输入的二阶统计量关系，需要将输入的协方差函数 $r_x(\\cdot)$ 经过包含 $h(\\cdot)$ 的变换（以及 $\\bar{h}(k)=h(-k)$ 的定义）来获得。 $$ \\mathbb{E}[y_{n-k_0} \\cdot \\hat{x}_n] = g * r_y(k_0) $$\n当考虑估计量 $\\hat{x}_n$ 时，我们有 $\\hat{x}_n = y_n * g_n$，因此该期望中同时出现 $y_n$ 和 $\\hat{x}_n$，最终呈现为 $g$ 与 $r_y$ 的卷积。\n这表达了估计滤波器 $g_n$ 对输出统计特性的作用：$g_n$ 与 $r_y$ 相卷积来描述对输出自身统计属性的修正。\n因此：\n$$ \\frac{d}{d g_{k_0}} e_n = 2 \\left( g * r_y(k_0) - \\bar{h} * r_x(k_0) \\right) $$\n令偏导数为零，得到最优滤波器公式：\n$$ g * r_y(k_0) = \\bar{h} * r_x(k_0) $$\n这是一个关键方程，它表明在时域下，维纳滤波器 $g_n$ 的作用是将输出协方差 $r_y$ 与输入信号特性通过 $\\bar{h}$ 和 $r_x$ 联系起来。要实现最优估计，$g_n$ 必须满足这个卷积方程。\n转换到频域求解 在频域中，卷积变为简单的乘法。对上式取傅里叶变换：\n$$ G(\\nu) S_y(\\nu) = H(\\nu)^* S_x(\\nu) $$\n因此得到维纳滤波器的频率响应： $$ G(\\nu) = \\frac{H(\\nu)^* S_x(\\nu)}{S_y(\\nu)} $$ 由 $S_y(\\nu) = |H(\\nu)|^2 S_x(\\nu) + S_b(\\nu)$，可将 $S_y(\\nu)$ 替换进去： $$ G(\\nu) = \\frac{H(\\nu)^* S_x(\\nu)}{|H(\\nu)|^2 S_x(\\nu) + S_b(\\nu)} $$\n特殊情况分析 无噪音（当 $\\gamma_B = 0$，$S_B = 0$） $$ G(\\nu) = \\frac{H(\\nu)^* S_x(\\nu)}{|H(\\nu)|^2 S_x(\\nu)} = \\frac{1}{H(\\nu)}, $$\n即维纳滤波器退化为系统传递函数的逆滤波器，以完全恢复输入信号 $x_n$。\n无滤波器（仅直通）且有噪声 ($H(\\nu)=1$)： $$ G(\\nu) = \\frac{S_x(\\nu)}{S_x(\\nu) + S_b(\\nu)} = \\frac{1}{1 + \\frac{S_b(\\nu)}{S_x(\\nu)}} $$\n此时，滤波器在各频率处根据信噪比 (SNR = $S_x(\\nu)/S_b(\\nu)$) 来决定增益大小：\n当 $S_x(\\nu)$ 远大于 $S_b(\\nu)$，即信号显著强于噪声，$G(\\nu)$ 接近 1； 当 $S_x(\\nu)$ 接近或小于 $S_b(\\nu)$，增益会小于 1，从而衰减该频段成分，减少噪声影响。 这反映了维纳滤波器的平衡策略：在高信噪比频段尽量还原信号，在低信噪比频段减少增益以抑制噪声。\n关于 Wiener 滤波器的应用部分请看 维纳滤波器进行反卷积\n经验估计器 偏差与方差分解 假设 $\\hat{\\theta}$ 为估计值，评判标准为最小均方误差（MSE）：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\hat{\\theta})^2] $$\n展开：\n$$ \\varepsilon = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}) + \\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] = \\mathbb{E}[(\\theta - \\mathbb{E}(\\hat{\\theta}))^2] + \\mathbb{E}[(\\mathbb{E}(\\hat{\\theta}) - \\hat{\\theta})^2] $$\n系统性偏差：$\\theta - \\mathbb{E}[\\hat{\\theta}]$\n这是估计值的期望与真实参数 $\\theta$ 的差异，即估计量相对于真实值的平均偏移量，不随随机性的不同实现而变化（它是确定性的，不随样本的不同取值变化）。\n随机波动项：$\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta}$\n这是估计量本身围绕其期望值的波动，体现了估计量的方差性质。\n假设偏差 $B = \\theta - E[\\hat{\\theta}]$，即真实值减去估计的期望值。\n因此，有：\n$$ \\varepsilon = \\mathbb{E}[(B + (\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta}))^2] $$\n由于 $B$ 是一个常数（不随随机性变化），而 $(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})$ 是随机变量且均值为零，我们可将二次期望展开为：\n$$ \\varepsilon = \\mathbb{E}[B^2 + 2B(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta}) + (\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})^2] $$\n因为 $B$ 为常量，且 $\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta}$ 的期望为0（其期望值即 $\\mathbb{E}[(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})] = \\mathbb{E}[\\hat{\\theta}] - \\mathbb{E}[\\hat{\\theta}] = 0$），中间项的期望 $\\mathbb{E}[2B(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})] = 2B \\mathbb{E}[\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta}] = 0$。\n于是剩下：\n$$ \\varepsilon = B^2 + \\mathbb{E}[(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})^2] $$\n注意到 $(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})$ 是 $\\hat{\\theta}$ 相对于其期望的偏差，定义为估计量的方差：\n$$ \\text{Var}(\\hat{\\theta}) = \\mathbb{E}[(\\hat{\\theta} - \\mathbb{E}[\\hat{\\theta}])^2] $$\n由于 $(\\mathbb{E}[\\hat{\\theta}] - \\hat{\\theta})^2 = (\\hat{\\theta}-\\mathbb{E}[\\hat{\\theta}])^2$，故可直接写为方差。\n最终得到著名的偏差-方差分解公式：\n$$ \\varepsilon = B^2 + \\text{Var}(\\hat{\\theta}) $$\n偏差-方差权衡意义 若估计量是无偏的，即 $B=0$，则有 $\\varepsilon = \\text{Var}(\\hat{\\theta})$。此时均方误差等同于方差，减小方差便能直接降低均方误差。\n若估计量有偏差，则 $\\varepsilon$ 包含了一个不可忽略的常量项 $B^2$。即使我们减小估计量的方差，也无法使均方误差低于 $B^2$。这体现了一个偏差-方差权衡：有时允许一点偏差可以大幅降低方差，从而整体减少MSE；有时严格坚持无偏性会导致较大的方差，使MSE变大。\nto do\n每个模块后面跟matlab代码实例\n",
+  "wordCount" : "8914",
   "inLanguage": "zh",
   "image": "http://zehua.eu/images/papermod-cover.png","datePublished": "2023-12-20T16:25:17+01:00",
   "dateModified": "2024-11-13T17:12:35+08:00",
@@ -244,7 +244,7 @@
     <div class="post-meta">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2023-12-20 16:25:17 +0100 CET'>12月20日, 2023</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共3400字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css"><span class="meta-tag"><span class="fa fa-calendar-plus-o"></span>&nbsp;<span title='2023-12-20 16:25:17 +0100 CET'>12月20日, 2023</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-file-word-o"></span>&nbsp;<span>共8914字</span></span>&nbsp; | &nbsp;<span class="meta-tag"><span class="fa fa-user-circle-o"></span>&nbsp;<span>Zehua</span></span>
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -256,18 +256,113 @@
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#%e9%9a%8f%e6%9c%ba%e5%8f%98%e9%87%8f" aria-label="随机变量">随机变量</a></li>
+                        <a href="#%e4%b8%80%e7%bb%b4%e9%9a%8f%e6%9c%ba%e5%8f%98%e9%87%8f" aria-label="一维随机变量">一维随机变量</a><ul>
+                            <ul>
+                            
                     <li>
-                        <a href="#couple-de-variable" aria-label="Couple de variable">Couple de variable</a></li>
+                        <a href="#%e6%a6%82%e7%8e%87%e5%af%86%e5%ba%a6%e5%87%bd%e6%95%b0%e7%9a%84%e6%80%a7%e8%b4%a8" aria-label="概率密度函数的性质">概率密度函数的性质</a></li>
                     <li>
-                        <a href="#%e9%9a%8f%e6%9c%ba%e5%90%91%e9%87%8f" aria-label="随机向量">随机向量</a></li>
+                        <a href="#%e6%a6%82%e7%8e%87%e7%9a%84%e8%ae%a1%e7%ae%97" aria-label="概率的计算">概率的计算</a></li>
                     <li>
-                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7" aria-label="随机信号">随机信号</a></li>
+                        <a href="#%e6%95%b0%e5%ad%a6%e6%9c%9f%e6%9c%9b" aria-label="数学期望">数学期望</a></li>
                     <li>
-                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7%e6%bb%a4%e6%b3%a2" aria-label="随机信号滤波">随机信号滤波</a></li>
+                        <a href="#%e6%96%b9%e5%b7%ae%e4%b8%8e%e6%a0%87%e5%87%86%e5%b7%ae" aria-label="方差与标准差">方差与标准差</a></li>
                     <li>
-                        <a href="#%e7%bb%8f%e9%aa%8c%e4%bc%b0%e8%ae%a1%e5%99%a8" aria-label="经验估计器">经验估计器</a>
+                        <a href="#%e5%9d%87%e6%96%b9%e6%a0%b9%e8%af%af%e5%b7%ae-rmse" aria-label="均方根误差 (RMSE)">均方根误差 (RMSE)</a></li>
+                    <li>
+                        <a href="#%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b" aria-label="代码示例">代码示例</a></li></ul>
+                        </ul>
                     </li>
+                    <li>
+                        <a href="#%e4%b8%a4%e7%bb%b4%e9%9a%8f%e6%9c%ba%e5%8f%98%e9%87%8f" aria-label="两维随机变量">两维随机变量</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e8%81%94%e5%90%88%e6%a6%82%e7%8e%87%e5%af%86%e5%ba%a6%e5%87%bd%e6%95%b0" aria-label="联合概率密度函数">联合概率密度函数</a></li>
+                    <li>
+                        <a href="#%e4%b8%80%e7%bb%b4%e9%ab%98%e6%96%af%e5%88%86%e5%b8%83" aria-label="一维高斯分布">一维高斯分布</a></li>
+                    <li>
+                        <a href="#%e4%ba%8c%e7%bb%b4%e9%ab%98%e6%96%af%e5%88%86%e5%b8%83" aria-label="二维高斯分布">二维高斯分布</a></li>
+                    <li>
+                        <a href="#%e8%be%b9%e7%bc%98%e6%a6%82%e7%8e%87%e5%af%86%e5%ba%a6%e5%87%bd%e6%95%b0" aria-label="边缘概率密度函数">边缘概率密度函数</a></li>
+                    <li>
+                        <a href="#%e6%9d%a1%e4%bb%b6%e6%a6%82%e7%8e%87%e5%af%86%e5%ba%a6%e5%87%bd%e6%95%b0" aria-label="条件概率密度函数">条件概率密度函数</a></li>
+                    <li>
+                        <a href="#%e5%8d%8f%e6%96%b9%e5%b7%ae" aria-label="协方差">协方差</a></li>
+                    <li>
+                        <a href="#%e7%9b%b8%e5%85%b3%e7%b3%bb%e6%95%b0" aria-label="相关系数">相关系数</a></li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e5%8f%98%e9%87%8f%e5%af%b9%e7%9a%84%e7%89%b9%e6%80%a7" aria-label="随机变量对的特性">随机变量对的特性</a></li>
+                    <li>
+                        <a href="#%e4%ba%8c%e7%bb%b4%e6%a6%82%e7%8e%87%e7%9a%84%e8%ae%a1%e7%ae%97" aria-label="二维概率的计算">二维概率的计算</a></li>
+                    <li>
+                        <a href="#%e7%8b%ac%e7%ab%8b%e6%80%a7%e6%9d%a1%e4%bb%b6" aria-label="独立性条件">独立性条件</a></li>
+                    <li>
+                        <a href="#%e5%8d%8f%e6%96%b9%e5%b7%ae-1" aria-label="协方差：">协方差：</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e5%90%91%e9%87%8f" aria-label="随机向量">随机向量</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e4%b8%80%e9%98%b6%e7%9f%a9%e4%b8%8e%e4%ba%8c%e9%98%b6%e7%9f%a9" aria-label="一阶矩与二阶矩">一阶矩与二阶矩</a></li>
+                    <li>
+                        <a href="#%e4%b8%8d%e7%9b%b8%e5%85%b3%e4%b8%8e%e7%8b%ac%e7%ab%8b" aria-label="不相关与独立">不相关与独立</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7" aria-label="随机信号">随机信号</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e5%ae%9e%e4%be%8b%e5%88%86%e6%9e%90" aria-label="实例分析">实例分析</a></li>
+                    <li>
+                        <a href="#%e5%8d%8f%e6%96%b9%e5%b7%ae%e5%87%bd%e6%95%b0%e7%9a%84%e7%89%b9%e6%80%a7%e5%9c%a8%e4%b8%80%e4%ba%8c%e9%98%b6%e7%a8%b3%e6%80%81%e7%9a%84%e6%83%85%e5%86%b5%e4%b8%8b" aria-label="协方差函数的特性（在一二阶稳态的情况下）">协方差函数的特性（在一二阶稳态的情况下）</a></li>
+                    <li>
+                        <a href="#%e5%8a%9f%e7%8e%87%e8%b0%b1%e5%af%86%e5%ba%a6-psd" aria-label="功率谱密度 (PSD)">功率谱密度 (PSD)</a></li>
+                    <li>
+                        <a href="#%e4%be%8b%e5%ad%90%e7%bb%a7%e7%bb%ad%e8%af%b4%e6%98%8e" aria-label="例子继续说明">例子继续说明</a></li>
+                    <li>
+                        <a href="#%e7%99%bd%e5%99%aa%e5%a3%b0%e7%a4%ba%e4%be%8b" aria-label="白噪声示例">白噪声示例</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e9%9a%8f%e6%9c%ba%e4%bf%a1%e5%8f%b7%e6%bb%a4%e6%b3%a2" aria-label="随机信号滤波">随机信号滤波</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e8%be%93%e5%87%ba%e5%8d%8f%e6%96%b9%e5%b7%ae%e7%9a%84%e6%8e%a8%e5%af%bc" aria-label="输出协方差的推导">输出协方差的推导</a></li>
+                    <li>
+                        <a href="#%e9%a2%91%e5%9f%9f%e8%a1%a8%e7%a4%ba" aria-label="频域表示">频域表示</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e7%bb%b4%e7%ba%b3%e6%bb%a4%e6%b3%a2%e5%99%a8-wiener-filter" aria-label="维纳滤波器 (Wiener Filter)">维纳滤波器 (Wiener Filter)</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e6%b1%82%e8%a7%a3%e7%bb%b4%e7%ba%b3%e6%bb%a4%e6%b3%a2%e5%99%a8" aria-label="求解维纳滤波器">求解维纳滤波器</a></li>
+                    <li>
+                        <a href="#%e8%ae%a1%e7%ae%97%e6%9c%9f%e6%9c%9b%e9%a1%b9%e4%b8%8e%e6%9d%a1%e4%bb%b6%e6%96%b9%e7%a8%8b" aria-label="计算期望项与条件方程">计算期望项与条件方程</a></li>
+                    <li>
+                        <a href="#%e8%bd%ac%e6%8d%a2%e5%88%b0%e9%a2%91%e5%9f%9f%e6%b1%82%e8%a7%a3" aria-label="转换到频域求解">转换到频域求解</a></li>
+                    <li>
+                        <a href="#%e7%89%b9%e6%ae%8a%e6%83%85%e5%86%b5%e5%88%86%e6%9e%90" aria-label="特殊情况分析">特殊情况分析</a></li></ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#%e7%bb%8f%e9%aa%8c%e4%bc%b0%e8%ae%a1%e5%99%a8" aria-label="经验估计器">经验估计器</a><ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e5%81%8f%e5%b7%ae%e4%b8%8e%e6%96%b9%e5%b7%ae%e5%88%86%e8%a7%a3" aria-label="偏差与方差分解">偏差与方差分解</a></li>
+                    <li>
+                        <a href="#%e5%81%8f%e5%b7%ae-%e6%96%b9%e5%b7%ae%e6%9d%83%e8%a1%a1%e6%84%8f%e4%b9%89" aria-label="偏差-方差权衡意义">偏差-方差权衡意义</a>
+                    </li>
+                </ul>
+                </ul>
+                </li>
                 </ul>
             </div>
         </details>
@@ -333,69 +428,314 @@
     }
 </script>
 
-  <div class="post-content"><h2 id="随机变量">随机变量<a hidden class="anchor" aria-hidden="true" href="#随机变量">#</a></h2>
-<p>概率密度 $f_x$ 的性质为</p>
-<p>$$
-\begin{aligned}
-&amp; \quad \int_{\mathbb{R}} f_x(x) , dx = 1 \
-&amp; \quad f_x(x) \geq 0 \quad \forall , x \in \mathbb{R}
-\end{aligned}
+  <div class="post-content"><h2 id="一维随机变量">一维随机变量<a hidden class="anchor" aria-hidden="true" href="#一维随机变量">#</a></h2>
+<h4 id="概率密度函数的性质">概率密度函数的性质<a hidden class="anchor" aria-hidden="true" href="#概率密度函数的性质">#</a></h4>
+<p>对随机变量  $X$ 来说，其概率密度函数  $f_x(x)$ 满足：
+$$
+\int_{-\infty}^{\infty} f_x(x),dx = 1, \quad f_x(x) \geq 0 ,, \forall x \in \mathbb{R}
 $$</p>
-<p>概率的计算：</p>
+<p>即  $f_x(x)$ 是非负函数，其积分总和为 1。</p>
+<h4 id="概率的计算">概率的计算<a hidden class="anchor" aria-hidden="true" href="#概率的计算">#</a></h4>
+<p>若需计算事件  ${X \in [m,M]}$ 的概率，有：</p>
 <div>$$P\left\{ x \in [m, M] \right\} = \int_{m}^{M} f_x(x) \, dx$$</div>
-<p>数学期望的计算：</p>
-<p>$$
-\begin{aligned}
-&amp; \quad E(x) = \int_{\mathbb{R}} x \cdot f_x(x) , dx \
-&amp; \quad E(\varphi(x)) = \int_{\mathbb{R}} \varphi(x) \cdot f_x(x) , dx
-\end{aligned}
+<h4 id="数学期望">数学期望<a hidden class="anchor" aria-hidden="true" href="#数学期望">#</a></h4>
+<p>对随机变量  $X$ ，其期望为：
+$$
+E(X) = \int_{-\infty}^{\infty} x f_x(x) , dx
 $$</p>
-<p>所谓期望，就是积分面积的一半（并非正中心）</p>
-<p>方差 $\sigma_x = \text{Var}[X] = E\left( (X - E[X])^2 \right) = \text{标准差} $ $v_x^2$</p>
-<p>均方根误差：</p>
-<p>$$
-\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+<p>对任意函数  $\varphi(X)$ 的期望：
+$$
+E(\varphi(X)) = \int_{-\infty}^{\infty} \varphi(x) f_x(x) , dx
+$$
+期望是加权平均值（加权由概率密度给出）</p>
+<h4 id="方差与标准差">方差与标准差<a hidden class="anchor" aria-hidden="true" href="#方差与标准差">#</a></h4>
+<p>方差定义为：
+$$
+\sigma_x^2 = \mathrm{Var}[X] = E[(X - E[X])^2]
+$$
+标准差为方差的平方根：
+$$
+\sigma_x = \sqrt{\mathrm{Var}[X]}
+$$
+方差和标准差度量随机变量取值围绕其期望的离散程度。分布越分散，方差和标准差越大。</p>
+<h4 id="均方根误差-rmse">均方根误差 (RMSE)<a hidden class="anchor" aria-hidden="true" href="#均方根误差-rmse">#</a></h4>
+<p>在数据拟合、预测或信号处理领域，用均方根误差来衡量预测值  $\hat{y}_i$ 与真实值  $y_i$ 之间的偏差：</p>
+<div>
+$$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
+</div>
+RMSE 体现了预测误差的平均幅度，值越小说明预测越接近真实值。在信号与控制领域，RMSE 常用于评价模型的估计精度或滤波效果。
+<h4 id="代码示例">代码示例<a hidden class="anchor" aria-hidden="true" href="#代码示例">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">%</span> <span class="err">生成一维高斯随机变量</span>
+</span></span><span class="line"><span class="cl"><span class="n">N</span> <span class="o">=</span> <span class="mi">10</span><span class="o">^</span><span class="mi">6</span><span class="p">;</span> <span class="o">%</span> <span class="err">样本数</span>
+</span></span><span class="line"><span class="cl"><span class="n">mu</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>   <span class="o">%</span> <span class="err">均值</span>
+</span></span><span class="line"><span class="cl"><span class="n">sigma</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="o">%</span> <span class="err">标准差</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">%</span> <span class="err">验证期望与方差</span>
+</span></span><span class="line"><span class="cl"><span class="n">est_mu</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">est_var</span> <span class="o">=</span> <span class="k">var</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s1">&#39;理论均值 = </span><span class="si">%.2f</span><span class="s1">, 实际估计均值 = </span><span class="si">%.2f</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">est_mu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s1">&#39;理论方差 = </span><span class="si">%.2f</span><span class="s1">, 实际估计方差 = </span><span class="si">%.2f</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">est_var</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">%</span> <span class="err">验证概率计算：</span><span class="n">P</span><span class="p">(</span><span class="n">X</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span><span class="p">,</span><span class="n">M</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p_est</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="o">&gt;=</span><span class="n">m</span> <span class="o">&amp;</span> <span class="n">X</span><span class="o">&lt;=</span><span class="n">M</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">fprintf</span><span class="p">(</span><span class="s1">&#39;P(X in [</span><span class="si">%.1f</span><span class="s1">, </span><span class="si">%.1f</span><span class="s1">])的模拟值为: </span><span class="si">%.4f</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">p_est</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">RMSE = sqrt(mean((y - hat_y).^2)); % 假设有预测值hat_y与真实值y
+</span></span><span class="line"><span class="cl">fprintf(&#39;RMSE = %.4f\n&#39;, RMSE);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="两维随机变量">两维随机变量<a hidden class="anchor" aria-hidden="true" href="#两维随机变量">#</a></h2>
+<h4 id="联合概率密度函数">联合概率密度函数<a hidden class="anchor" aria-hidden="true" href="#联合概率密度函数">#</a></h4>
+<p>对两个随机变量   $X, Y$   而言，其联合概率密度函数   $f_{X,Y}(x,y)$   满足：
+$$
+\iint_{\mathbb{R} \times \mathbb{R}} f_{X,Y}(x,y),dx,dy = 1,\quad f_{X,Y}(x,y) \geq 0
 $$</p>
-<p>即所有测量值与实际值的平方差再除总数</p>
-<h2 id="couple-de-variable">Couple de variable<a hidden class="anchor" aria-hidden="true" href="#couple-de-variable">#</a></h2>
-<p>$f_{x,y}(x,y)$ 性质</p>
-<p>$$
-\begin{aligned}
-&amp; \quad \iint_{\mathbb{R} \times \mathbb{R}} f_{x,y}(x,y) , dx , dy = 1 \
-&amp; \quad \quad \quad \quad f_{x,y}(x,y) \geq 0
-\end{aligned}
+<p>这里   $f_{X,Y}(x,y)$   对所有   $x, y \in \mathbb{R}$   非负，并通过对整个二维平面的积分为 1 来保证这是一个有效的概率密度函数。</p>
+<ul>
+<li>在一维情况下，概率密度函数  $f_X(x)$  表示  $X$  在点  $x$  的密度。</li>
+<li>在二维情况下，联合概率密度函数  $f_{X,Y}(x,y)$  则表示  $X,Y$  同时在点  $(x,y)$  附近出现的“概率密度”。由于是密度值，对它进行二维积分才能得到相应的概率。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">clear; clc; close all;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%% 定义符号变量与参数
+</span></span><span class="line"><span class="cl">syms x y real
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%----------------------------
+</span></span><span class="line"><span class="cl">% 一维高斯参数
+</span></span><span class="line"><span class="cl">mu_x = 0;    % E[X]
+</span></span><span class="line"><span class="cl">sigma_x = 1; % Var(X)=sigma_x^2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 二维高斯分布参数
+</span></span><span class="line"><span class="cl">mu_y = 2;          % E[Y]
+</span></span><span class="line"><span class="cl">sigma_y = 1.5;     % Var(Y)=sigma_y^2
+</span></span><span class="line"><span class="cl">rho_xy = 0.3;      % 相关系数rho_{xy}, 范围(-1,1)
+</span></span><span class="line"><span class="cl">%----------------------------
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="一维高斯分布">一维高斯分布<a hidden class="anchor" aria-hidden="true" href="#一维高斯分布">#</a></h4>
+<p>对于一维正态（高斯）分布  $X \sim \mathcal{N}(\mu, \sigma^2)$  ，其概率密度函数为：
+$$
+f_X(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
 $$</p>
-<p>高斯分布：</p>
-<p>$$
-f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{1}{2} \left( \frac{x-\mu}{\sigma} \right)^2}
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 一维高斯分布pdf定义
+</span></span><span class="line"><span class="cl">fX = (1/(sqrt(2*pi)*sigma_x))*exp(-((x - mu_x)^2)/(2*sigma_x^2));
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 验证归一化: ∫ fX(x) dx = 1
+</span></span><span class="line"><span class="cl">int_fX = int(fX, x, -inf, inf); 
+</span></span><span class="line"><span class="cl">disp([&#39;一维高斯分布积分验证（应为1）：&#39;, char(vpa(simplify(int_fX),10))]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="二维高斯分布">二维高斯分布<a hidden class="anchor" aria-hidden="true" href="#二维高斯分布">#</a></h4>
+<p>若  $X,Y$  联合呈正态分布  $\mathcal{N}(\mu_x, \mu_y, \sigma_x^2, \sigma_y^2, \rho_{xy}) $，其联合概率密度函数为：
+$$
+f_{X,Y}(x,y) = \frac{1}{2\pi \sigma_x \sigma_y \sqrt{1-\rho_{xy}^2}} \exp\left(-\frac{1}{2(1-\rho_{xy}^2)}\left[\left(\frac{x-\mu_x}{\sigma_x}\right)^2 + \left(\frac{y-\mu_y}{\sigma_y}\right)^2 - 2\rho_{xy}\left(\frac{x-\mu_x}{\sigma_x}\right)\left(\frac{y-\mu_y}{\sigma_y}\right)\right]\right)
 $$</p>
-<p>$$
-f_{xy}(x, y) = \frac{1}{2\pi \sigma_x \sigma_y \sqrt{1 - \rho_{xy}^2}}
-e^{-\frac{1}{2(1 - \rho_{xy}^2)} \left[ \left( \frac{x - \mu_x}{\sigma_x} \right)^2 + \left( \frac{y - \mu_y}{\sigma_y} \right)^2 - 2\rho_{xy} \left( \frac{x - \mu_x}{\sigma_x} \right) \left( \frac{y - \mu_y}{\sigma_y} \right) \right]}
-$$</p>
-<p>联合概率密度函数：</p>
-<p>$$
-\iint_{-\infty}^{\infty} f_{X,Y}(x, y) , dx , dy = 1
-$$</p>
-<p>边缘概率密度函数：</p>
-<p>$$
+<ul>
+<li>$\rho_{xy}$  为  $X,Y$  的相关系数（取值范围在  $-1$ 至 $1$ 之间）。当  $\rho_{xy}=0$  时，两变量在统计意义上不相关。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 二维高斯分布pdf定义
+</span></span><span class="line"><span class="cl">fXY = (1/(2*pi*sigma_x*sigma_y*sqrt(1-rho_xy^2))) * ...
+</span></span><span class="line"><span class="cl">      exp(-1/(2*(1-rho_xy^2)) * ( ((x - mu_x)/sigma_x)^2 + ((y - mu_y)/sigma_y)^2 ...
+</span></span><span class="line"><span class="cl">      - 2*rho_xy*((x - mu_x)/sigma_x)*((y - mu_y)/sigma_y) ) );
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 验证二维高斯分布归一化: ∫∫ f_{X,Y}(x,y) dx dy = 1
+</span></span><span class="line"><span class="cl">int_fXY = int(int(fXY, x, -inf, inf), y, -inf, inf);
+</span></span><span class="line"><span class="cl">disp([&#39;二维高斯分布积分验证（应为1）：&#39;, char(vpa(simplify(int_fXY),10))]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="边缘概率密度函数">边缘概率密度函数<a hidden class="anchor" aria-hidden="true" href="#边缘概率密度函数">#</a></h4>
+<p>给定联合概率密度函数  $f_{X,Y}(x,y)$ ，对于  $X$  的边缘分布由联合分布对  $y$  积分得到：
+$$
 f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) , dy
 $$</p>
-<p>条件概率密度函数：</p>
-<p>$$
+<p>同理，对  $x$  积分可得  $f_Y(y)$ :
+$$
+f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x,y),dx.
+$$
+边缘分布描述单个变量的分布情况，是由联合分布“合并”掉另一维度获得的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 边缘分布计算
+</span></span><span class="line"><span class="cl">fX_from_joint = int(fXY, y, -inf, inf);  % 对y积分得到fX
+</span></span><span class="line"><span class="cl">fY_from_joint = int(fXY, x, -inf, inf);  % 对x积分得到fY
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 验证fX_from_joint归一化
+</span></span><span class="line"><span class="cl">disp([&#39;X的边缘分布归一化验证（应为1）：&#39;, char(vpa(simplify(int(fX_from_joint, x, -inf, inf)),10))]);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 验证fY_from_joint归一化
+</span></span><span class="line"><span class="cl">disp([&#39;Y的边缘分布归一化验证（应为1）：&#39;, char(vpa(simplify(int(fY_from_joint, y, -inf, inf)),10))]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="条件概率密度函数">条件概率密度函数<a hidden class="anchor" aria-hidden="true" href="#条件概率密度函数">#</a></h4>
+<p>在给定  $Y=y$  条件下， $X$  的条件概率密度函数定义为：
+$$
 f_{X|Y}(x|y) = \frac{f_{X,Y}(x, y)}{f_Y(y)}
 $$</p>
-<p>协方差：</p>
-<p>$$
+<ul>
+<li>前提是  $f_Y(y)&gt;0$</li>
+</ul>
+<p>条件分布则描述在知道一个变量取值的前提下，另一个变量的分布特性，从而反映随机变量之间的条件依赖关系。</p>
+<p><strong>重要性质:</strong> 对于给定条件 $Y=y_0$ 的条件概率密度函数 $f_{X|Y}(x|y_0)$，在 $x$ 上的积分必为 1</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明:</strong></p>
+<p>将该条件密度对 $x$ 从 $-\infty$ 到 $\infty$ 积分时，有：
+$$
+\int_{-\infty}^{\infty} f_{X|Y}(x|y_0) dx = \frac{\int_{-\infty}^{\infty} f_{X,Y}(x,y_0) dx}{f_Y(y_0)} = \frac{f_Y(y_0)}{f_Y(y_0)} = 1
+$$
+这和条件概率密度函数的基本性质一致：条件概率密度作为一个 PDF，对所条件的自变量进行积分必为1。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 条件概率分布验证
+</span></span><span class="line"><span class="cl">% f_{X|Y}(x|y) = f_{X,Y}(x,y)/f_Y(y)
+</span></span><span class="line"><span class="cl">y0 = 2; 
+</span></span><span class="line"><span class="cl">fX_given_Y = simplify(fXY / subs(fY_from_joint, y, y0)); 
+</span></span><span class="line"><span class="cl">int_fX_given_Y = int(subs(fX_given_Y, y, y0), x, -inf, inf);
+</span></span><span class="line"><span class="cl">disp([&#39;条件分布 在x上的积分（应为1）：&#39;, char(vpa(simplify(int_fX_given_Y),10))]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></text></div>
+
+<h4 id="协方差">协方差<a hidden class="anchor" aria-hidden="true" href="#协方差">#</a></h4>
+<p>对于随机变量  $X,Y$ ，协方差定义为：
+$$
 \text{Cov}(X, Y) = E\left[(X - E[X])(Y - E[Y])\right]
 $$</p>
-<p>相关系数：</p>
-<p>$$
+<h4 id="相关系数">相关系数<a hidden class="anchor" aria-hidden="true" href="#相关系数">#</a></h4>
+<p>相关系数是协方差的归一化版本，其定义为：
+$$
 \rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sqrt{\text{Var}(X)} \cdot \sqrt{\text{Var}(Y)}}
 $$</p>
-<p>随机变量对的特性：</p>
 <ul>
-<li>线性特性</li>
+<li>$\rho_{X,Y}$  在  $-1$ 和 $1$  之间。</li>
+<li>$\rho_{X,Y}=1$  表示完美正线性相关， $\rho_{X,Y}=-1$  表示完美负线性相关， $\rho_{X,Y}=0$  表示无线性相关性。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 协方差与相关系数计算验证
+</span></span><span class="line"><span class="cl">% E[X]=mu_x, E[Y]=mu_y, Cov(X,Y)=rho_xy*sigma_x*sigma_y
+</span></span><span class="line"><span class="cl">% E[XY] = E[X]E[Y] + Cov(X,Y)
+</span></span><span class="line"><span class="cl">E_X = mu_x;
+</span></span><span class="line"><span class="cl">E_Y = mu_y;
+</span></span><span class="line"><span class="cl">Cov_XY = rho_xy*sigma_x*sigma_y;
+</span></span><span class="line"><span class="cl">E_XY = E_X*E_Y + Cov_XY;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">calc_rho = Cov_XY/(sigma_x*sigma_y);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">disp([&#39;理论计算的协方差Cov(X,Y)=&#39;, num2str(Cov_XY)]);
+</span></span><span class="line"><span class="cl">disp([&#39;由协方差计算得到的rho_{X,Y}=&#39;, num2str(calc_rho), &#39;，与设定的rho_xy = &#39;, num2str(rho_xy), &#39; 对比&#39;]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="随机变量对的特性">随机变量对的特性<a hidden class="anchor" aria-hidden="true" href="#随机变量对的特性">#</a></h4>
+<ul>
+<li>
+<p>线性特性</p>
+<p>对任意实常数  $\alpha, \beta$  与随机变量函数  $\varphi(x)$  和  $\psi(x)$  有：</p>
+</li>
 </ul>
 <p>$$
 \quad E \left[ \alpha \varphi(x) + \beta \psi(x) \right] = \alpha E[\varphi(x)] + \beta E[\psi(x)]
@@ -407,130 +747,217 @@ $$</p>
 \quad E[\alpha] = \alpha
 $$</p>
 <ul>
-<li>期望与方差</li>
+<li>
+<p>期望与方差</p>
+<p>若  $Y = aX + b$  ，其中  $a,b$  为常数，则有：
+$$
+\quad E[Y] = E[ax + b] = aE[x] + b
+$$
+方差对加法不敏感（仅对乘法敏感），有：</p>
+</li>
 </ul>
 <p>$$
-\quad E[Y] = E[ax + b] = aE[x] + b
+\text{Var}[Y] = E[(Y - E[Y])^2] = E[a^2(X - E[X])^2] = a^2 \text{Var}[X]
 $$</p>
+<h4 id="二维概率的计算">二维概率的计算<a hidden class="anchor" aria-hidden="true" href="#二维概率的计算">#</a></h4>
+<p>对于二维随机变量  $X,Y$  ，任意矩形区域  $[x_m,x_M]\times[y_m,y_M]$  上的概率为：</p>
 <p>$$
-\text{Var}[Y] = E\left[(Y - E[Y])^2\right] = E\left[a^2 (x - E[x])^2\right] = a^2 E\left[(x - m)^2\right]
+P[x_m \leq X \leq x_M, ; y_m \leq Y \leq y_M] = \int_{x_m}^{x_M}\int_{y_m}^{y_M} f_{X,Y}(x, y),dy,dx
 $$</p>
-<p>$$
-P\left[ x_m \leq x \leq x_M, \ y_m \leq y \leq y_M \right] = \int_{x_m}^{x_M} \int_{y_m}^{y_M} f_{x,y}(x, y) , dx , dy
-$$</p>
-<p>前面提到了条件概率密度：</p>
-<p>$$
-f_{x|y=y_0}(x | y_0) = \frac{f_{xy}(x, y_0)}{f_y(y_0)}
-$$</p>
-<p>对其进行左右积分：</p>
-<p>$$
-\int_{\mathbb{R}} f_{x|y=y_0}(x | y_0) , dx = \frac{\int_{x} f_{xy}(x, y_0) , dx}{\int_{x} f_{y}(y_0) , dx}
-= \frac{\int_{x} f_{xy}(x, y_0) , dx}{f_y(y_0)}
-= \frac{F_y(y)}{f_y(y_0)}
-$$</p>
-<p>可见条件概率密度的积分等于边缘概率密度除以概率密度</p>
-<p>$x$ 和 $y$ 独立条件：</p>
-<p>$$
-\begin{cases}
-f_{y|x}(y|x) = f_y(y) \
-f_{x|y}(x|y) = f_x(x)
-\end{cases}
-$$</p>
-<p>即条件概率等于单独发生的概率</p>
-<p>协方差性质：</p>
-<p>$$
-\text{Cov}[x, x] = \text{Var}[x] \\
-\text{Cov}[y, y] = \text{Var}[y]
-$$</p>
-<p>$$
-\text{Cov}[\alpha x, y] = E \left[ (\alpha x - E[\alpha x])(y - E[y]) \right] = \alpha \text{Cov}[x, y]
-$$</p>
-<p>$$
-\text{Cov}[\alpha x, \beta y] = E \left[ (\alpha x - E[\alpha x])(\beta y - E[\beta y]) \right] = \alpha \beta \text{Cov}[x, y]
-$$</p>
-<p>$$
-\text{Cov}[x, y]=  E\left[(x - E[x])(y - E[y])\right]=E[xy] - E[x]E[y]
-$$</p>
-<p>可见，在独立情况下（$E[xy] = E[x]E[y]$），协方差 $=0$</p>
-<p>相关性</p>
-<p>$$\rho_{xy} = \text{cor}[x, y]= \dfrac{\text{Cov}[x, y]}{\sqrt{\text{Var}[x] \cdot \text{Var}[y]}} = \dfrac{E\left[(x - E[x])(y - E[y])\right]}{\sqrt{E\left[(x - E[x])^2\right] E\left[(y - E[y])^2\right]}}$$</p>
-<p>相关性特性:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 二维概率区域积分
+</span></span><span class="line"><span class="cl">% P[x_m&lt;=X&lt;=x_M, y_m&lt;=Y&lt;=y_M] = ∫_{x_m}^{x_M}∫_{y_m}^{y_M} fXY dx dy
+</span></span><span class="line"><span class="cl">x_m = -1; x_M = 1;
+</span></span><span class="line"><span class="cl">y_m = 1;  y_M = 3;
+</span></span><span class="line"><span class="cl">region_prob = vpa(int(int(fXY, y, y_m, y_M), x, x_m, x_M),10);
+</span></span><span class="line"><span class="cl">disp([&#39;给定区域下的概率：&#39;, char(vpa(region_prob, 10))]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="独立性条件">独立性条件<a hidden class="anchor" aria-hidden="true" href="#独立性条件">#</a></h4>
+<p>若  $X,Y$  独立，则：
 $$
-\text{cor}(x, y) =
+f_{X,Y}(x,y) = f_X(x)f_Y(y)
+$$
+由此可推得：</p>
+<p>$$
 \begin{cases}
-1 &amp; \text{if } y = x \\
--1 &amp; \text{if } y = -x
+f_{y|x}(y|x) = f_y(y) \\
+f_{x|y}(x|y) = f_x(x)\
 \end{cases}
 $$</p>
+<p>条件概率等于单独发生的概率，即在独立条件下，另一随机变量的已知并不改变某一随机变量的分布特征。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 独立性验证
+</span></span><span class="line"><span class="cl">% 当rho_xy=0时，fXY应能分解为fX*fY
+</span></span><span class="line"><span class="cl">if abs(rho_xy) &lt; 1e-12
+</span></span><span class="line"><span class="cl">    fXY_factorized = simplify(fX_from_joint * fY_from_joint);
+</span></span><span class="line"><span class="cl">    diff_expr = simplify(fXY - fXY_factorized);
+</span></span><span class="line"><span class="cl">    disp(&#39;rho_xy=0时，fXY与fX*fY的差值应为0：&#39;);
+</span></span><span class="line"><span class="cl">    disp(diff_expr);
+</span></span><span class="line"><span class="cl">else
+</span></span><span class="line"><span class="cl">    disp(&#39;rho_xy不为0，故X与Y不独立，此时fXY不等于fX*fY。&#39;);
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="协方差-1">协方差：<a hidden class="anchor" aria-hidden="true" href="#协方差-1">#</a></h4>
 <p>$$
-\text{cor}[\alpha x, y] = \text{cor}[x, y] \quad \text{当} \ \alpha &gt; 0
+\text{Cov}[X,Y] = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]
+$$
+其中:</p>
+<ul>
+<li>
+<p>$\text{Cov}[X,X] = \text{Var}[X]$，$\text{Cov}[Y,Y] = \text{Var}[Y]$</p>
+</li>
+<li>
+<p>对常数因子有线性性：<br>
+$$
+\text{Cov}[\alpha X, Y] = \alpha \text{Cov}[X,Y], \quad \text{Cov}[\alpha X, \beta Y] = \alpha \beta \text{Cov}[X,Y]
 $$</p>
-<p>因为：</p>
-<p>$$
-\dfrac{\text{Cov}[\alpha x, y]}{\sqrt{\text{Var}[\alpha x] \text{Var}[y]}} = \dfrac{\alpha \text{Cov}[x, y]}{\sqrt{\alpha^2 \text{Var}[x]} \sqrt{\text{Var}[y]}}
+</li>
+</ul>
+<p><strong>在独立条件下</strong>，有  $E[XY] = E[X]E[Y]$  ，故  $\text{Cov}[X,Y]=0$ 。但  $\text{Cov}[X,Y]=0$  不一定代表独立，只能代表不线性相关（零相关）。独立是更强的条件。<strong>但是特殊情况下</strong>：若  $X,Y$  联合服从二元高斯分布，则不相关 ( $\rho_{X,Y}=0$ ) 即可以推出独立。这是高斯分布下的特殊性质。当  $\rho_{X,Y}=0$  时，二元高斯分布的联合密度函数因子化为单独的  $X$  与  $Y$  密度函数之积，即：
+$$
+f_{X,Y}(x,y) = f_X(x)f_Y(y)
+$$
+因此，对于高斯分布：
+$$
+\rho_{X,Y}=0 \iff \text{Cov}[X,Y]=0 \implies X,Y \text{ 独立。}
 $$</p>
-<p>$$
-\text{cor}[x, y] = 0 \to \text{cov}[x, y] = 0 \to E[xy] = E[x]E[y]
-$$</p>
-<p>​	不相关 $\to$ 独立 ，这个说法不对，必须在联合概率密度满足高斯分布的情况下，才可以成立</p>
-<p>那么独立 可以推出 不相关吗？</p>
-<p>独立就代表了：</p>
-<p>$$
-f_{xy}(x, y) = f_x(x) \cdot f_y(y) \implies E(xy) = E(x) \cdot E(y)
-$$</p>
-<p>$$
-E(xy) = \int_x \int_y x y f_{xy}(x, y) , dx , dy = \int_x x f_x(x) , dx \int_y y f_y(y) , dy = E(x) \cdot E(y)
-$$</p>
-<p>可见成立。即只有服从高斯分布的联合概率密度才可以由不相关 $\to$ 独立</p>
+<p>对于非高斯分布，不相关不保证独立，但独立却一定能保证不相关，因为独立必然导致  $E[XY] = E[X]E[Y]$ 。</p>
 <div
-    class="alert alert-warning"    role="alert"><text><p><strong>证明：</strong></p>
+    class="alert alert-warning"    role="alert"><text><p><strong>证明:</strong>  不相关不一定意味着独立</p>
+<p><strong>证明思路</strong>：通过给出一个反例，展示存在不相关但不独立的随机变量。</p>
+<p>设随机变量  $X$  满足：<br>
+$$
+P(X=1)=\tfrac{1}{2}, \quad P(X=-1)=\tfrac{1}{2}.
+$$
+则  $E[X]=0$  且  $X$  对称分布。定义随机变量  $Y=X^2$  ，则无论  $X=1$  还是  $X=-1$ ，有  $Y=1$ 。因此  $Y$  是一个退化随机变量，恒为1。</p>
+<p>计算协方差：<br>
+$$
+E[XY] = E[X \cdot X^2] = E[X^3] = E[X] = 0,
+$$
+且<br>
+$$
+E[X]=0, \quad E[Y]=E[X^2]=1.
+$$</p>
+<p>所以：<br>
+$$
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 0 - 0\cdot1 = 0.
+$$</p>
+<p>此时  $X,Y$  不相关。但  $Y=X^2$  表明  $Y$  完全由  $X$  决定，二者并非独立。如果  $X,Y$  独立，那么  $Y$  的取值不应随  $X$  的变化而定。然而这里  $Y$  始终是  $X$  的函数， $Y=1$  对  $X$  的取值有完全的依赖性。</p>
+<p>由此举例可见，不相关并不蕴含独立。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 不相关但不独立的反例
+</span></span><span class="line"><span class="cl">% X: P(X=1)=0.5, P(X=-1)=0.5 =&gt; E[X]=0
+</span></span><span class="line"><span class="cl">% Y=X^2 =&gt; Y=1总是恒定 =&gt; E[Y]=1
+</span></span><span class="line"><span class="cl">% E[XY]=E[X]=0, Cov(X,Y)=0, 但Y由X决定，不独立
+</span></span><span class="line"><span class="cl">E_X_example = 0;
+</span></span><span class="line"><span class="cl">E_Y_example = 1;
+</span></span><span class="line"><span class="cl">E_XY_example = E_X_example; 
+</span></span><span class="line"><span class="cl">Cov_XY_example = E_XY_example - E_X_example*E_Y_example;
+</span></span><span class="line"><span class="cl">disp([&#39;反例中Cov(X,Y)=&#39;, num2str(Cov_XY_example), &#39; -&gt; Cov=0但X,Y不独立。&#39;]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></text></div>
+
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明：</strong> 高斯分布的联合概率密度情况下，可以由不相关 $\to$ 独立</p>
 <p>若 $\text{Cov}(x, y) = 0 \implies \rho_{xy} = 0$</p>
 <p>$$
 f_{xy}(x, y) = \dfrac{1}{2\pi \sigma_x \sigma_y \sqrt{1 - \rho_{xy}^2}}
 e^{-\dfrac{1}{2(1 - \rho_{xy}^2)} \left[ \left( \dfrac{x - \mu_x}{\sigma_x} \right)^2 + \left( \dfrac{y - \mu_y}{\sigma_y} \right)^2 - 2\rho_{xy} \left( \dfrac{x - \mu_x}{\sigma_x} \right) \left( \dfrac{y - \mu_y}{\sigma_y} \right) \right]}
 $$</p>
-<p>当 $\rho_{xy} = 0$，则：</p>
+<p>当  $\rho_{xy}=0$  时，上式中  $-2\rho_{xy}(\cdots)$  项消失，化简为：</p>
 <p>$$
-f_{xy}(x, y) = \dfrac{1}{2\pi \sigma_x \sigma_y} e^{-\dfrac{1}{2} \left( \left( \dfrac{x - \mu_x}{\sigma_x} \right)^2 + \left( \dfrac{y - \mu_y}{\sigma_y} \right)^2 \right)} = f_x(x) \cdot f_y(y) = \text{独立}
+f_{X,Y}(x,y) = \frac{1}{2\pi \sigma_x \sigma_y}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_x}{\sigma_x}\right)^2\right)\exp\left(-\frac{1}{2}\left(\frac{y-\mu_y}{\sigma_y}\right)^2\right)
 $$</p>
+<p>注意该表达式可分解为：</p>
+<div>
+$$f_{X,Y}(x,y) = \underbrace{\frac{1}{\sqrt{2\pi}\sigma_x}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}}_{f_X(x)} \cdot \underbrace{\frac{1}{\sqrt{2\pi}\sigma_y}e^{-\frac{(y-\mu_y)^2}{2\sigma_y^2}}}_{f_Y(y)}$$
+</div>
+<p>因此：
+$$
+f_{X,Y}(x,y) = f_X(x)f_Y(y)
+$$</p>
+<p>这表明  $X,Y$  是独立的。</p>
+</text></div>
+
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明:</strong>  若  $X,Y$  独立，则  $\text{Cov}(X,Y)=0$  （不相关）</p>
+<p>若  $X,Y$  独立，则其联合概率密度函数满足：
+$$
+f_{X,Y}(x,y) = f_X(x)f_Y(y).
+$$</p>
+<p>计算  $E[XY]$ ：
+$$
+E[XY] = \iint xy f_{X,Y}(x,y),dx,dy = \iint xy f_X(x)f_Y(y),dx,dy
+$$</p>
+<p>由于可分离积分：
+$$
+E[XY] = \left(\int x f_X(x),dx\right)\left(\int y f_Y(y),dy\right) = E[X]E[Y]
+$$</p>
+<p>协方差定义为：
+$$
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+$$</p>
+<p>代入  $E[XY]=E[X]E[Y]$  得：
+$$
+\text{Cov}(X,Y) = E[X]E[Y] - E[X]E[Y] = 0
+$$</p>
+<p>由此可见，独立必然导致不相关。</p>
 </text></div>
 
 <h2 id="随机向量">随机向量<a hidden class="anchor" aria-hidden="true" href="#随机向量">#</a></h2>
-<p>我们有：</p>
+<p>给定一个 $n$ 维随机向量 $\mathbf{x} = [x_1, x_2, \dots, x_n]^T$，其联合概率密度函数为 $f_x(x_1, x_2, \dots, x_n)$。该函数满足：</p>
 <p>$$
-|\vec{u}|^2 = \vec{u} \cdot \vec{u} \
-\vec{u} \cdot \vec{v} = |\vec{u}| |\vec{v}| \cdot \cos(\theta)
+f_x(x_1, x_2, \dots, x_n) \geq 0, \quad \forall x_1, x_2, \dots, x_n \in \mathbb{R}
 $$</p>
-<p>向量 $\mathbf{x}$ 表示为：</p>
 <p>$$
-\mathbf{x} = \begin{bmatrix}
-x_1 \
-x_2 \
-\vdots \
-x_n
-\end{bmatrix}
+\int_{-\infty}^{\infty} \dots \int_{-\infty}^{\infty} f_x(x_1, \dots, x_n) , dx_1 \dots dx_n = 1
 $$</p>
-<p>满足以下性质：</p>
-<ol>
-<li>
-<p>$f_x \geq 0$，对所有 $x_1, x_2, \dots, x_n \in \mathbb{R}$。</p>
-</li>
-<li>
-<p>$\int_{x_1} \int_{x_2} \dots \int_{x_n} f_x(x_1, \dots, x_n) , dx_1 , dx_2 \dots dx_n = 1$</p>
-</li>
-</ol>
-<p>概率计算为：</p>
-<div>$$P \left\{ 
-\begin{aligned}
-x_1 &\in [m_1, M_1] \\
-x_2 &\in [m_2, M_2] \\
-&\vdots \\
-x_n &\in [m_n, M_n]
-\end{aligned}
-\right\} = \int_{m_1}^{M_1} \int_{m_2}^{M_2} \dots \int_{m_n}^{M_n} f_x(x_1, \dots, x_n) \, dx_1 \, dx_2 \dots dx_n$$</div>
-<p>一阶矩（moment d&rsquo;ordre 1）：</p>
+<p>对于任意超矩形区域 $[m_1,M_1]\times[m_2,M_2]\times\dots\times[m_n,M_n]$ 上的概率为：</p>
 <p>$$
-m_x = E[x] =
+P{x_1 \in [m_1,M_1], x_2 \in [m_2,M_2], \dots, x_n \in [m_n,M_n]}
+= \int_{m_1}^{M_1} \int_{m_2}^{M_2} \dots \int_{m_n}^{M_n} f_x(x_1,\dots,x_n) , dx_1 \dots dx_n
+$$</p>
+<h4 id="一阶矩与二阶矩">一阶矩与二阶矩<a hidden class="anchor" aria-hidden="true" href="#一阶矩与二阶矩">#</a></h4>
+<p><strong>一阶矩（期望向量）</strong>
+$$
+m_x = E[\mathbf{x}] =
 \begin{bmatrix}
 E[x_1] \\
 E[x_2] \\
@@ -540,22 +967,22 @@ E[x_n]
 $$</p>
 <p>其中：</p>
 <p>$$
-E[x_n] = \int x_n \cdot f_{x_n}(x_n) , dx_n
+E[x_n] =  \int_{-\infty}^{\infty} x_n \cdot f_{x_n}(x_n) , dx_n
 $$</p>
-<p>二阶矩（moment d&rsquo;ordre 2），协方差矩阵（Cov）</p>
-<p>$$
-C_x = E\left[ (x - m_x)(x - m_x)^T \right]
+<p>这里 $f_{x_n}(x_n)$ 是 $x_n$ 的边缘分布。</p>
+<p><strong>二阶矩（协方差矩阵）</strong></p>
+<p>定义随机向量 $\mathbf{x}$ 的协方差矩阵 $C_x$ 为：
+$$
+C_x = E[(\mathbf{x} - m_x)(\mathbf{x} - m_x)^T]
 $$</p>
-<p>其中：</p>
+<p>将 $\mathbf{x}-m_x$ 展开：</p>
 <p>$$
-x - m_x = \begin{bmatrix} x_1 \\ x _2 \\ \vdots \\ x_n \end{bmatrix}\quad  - \begin{bmatrix} E[x_1] \\ E[x_2] \\ \vdots \\ E[x_n] \end{bmatrix} = \begin{bmatrix} x_1 - E[x_1] \\ x_2 - E[x_2] \\ \vdots \\ x_n - E[x_n] \end{bmatrix}
-$$</p>
-<div>$$f(y \mid x, \gamma_e) = (2\pi)^{-N/2} \gamma_e^{N/2} \exp\left( -\frac{\gamma_e \|y - Hx\|^2}{2} \right)$$</div>
-<p>且：</p>
-<p>$$
-(x - m_x)^T =
+\mathbf{x}-m_x =
 \begin{bmatrix}
-x_1 - E[x_1] &amp; x_2 - E[x_2] &amp; \dots &amp; x_n - E[x_n]
+x_1 - E[x_1] \\
+x_2 - E[x_2] \\
+\vdots \\
+x_n - E[x_n]\
 \end{bmatrix}
 $$</p>
 <p>因此：</p>
@@ -582,7 +1009,7 @@ C_x =
 \text{Cov}(x_n, x_1) &amp; \text{Cov}(x_n, x_2) &amp; \dots &amp; \text{Var}(x_n)
 \end{bmatrix}\quad
 $$</p>
-<p>特殊情况：独立 $\to$ 无相关性</p>
+<p>若 $\mathbf{x}$ 的分量相互独立，则对任意 $i \neq j$，$\text{Cov}(x_i, x_j) = 0$，协方差矩阵为对角阵：</p>
 <p>$$
 C_x =
 \begin{bmatrix}
@@ -592,50 +1019,182 @@ C_x =
 0 &amp; 0 &amp; \dots &amp; \text{Var}(x_n)
 \end{bmatrix}
 $$</p>
-<p>协方差矩阵 $C_x$ 的性质：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">clear; clc; close all;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%% 定义符号变量与参数
+</span></span><span class="line"><span class="cl">syms x1 x2 real
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%----------------------------
+</span></span><span class="line"><span class="cl">% 定义2维高斯分布参数
+</span></span><span class="line"><span class="cl">% 均值向量 m_x = [mu_x1; mu_x2]
+</span></span><span class="line"><span class="cl">mu_x1 = 0;  
+</span></span><span class="line"><span class="cl">mu_x2 = 2;
+</span></span><span class="line"><span class="cl">m_x = [mu_x1; mu_x2];
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 协方差矩阵 C_x
+</span></span><span class="line"><span class="cl">sigma_x1 = 1;
+</span></span><span class="line"><span class="cl">sigma_x2 = 1.5;
+</span></span><span class="line"><span class="cl">rho_x1x2 = 0.3; % 相关系数
+</span></span><span class="line"><span class="cl">C_x = [sigma_x1^2, rho_x1x2*sigma_x1*sigma_x2;
+</span></span><span class="line"><span class="cl">       rho_x1x2*sigma_x1*sigma_x2, sigma_x2^2];
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>协方差矩阵 $C_x$ 的性质</strong></p>
 <ol>
 <li>
-<p>$C_x$ 是对称的，$C_x = C_x^T$</p>
+<p><strong>对称性</strong>：$C_x = C_x^T$</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong>：
+$$
+C_x^T = \left( E[(\mathbf{x}-m_x)(\mathbf{x}-m_x)^T] \right)^T
+= E[((\mathbf{x}-m_x)(\mathbf{x}-m_x)^T)^T]
+= E[(\mathbf{x}-m_x)(\mathbf{x}-m_x)^T] = C_x
+$$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">% 验证C_x为对称
+</span></span><span class="line"><span class="cl">eigVals = eig(C_x);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 定义用于显示的字符串
+</span></span><span class="line"><span class="cl">stateStr = {&#39;不对称&#39;,&#39;对称&#39;};
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 使用issymmetric判断并通过索引选择相应的字符串
+</span></span><span class="line"><span class="cl">disp([&#39;协方差矩阵C_x=&#39;, mat2str(C_x), &#39; -&gt; C_x=&#39;, stateStr{issymmetric(C_x)+1}]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></text></div>
+
 </li>
 <li>
-<p>$C_x$ 是一个正定矩阵，即行列式 $\text{Det}(C_x) \geq 0$</p>
+<p><strong>正定性</strong>：$C_x$ 是一个半正定矩阵</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong>：
+对任意向量 $u$：
+$$
+u^T C_x u = u^T E[(\mathbf{x}-m_x)(\mathbf{x}-m_x)^T] u
+= E[u^T(\mathbf{x}-m_x)(\mathbf{x}-m_x)^T u]
+= E[(u^T(\mathbf{x}-m_x))^2] \geq 0
+$$</p>
+<p>若无退化（方差均大于0），则 $C_x$ 正定。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">% 验证C_x 半正定
+</span></span><span class="line"><span class="cl">disp([&#39;C_x的特征值(应非负)=&#39;, mat2str(eigVals,4)]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></text></div>
+
 </li>
 <li>
-<p>所有特征值是正的</p>
-</li>
-<li>
-<p>迹（trace）：$\text{Tr}(C_x) \geq 0$</p>
+<p>所有特征值非负，迹为方差和，必然 $\text{Tr}(C_x) \geq 0$。</p>
 </li>
 </ol>
-<div
-    class="alert alert-warning"    role="alert"><text><strong>证明</strong> $ C_x = C_x^T $
-$$
-C_x^T = E\left[(x - m_x)(x - m_x)^T\right]^T
-= E\left[(x - m_x)(x - m_x)^T\right]
-= C_x \quad \text{（对称性证明）}
-$$</text></div>
-
-<div
-    class="alert alert-warning"    role="alert"><text><strong>证明</strong> $C_x$ 是一个正定矩阵
-$$
-u^T C_x u = u^T E\left[ (x - m_x)(x - m_x)^T \right] u \
-= E\left[ u^T (x - m_x)(x - m_x)^T u \right] \
-= E\left[ \left( u^T (x - m_x) \right)^2 \right] \geq 0
-$$</text></div>
-
+<p><strong>线性变换下的协方差</strong></p>
 <p>若 $Y = A x + B$，则：</p>
 <p>$$
-C_y = E\left[ (y - E[y])(y - E[y])^T \right]
-= E\left[ A(x - m_x)(x - m_x)^T A^T \right] \\
-= A E\left[ (x - m_x)(x - m_x)^T \right] A^T
+C_y = E[(Y - E[Y])(Y - E[Y])^T]
+= A E[(X - E[X])(X - E[X])^T] A^T
 = A C_x A^T
 $$</p>
-<p>接下来我们证明当 $x_n$（随机向量）互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。</p>
-<p>高斯向量公式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%% 线性变换下的协方差
+</span></span><span class="line"><span class="cl">% 若Y = A X + B，则 C_y = A C_x A^T
+</span></span><span class="line"><span class="cl">A = [2 1; -1 3];
+</span></span><span class="line"><span class="cl">B = [1;0];
+</span></span><span class="line"><span class="cl">C_y = A*C_x*A&#39;;
+</span></span><span class="line"><span class="cl">disp(&#39;线性变换后Y的协方差矩阵:&#39;);
+</span></span><span class="line"><span class="cl">disp(C_y);
+</span></span><span class="line"><span class="cl">disp(&#39;C_y的特征值(应&gt;=0)：&#39;);
+</span></span><span class="line"><span class="cl">disp(eig(C_y));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="不相关与独立">不相关与独立<a hidden class="anchor" aria-hidden="true" href="#不相关与独立">#</a></h4>
+<ul>
+<li>
+<p><strong>不相关 (Uncorrelated)</strong>：若 $\text{Cov}(x_i, x_j)=0$ 对所有 $i\neq j$ 成立，则称 $x_i$ 与 $x_j$ 不相关。但不相关不保证独立。</p>
+</li>
+<li>
+<p><strong>独立 (Independent)</strong>：若满足
+$$
+f_{x_1,\dots,x_n}(x_1,\dots,x_n) = \prod_{i=1}^n f_{x_i}(x_i),
+$$
+则称 $x_1,\dots,x_n$ 独立。</p>
+</li>
+</ul>
+<p><strong>重要结论</strong>：一般情况下，不相关 $\not\to$ 独立。但对于高斯（正态）分布，在不相关条件下可以推出独立。</p>
+<div
+    class="alert alert-warning"    role="alert"><text><p><strong>证明</strong>：</p>
+<p>对于多维高斯随机向量 $\mathbf{x}$，其概率密度函数为：</p>
 <p>$$
-f_x(x) = \left(2\pi\right)^{-\frac{N}{2}} \cdot \left[\det(C_x)\right]^{-\frac{1}{2}} \exp\left( -\frac{1}{2} \left(x - m_x\right)^T \cdot C_x^{-1} \cdot \left(x - m_x\right) \right)
+f_x(\mathbf{x}) = (2\pi)^{-N/2} [\det(C_x)]^{-1/2} \exp\left(-\frac{1}{2}(\mathbf{x}-m_x)^T C_x^{-1} (\mathbf{x}-m_x)\right)
 $$</p>
-<p>如果 $X_n$ 是不相关的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">% 定义二维高斯联合pdf f_{X}(x1,x2)
+</span></span><span class="line"><span class="cl">x = [x1; x2];
+</span></span><span class="line"><span class="cl">C_x_inv = inv(C_x);
+</span></span><span class="line"><span class="cl">det_Cx = det(C_x);
+</span></span><span class="line"><span class="cl">fX = (1/(2*pi*sqrt(det_Cx))) * ...
+</span></span><span class="line"><span class="cl">     exp(-1/2 * (x - m_x).&#39; * C_x_inv * (x - m_x));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当各分量不相关时，$C_x$ 为对角矩阵：</p>
 <p>$$
 C_x =
 \begin{bmatrix}
@@ -645,24 +1204,19 @@ C_x =
 0 &amp; 0 &amp; \dots &amp; \text{Var}(x_n)
 \end{bmatrix}
 $$</p>
-<p>因此：</p>
+<p>于是：</p>
 <p>$$
-\det(C_x) = \prod_{n=1}^{N} \gamma_n = \gamma_1 \cdot \gamma_2 \cdot \gamma_3 \cdot \dots \cdot \gamma_n
+C_x^{-1} = \text{diag}\left(\frac{1}{\gamma_1}, \frac{1}{\gamma_2}, \dots, \frac{1}{\gamma_n}\right)
 $$</p>
-<p>因此：</p>
+<p>带入指数项中：</p>
 <p>$$
-C_x^{-1} = \begin{pmatrix}
-\frac{1}{\gamma_1} &amp; 0 &amp; \dots &amp; 0 \\
-0 &amp; \frac{1}{\gamma_2} &amp; \dots &amp; 0 \\
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-0 &amp; 0 &amp; \dots &amp; \frac{1}{\gamma_n}
-\end{pmatrix}
+\exp\left(-\frac{1}{2}(\mathbf{x}-m_x)^T C_x^{-1} (\mathbf{x}-m_x)\right)
+= \exp\left(-\frac{1}{2}\sum_{i=1}^n \frac{(x_i - m_{x_i})^2}{\gamma_i}\right)
 $$</p>
-<p>由上述结果计算：</p>
-<div>$$\exp\left( - \frac{1}{2} \left( \mathbf{x} - \mathbf{m}_x \right)^{T} C_x^{-1} \left( \mathbf{x} - \mathbf{m}_x \right) \right) = \exp\left( - \frac{1}{2} \left( \frac{(x_1 - m_{x_1})^2}{\gamma_1} + \frac{(x_2 - m_{x_2})^2}{\gamma_2} + \cdots + \frac{(x_n - m_{x_n})^2}{\gamma_n} \right) \right)$$</div>
-<p>因此：</p>
+<p>密度函数分解为各分量的高斯密度乘积：</p>
 <p>$$
-f_x(x) = (2\pi)^{-\frac{N}{2}} \cdot \left( \prod_{n=1}^{N} \gamma_n \right)^{-\frac{1}{2}} \cdot \exp\left( -\frac{1}{2} \sum_{n=1}^{N} \frac{(x_n - m_{x_n})^2}{\gamma_n} \right)
+f_x(\mathbf{x}) = \prod_{i=1}^n \left( (2\pi)^{-1/2} \gamma_i^{-1/2} \exp\left(-\frac{(x_i - m_{x_i})^2}{2\gamma_i}\right) \right)
+= \prod_{i=1}^n f_{x_i}(x_i)
 $$</p>
 <p>举例：</p>
 <p>$$
@@ -675,221 +1229,382 @@ $$</p>
 <p>$$
 f_{x_1, x_2}(x_1, x_2) = f_{x_1}(x_1) \cdot f_{x_2}(x_2)
 $$</p>
-<p>结论：当向量 $x_n$ 互为不相关时，$f(x)$ 满足 Gauss 函数则可以推出 $x_n$ 互为独立。</p>
+<p>结论：高斯向量在不相关条件下的联合分布可分解为独立分布的乘积，即此时 $x_i$ 相互独立。</p>
+</text></div>
+
 <h2 id="随机信号">随机信号<a hidden class="anchor" aria-hidden="true" href="#随机信号">#</a></h2>
-<p>一阶稳态：均值与时间 $n$ 无关</p>
+<p>设有离散时间随机过程(信号) ${X_n}$。从统计特性角度，若满足以下条件则称其为平稳（stationary）：</p>
+<p>一阶稳态：均值不随时间变化</p>
 <p>$$
-m_x(n) = \mathbb{E}[X_n]
+m_x(n) = \mathbb{E}[X_n] = m_x
 $$</p>
-<p>二阶稳态：$r_x(n, p)$ 不依赖于 $n$</p>
-<p>$$
+<p>二阶稳态：协方差 $ r_x(n, p)$ 仅与时间差有关，不随绝对时间点  $n$ 变化
+$$
 r_x(n, p) = \text{Cov}(X_n, X_{n+p}) = \mathbb{E} \left[ \left( X_n - \mathbb{E}(X_n) \right) \left( X_{n+p} - \mathbb{E}(X_{n+p}) \right) \right]
 $$</p>
-<p>举例：$x_n = \alpha \cdot e^{j \left[ 2\pi v \cdot n + \phi \right]}$，其中只有 $\phi$ 是均匀随机数。</p>
-<ol>
+<p>若该函数仅依赖于时间差 $p$，即对所有 $n$：
+$$
+r_x(n, p) = r_x(p)
+$$</p>
+<h4 id="实例分析">实例分析<a hidden class="anchor" aria-hidden="true" href="#实例分析">#</a></h4>
+<p>给定一个随机信号：
+$$
+x_n = \alpha \cdot e^{j\left(2\pi v n + \phi\right)}
+$$
+其中 $\phi$ 在区间 $[-\pi, \pi]$ 上均匀分布且独立于 $n$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">clear; close all; clc;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%% 部分1：验证 x_n = alpha * exp(j(2*pi*nu0*n + phi)) 的特性
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 参数设置
+</span></span><span class="line"><span class="cl">N = 100000;          % 信号长度
+</span></span><span class="line"><span class="cl">alpha = 1;           % 幅值
+</span></span><span class="line"><span class="cl">nu0 = 0.1;           % 信号频率(归一化频率)
+</span></span><span class="line"><span class="cl">% 产生 phi 均匀分布于[-pi, pi]
+</span></span><span class="line"><span class="cl">phi = (rand(1)*2*pi - pi); 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">% 产生信号 x_n
+</span></span><span class="line"><span class="cl">n = (0:N-1);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">NumTrials = 1000;  % 多次重复试验以计算期望
+</span></span><span class="line"><span class="cl">X_all = zeros(NumTrials, N);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">for trial = 1:NumTrials
+</span></span><span class="line"><span class="cl">    phi_rand = (rand(1)*2*pi - pi);
+</span></span><span class="line"><span class="cl">    X_all(trial,:) = alpha * exp(1j*(2*pi*nu0*n + phi_rand));
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
 <li>计算均值：</li>
 </ol>
 <p>$$
 m_x(n) = \mathbb{E}[x_n] = \mathbb{E} \left[ \alpha \cdot e^{j \left( 2\pi v \cdot n + \phi \right)} \right] = \alpha \cdot e^{j 2\pi v n} \cdot \mathbb{E} \left[ e^{j \phi} \right]
 $$</p>
-<p>由于 $\phi$ 在 $[-\pi, \pi]$ 上均匀分布，且 $\mathbb{E} \left[ e^{j \phi} \right] = 0$，所以：</p>
+<p>由于 $\phi$ 在 $[-\pi, \pi]$ 上均匀分布，且 $\mathbb{E} \left[ e^{j \phi} \right] = 0$，计算期望：</p>
 <p>$$
-m_x(n) = 0
+\mathbb{E}[e^{j\phi}] = \frac{1}{2\pi}\int_{-\pi}^{\pi} e^{j\phi} d\phi = 0,
 $$</p>
-<p>因此与 $n$ 无关，满足一阶稳态。</p>
-<ol start="2">
+<p>因此：
+$$
+m_x(n) = 0
+$$
+因此与 $n$ 无关，满足一阶稳态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">% 计算均值 (对试验数和时间长度求平均)
+</span></span><span class="line"><span class="cl">m_x_est = mean(mean(X_all,2));  
+</span></span><span class="line"><span class="cl">disp([&#39;估计的均值 m_x = &#39;, num2str(m_x_est)]);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
 <li>计算协方差函数：</li>
 </ol>
 <p>$$
-r_x(n, p) = \mathbb{E}[x_n x_{n+p}^*] = \alpha^2 \cdot e^{j 2\pi v p}
+r_x(n, p) = \mathbb{E}[x_n x_{n+p}^*]
 $$</p>
-<p>因此与 $n$ 无关，满足二阶稳态。</p>
-<p>协方差函数的特性（在一二阶稳态的情况下）：</p>
-<ul>
-<li>
-<p>$r_x(-p) = r_x(p)$</p>
-<div
-    class="alert alert-warning"    role="alert"><text><strong>证明:</strong>
+<p>将定义代入：
 $$
-r_x(-p) = \mathbb{E}[x_n, x_{n-p}] = \mathbb{E}\left[ (x_n - m_x)(x_{n-p} - m_x) \right] = \mathbb{E}\left[ (x_{n-p} - m_x)(x_n - m_x) \right] = r_x(p)
+x_n x_{n+p}^* = \alpha e^{j(2\pi v n + \phi)} \cdot \alpha e^{-j(2\pi v (n+p) + \phi)}
+$$
+化简：
+$$
+x_n x_{n+p}^* = \alpha^2 e^{j2\pi v n + j\phi}e^{-j2\pi v n - j2\pi v p - j\phi} = \alpha^2 e^{-j2\pi v p}
+$$
+注意这里因为 $x_{n+p}$ 与 $x_n$ 中的 $\phi$ 相同，对 $\phi$ 的期望不会产生消去效应（实际上 $\phi$ 出现在 $x_n$ 和 $x_{n+p}$ 中会相互抵消），故求期望时：
+$$
+r_x(n,p) = \mathbb{E}[x_n x_{n+p}^*] = \alpha^2 e^{-j2\pi v p}
+$$
+该函数不依赖于 $n$，只依赖于 $p$，满足二阶稳态。</p>
+<h4 id="协方差函数的特性在一二阶稳态的情况下">协方差函数的特性（在一二阶稳态的情况下）<a hidden class="anchor" aria-hidden="true" href="#协方差函数的特性在一二阶稳态的情况下">#</a></h4>
+<ol>
+<li>
+<p><strong>对称性</strong>：
+$$
+r_x(-p) = r_x(p)
+$$
+<div
+    class="alert alert-warning"    role="alert"><text><strong>证明</strong>：
+$$
+r_x(-p) = \mathbb{E}[(X_n - m_x)(X_{n-p} - m_x)]
 $$</text></div>
-
+</p>
+<p>更换索引 $n \to n-p$，不影响统计特性：
+$$
+r_x(-p) = \mathbb{E}[(X_{n-p} - m_x)(X_n - m_x)] = r_x(p)
+$$</p>
 </li>
 <li>
-<p>$\text{Cov}[X_n, X_m] = \gamma(n - m) = \gamma(m - n)$</p>
+<p><strong>移位不变性</strong>：
+$$
+\text{Cov}[X_n, X_m] = \gamma(n-m) = \gamma(m-n)
+$$
+因为二阶稳态要求协方差仅依赖于时间差 $(m-n)$。</p>
 </li>
 <li>
-<p>$r_x(0) = \mathbb{E}\left( (x_n - m_x)^2 \right) = \text{Var}(x_n)$</p>
+<p><strong>方差和协方差的关系</strong>：
+$$
+r_x(0) = \mathbb{E}[(X_n - m_x)^2] = \text{Var}(X_n)
+$$</p>
 </li>
 <li>
-<p>$\gamma_x(p) \leq \gamma_x(0)$，即在 $0$ 处取得最大值</p>
+<p><strong>最大值性质</strong>：
+$$
+\gamma_x(p) \leq \gamma_x(0)
+$$
+即在 $p=0$ 处取得最大值。这直观上表明，一个信号与其自身的重合（无延迟）协方差最大。</p>
 </li>
-</ul>
-<p>功率谱密度及其性质：</p>
-<p>定义：</p>
+</ol>
+<h4 id="功率谱密度-psd">功率谱密度 (PSD)<a hidden class="anchor" aria-hidden="true" href="#功率谱密度-psd">#</a></h4>
+<p>功率谱密度 $S_x(\nu)$ 是协方差函数 $r_x(p)$ 的离散时间傅里叶变换（DTFT）：</p>
 <p>$$
-S_x(v) = \text{TF} \left[ r_x(p) \right] = \sum_{k \in \mathbb{Z}} r_x(k) e^{-j2\pi vk}, \quad v \in \mathbb{R}
+S_x(\nu) = \text{TF}[r_x(p)] = \sum_{k=-\infty}^{\infty} r_x(k) e^{-j2\pi \nu k}, \quad v \in \mathbb{R}
 $$</p>
 <p>反变换：</p>
 <p>$$
 r_x(p) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) e^{j 2 \pi \nu p} d\nu = \text{TFI} \left[ S_x(\nu) \right]
 $$</p>
-<p>其中 $k$ 为离散时间，$v$ 为连续频率，$p$ 为离散时间差。</p>
-<p>注意积分周期可以从 $0$ 到 $1$，只要周期为 $1$ 即可。</p>
-<p>性质：</p>
-<ul>
-<li>$S_x(\nu+1) = S_x(\nu)$，即周期为 $1$
-<ul>
-<li>因为：</li>
-</ul>
-</li>
-</ul>
-<p>$$
+<p><strong>性质</strong>：</p>
+<ol>
+<li>
+<p>$S_x(\nu)$ 是 $1$ 周期的周期函数：</p>
+<p>因为:
+$$
 e^{-j2\pi(\nu+1)k} = e^{-j2\pi\nu k} \cdot e^{-j2\pi k} = e^{-j2\pi\nu k} \cdot 1
-$$</p>
-<ul>
-<li>
-<p>$S_x(\nu) \in \mathbb{R}$ 且 $S_x(\nu) \geq 0$</p>
+$$
+对任意整数 $k$ 都成立，所以 $S_x(\nu+1)=S_x(\nu)$。</p>
 </li>
 <li>
-<p>功率和：
+<p>$S_x(\nu)$ 是实且非负的：
 $$
-\text{Var}(X_n) = r_x(0) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) d\nu
+S_x(\nu) \geq 0
 $$</p>
+</li>
+<li>
+<p>频域积分等于时域协方差在零点的值，即方差：<br>
+$$
+r_x(0) = \text{Var}(X_n) = \int_{-1/2}^{1/2} S_x(\nu) d\nu.
+$$</p>
+<p>这表明在频域对功率谱密度积分，得到时域零延迟协方差（方差）。</p>
+</li>
+</ol>
+<h4 id="例子继续说明">例子继续说明<a hidden class="anchor" aria-hidden="true" href="#例子继续说明">#</a></h4>
+<p>对于之前定义的 $x_n = \alpha e^{j(2\pi \nu_0 n + \phi)}$，我们已知：</p>
 <ul>
-<li>即全部功率之和等于在频率为 $0$ 的协方差函数。同时，更改积分范围即可得到某区间内的概率。</li>
-</ul>
+<li>
+<p>$$
+m_x=0
+$$</p>
+</li>
+<li>
+<p>$$
+\gamma_x(p)=\alpha^2 e^{j2\pi\nu_0 p}
+$$</p>
 </li>
 </ul>
-<p>例子（延续前面的例子）：</p>
-<p>$$
-x_n = \alpha \cdot e^{j \left[ 2\pi \nu_0 n + \phi \right]}
-$$</p>
-<p>因此：
+<p>将其作傅里叶变换可以得到功率谱密度 $S_x(\nu)$。对一个纯正弦信号加上相位的情形，这类似一个单频分量，因此 $S_x(\nu)$ 将在 $\nu=\nu_0$ 处表现为一个冲激函数 $\delta(\nu-\nu_0)$：
 $$
-\begin{cases}
-m_x = 0 &amp; \\
-\gamma_x(p) = \alpha^2 \cdot e^{j \left( 2\pi \nu_0 p \right)} &amp;  \\
-S_x(\nu) = \alpha^2 \cdot \delta (\nu - \nu_0) &amp;  \\
-\end{cases}
-$$</p>
-<div
-    class="alert alert-warning"    role="alert"><text><p><strong>证明：</strong></p>
-<p>应用性质：</p>
-<p>$$
-\int f_x(x) \cdot \delta(x - x_0) dx = f_x(x_0)
-$$</p>
-<p>白噪声在两个不同时间点上无相关性，即 $\text{Cov} = 0$。</p>
-<p>$$
-白噪声
-\begin{cases}
-&amp; E[B _n] = 0 \\
-&amp; S_x(\nu) = \text{constante} = \gamma_0 \\
-&amp; \gamma_x(p) = \gamma_0 \cdot \delta_p
-\end{cases}
-$$</p>
-<p>可得:
+S_x(\nu)=\alpha^2 \delta(\nu-\nu_0)
 $$
-r_x(p) = \int_{-\frac{1}{2}}^{\frac{1}{2}} S_x(\nu) e^{j 2 \pi \nu p} d\nu = \alpha^2 \cdot e^{j 2\pi \nu_0 p}
+这意味着该随机信号在频域上集中于一个频率点 $\nu_0$，所有功率都在此单一频点上。</p>
+<h4 id="白噪声示例">白噪声示例<a hidden class="anchor" aria-hidden="true" href="#白噪声示例">#</a></h4>
+<p>对白噪声信号 ${B_n}$ 而言：</p>
+<ul>
+<li>$E[B_n]=0$</li>
+<li>在两个不同时间点不相关，即 $\text{Cov}(B_n,B_m)=0$ 当 $n \neq m$</li>
+<li>对于 $n=m$ 时，$\text{Var}(B_n)=\gamma_0$（某个常量）</li>
+</ul>
+<p>故协方差函数（自相关函数）：
+$$
+r_{B}(p) = \gamma_0 \cdot  \delta_p
+$$
+对功率谱密度进行反变换：
+$$
+r_B(p) = \int_{-1/2}^{1/2} S_B(\nu) e^{j2\pi\nu p} d\nu
 $$</p>
-</text></div>
-
+<p>若 $S_B(\nu)$ 是常量（即白噪声频谱平坦）：
+$$
+S_B(\nu)=\gamma_0
+$$
+则：
+$$
+r_B(p)=\gamma_0 \int_{-1/2}^{1/2} e^{j2\pi\nu p} d\nu
+$$</p>
+<p>当 $p=0$：
+$$
+r_B(0)=\gamma_0 \int_{-1/2}^{1/2} d\nu = \gamma_0
+$$</p>
+<p>当 $p \neq 0$ 时，该积分为一个复指数函数在对称区间上的积分，其结果为零。这恰好与 $\delta_p$ 的定义一致（只有在 $p=0$ 时非零）。</p>
 <h2 id="随机信号滤波">随机信号滤波<a hidden class="anchor" aria-hidden="true" href="#随机信号滤波">#</a></h2>
-<p>线性时不变系统（SLI）等价于卷积系统：</p>
+<p>考虑一个输入为随机信号 $x_n$，输出为 $y_n$ 的线性时不变(LTI)系统。该系统可以用卷积描述：</p>
 <p>$$
 y_n = x_n * h_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k)
 $$</p>
-<ol>
-<li>计算输出均值：</li>
-</ol>
-<p>$$
-m_y(n) = \mathbb{E}[y_n] = \sum_{k \in \mathbb{Z}} h(k) \cdot \mathbb{E}[x(n-k)] = \sum_{k \in \mathbb{Z}} h(k) \cdot m_x = h(0) \cdot m_x
-$$</p>
-<p>因此：</p>
 <ul>
-<li>
-<p>如果 $m_x = 0$，那么 $m_y = 0$</p>
-</li>
-<li>
-<p>如果频率增益 $h(0) = 0$，那么输出信号也是中心化的</p>
-</li>
-<li>
-<p>如果频率增益 $h(0) = 1$，那么 $m_y = m_x$</p>
-</li>
+<li>其中 $h_n$ 为系统脉冲响应。</li>
 </ul>
-<ol start="2">
-<li>计算协方差：</li>
-</ol>
+<h4 id="输出协方差的推导">输出协方差的推导<a hidden class="anchor" aria-hidden="true" href="#输出协方差的推导">#</a></h4>
+<p><strong>去均值的输出过程表示</strong></p>
+<p>给定输出信号：</p>
 <p>$$
-r_y(n, p) = \text{Cov}(y_n, y_{n+p}) = \mathbb{E} \left[ \left( y_n - \mathbb{E}(y_n) \right) \left( y_{n+p} - \mathbb{E}(y_{n+p}) \right) \right]
+y_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k),
 $$</p>
-<p>预计算：</p>
+<p>输出去掉均值 $m_y$ 后为：</p>
 <p>$$
-y_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k) \
-y_{n+p} = \sum_{e=-\infty}^{+\infty} h(e) \cdot x(n+p-e)
+(y_n - m_y) = \sum_{k=-\infty}^{+\infty} h(k) \cdot [x(n-k) - m_x].
 $$</p>
-<p>因此：</p>
+<p>同理，对于延迟 $p$ 个点的输出：</p>
 <p>$$
-(y_n - m_y) = \sum_{k=-\infty}^{+\infty} h(k) \cdot \left[ x(n-k) - m_x \right] \
-(y_{n+p} - m_y) = \sum_{e=-\infty}^{+\infty} h(e) \cdot \left[ x(n+p-e) - m_x \right]
+(y_{n+p} - m_y) = \sum_{e=-\infty}^{+\infty} h(e) \cdot [x(n+p-e) - m_x].
 $$</p>
-<p>计算协方差：</p>
+<p>这两式说明输出减去均值后的值仍是由输入减去其均值的值通过相同的脉冲响应 $h(\cdot)$ 线性叠加得到的。</p>
+<p><strong>协方差定义与代入</strong></p>
+<p>输出的协方差定义为：</p>
 <p>$$
-\begin{align}
-\mathbb{E}\left[(y_n - m_y)(y_{n+p} - m_y)\right] &amp;= \sum_{k=-\infty}^{+\infty} h(k) \cdot \sum_{e=-\infty}^{+\infty} h(e) \cdot \mathbb{E}\left[ (x_{n-k} - m_x)(x_{n+p-e} - m_x) \right] \
-&amp;= \sum_{k=-\infty}^{+\infty} h(k) \cdot \tilde{r}_x(p+k)
-\end{align}
+r_y(p) = \mathbb{E}[(y_n - m_y)(y_{n+p}-m_y)]
 $$</p>
-<p>其中：</p>
-<div>$$\mathbb{E} \left[ (X_{n-k} - m_x)(X_{n+p-e} - m_x) \right] = r_x(p+k-e) \\
-\tilde{r}_x(p+k) = \sum_{e=-\infty}^{+\infty} h(e) \cdot r_x(p+k-e)$$</div>
-<p>继续化简：</p>
+<p>代入前面去均值的表达式：</p>
 <p>$$
-\mathbb{E}\left[(y_n - m_y)(y_{n+p} - m_y)\right] = \sum_{k=-\infty}^{+\infty} h(k) \cdot \tilde{r}_x(p+k)
+\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)]
+= \mathbb{E}\left[\left(\sum_{k} h(k)[x(n-k)-m_x]\right)\left(\sum_{e} h(e)[x(n+p-e)-m_x]\right)\right]
 $$</p>
-<p>令：</p>
+<p>由于期望是线性算子，可以先将 $h(k)$ 和 $h(e)$ 提出来，再对 $x(\cdot)-m_x$ 的乘积项求期望：</p>
 <p>$$
-\bar{h}(k) = h(-k)
+= \sum_{k=-\infty}^{+\infty} \sum_{e=-\infty}^{+\infty} h(k)h(e) \mathbb{E}[(x_{n-k}-m_x)(x_{n+p-e}-m_x)]
 $$</p>
-<p>则：</p>
-<div>$$\sum_{k=-\infty}^{+\infty} \bar{h}(-k) \cdot \tilde{r}_x(p+k) = \sum_{q=-\infty}^{+\infty} \bar{h}(q) \cdot \tilde{r}_x(p-q) = \tilde{\tilde{r}}_x(p)$$</div>
-<p>综上所述：</p>
+<p><strong>利用输入协方差函数 $r_x(\cdot)$</strong></p>
+<p>定义输入信号的协方差函数：</p>
 <p>$$
+r_x(\tau) = \mathbb{E}[(x_{n}-m_x)(x_{n+\tau}-m_x)]
+$$</p>
+<p>根据这一定义：</p>
+<p>$$
+\mathbb{E}[(x_{n-k}-m_x)(x_{n+p-e}-m_x)] = r_x(p+k-e)
+$$</p>
+<p>将此结果代入上式：</p>
+<p>$$
+\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)]
+= \sum_{k=-\infty}^{+\infty} \sum_{e=-\infty}^{+\infty} h(k)h(e)r_x(p+k-e)
+$$</p>
+<p><strong>定义中间函数 $\tilde{r}_x(p+k)$</strong></p>
+<p>给出了一个中间定义：</p>
+<p>$$
+\tilde{r}<em>x(p+k) = \sum</em>{e=-\infty}^{+\infty} h(e) \cdot r_x(p+k-e)
+$$</p>
+<p>这相当于将 $r_x(\cdot)$ 与 $h(\cdot)$ 进行一次卷积得到的中间结果。这一步是为了简化表达。</p>
+<p>于是有：</p>
+<p>$$
+\mathbb{E}[(y_n - m_y)(y_{n+p} - m_y)] = \sum_{k=-\infty}^{+\infty} h(k)\tilde{r}_x(p+k)
+$$</p>
+<p><strong>定义 $\bar{h}(k) = h(-k)$ 并进一步化简</strong></p>
+<p>通过定义 $\bar{h}(k)=h(-k)$，对求和指标进行变换，就能将表达式写成多次卷积的形式：</p>
+<div>
+$$\sum_{k=-\infty}^{+\infty} h(k)\tilde{r}_x(p+k)
+= \sum_{k=-\infty}^{+\infty} \bar{h}(-k) \tilde{r}_x(p+k)$$
+</div>
+<p>通过索引替换 $q=-k$（或其他方式），最终可以将其表示为：</p>
+<div>
+$$\tilde{\tilde{r}}_x(p) = \sum_{q=-\infty}^{\infty} \bar{h}(q)\tilde{r}_x(p-q)$$
+</div>
+<p>这再次呈现出卷积的形式。实际上，这个结果显示 $r_y(p)$ 可以用 $h(\cdot)$、$\bar{h}(\cdot)$ 和 $r_x(\cdot)$ 的多重卷积来表示：</p>
+<p>$$
+r_y(p) = \bar{h} * h * \tilde{r}_x(p)
+$$</p>
+<h4 id="频域表示">频域表示<a hidden class="anchor" aria-hidden="true" href="#频域表示">#</a></h4>
+<p>在频域表示中，卷积在时域对应频域的乘法关系。已知 $S_x(\nu)$ 是输入的功率谱密度，$H(\nu)$ 是系统频率响应，则输出功率谱密度为：</p>
+<p>$$
+S_y(\nu) = |H(\nu)|^2 S_x(\nu).
+$$</p>
+<p>这里的等式：</p>
+<p>$$
+S_y(\nu) = H(\nu)^* \cdot H(\nu) \cdot S_x(\nu) = |H(\nu)|^2 \cdot S_x(\nu)
+$$</p>
+<p>与时域结果 $r_y(p) = \bar{h} * h * \tilde{r}_x(p)$ 相吻合，因为卷积在时域转化为频域相应函数的乘积。</p>
+<p>综上所述
+$$
 \begin{cases}
 r_y(p) = \bar{h} * h * \tilde{r}_x(p)  \\
-S_y(\nu) = H(\nu)^* \cdot H(\nu) \cdot S_x(\nu) = |H(\nu)|^2 \cdot S_x(\nu)  \\
+S_y(\nu) =  |H(\nu)|^2 \cdot S_x(\nu)  \
 \end{cases}
 $$</p>
-<p><strong>维纳滤波器（Filtrage de Wiener）</strong>，用于在有噪音的环境中恢复信号。</p>
-<p>基于最小化输出误差的均方误差（MSE）。</p>
-<p>现在模型变为带噪音：</p>
+<p>这就是<strong>维纳滤波器（Filtrage de Wiener）</strong>，用于在有噪音的环境中恢复信号。</p>
+<h2 id="维纳滤波器-wiener-filter">维纳滤波器 (Wiener Filter)<a hidden class="anchor" aria-hidden="true" href="#维纳滤波器-wiener-filter">#</a></h2>
+<p>维纳滤波器的基本目标是在有噪声的环境中，从观测到的输出信号 $y_n$ 中尽可能恢复原始信号 $x_n$。通过构建一个滤波器 $g_n$ 对输出进行处理，希望得到的估计 $\hat{x}_n$ 与真实 $x_n$ 之间的均方误差 (MSE) 最小。</p>
+<p>给定带噪模型：</p>
 <p>$$
 y_n = x_n * h_n + b_n = \sum_{k=-\infty}^{+\infty} h(k) \cdot x(n-k) + b_n
 $$</p>
-<p>因此：</p>
+<p>这里，$h_n$ 是已知系统的脉冲响应，$b_n$ 是加性噪声。由该模型可知，当没有噪声时 ($b_n=0$)，$y_n$ 只是 $x_n$ 经过系统的线性时不变变换。</p>
+<p>相应协方差与功率谱密度的结果为：</p>
 <p>$$
 \begin{cases}
-r_y(p) = \bar{h} * h * \tilde{r}_x(p) + r_b, \\
+r_y(p) = \bar{h} * h * \tilde{r}_x(p) + r_b \\
 S_y(\nu) = |H(\nu)|^2 \cdot S_x(\nu) + S_b(\nu)
 \end{cases}
 $$</p>
-<p>估计误差：</p>
+<p>这里的 $r_y(p)$ 和 $S_y(\nu)$ 是输出信号 $y_n$ 的协方差函数与功率谱密度。$S_x(\nu)$ 和 $S_b(\nu)$ 分别是输入信号与噪声的功率谱密度，$H(\nu)$ 是系统的频率响应。</p>
+<h4 id="求解维纳滤波器">求解维纳滤波器<a hidden class="anchor" aria-hidden="true" href="#求解维纳滤波器">#</a></h4>
+<p>定义估计误差的均方值 (MSE)：</p>
 <p>$$
 e_n = \mathbb{E}\left[ (\hat{x}_n - x_n)^2 \right]
 $$</p>
-<p>其中 $\hat{x}_n = y_n * g_n$，即对输出进行滤波再次卷积得到新的输出向量。</p>
-<p>$g_n$ 是脉冲响应，$G(\nu)$ 是频率响应。</p>
-<p>我们现在致力于求解维纳滤波器的频率响应方程：</p>
-<div>$$\frac{d}{d g_{k_0}} e_n = \frac{d}{d g_{k_0}} \mathbb{E}[(\hat{x}_n - x_n)^2] = 2 \mathbb{E} \left[ y_{n-k_0} \left( \hat{x}_n - x_n \right) \right]$$</div>
-<p>其中：</p>
-<div>$$\frac{d\hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$</div>
+<p>其中 $\hat{x}_n = y_n * g_n$ 表示我们在输出 $y_n$ 上再施加一个滤波器 $g_n$ 得到的估计量；$g_n$ 是我们需要求解的滤波器脉冲响应。</p>
+<p><strong>关键想法</strong>：通过调整 $g_n$，使得 $e_n$ 最小。为了求最优 $g_n$，对 $e_n$ 关于 $g_{k_0}$（$g_n$ 的第 $k_0$ 个参数）的偏导数设为零。这个过程相当于最小化 MSE 的变分条件。</p>
+<p>求导步骤是：</p>
+<p>$$
+\frac{d}{d g_{k_0}} e_n = \frac{d}{d g_{k_0}} \mathbb{E}[(\hat{x}_n - x_n)^2].
+$$</p>
+<p>通过链式法则和线性算子特性，可得：</p>
+<p>$$
+\frac{d}{d g_{k_0}} e_n = 2 \mathbb{E} \left[ y_{n-k_0}(\hat{x}_n - x_n) \right].
+$$</p>
+<p>其中使用了中间结果：</p>
+<div>
+$$\frac{d \hat{x}_n}{d g_{k_0}} = y_{n-k_0}$$
+</div>
+<p>这意味着当改变滤波器 $g_{k_0}$ 的某个系数时，对估计误差的影响与输出信号的取值 $y_{n-k_0}$ 成正比。</p>
+<h4 id="计算期望项与条件方程">计算期望项与条件方程<a hidden class="anchor" aria-hidden="true" href="#计算期望项与条件方程">#</a></h4>
 <p>计算：</p>
 <p>$$
 \mathbb{E} \left[ y_{n-k_0} \cdot x_n \right] = \bar{h} * r_x(k_0)
 $$</p>
-<p>$$
+<p>这一步体现了输出信号与输入信号之间的相关性。当没有噪声时，$y_n$ 与 $x_n$ 的关联由 $h_n$ 和 $r_x$ 决定。</p>
+<p>这里的卷积形式 $\bar{h} * r_x(k_0)$ 说明：为了得到输出与输入的二阶统计量关系，需要将输入的协方差函数 $r_x(\cdot)$ 经过包含 $h(\cdot)$ 的变换（以及 $\bar{h}(k)=h(-k)$ 的定义）来获得。
+$$
 \mathbb{E}[y_{n-k_0} \cdot \hat{x}_n] = g * r_y(k_0)
 $$</p>
+<p>当考虑估计量 $\hat{x}_n$ 时，我们有 $\hat{x}_n = y_n * g_n$，因此该期望中同时出现 $y_n$ 和 $\hat{x}_n$，最终呈现为 $g$ 与 $r_y$ 的卷积。</p>
+<p>这表达了估计滤波器 $g_n$ 对输出统计特性的作用：$g_n$ 与 $r_y$ 相卷积来描述对输出自身统计属性的修正。</p>
 <p>因此：</p>
 <p>$$
 \frac{d}{d g_{k_0}} e_n = 2 \left( g * r_y(k_0) - \bar{h} * r_x(k_0) \right)
@@ -898,29 +1613,43 @@ $$</p>
 <p>$$
 g * r_y(k_0) = \bar{h} * r_x(k_0)
 $$</p>
-<p>在频域：</p>
+<p>这是一个关键方程，它表明在时域下，维纳滤波器 $g_n$ 的作用是将输出协方差 $r_y$ 与输入信号特性通过 $\bar{h}$ 和 $r_x$ 联系起来。要实现最优估计，$g_n$ 必须满足这个卷积方程。</p>
+<h4 id="转换到频域求解">转换到频域求解<a hidden class="anchor" aria-hidden="true" href="#转换到频域求解">#</a></h4>
+<p>在频域中，卷积变为简单的乘法。对上式取傅里叶变换：</p>
 <p>$$
 G(\nu) S_y(\nu) = H(\nu)^* S_x(\nu)
 $$</p>
-<p>解得：</p>
-<p>$$
+<p>因此得到维纳滤波器的频率响应：
+$$
+G(\nu) = \frac{H(\nu)^* S_x(\nu)}{S_y(\nu)}
+$$
+由 $S_y(\nu) = |H(\nu)|^2 S_x(\nu) + S_b(\nu)$，可将 $S_y(\nu)$ 替换进去：
+$$
 G(\nu) = \frac{H(\nu)^* S_x(\nu)}{|H(\nu)|^2 S_x(\nu) + S_b(\nu)}
 $$</p>
-<p>两种情况：</p>
+<h4 id="特殊情况分析">特殊情况分析<a hidden class="anchor" aria-hidden="true" href="#特殊情况分析">#</a></h4>
 <ol>
-<li>无噪音（当 $\gamma_B = 0$，$S_B = 0$）</li>
+<li><strong>无噪音（当 $\gamma_B = 0$，$S_B = 0$）</strong></li>
 </ol>
 <p>$$
-G(\nu) = \frac{1}{H(\nu)}
+G(\nu) = \frac{H(\nu)^* S_x(\nu)}{|H(\nu)|^2 S_x(\nu)} = \frac{1}{H(\nu)},
 $$</p>
-<p>即 $H$ 的逆。</p>
+<p>即维纳滤波器退化为系统传递函数的逆滤波器，以完全恢复输入信号 $x_n$。</p>
 <ol start="2">
-<li>无滤波器（直通，但有噪声，即 $H(\nu) = 1$）</li>
+<li><strong>无滤波器（仅直通）且有噪声 ($H(\nu)=1$)</strong>：</li>
 </ol>
 <p>$$
 G(\nu) = \frac{S_x(\nu)}{S_x(\nu) + S_b(\nu)} = \frac{1}{1 + \frac{S_b(\nu)}{S_x(\nu)}}
 $$</p>
+<p>此时，滤波器在各频率处根据信噪比 (SNR = $S_x(\nu)/S_b(\nu)$) 来决定增益大小：</p>
+<ul>
+<li>当 $S_x(\nu)$ 远大于 $S_b(\nu)$，即信号显著强于噪声，$G(\nu)$ 接近 1；</li>
+<li>当 $S_x(\nu)$ 接近或小于 $S_b(\nu)$，增益会小于 1，从而衰减该频段成分，减少噪声影响。</li>
+</ul>
+<p>这反映了维纳滤波器的平衡策略：在高信噪比频段尽量还原信号，在低信噪比频段减少增益以抑制噪声。</p>
+<p>关于 Wiener 滤波器的应用部分请看 <a href="https://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/">维纳滤波器进行反卷积</a></p>
 <h2 id="经验估计器">经验估计器<a hidden class="anchor" aria-hidden="true" href="#经验估计器">#</a></h2>
+<h4 id="偏差与方差分解">偏差与方差分解<a hidden class="anchor" aria-hidden="true" href="#偏差与方差分解">#</a></h4>
 <p>假设 $\hat{\theta}$ 为估计值，评判标准为最小均方误差（MSE）：</p>
 <p>$$
 \varepsilon = \mathbb{E}[(\theta - \hat{\theta})^2]
@@ -929,11 +1658,50 @@ $$</p>
 <p>$$
 \varepsilon = \mathbb{E}[(\theta - \mathbb{E}(\hat{\theta}) + \mathbb{E}(\hat{\theta}) - \hat{\theta})^2] = \mathbb{E}[(\theta - \mathbb{E}(\hat{\theta}))^2] + \mathbb{E}[(\mathbb{E}(\hat{\theta}) - \hat{\theta})^2]
 $$</p>
+<ul>
+<li>
+<p>系统性偏差：$\theta - \mathbb{E}[\hat{\theta}]$</p>
+<p>这是估计值的期望与真实参数 $\theta$ 的差异，即估计量相对于真实值的平均偏移量，不随随机性的不同实现而变化（它是确定性的，不随样本的不同取值变化）。</p>
+</li>
+<li>
+<p>随机波动项：$\mathbb{E}[\hat{\theta}] - \hat{\theta}$</p>
+<p>这是估计量本身围绕其期望值的波动，体现了估计量的方差性质。</p>
+</li>
+</ul>
 <p>假设偏差 $B = \theta - E[\hat{\theta}]$，即真实值减去估计的期望值。</p>
-<p>因此：</p>
+<p>因此，有：</p>
+<p>$$
+\varepsilon = \mathbb{E}[(B + (\mathbb{E}[\hat{\theta}] - \hat{\theta}))^2]
+$$</p>
+<p>由于 $B$ 是一个常数（不随随机性变化），而 $(\mathbb{E}[\hat{\theta}] - \hat{\theta})$ 是随机变量且均值为零，我们可将二次期望展开为：</p>
+<p>$$
+\varepsilon = \mathbb{E}[B^2 + 2B(\mathbb{E}[\hat{\theta}] - \hat{\theta}) + (\mathbb{E}[\hat{\theta}] - \hat{\theta})^2]
+$$</p>
+<p>因为 $B$ 为常量，且 $\mathbb{E}[\hat{\theta}] - \hat{\theta}$ 的期望为0（其期望值即 $\mathbb{E}[(\mathbb{E}[\hat{\theta}] - \hat{\theta})] = \mathbb{E}[\hat{\theta}] - \mathbb{E}[\hat{\theta}] = 0$），中间项的期望 $\mathbb{E}[2B(\mathbb{E}[\hat{\theta}] - \hat{\theta})] = 2B \mathbb{E}[\mathbb{E}[\hat{\theta}] - \hat{\theta}] = 0$。</p>
+<p>于是剩下：</p>
+<p>$$
+\varepsilon = B^2 + \mathbb{E}[(\mathbb{E}[\hat{\theta}] - \hat{\theta})^2]
+$$</p>
+<p>注意到 $(\mathbb{E}[\hat{\theta}] - \hat{\theta})$ 是 $\hat{\theta}$ 相对于其期望的偏差，定义为估计量的方差：</p>
+<p>$$
+\text{Var}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \mathbb{E}[\hat{\theta}])^2]
+$$</p>
+<p>由于 $(\mathbb{E}[\hat{\theta}] - \hat{\theta})^2 = (\hat{\theta}-\mathbb{E}[\hat{\theta}])^2$，故可直接写为方差。</p>
+<p>最终得到著名的偏差-方差分解公式：</p>
 <p>$$
 \varepsilon = B^2 + \text{Var}(\hat{\theta})
 $$</p>
+<h4 id="偏差-方差权衡意义">偏差-方差权衡意义<a hidden class="anchor" aria-hidden="true" href="#偏差-方差权衡意义">#</a></h4>
+<ul>
+<li>
+<p>若估计量是无偏的，即 $B=0$，则有 $\varepsilon = \text{Var}(\hat{\theta})$。此时均方误差等同于方差，减小方差便能直接降低均方误差。</p>
+</li>
+<li>
+<p>若估计量有偏差，则 $\varepsilon$ 包含了一个不可忽略的常量项 $B^2$。即使我们减小估计量的方差，也无法使均方误差低于 $B^2$。这体现了一个偏差-方差权衡：有时允许一点偏差可以大幅降低方差，从而整体减少MSE；有时严格坚持无偏性会导致较大的方差，使MSE变大。</p>
+</li>
+</ul>
+<p>to do</p>
+<p>每个模块后面跟matlab代码实例</p>
 
 
   </div>
@@ -947,10 +1715,10 @@ $$</p>
     <br>
     <span>卡尔曼滤波 - 非偏线性正交估计器</span>
   </a>
-  <a class="next" href="http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7tp3/">
+  <a class="next" href="http://zehua.eu/zh/posts/signal_cn/%E9%80%9A%E8%BF%87%E7%BB%B4%E7%BA%B3%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%BF%9B%E8%A1%8C%E5%8F%8D%E5%8D%B7%E7%A7%AF/">
     <span class="title">下一页 »</span>
     <br>
-    <span>通过维纳滤波器进行反卷积</span>
+    <span>维纳滤波器进行反卷积</span>
   </a>
 </nav>
 
