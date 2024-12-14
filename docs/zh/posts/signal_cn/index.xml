@@ -12,8 +12,15 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Sun, 08 Dec 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="http://zehua.eu/zh/posts/signal_cn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>反问题 TP4</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9Ftp4/</link>
+      <pubDate>Sat, 14 Dec 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9Ftp4/</guid>
+      <description>对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像</description>
+    </item>
     <item>
       <title>反问题 TP3</title>
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/</link>
@@ -85,7 +92,7 @@
       <description>利用非偏线性正交估计器（卡尔曼滤波框架的一种线性最小方差无偏估计方法）来处理多种测量数据，并通过对状态的先验分布和测量不确定性进行融合，从而得到参数和状态（目标的位置）的最佳线性无偏估计及其误差协方差矩阵。</description>
     </item>
     <item>
-      <title>随机信号与噪音（理论部分）</title>
+      <title>随机信号与噪音</title>
       <link>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</link>
       <pubDate>Wed, 20 Dec 2023 16:25:17 +0100</pubDate>
       <guid>http://zehua.eu/zh/posts/signal_cn/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7%E8%AF%BE%E7%A8%8B%E7%90%86%E8%AE%BA/</guid>

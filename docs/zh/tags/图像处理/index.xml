@@ -12,8 +12,15 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Wed, 04 Dec 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2024 17:12:35 +0800</lastBuildDate>
     <atom:link href="http://zehua.eu/zh/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>反问题 TP4</title>
+      <link>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9Ftp4/</link>
+      <pubDate>Sat, 14 Dec 2024 16:25:17 +0100</pubDate>
+      <guid>http://zehua.eu/zh/posts/signal_cn/%E5%9B%BE%E5%83%8F%E5%A4%8D%E5%8E%9Ftp4/</guid>
+      <description>对系统输出图像进行逆卷积操作试图恢复原始清晰的输入图像</description>
+    </item>
     <item>
       <title>反问题 TP3</title>
       <link>http://zehua.eu/zh/posts/signal_cn/%E5%8F%8D%E9%97%AE%E9%A2%98-tp3%E7%BD%91%E9%A1%B5%E7%89%88/</link>
