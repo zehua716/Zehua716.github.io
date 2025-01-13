@@ -44,9 +44,6 @@
                 href="http://zehua.eu/posts/"
                 />
   </url><url>
-    <loc>http://zehua.eu/posts/signal/</loc>
-    <lastmod>2024-11-12T17:12:35+08:00</lastmod>
-  </url><url>
     <loc>http://zehua.eu/posts/probability/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
@@ -72,8 +69,8 @@
     <loc>http://zehua.eu/posts/probability/test/</loc>
     <lastmod>2024-11-06T17:12:35+08:00</lastmod>
   </url><url>
-    <loc>http://zehua.eu/posts/signal/test/</loc>
-    <lastmod>2024-11-06T17:12:35+08:00</lastmod>
+    <loc>http://zehua.eu/posts/signal/</loc>
+    <lastmod>2024-11-12T17:12:35+08:00</lastmod>
   </url><url>
     <loc>http://zehua.eu/about/</loc>
     <xhtml:link
