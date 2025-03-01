@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Signal processing on Home</title>
-    <link>http://zehua.eu/posts/signal/</link>
+    <link>https://zehua716.github.io/posts/signal/</link>
     <description>Recent content in Signal processing on Home</description>
     <image>
       <title>Home</title>
-      <url>http://zehua.eu/images/papermod-cover.png</url>
-      <link>http://zehua.eu/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
-    <atom:link href="http://zehua.eu/posts/signal/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/posts/signal/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

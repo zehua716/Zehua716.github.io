@@ -2,98 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://zehua.eu/zh/search/</loc>
+    <loc>https://zehua716.github.io/zh/search/</loc>
     <lastmod>2024-11-06T16:57:24+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/search/"
+                href="https://zehua716.github.io/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/search/"
+                href="https://zehua716.github.io/zh/search/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/</loc>
+    <loc>https://zehua716.github.io/zh/</loc>
     <lastmod>2024-11-06T16:57:24+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/"
+                href="https://zehua716.github.io/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/"
+                href="https://zehua716.github.io/zh/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/about/</loc>
+    <loc>https://zehua716.github.io/zh/about/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/about/"
+                href="https://zehua716.github.io/about/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/about/"
+                href="https://zehua716.github.io/zh/about/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/categories/</loc>
+    <loc>https://zehua716.github.io/zh/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/categories/"
+                href="https://zehua716.github.io/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/categories/"
+                href="https://zehua716.github.io/zh/categories/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/tags/collection/</loc>
+    <loc>https://zehua716.github.io/zh/tags/collection/</loc>
   </url><url>
-    <loc>http://zehua.eu/zh/posts/</loc>
+    <loc>https://zehua716.github.io/zh/posts/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/posts/"
+                href="https://zehua716.github.io/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/posts/"
+                href="https://zehua716.github.io/zh/posts/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/tags/</loc>
+    <loc>https://zehua716.github.io/zh/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/tags/"
+                href="https://zehua716.github.io/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/tags/"
+                href="https://zehua716.github.io/zh/tags/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/posts/machinelearning_cn/</loc>
+    <loc>https://zehua716.github.io/zh/posts/machinelearning_cn/</loc>
   </url><url>
-    <loc>http://zehua.eu/zh/posts/probability_cn/</loc>
+    <loc>https://zehua716.github.io/zh/posts/probability_cn/</loc>
   </url><url>
-    <loc>http://zehua.eu/zh/archives/</loc>
+    <loc>https://zehua716.github.io/zh/archives/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://zehua.eu/archives/"
+                href="https://zehua716.github.io/archives/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://zehua.eu/zh/archives/"
+                href="https://zehua716.github.io/zh/archives/"
                 />
   </url><url>
-    <loc>http://zehua.eu/zh/posts/signal_cn/</loc>
+    <loc>https://zehua716.github.io/zh/posts/signal_cn/</loc>
   </url>
 </urlset>

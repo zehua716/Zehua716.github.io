@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Home</title>
-    <link>http://zehua.eu/posts/</link>
+    <link>https://zehua716.github.io/posts/</link>
     <description>Recent content in Posts on Home</description>
     <image>
       <title>Home</title>
-      <url>http://zehua.eu/images/papermod-cover.png</url>
-      <link>http://zehua.eu/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
-    <atom:link href="http://zehua.eu/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>http://zehua.eu/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</link>
+      <link>https://zehua716.github.io/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://zehua.eu/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</guid>
+      <guid>https://zehua716.github.io/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;../../../../../../Downloads/%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0.pdf&#34;&gt;课堂笔记.pdf&lt;/a&gt;&lt;/p&gt;</description>
     </item>
   </channel>

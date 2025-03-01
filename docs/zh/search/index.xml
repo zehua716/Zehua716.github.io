@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>搜索 on 主页</title>
-    <link>http://zehua.eu/zh/search/</link>
+    <link>https://zehua716.github.io/zh/search/</link>
     <description>Recent content in 搜索 on 主页</description>
     <image>
       <title>主页</title>
-      <url>http://zehua.eu/images/papermod-cover.png</url>
-      <link>http://zehua.eu/images/papermod-cover.png</link>
+      <url>https://zehua716.github.io/images/papermod-cover.png</url>
+      <link>https://zehua716.github.io/images/papermod-cover.png</link>
     </image>
     <generator>Hugo -- 0.136.5</generator>
     <language>zh-cn</language>
     <copyright>PaperMod</copyright>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://zehua.eu/zh/search/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zehua716.github.io/zh/search/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
