@@ -12,22 +12,8 @@
     <generator>Hugo -- 0.136.5</generator>
     <language>en</language>
     <copyright>PaperMod</copyright>
-    <lastBuildDate>Wed, 06 Nov 2024 17:12:35 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://zehua.eu/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>tst title</title>
-      <link>http://zehua.eu/posts/machinelearning/test/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/posts/machinelearning/test/</guid>
-      <description>deasdifgisdhbibf</description>
-    </item>
-    <item>
-      <title>tst title</title>
-      <link>http://zehua.eu/posts/probability/test/</link>
-      <pubDate>Tue, 05 Nov 2024 16:25:17 +0100</pubDate>
-      <guid>http://zehua.eu/posts/probability/test/</guid>
-      <description>deasdifgisdhbibf</description>
-    </item>
     <item>
       <title></title>
       <link>http://zehua.eu/about/</link>
@@ -42,6 +28,20 @@
       <guid>http://zehua.eu/notes/</guid>
       <description>&lt;h2 id=&#34;go-语言学习笔记httpszhaohuabingcomlearning-golang&#34;&gt;&lt;a href=&#34;https://zhaohuabing.com/learning-golang&#34;&gt;Go 语言学习笔记&lt;/a&gt;&lt;/h2&gt;
 &lt;h2 id=&#34;envoy-学习笔记httpszhaohuabingcomlearning-envoy&#34;&gt;&lt;a href=&#34;https://zhaohuabing.com/learning-envoy&#34;&gt;Envoy 学习笔记&lt;/a&gt;&lt;/h2&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://zehua.eu/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://zehua.eu/posts/probability_cn/%E6%9C%AA%E5%91%BD%E5%90%8D/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../../../../../../Downloads/%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0.pdf&#34;&gt;课堂笔记.pdf&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>标签</title>
+      <link>http://zehua.eu/tags/_index.fr/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://zehua.eu/tags/_index.fr/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>
